@@ -38,14 +38,23 @@ nav ul li
 	height: 30px;
 	line-height: 30px;
 	text-align: center;
+	text-decoration: none;
 	font-family: "Century Gothic";
 	position: relative;
-	bottom: 13px;
+	bottom: 15px;
 	border: 2px solid white;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	margin-left: 1px;
 	margin-right: 1px;
+	color: white;
+	transition: .3s;
+}
+nav ul li:hover
+{
+	background-color: #505050;
+	height: 40px;
+	bottom: 25px;
 }
 nav ul li#funcionalidades
 {
@@ -121,7 +130,7 @@ div#fundoJogo div#login div#botoes
 	top: 20px;
 	text-align: center;
 }
-div#fundoJogo div#login .botao
+div#fundoJogo div#login .botaoLogin
 {
 	background-color: #009129;
 	margin: auto;
@@ -156,6 +165,7 @@ div#fundoJogo div#login a#botaoRegistrar:hover
 a
 {
 	text-decoration: none;
+	transition: .2s;
 }
 #botoes
 {

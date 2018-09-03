@@ -1,0 +1,98 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: black;
+	min-width: 1000px;
+}
+header {
+	min-width: 1000px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 90px;
+	background-color: black;
+	border-bottom: 2px solid white;
+	box-shadow: 0px 2px 2px black;
+	color: white;
+}
+header h1
+{
+	position: relative;
+	top: 15px;
+	left: 50px;
+	margin: 0px;
+	font-family: "Century Gothic", "sans-serif";
+	font-size: 35pt;
+	display: inline-block;
+}
+nav ul
+{
+	display: inline-block;
+	position: relative;
+	left: 470px;
+}
+nav ul li
+{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-family: "Century Gothic";
+	position: relative;
+	bottom: 13px;
+	border: 2px solid white;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+nav ul li#funcionalidades
+{
+	width: 170px;
+}
+nav ul li#galeria
+{
+	width: 130px;
+}
+nav ul li#ranking
+{
+	width: 130px;
+}
+.menuOpcoes
+{
+	position: relative;
+	background-color: rgb(192, 192, 192);
+	width: 400px;
+	bottom: 18px;
+	left: 0.2%;
+	height: 775px;
+}
+div#menu .tituloMenu
+{
+	font-size: 24pt;
+	font-family: "Century Gothic";
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+}
+div#menu .fotoPerfil
+{
+	position: absolute;
+	margin: auto;
+	background: url('../imagens/a.png');
+	background-position: center;
+	background-size: 100%;
+	left: 75px;
+	border-radius: 50%;
+	width: 250px;
+	height: 250px;
+}
+div#menu .nomeUsuario
+{
+	position: relative;
+	top: 250px;
+	font-size: 16pt;
+	font-family: "Century Gothic";
+	text-align: center;
+}

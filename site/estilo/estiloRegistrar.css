@@ -76,10 +76,11 @@ nav ul li#ranking
 section
 {
 	position: relative;
-	top: 5px;
+	top: 10px;
 	background-color: white;
-	width: 95%;
+	width: 600px;
 	height: 600px;
 	margin: auto;
 	border-radius: 10px;
+	border: 2px solid black;
 }

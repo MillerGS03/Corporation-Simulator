@@ -1,20 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 	<meta charset="utf-8">
 	<title>Enterprise Simulator</title>
 	<link rel="stylesheet" type="text/css" href="estilo/estilo.css">
 	<script type="text/javascript" src="scripts/menu.js"></script>
 </head>
-<body>
+<body onresize="testarAncora();" onload="testarAncora();">
 	<header id="a">
-		<nav></nav>
+		<h1>Enterprise Simulator</h1>
+		<nav>
+			<ul id="listaNavegacao">
+				<li id="funcionalidades">Funcionalidades</li>
+				<li id="galeria">Galeria</li>
+				<li id="ranking">Ranking</li>
+			</ul>
+		</nav>
 	</header>
-	<button onclick="redimensionarHeader();">Mudar tamanho do Header</button>
-	<section id="conteudo">
+	<div id="fundoJogo">
 		<div id="login">
-			
+			<h1>Login</h1>
+
+			<label>
+				Username <br>
+				<input type="text" name="" placeholder="Insira seu nome de usuário" maxlength="30">
+			</label>
+			<br>
+			<label>
+				Senha <br>
+				<input type="password" name="" placeholder="Insira sua senha">
+			</label>
+			<div id="botoes">
+				<a href=""><div class="botao" id="botaoEntrar">Entrar</div></a>
+				<span>ou</span>
+				<a href=""><div class="botao" id="botaoRegistrar">Registre-se</div></a>
+			</div>
 		</div>
-	</section>
+		<h1 id="crie">
+			Crie<br>Sua<br>Empresa!
+		</h1>
+		<div id="cortina"></div>
+	</div>
+	<footer>
+		<img src="./imagens/cotuca_transparente_logo.png">
+	</footer>
 </body>
 </html>

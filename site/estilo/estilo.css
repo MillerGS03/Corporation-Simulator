@@ -133,28 +133,34 @@ div#fundoJogo div#login .botao
 	border-radius: 16px;
 	color: white;
 	border: 3px solid green;
+	display: inline-block;
 }
-div#fundoJogo div#login div#botaoEntrar:hover
+div#fundoJogo div#login a#botaoEntrar:hover
 {
 	background-color: #10A139;
 }
-div#fundoJogo div#login div#botaoEntrar
+div#fundoJogo div#login a#botaoEntrar
 {
 	margin-bottom: 5px;
 }
-div#fundoJogo div#login div#botaoRegistrar
+div#fundoJogo div#login a#botaoRegistrar
 {
 	margin-top: 5px;
 	background-color: #346ac1;
 	border: 3px solid #245ab1;
 }
-div#fundoJogo div#login div#botaoRegistrar:hover
+div#fundoJogo div#login a#botaoRegistrar:hover
 {
 	background-color: #447ad1;
 }
 a
 {
 	text-decoration: none;
+}
+#botoes
+{
+	width: 170px;
+	margin: auto;
 }
 div#fundoJogo h1#crie
 {

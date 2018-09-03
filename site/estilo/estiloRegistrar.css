@@ -1,0 +1,85 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: #4c98a5;
+	min-width: 1000px;
+}
+header 
+{
+	min-width: 1000px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 90px;
+	background-color: black;
+	border-bottom: 2px solid white;
+	box-shadow: 0px 2px 2px black;
+	color: white;
+}
+header h1
+{
+	position: relative;
+	top: 15px;
+	left: 45px;
+	margin: 0px;
+	font-family: "Century Gothic", "sans-serif";
+	font-size: 35pt;
+	display: inline-block;
+}
+nav ul
+{
+	display: inline-block;
+	position: absolute;
+	right: 7px;
+}
+nav ul li
+{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	text-decoration: none;
+	font-family: "Century Gothic";
+	position: relative;
+	bottom: 15px;
+	border: 2px solid white;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	margin-left: 1px;
+	margin-right: 1px;
+	color: white;
+	transition: .3s;
+}
+nav ul li:hover
+{
+	background-color: #505050;
+	height: 40px;
+	bottom: 25px;
+}
+nav ul li#home
+{
+	width: 90px;
+}
+nav ul li#funcionalidades
+{
+	width: 160px;
+}
+nav ul li#galeria
+{
+	width: 100px;
+}
+nav ul li#ranking
+{
+	width: 100px;
+}
+section
+{
+	position: relative;
+	top: 5px;
+	background-color: white;
+	width: 95%;
+	height: 600px;
+	margin: auto;
+	border-radius: 10px;
+}

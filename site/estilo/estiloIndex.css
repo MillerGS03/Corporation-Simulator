@@ -5,7 +5,8 @@ body
 	background-color: black;
 	min-width: 1000px;
 }
-header {
+header 
+{
 	min-width: 1000px;
 	margin: 0px;
 	padding: 0px;
@@ -20,7 +21,7 @@ header h1
 {
 	position: relative;
 	top: 15px;
-	left: 50px;
+	left: 45px;
 	margin: 0px;
 	font-family: "Century Gothic", "sans-serif";
 	font-size: 35pt;
@@ -29,8 +30,8 @@ header h1
 nav ul
 {
 	display: inline-block;
-	position: relative;
-	left: 470px;
+	position: absolute;
+	right: 7px;
 }
 nav ul li
 {
@@ -56,17 +57,21 @@ nav ul li:hover
 	height: 40px;
 	bottom: 25px;
 }
+nav ul li#home
+{
+	width: 90px;
+}
 nav ul li#funcionalidades
 {
-	width: 170px;
+	width: 160px;
 }
 nav ul li#galeria
 {
-	width: 130px;
+	width: 100px;
 }
 nav ul li#ranking
 {
-	width: 130px;
+	width: 100px;
 }
 div#fundoJogo
 {

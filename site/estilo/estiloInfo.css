@@ -107,13 +107,13 @@ div#menu .userData
 	top: 1px;
 	background-color: rgb(192, 192, 192);
 	width: 500px;
-	height: 800px;
+	height: 838px;
 	border: 2px solid black;
 	border-left: 0;
 	border-top-right-radius: 35px;
-	border-bottom-right-radius: 35px;
 }
-a {
+a
+{
 	text-decoration:none;
 	color: inherit;
 }
@@ -134,7 +134,7 @@ a {
 #configuracoes
 {
 	position: relative;
-	top: 41.5%;
+	top: 300px;
 	background-color: white;
 	height: 65px;
 	width: auto;
@@ -144,7 +144,7 @@ a {
 #classificacao
 {
 	position: relative;
-	top: 39%;
+	top: 280px;
 	background-color: white;
 	height: 65px;
 	color:black;
@@ -153,7 +153,7 @@ a {
 #manual
 {
 	position: relative;
-	top: 36%;
+	top: 260px;
 	background-color: white;
 	height: 65px;
 	color:black;
@@ -162,7 +162,7 @@ a {
 #simulacoes
 {
 	position: relative;
-	top: 33.5%;
+	top: 240px;
 	background-color: white;
 	height: 65px;
 	color:black;
@@ -171,7 +171,7 @@ a {
 #jogos
 {
 	position: relative;
-	top: 31%;
+	top: 220px;
 	background-color: white;
 	height: 65px;
 	color:black;

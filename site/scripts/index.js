@@ -1,9 +1,9 @@
 function testarAncora()
 {
-	if (window.innerWidth >= 2500)
+	if (window.innerWidth >= 3000)
 	{
-		document.getElementById('login').style.left = "1350px";
-		document.getElementById('listaNavegacao').style.left = "1950px";
+		document.getElementById('login').style.left = "1850px";
+		document.getElementById('listaNavegacao').style.left = "2200px";
 	}
 	else if (window.innerWidth >= 1000)
 	{

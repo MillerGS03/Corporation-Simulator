@@ -1,8 +1,8 @@
 function testarAncora()
 {
 	document.getElementById('listaNavegacao').style.position = "relative";
-	if (window.innerWidth >= 2500)
-		document.getElementById('listaNavegacao').style.left = "1950px";
+	if (window.innerWidth >= 3000)
+		document.getElementById('listaNavegacao').style.left = "2200px";
 	else if (window.innerWidth >= 1000)
 		document.getElementById('listaNavegacao').style.left = 450 + (window.innerWidth - 1000) + "px";
 	else

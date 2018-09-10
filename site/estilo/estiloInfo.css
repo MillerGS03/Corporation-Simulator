@@ -104,10 +104,14 @@ div#menu .userName
 .menuOpcoes
 {
 	position: relative;
+	top: 1px;
 	background-color: rgb(192, 192, 192);
 	width: 500px;
-	bottom: 18px;
 	height: 800px;
+	border: 2px solid black;
+	border-left: 0;
+	border-top-right-radius: 35px;
+	border-bottom-right-radius: 35px;
 }
 a {
 	text-decoration:none;

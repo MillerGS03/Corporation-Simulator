@@ -4,6 +4,7 @@ body
 	padding: 0px;
 	background-color: #4c98a5;
 	min-width: 1000px;
+	max-width: 2500px;
 }
 header 
 {

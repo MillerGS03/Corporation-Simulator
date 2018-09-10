@@ -108,15 +108,23 @@ div#menu .userData
 	top: 1px;
 	background-color: rgb(192, 192, 192);
 	width: 500px;
-	height: 800px;
+	height: 838px;
 	border: 2px solid black;
 	border-left: 0;
 	border-top-right-radius: 35px;
-	border-bottom-right-radius: 35px;
 }
-a {
+a
+{
 	text-decoration:none;
 	color: inherit;
+}
+.opcao
+{
+	position: relative;
+	background-color: white;
+	height: 65px;
+	color:black;
+	font-family: "Century Gothic";
 }
 #configuracoes h3, #classificacao h3, #manual h3, #simulacoes h3, #jogos h3
 {
@@ -134,47 +142,21 @@ a {
 }
 #configuracoes
 {
-	position: relative;
-	top: 41.5%;
-	background-color: white;
-	height: 65px;
-	width: auto;
-	color:black;
-	font-family: "Century Gothic";
+	top: 300px;
 }
 #classificacao
 {
-	position: relative;
-	top: 39%;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
+	top: 280px;
 }
 #manual
 {
-	position: relative;
-	top: 36%;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
+	top: 260px;
 }
 #simulacoes
 {
-	position: relative;
-	top: 33.5%;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
+	top: 240px;
 }
 #jogos
 {
-	position: relative;
-	top: 31%;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
+	top: 220px;
 }

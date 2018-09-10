@@ -27,7 +27,10 @@ function verificarCampos()
 		houveErro = true;
 
 	if (!houveErro)
+	{
 		document.getElementById("corrija").textContent = "";
+		abrirIntroducao();
+	}
 	else
 		document.getElementById("corrija").textContent = "Corrija os itens em vermelho para continuar";
 }
@@ -95,4 +98,9 @@ function testarIgualdade(campoConfirme, campoRelativo, titulo, mensagemErro)
 		campoConfirme.parentElement.firstElementChild.textContent = titulo;
 	}
 	return igual;
+}
+
+function abrirIntroducao()
+{
+	window.open("informacoes.html", "_self");
 }

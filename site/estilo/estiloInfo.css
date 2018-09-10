@@ -117,6 +117,14 @@ a
 	text-decoration:none;
 	color: inherit;
 }
+.opcao
+{
+	position: relative;
+	background-color: white;
+	height: 65px;
+	color:black;
+	font-family: "Century Gothic";
+}
 #configuracoes h3, #classificacao h3, #manual h3, #simulacoes h3, #jogos h3
 {
 	line-height: 350%;
@@ -133,47 +141,21 @@ a
 }
 #configuracoes
 {
-	position: relative;
 	top: 300px;
-	background-color: white;
-	height: 65px;
-	width: auto;
-	color:black;
-	font-family: "Century Gothic";
 }
 #classificacao
 {
-	position: relative;
 	top: 280px;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
 }
 #manual
 {
-	position: relative;
 	top: 260px;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
 }
 #simulacoes
 {
-	position: relative;
 	top: 240px;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
 }
 #jogos
 {
-	position: relative;
 	top: 220px;
-	background-color: white;
-	height: 65px;
-	color:black;
-	font-family: "Century Gothic";
 }

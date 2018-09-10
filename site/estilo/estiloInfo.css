@@ -94,7 +94,7 @@ div#menu .fotoPerfil
 	width: 250px;
 	height: 250px;
 }
-div#menu .userName
+div#menu .userData
 {
 	position: relative;
 	top: 250px;
@@ -106,20 +106,20 @@ div#menu .userName
 	position: relative;
 	background-color: rgb(192, 192, 192);
 	width: 500px;
-	bottom: 18px;
+	bottom: 18.5px;
 	height: 800px;
 }
 a {
 	text-decoration:none;
 	color: inherit;
 }
-.configuracoes h3, .classificacao h3, .manual h3, .simulacoes h3, .jogos h3
+#configuracoes h3, #classificacao h3, #manual h3, #simulacoes h3, #jogos h3
 {
 	line-height: 350%;
 	font-size: 15pt;
 	text-align: center;
 }
-.configuracoes:hover, .classificacao:hover, .manual:hover, .simulacoes:hover, .jogos:hover
+#configuracoes:hover, #classificacao:hover, #manual:hover, #simulacoes:hover, #jogos:hover
 {
 	background-color: black;
 	color: white;
@@ -127,47 +127,47 @@ a {
 	cursor:pointer;
 	transition: background-color 0.2s ease-out;
 }
-.configuracoes
+#configuracoes
 {
 	position: relative;
-	top: 31%;
+	top: 41.5%;
 	background-color: white;
 	height: 65px;
 	width: auto;
 	color:black;
 	font-family: "Century Gothic";
 }
-.classificacao
+#classificacao
 {
 	position: relative;
-	top: 28.5%;
+	top: 39%;
 	background-color: white;
 	height: 65px;
 	color:black;
 	font-family: "Century Gothic";
 }
-.manual
+#manual
 {
 	position: relative;
-	top: 25.5%;
+	top: 36%;
 	background-color: white;
 	height: 65px;
 	color:black;
 	font-family: "Century Gothic";
 }
-.simulacoes
+#simulacoes
 {
 	position: relative;
-	top: 23%;
+	top: 33.5%;
 	background-color: white;
 	height: 65px;
 	color:black;
 	font-family: "Century Gothic";
 }
-.jogos
+#jogos
 {
 	position: relative;
-	top: 20.5%;
+	top: 31%;
 	background-color: white;
 	height: 65px;
 	color:black;

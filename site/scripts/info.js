@@ -1,6 +1,8 @@
 var username = "Vinschers";										//acessar banco para pegar dados
+var rank = "# " + 45;
 	function ColocarDados() {
 		document.getElementById("user").innerHTML = username;
+		document.getElementById("rank").innerHTML = rank;
 	}
 	function testarAncora()
 	{

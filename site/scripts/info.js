@@ -18,5 +18,8 @@ var rank = "# " + 45;
 			document.getElementById('conteudo').style.width = window.innerWidth - 523 + "px";
 		}
 		else
+		{
 			document.getElementById('listaNavegacao').style.left = "450px";
+			document.getElementById('conteudo').style.width = "477px";
+		}
 	}

@@ -6,14 +6,15 @@
 	<link rel="stylesheet" type="text/css" href="./estilo/estiloInfo.css">
 	<title>Informações do usuário</title>
 </head>
-<body onload="ColocarDados();">
+<body onload="ColocarDados(); testarAncora();" onresize="testarAncora();">
 	<header id="a">
 		<h1>Enterprise Simulator</h1>
 		<nav>
 			<ul id="listaNavegacao">
-				<li id="funcionalidades">Funcionalidades</li>
-				<li id="galeria">Galeria</li>
-				<li id="ranking">Ranking</li>
+				<a href="index.html" class="botaoNav"><li id="home">Home</li></a>
+				<a href="" class="botaoNav"><li id="funcionalidades">Funcionalidades</li></a>
+				<a href="" class="botaoNav"><li id="galeria">Galeria</li></a>
+				<a href="" class="botaoNav"><li id="ranking">Ranking</li></a>
 			</ul>
 		</nav>
 	</header>

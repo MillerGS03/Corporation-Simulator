@@ -1,6 +1,5 @@
 function testarAncora()
 {
-	document.getElementById('listaNavegacao').style.position = "relative";
 	if (window.innerWidth >= 1000)
 	{
 		document.getElementById('login').style.left = 600 + (window.innerWidth - 1000) / 2 + "px";

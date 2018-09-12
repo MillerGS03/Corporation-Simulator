@@ -17,17 +17,22 @@ function BarraSuperior() {
 	this.dinheiro = 2500;
 	this.dia = 1;
 	this.desenhar = function() {
-		ctx.fillStyle = "Gray";
-		ctx.fillRect(0, 0, canvas.width - 70, 70);
-		ctx.moveTo(0, 70);
-		ctx.lineTo(canvas.width - 70, 70);
-		ctx.stroke();
+		ctx.fillStyle = "#232323";
+		ctx.fillRect(0, 0, canvas.width - 35, 60); // Preenche o retângulo
 		ctx.beginPath();
-		ctx.arc(canvas.width - 70, 0, 70, 0, Math.PI / 2);
-		ctx.stroke();
-		ctx.moveTo(canvas.width, 0);
-		ctx.lineTo(canvas.width - 70, 0);
-		ctx.lineTo(canvas.width - 70, 70);
-		ctx.fill();
+		ctx.arc(canvas.width - 35, 0, 60, 0, Math.PI / 2);
+		ctx.stroke(); // Desenha a borda do canto circular
+		ctx.moveTo(canvas.width + 25, 0);
+		ctx.lineTo(canvas.width - 35, 0);
+		ctx.lineTo(canvas.width - 35, 60);
+		ctx.fill(); // Preenche o canto circular
+		ctx.beginPath();
+		ctx.moveTo(0, 60);
+		ctx.lineTo(canvas.width - 35, 60);
+		ctx.stroke(); // Desenha a borda do retângulo
+
+		var imgDinheiro = new Image();
+		imgDinheiro.src = "imagens/iconeDinheiro.png";
+		ctx.drawImage(imgDinheiro, 35, 35);
 	}
 }

@@ -2,11 +2,11 @@ function testarAncora()
 {
 	document.getElementById('listaNavegacao').style.position = "relative";
 	if (window.innerWidth >= 3000)
-		document.getElementById('listaNavegacao').style.left = "2200px";
+		document.getElementById('listaNavegacao').style.left = "2220px";
 	else if (window.innerWidth >= 1000)
-		document.getElementById('listaNavegacao').style.left = 450 + (window.innerWidth - 1000) + "px";
+		document.getElementById('listaNavegacao').style.left = 470 + (window.innerWidth - 1000) + "px";
 	else
-		document.getElementById('listaNavegacao').style.left = "450px";
+		document.getElementById('listaNavegacao').style.left = "470px";
 }
 function verificarCampos()
 {

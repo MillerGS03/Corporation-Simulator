@@ -61,19 +61,19 @@ nav ul li:hover
 }
 nav ul li#home
 {
-	width: 90px;
+	width: 80px;
 }
 nav ul li#funcionalidades
 {
-	width: 160px;
+	width: 155px;
 }
 nav ul li#galeria
 {
-	width: 100px;
+	width: 95px;
 }
 nav ul li#ranking
 {
-	width: 100px;
+	width: 95px;
 }
 div#menu .tituloMenu
 {
@@ -166,6 +166,7 @@ section#conteudo
 	left: 502px;
 	height: 838px;
 	border: 2px solid black;
+	text-align: center;
 }
 footer
 {

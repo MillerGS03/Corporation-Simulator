@@ -30,6 +30,7 @@ header h1
 }
 nav ul
 {
+	min-width: 473px;
 	display: inline-block;
 	position: absolute;
 	right: 7px;
@@ -50,6 +51,7 @@ nav ul li
 	margin-left: 1px;
 	margin-right: 1px;
 	color: white;
+	background-color: black;
 	transition: .3s;
 }
 nav ul li:hover
@@ -60,19 +62,19 @@ nav ul li:hover
 }
 nav ul li#home
 {
-	width: 90px;
+	width: 80px;
 }
 nav ul li#funcionalidades
 {
-	width: 160px;
+	width: 155px;
 }
 nav ul li#galeria
 {
-	width: 100px;
+	width: 95px;
 }
 nav ul li#ranking
 {
-	width: 100px;
+	width: 95px;
 }
 div#fundoJogo
 {

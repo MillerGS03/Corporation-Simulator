@@ -1,5 +1,8 @@
 var canvas = null;
 var ctx = null;
+var imgDinheiro = new Image();
+imgDinheiro.src = "imagens/iconeDinheiro.png";
+
 
 function iniciar()
 {
@@ -31,8 +34,9 @@ function BarraSuperior() {
 		ctx.lineTo(canvas.width - 35, 60);
 		ctx.stroke(); // Desenha a borda do retângulo
 
-		var imgDinheiro = new Image();
-		imgDinheiro.src = "imagens/iconeDinheiro.png";
-		ctx.drawImage(imgDinheiro, 35, 35);
+		ctx.drawImage(imgDinheiro, 300, 9);
+		ctx.font = "bold 16pt Century Gothic";
+		ctx.fillStyle = "Green";
+		ctx.fillText(this.dinheiro + ",00", 343, 37)
 	}
 }

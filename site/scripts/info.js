@@ -10,16 +10,16 @@ var rank = "# " + 45;
 		if (window.innerWidth >= 3000)
 		{
 			document.getElementById('listaNavegacao').style.left = "2220px";
-			document.getElementById('conteudo').style.width = "2477px";
+			document.getElementById('conteudo').style.width = "2577px";
 		}
 		else if (window.innerWidth >= 1000)
 		{
 			document.getElementById('listaNavegacao').style.left = 470 + (window.innerWidth - 1000) + "px";
-			document.getElementById('conteudo').style.width = window.innerWidth - 523 + "px";
+			document.getElementById('conteudo').style.width = window.innerWidth - 423 + "px";
 		}
 		else
 		{
 			document.getElementById('listaNavegacao').style.left = "470px";
-			document.getElementById('conteudo').style.width = "477px";
+			document.getElementById('conteudo').style.width = "577px";
 		}
 	}

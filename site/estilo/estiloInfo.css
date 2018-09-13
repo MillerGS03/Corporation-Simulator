@@ -90,7 +90,7 @@ div#menu .fotoPerfil
 	background: url('../imagens/a.png');
 	background-position: center;
 	background-size: 100%;
-	left: 125px;
+	left: 75px;
 	border-radius: 50%;
 	width: 250px;
 	height: 250px;
@@ -107,7 +107,7 @@ div#menu .userData
 	position: relative;
 	top: 1px;
 	background-color: rgb(192, 192, 192);
-	width: 500px;
+	width: 400px;
 	height: 838px;
 	border: 2px solid black;
 }
@@ -160,10 +160,10 @@ a
 }
 section#conteudo
 {
-	background-color: rgb(76, 152, 165);
+	background-color: #4c98a5;
 	position: absolute;
 	top: 93px;
-	left: 502px;
+	left: 402px;
 	height: 838px;
 	border: 2px solid black;
 	text-align: center;

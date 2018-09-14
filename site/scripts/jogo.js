@@ -15,8 +15,25 @@ function iniciar()
 	ctx = canvas.getContext("2d");
 
 	var barra = new BarraSuperior();
+	var btnEstatisticas = new BotaoCircular(60, 140, 50,
+		"Gray", "Silver", null,
+		"13pt Century Gothic", "Black", "Estatísticas", true);
+	var btnConstrucao = new BotaoCircular(60, 250, 50,
+		"Gray", "Silver", null,
+		"13pt Century Gothic", "Black", "Construção", true);
+	var btnMapa = new BotaoCircular(60, 360, 50,
+		"Gray", "Silver", null,
+		"13pt Century Gothic", "Black", "Mapa", true);
+	var btnCalendario = new BotaoCircular(60, 470, 50,
+		"Gray", "Silver", null,
+		"13pt Century Gothic", "Black", "Calendário", true);
+
 	desenharFundo();
 	barra.desenhar();
+	btnEstatisticas.desenhar();
+	btnConstrucao.desenhar();
+	btnMapa.desenhar();
+	btnCalendario.desenhar();
 }
 
 function BarraSuperior() {
@@ -122,5 +139,38 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
     }
     if (fill) {
         ctx.fill();
-    }
+	}
+}
+function BotaoCircular(x, y, r, bgColor, bgHoverColor, bgImage, f, txtStyle, txt, txtOnlyOnHover)
+{
+	this.x = x;
+	this.y = y;
+	this.radius = r;
+	this.backgroundColor = bgColor;
+	this.backgroundHoverColor = bgHoverColor;
+	this.currentBackgroundColor = this.backgroundColor;
+	this.backgroundImage = bgImage;
+	this.font = f;
+	this.textStyle = txtStyle;
+	this.text = txt;
+	this.textOnlyOnHover = txtOnlyOnHover;
+
+	this.desenhar = function() {
+		ctx.beginPath();
+		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+		ctx.fillStyle = this.backgroundColor;
+		ctx.fill();
+		ctx.stroke();
+
+		if (this.backgroundImage != null)
+			ctx.drawImage(this.backgroundImage, this.x - this.backgroundImage.width/2, this.y - this.backgroundImage.height/2);
+		if (this.font != null && this.font != "" && this.text != null && this.text != "")
+		{
+			ctx.fillStyle = this.textStyle;
+			ctx.textAlign = "center";
+			ctx.textBaseline = "middle";
+			ctx.font = this.font;
+			ctx.fillText(this.text, this.x, this.y, this.radius * 2 - 5);
+		}
+	}
 }

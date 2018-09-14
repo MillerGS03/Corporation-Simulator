@@ -155,10 +155,12 @@ label
 	position: relative;
 	top: 35px;
 	left: 175px;
+	transition: 0.5s;
 }
 #botaoRegistrar:hover
 {
 	background-color: #10A139;
+	transform: scale(1.05)
 }
 a
 {

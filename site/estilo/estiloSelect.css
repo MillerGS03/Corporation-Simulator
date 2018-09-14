@@ -1,0 +1,208 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: black;
+	min-width: 1000px;
+	max-width: 3000px;
+}
+header 
+{
+	min-width: 1000px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 90px;
+	background-color: black;
+	border-bottom: 2px solid white;
+	box-shadow: 0px 2px 2px black;
+	color: white;
+}
+header h1
+{
+	position: relative;
+	top: 15px;
+	left: 45px;
+	margin: 0px;
+	font-family: "Century Gothic", "sans-serif";
+	font-size: 35pt;
+	display: inline-block;
+}
+nav ul
+{
+	display: inline-block;
+	position: absolute;
+	right: 7px;
+}
+nav ul li
+{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	text-decoration: none;
+	font-family: "Century Gothic";
+	position: relative;
+	bottom: 15px;
+	border: 2px solid white;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	margin-left: 1px;
+	margin-right: 1px;
+	color: white;
+	background-color: black;
+	transition: .3s;
+}
+nav ul li:hover
+{
+	background-color: #505050;
+	height: 40px;
+	bottom: 25px;
+}
+nav ul li#home
+{
+	width: 80px;
+}
+nav ul li#funcionalidades
+{
+	width: 155px;
+}
+nav ul li#galeria
+{
+	width: 95px;
+}
+nav ul li#ranking
+{
+	width: 95px;
+}
+div#menu .tituloMenu
+{
+	font-size: 24pt;
+	font-family: "Century Gothic";
+	text-align: center;
+	font-weight: bold;
+	text-decoration: underline;
+}
+div#menu .fotoPerfil
+{
+	position: absolute;
+	margin: auto;
+	background: url('../imagens/a.png');
+	background-position: center;
+	background-size: 100%;
+	left: 75px;
+	border-radius: 50%;
+	width: 250px;
+	height: 250px;
+}
+div#menu .userData
+{
+	position: relative;
+	top: 250px;
+	font-family: "Century Gothic";
+	text-align: center;
+}
+.menuOpcoes
+{
+	position: relative;
+	top: 1px;
+	background-color: rgb(192, 192, 192);
+	width: 400px;
+	height: 838px;
+	border: 2px solid black;
+}
+a
+{
+	text-decoration:none;
+	color: inherit;
+}
+.opcao
+{
+	position: relative;
+	background-color: white;
+	height: 65px;
+	color:black;
+	font-family: "Century Gothic";
+}
+#configuracoes h3, #classificacao h3, #manual h3, #simulacoes h3, #jogos h3
+{
+	line-height: 65px;
+	font-size: 15pt;
+	text-align: center;
+}
+#configuracoes:hover, #classificacao:hover, #manual:hover, #simulacoes:hover, #jogos:hover
+{
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	cursor:pointer;
+	transition: background-color 0.2s ease-out;
+}
+#configuracoes
+{
+	top: 300px;
+}
+#classificacao
+{
+	top: 280px;
+}
+#manual
+{
+	top: 260px;
+}
+#simulacoes
+{
+	top: 240px;
+}
+#jogos
+{
+	top: 220px;
+}
+section#conteudo
+{
+	background-color: #4c98a5;
+	position: absolute;
+	top: 93px;
+	left: 402px;
+	height: 838px;
+	border: 2px solid black;
+	text-align: center;
+}
+footer
+{
+	background-color: black;
+	border-top: 2px solid white;
+	width: 100%;
+	height: 100px;
+	color: white;
+}
+footer img
+{
+	position: relative;
+	left: 20px;
+	top: 15px;
+	border: 2px solid white;
+	border-radius: 50%;
+}
+
+.select
+{
+	position: absolute;
+	top: 340px;
+	left: 390px;
+	width: 400px;
+	height: 65px;
+	border-radius: 10px;
+	font-family: "Century Gothic";
+}
+.select:hover
+{
+	cursor: pointer;
+	background-color: rgb(220, 220, 220);
+	transition: .5s;
+}
+
+.opcao
+{
+	font-size: 14pt;
+}

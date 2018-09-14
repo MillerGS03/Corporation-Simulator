@@ -140,7 +140,6 @@ div#fundoJogo div#login div#botoes
 }
 div#fundoJogo div#login .botaoLogin
 {
-	background-color: #009129;
 	margin: auto;
 	width: 170px;
 	height: 40px;
@@ -151,6 +150,10 @@ div#fundoJogo div#login .botaoLogin
 	color: white;
 	border: 3px solid green;
 	display: inline-block;
+	transition: .5s;
+}
+div#fundoJogo div#login .botaoLogin:hover {
+	transform: scale(1.05)
 }
 div#fundoJogo div#login a#botaoEntrar:hover
 {
@@ -158,6 +161,7 @@ div#fundoJogo div#login a#botaoEntrar:hover
 }
 div#fundoJogo div#login a#botaoEntrar
 {
+	background-color: #009129;
 	margin-bottom: 5px;
 }
 div#fundoJogo div#login a#botaoRegistrar

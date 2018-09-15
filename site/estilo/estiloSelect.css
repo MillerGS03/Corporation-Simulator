@@ -188,21 +188,24 @@ footer img
 .select
 {
 	position: absolute;
-	top: 340px;
-	left: 390px;
+	top: 300px;
+	left: 550px;
 	width: 400px;
 	height: 65px;
+	background-color: transparent;
 	border-radius: 10px;
 	font-family: "Century Gothic";
+	font-size: 18pt;
+	z-index: 40;
 }
 .select:hover
 {
 	cursor: pointer;
-	background-color: rgb(220, 220, 220);
-	transition: .5s;
 }
 
-.opcao
+.opcaoSelect
 {
-	font-size: 14pt;
+	width: 400px;
+	height: 65px;
+	font-size: 16pt;
 }

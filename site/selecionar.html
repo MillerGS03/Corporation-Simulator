@@ -32,7 +32,8 @@
 	</div>
 	<section id="conteudo">
 		<canvas id="meuCanvas" width="1000" height="700" style="position: relative; top: 69px;"></canvas>
-		<select id="select" class="select" default="Selecione aqui"><option selected disabled class="opcao">Selecione aqui o seu jogo</option>
+		<canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 300px; left: 550px; z-index: 3;"></canvas>
+		<select id="select" class="select" onmousemove="CriarEfeitoSelect(event);" onchange="TestarOpcao();"><option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
 		</select>
 	</section>
 	<footer>

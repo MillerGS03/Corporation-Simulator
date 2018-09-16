@@ -8,34 +8,55 @@ imgDinheiro.src = "imagens/iconeDinheiro.png";
 imgNivel.src = "imagens/iconeNivel.png";
 imgCalendario.src = "imagens/iconeCalendario.png";
 
+var botoes = new Array();
+var barra;
+var btnEstatisticas;
+var btnConstrucao;
+var btnMapa;
+var btnCalendario;
 
 function iniciar()
 {
-	canvas = document.getElementById('meuCanvas');
+ 	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
-	var barra = new BarraSuperior();
-	var btnEstatisticas = new BotaoCircular(60, 140, 50,
+	barra = new BarraSuperior();
+	btnEstatisticas = new BotaoCircular(60, 140, 50,
 		"Gray", "Silver", null,
 		"13pt Century Gothic", "Black", "Estatísticas", true);
-	var btnConstrucao = new BotaoCircular(60, 250, 50,
+	btnConstrucao = new BotaoCircular(60, 250, 50,
 		"Gray", "Silver", null,
 		"13pt Century Gothic", "Black", "Construção", true);
-	var btnMapa = new BotaoCircular(60, 360, 50,
+	btnMapa = new BotaoCircular(60, 360, 50,
 		"Gray", "Silver", null,
 		"13pt Century Gothic", "Black", "Mapa", true);
-	var btnCalendario = new BotaoCircular(60, 470, 50,
+	btnCalendario = new BotaoCircular(60, 470, 50,
 		"Gray", "Silver", null,
 		"13pt Century Gothic", "Black", "Calendário", true);
 
+	botoes.push(btnEstatisticas);
+	botoes.push(btnConstrucao);
+	botoes.push(btnMapa);
+	botoes.push(btnCalendario);
+
+	atualizar();
+
+	btnEstatisticas.ativarEventoHover();
+	btnConstrucao.ativarEventoHover();
+	btnMapa.ativarEventoHover();
+	btnCalendario.ativarEventoHover();
+
+}
+function atualizar()
+{
 	desenharFundo();
 	barra.desenhar();
 	btnEstatisticas.desenhar();
+	
 	btnConstrucao.desenhar();
 	btnMapa.desenhar();
 	btnCalendario.desenhar();
 }
-
 function BarraSuperior() {
 	this.nivel = 5;
 	this.xp = 10;
@@ -60,6 +81,8 @@ function BarraSuperior() {
 		// Desenha o nível
 		ctx.drawImage(imgNivel, 50, 9);
 		ctx.font = "bold 18pt Century Gothic";
+		ctx.textAlign = "left";
+		ctx.textBaseline = "alphabetic";
 		ctx.fillStyle = "White";
 		ctx.fillText(this.nivel, 62, 37)
 
@@ -154,17 +177,22 @@ function BotaoCircular(x, y, r, bgColor, bgHoverColor, bgImage, f, txtStyle, txt
 	this.textStyle = txtStyle;
 	this.text = txt;
 	this.textOnlyOnHover = txtOnlyOnHover;
+	this.hovering = false;
 
 	this.desenhar = function() {
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-		ctx.fillStyle = this.backgroundColor;
+		if (this.hovering)
+			ctx.fillStyle = this.backgroundHoverColor;
+		else
+			ctx.fillStyle = this.backgroundColor;
 		ctx.fill();
 		ctx.stroke();
 
 		if (this.backgroundImage != null)
 			ctx.drawImage(this.backgroundImage, this.x - this.backgroundImage.width/2, this.y - this.backgroundImage.height/2);
-		if (this.font != null && this.font != "" && this.text != null && this.text != "")
+		if (this.font != null && this.font != "" && this.text != null && this.text != "" &&
+		 ((this.textOnlyOnHover && this.hovering) || !this.textOnlyOnHover))
 		{
 			ctx.fillStyle = this.textStyle;
 			ctx.textAlign = "center";
@@ -172,5 +200,40 @@ function BotaoCircular(x, y, r, bgColor, bgHoverColor, bgImage, f, txtStyle, txt
 			ctx.font = this.font;
 			ctx.fillText(this.text, this.x, this.y, this.radius * 2 - 5);
 		}
+	}
+	this.ativarEventoHover = function() {
+		canvas.addEventListener("mousemove", function(e) {
+			var rect = e.target.getBoundingClientRect();
+
+			var posX = e.clientX - rect.left;
+			var posY = e.clientY - rect.top;
+			var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
+			if (distCentro < r)
+				sobreBotao(x, y);
+			else
+				foraDoBotao(x, y);
+		});
+	}
+	this.startHovering = function()
+	{
+		this.hovering = true;
+		atualizar();
+	}
+	this.stopHovering = function()
+	{
+		this.hovering = false;
+		atualizar();
+	}
+	function sobreBotao(x, y)
+	{	
+		for (var i = 0; i < botoes.length; i++)
+			if(botoes[i].x == x && botoes[i].y == y)
+				botoes[i].startHovering();
+	}
+	function foraDoBotao(x, y)
+	{	
+		for (var i = 0; i < botoes.length; i++)
+			if(botoes[i].x == x && botoes[i].y == y)
+				botoes[i].stopHovering();
 	}
 }

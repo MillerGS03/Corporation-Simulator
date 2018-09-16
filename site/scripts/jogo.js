@@ -9,11 +9,24 @@ var imgBtnEstatisticas = new Image();
 var imgBtnConstrucao = new Image();
 var imgBtnMapa = new Image();
 var imgBtnCalendario = new Image();
+var imgBtnNotificacoes = new Image();
+var imgBtnNotificacoes2 = new Image();
+imgBtnEstatisticas.src = "imagens/botoes/btnEstatisticas.png";
+imgBtnConstrucao.src = "imagens/botoes/btnConstrucao.png"
+imgBtnMapa.src = "imagens/botoes/btnMapa.png";
+imgBtnCalendario.src = "imagens/botoes/btnCalendario.png";
+imgBtnNotificacoes.src = "imagens/botoes/btnNotificacoes.png";
+imgBtnNotificacoes2.src = "imagens/botoes/btnNotificacoes2.png";
 
-imgBtnEstatisticas.src = "imagens/btnEstatisticas.png";
-imgBtnConstrucao.src = "imagens/btnConstrucao.png"
-imgBtnMapa.src = "imagens/btnMapa.png";
-imgBtnCalendario.src = "imagens/btnCalendario.png";
+//Imagens dos botões circulares no evento hover
+var imgBtnEstatisticasHover = new Image();
+var imgBtnConstrucaoHover = new Image();
+var imgBtnMapaHover = new Image();
+var imgBtnCalendarioHover = new Image();
+imgBtnEstatisticasHover.src = "imagens/botoes/btnEstatisticasHover.png";
+imgBtnConstrucaoHover.src = "imagens/botoes/btnConstrucaoHover.png"
+imgBtnMapaHover.src = "imagens/botoes/btnMapaHover.png";
+imgBtnCalendarioHover.src = "imagens/botoes/btnCalendarioHover.png";
 
 var botoes = new Array();
 var barra;
@@ -21,6 +34,7 @@ var btnEstatisticas;
 var btnConstrucao;
 var btnMapa;
 var btnCalendario;
+var btnNotificacoes;
 
 function iniciar()
 {
@@ -28,41 +42,55 @@ function iniciar()
 	ctx = canvas.getContext("2d");
 
 	barra = new BarraSuperior();
-	btnEstatisticas = new BotaoCircular(60, 140, 50,
-		"#347b87", "#4c98a5", imgBtnEstatisticas,
-		"bold 14pt Century Gothic", "Black", "Estatísticas", true, true);
-	btnConstrucao = new BotaoCircular(60, 250, 50,
-		"#347b87", "#4c98a5", imgBtnConstrucao,
-		"bold 14pt Century Gothic", "Black", "Construção", true, true);
-	btnMapa = new BotaoCircular(60, 360, 50,
-		"#347b87", "#4c98a5", imgBtnMapa,
-		"bold 14pt Century Gothic", "Black", "Mapa", true, true);
-	btnCalendario = new BotaoCircular(60, 470, 50,
-		"#347b87", "#4c98a5", imgBtnCalendario,
-		"bold 14pt Century Gothic", "Black", "Calendário", true, true);
+	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
+		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
+		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, true, true);
+	btnConstrucao = new BotaoCircular(60, 230, 40, 48,
+		"#347b87", "#4c98a5", imgBtnConstrucao, imgBtnConstrucaoHover,
+		"bold 13pt Century Gothic", "#232323", "Construção", true, true, true);
+	btnMapa = new BotaoCircular(60, 330, 40, 48,
+		"#347b87", "#4c98a5", imgBtnMapa, imgBtnMapaHover,
+		"bold 14pt Century Gothic", "#232323", "Mapa", true, true, true);
+	btnCalendario = new BotaoCircular(60, 430, 40, 48,
+		"#347b87", "#4c98a5", imgBtnCalendario, imgBtnCalendarioHover,
+		"bold 13pt Century Gothic", "#232323", "Calendário", true, true, true);
+	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
+		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
+		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
+
+	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
+		if (qtasNotificacoes == "0")
+		{
+			this.text = "";
+			this.backgroundImage = imgBtnNotificacoes;
+			this.backgroundHoverImage = imgBtnNotificacoes;
+		}
+		else
+		{
+			this.text = qtasNotificacoes;
+			this.backgroundImage = imgBtnNotificacoes2;
+			this.backgroundHoverImage = imgBtnNotificacoes2;
+		}
+	}
 
 	botoes.push(btnEstatisticas);
 	botoes.push(btnConstrucao);
 	botoes.push(btnMapa);
 	botoes.push(btnCalendario);
+	botoes.push(btnNotificacoes);
 
 	atualizar();
 
-	btnEstatisticas.ativarInteracao();
-	btnConstrucao.ativarInteracao();
-	btnMapa.ativarInteracao();
-	btnCalendario.ativarInteracao();
+	for (var i = 0; i < botoes.length; i++)
+		botoes[i].ativarInteracao();
 
 }
 function atualizar()
 {
 	desenharFundo();
 	barra.desenhar();
-
-	btnEstatisticas.desenhar();
-	btnConstrucao.desenhar();
-	btnMapa.desenhar();
-	btnCalendario.desenhar();
+	for (var i = 0; i < botoes.length; i++)
+		botoes[i].desenhar();
 }
 
 

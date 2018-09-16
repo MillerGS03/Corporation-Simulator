@@ -91,6 +91,11 @@ function TestarOpcao()
 {
     var s = document.getElementById("select");
     if (s.selectedIndex > 0) {
-        roundRect(canvas.width/2 - 100, 470, 200, 50, {upperLeft: 15, upperRight:15, lowerLeft: 15, lowerRight:15}, true, true, "green", "Carregar!");
+        document.getElementById("btnCarregar").style.visibility = "visible";
     }
+}
+
+function carregarJogo()
+{
+    window.open("jogo.html");
 }

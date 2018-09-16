@@ -35,6 +35,9 @@
 		<canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 300px; left: 550px; z-index: 3;"></canvas>
 		<select id="select" class="select" onmousemove="CriarEfeitoSelect(event);" onchange="TestarOpcao();"><option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
 		</select>
+		<form action="" method="post">
+			<input type="submit" id="btnCarregar" class="btnCarregar" value="Carregar!" onclick="carregarJogo();">
+		</form>
 	</section>
 	<footer>
 		<img src="./imagens/cotuca_transparente_logo.png">

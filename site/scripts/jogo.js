@@ -1,12 +1,19 @@
+adicionarScript("scripts/objetosJogo/BotaoCircular.js")
+adicionarScript("scripts/objetosJogo/BarraSuperior.js")
+
 var canvas = null;
 var ctx = null;
 
-var imgDinheiro = new Image();
-var imgNivel = new Image();
-var imgCalendario = new Image();
-imgDinheiro.src = "imagens/iconeDinheiro.png";
-imgNivel.src = "imagens/iconeNivel.png";
-imgCalendario.src = "imagens/iconeCalendario.png";
+// Imagens dos botões circulares
+var imgBtnEstatisticas = new Image();
+var imgBtnConstrucao = new Image();
+var imgBtnMapa = new Image();
+var imgBtnCalendario = new Image();
+
+imgBtnEstatisticas.src = "imagens/btnEstatisticas.png";
+imgBtnConstrucao.src = "imagens/btnConstrucao.png"
+imgBtnMapa.src = "imagens/btnMapa.png";
+imgBtnCalendario.src = "imagens/btnCalendario.png";
 
 var botoes = new Array();
 var barra;
@@ -22,17 +29,17 @@ function iniciar()
 
 	barra = new BarraSuperior();
 	btnEstatisticas = new BotaoCircular(60, 140, 50,
-		"Gray", "Silver", null,
-		"13pt Century Gothic", "Black", "Estatísticas", true);
+		"#347b87", "#4c98a5", imgBtnEstatisticas,
+		"bold 14pt Century Gothic", "Black", "Estatísticas", true, true);
 	btnConstrucao = new BotaoCircular(60, 250, 50,
-		"Gray", "Silver", null,
-		"13pt Century Gothic", "Black", "Construção", true);
+		"#347b87", "#4c98a5", imgBtnConstrucao,
+		"bold 14pt Century Gothic", "Black", "Construção", true, true);
 	btnMapa = new BotaoCircular(60, 360, 50,
-		"Gray", "Silver", null,
-		"13pt Century Gothic", "Black", "Mapa", true);
+		"#347b87", "#4c98a5", imgBtnMapa,
+		"bold 14pt Century Gothic", "Black", "Mapa", true, true);
 	btnCalendario = new BotaoCircular(60, 470, 50,
-		"Gray", "Silver", null,
-		"13pt Century Gothic", "Black", "Calendário", true);
+		"#347b87", "#4c98a5", imgBtnCalendario,
+		"bold 14pt Century Gothic", "Black", "Calendário", true, true);
 
 	botoes.push(btnEstatisticas);
 	botoes.push(btnConstrucao);
@@ -41,89 +48,23 @@ function iniciar()
 
 	atualizar();
 
-	btnEstatisticas.ativarEventoHover();
-	btnConstrucao.ativarEventoHover();
-	btnMapa.ativarEventoHover();
-	btnCalendario.ativarEventoHover();
+	btnEstatisticas.ativarInteracao();
+	btnConstrucao.ativarInteracao();
+	btnMapa.ativarInteracao();
+	btnCalendario.ativarInteracao();
 
 }
 function atualizar()
 {
 	desenharFundo();
 	barra.desenhar();
+
 	btnEstatisticas.desenhar();
-	
 	btnConstrucao.desenhar();
 	btnMapa.desenhar();
 	btnCalendario.desenhar();
 }
-function BarraSuperior() {
-	this.nivel = 5;
-	this.xp = 10;
-	this.maxXP = 80;
-	this.dinheiro = 2000;
-	this.dia = 1;
-	this.desenhar = function() {
-		ctx.fillStyle = "#232323";
-		ctx.fillRect(0, 0, canvas.width - 35, 60); // Preenche o retângulo
-		ctx.beginPath();
-		ctx.arc(canvas.width - 35, 0, 60, 0, Math.PI / 2);
-		ctx.stroke(); // Desenha a borda do canto circular
-		ctx.moveTo(canvas.width + 25, 0);
-		ctx.lineTo(canvas.width - 35, 0);
-		ctx.lineTo(canvas.width - 35, 60);
-		ctx.fill(); // Preenche o canto circular
-		ctx.beginPath();
-		ctx.moveTo(0, 60);
-		ctx.lineTo(canvas.width - 35, 60);
-		ctx.stroke(); // Desenha a borda do retângulo
 
-		// Desenha o nível
-		ctx.drawImage(imgNivel, 50, 9);
-		ctx.font = "bold 18pt Century Gothic";
-		ctx.textAlign = "left";
-		ctx.textBaseline = "alphabetic";
-		ctx.fillStyle = "White";
-		ctx.fillText(this.nivel, 62, 37)
-
-		// Desenha a barra de experiência
-		ctx.fillStyle = "#8e8e8e";
-		roundRect(88, 18, 200, 20, {lowerRight: 10, upperRight:10}, true, true) // Retângulo base
-		var grd = null;
-		if (this.xp <= this.maxXP) // Retângulo de tamanho proporcional ao progresso naquele nível
-		{
-			grd = ctx.createLinearGradient(0, 0, (this.xp / this.maxXP) * 200, 20)
-			grd.addColorStop(0, "#4c98a5");
-			grd.addColorStop(1, "#4cbbce");
-			ctx.fillStyle = grd;
-			roundRect(88, 18, (this.xp / this.maxXP) * 200, 20, {lowerRight: 10, upperRight: 10}, true, true);
-		}
-		else
-		{
-			grd = ctx.createLinearGradient(0, 0, 200, 20)
-			grd.addColorStop(0, "#4c98a5");
-			grd.addColorStop(1, "#4cbbce");
-			ctx.fillStyle = grd;
-			roundRect(88, 18, 200, 20, {lowerRight: 10, upperRight: 10}, true, true);
-		}
-		ctx.font = "bold 12pt Century Gothic";
-		ctx.textAlign = "center";
-		ctx.fillStyle = "White";
-		ctx.fillText(this.xp + "/" + this.maxXP + " xp", 188, 34)
-
-		// Desenha o dinheiro
-		ctx.drawImage(imgDinheiro, 420, 9);
-		ctx.font = "bold 15pt Century Gothic";
-		ctx.textAlign = "left";
-		ctx.fillStyle = "Green";
-		ctx.fillText(this.dinheiro + ",00", 463, 36)
-
-		// Desenha o dia
-		ctx.drawImage(imgCalendario, 690, 9);
-		ctx.fillStyle = "White";
-		ctx.fillText(this.dia + "° dia", 733, 36);
-	}
-}
 
 function desenharFundo()
 {
@@ -164,76 +105,7 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
         ctx.fill();
 	}
 }
-function BotaoCircular(x, y, r, bgColor, bgHoverColor, bgImage, f, txtStyle, txt, txtOnlyOnHover)
+function adicionarScript(caminho)
 {
-	this.x = x;
-	this.y = y;
-	this.radius = r;
-	this.backgroundColor = bgColor;
-	this.backgroundHoverColor = bgHoverColor;
-	this.currentBackgroundColor = this.backgroundColor;
-	this.backgroundImage = bgImage;
-	this.font = f;
-	this.textStyle = txtStyle;
-	this.text = txt;
-	this.textOnlyOnHover = txtOnlyOnHover;
-	this.hovering = false;
-
-	this.desenhar = function() {
-		ctx.beginPath();
-		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-		if (this.hovering)
-			ctx.fillStyle = this.backgroundHoverColor;
-		else
-			ctx.fillStyle = this.backgroundColor;
-		ctx.fill();
-		ctx.stroke();
-
-		if (this.backgroundImage != null)
-			ctx.drawImage(this.backgroundImage, this.x - this.backgroundImage.width/2, this.y - this.backgroundImage.height/2);
-		if (this.font != null && this.font != "" && this.text != null && this.text != "" &&
-		 ((this.textOnlyOnHover && this.hovering) || !this.textOnlyOnHover))
-		{
-			ctx.fillStyle = this.textStyle;
-			ctx.textAlign = "center";
-			ctx.textBaseline = "middle";
-			ctx.font = this.font;
-			ctx.fillText(this.text, this.x, this.y, this.radius * 2 - 5);
-		}
-	}
-	this.ativarEventoHover = function() {
-		canvas.addEventListener("mousemove", function(e) {
-			var rect = e.target.getBoundingClientRect();
-
-			var posX = e.clientX - rect.left;
-			var posY = e.clientY - rect.top;
-			var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
-			if (distCentro < r)
-				sobreBotao(x, y);
-			else
-				foraDoBotao(x, y);
-		});
-	}
-	this.startHovering = function()
-	{
-		this.hovering = true;
-		atualizar();
-	}
-	this.stopHovering = function()
-	{
-		this.hovering = false;
-		atualizar();
-	}
-	function sobreBotao(x, y)
-	{	
-		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].x == x && botoes[i].y == y)
-				botoes[i].startHovering();
-	}
-	function foraDoBotao(x, y)
-	{	
-		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].x == x && botoes[i].y == y)
-				botoes[i].stopHovering();
-	}
+	document.write("<script type=\"text/javascript\" src=\"" + caminho + "\"></script>")
 }

@@ -1,5 +1,6 @@
 adicionarScript("scripts/objetosJogo/BotaoCircular.js")
 adicionarScript("scripts/objetosJogo/BarraSuperior.js")
+adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
 
 var canvas = null;
 var ctx = null;
@@ -35,6 +36,7 @@ var btnConstrucao;
 var btnMapa;
 var btnCalendario;
 var btnNotificacoes;
+var painelNotificacoes;
 
 function iniciar()
 {
@@ -58,6 +60,8 @@ function iniciar()
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
 
+	painelNotificacoes = new PainelNotificacoes();
+
 	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
 		if (qtasNotificacoes == "0")
 		{
@@ -72,6 +76,9 @@ function iniciar()
 			this.backgroundHoverImage = imgBtnNotificacoes2;
 		}
 	}
+	btnNotificacoes.onclick = function() {
+		painelNotificacoes.abrirFechar();
+	}
 
 	botoes.push(btnEstatisticas);
 	botoes.push(btnConstrucao);
@@ -79,11 +86,10 @@ function iniciar()
 	botoes.push(btnCalendario);
 	botoes.push(btnNotificacoes);
 
-	atualizar();
-
 	for (var i = 0; i < botoes.length; i++)
 		botoes[i].ativarInteracao();
 
+	atualizar();
 }
 function atualizar()
 {
@@ -91,6 +97,7 @@ function atualizar()
 	barra.desenhar();
 	for (var i = 0; i < botoes.length; i++)
 		botoes[i].desenhar();
+	painelNotificacoes.desenhar();
 }
 
 

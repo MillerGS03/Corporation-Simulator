@@ -12,19 +12,11 @@ function BarraSuperior() {
 	this.dinheiro = 2000;
 	this.dia = 1;
 	this.desenhar = function() {
+		ctx.save();
 		ctx.fillStyle = "#232323";
-		ctx.fillRect(0, 0, canvas.width - 35, 60); // Preenche o retângulo
-		ctx.beginPath();
-		ctx.arc(canvas.width - 35, 0, 60, 0, Math.PI / 2);
-		ctx.stroke(); // Desenha a borda do canto circular
-		ctx.moveTo(canvas.width + 25, 0);
-		ctx.lineTo(canvas.width - 35, 0);
-		ctx.lineTo(canvas.width - 35, 60);
-		ctx.fill(); // Preenche o canto circular
-		ctx.beginPath();
-		ctx.moveTo(0, 60);
-		ctx.lineTo(canvas.width - 35, 60);
-		ctx.stroke(); // Desenha a borda do retângulo
+		ctx.lineWidth = 2;
+		roundRect(0, 0, canvas.width, 60, {lowerRight: 30}, true, true);
+		ctx.lineWidth = 1;
 
 		// Desenha o nível
 		ctx.drawImage(imgNivel, 50, 9);
@@ -70,5 +62,6 @@ function BarraSuperior() {
 		ctx.drawImage(imgCalendario, 690, 9);
 		ctx.fillStyle = "White";
 		ctx.fillText(this.dia + "° dia", 733, 36);
+		ctx.restore();
 	}
 }

@@ -1,6 +1,8 @@
 adicionarScript("scripts/objetosJogo/BotaoCircular.js")
 adicionarScript("scripts/objetosJogo/BarraSuperior.js")
 adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
+adicionarScript("scripts/objetosJogo/Mapa.js")
+adicionarScript("scripts/objetosJogo/Rua.js");
 
 var canvas = null;
 var ctx = null;
@@ -37,6 +39,8 @@ var btnMapa;
 var btnCalendario;
 var btnNotificacoes;
 var painelNotificacoes;
+var mapa;
+var rua;
 
 function iniciar()
 {
@@ -46,21 +50,24 @@ function iniciar()
 	barra = new BarraSuperior();
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
-		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, true, true);
+		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, true, false);
 	btnConstrucao = new BotaoCircular(60, 230, 40, 48,
 		"#347b87", "#4c98a5", imgBtnConstrucao, imgBtnConstrucaoHover,
-		"bold 13pt Century Gothic", "#232323", "Construção", true, true, true);
+		"bold 13pt Century Gothic", "#232323", "Construção", true, true, false);
 	btnMapa = new BotaoCircular(60, 330, 40, 48,
 		"#347b87", "#4c98a5", imgBtnMapa, imgBtnMapaHover,
-		"bold 14pt Century Gothic", "#232323", "Mapa", true, true, true);
+		"bold 14pt Century Gothic", "#232323", "Mapa", true, true, false);
 	btnCalendario = new BotaoCircular(60, 430, 40, 48,
 		"#347b87", "#4c98a5", imgBtnCalendario, imgBtnCalendarioHover,
-		"bold 13pt Century Gothic", "#232323", "Calendário", true, true, true);
+		"bold 13pt Century Gothic", "#232323", "Calendário", true, true, false);
 	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
 
 	painelNotificacoes = new PainelNotificacoes();
+	mapa = new Mapa();
+	rua = new Rua();
+	rua.iniciarMovimentacao(true);
 
 	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
 		if (qtasNotificacoes == "0")
@@ -79,6 +86,9 @@ function iniciar()
 	btnNotificacoes.onclick = function() {
 		painelNotificacoes.abrirFechar();
 	}
+	btnMapa.onclick = function() {
+		mapa.abrirFechar();
+	}
 
 	botoes.push(btnEstatisticas);
 	botoes.push(btnConstrucao);
@@ -86,10 +96,19 @@ function iniciar()
 	botoes.push(btnCalendario);
 	botoes.push(btnNotificacoes);
 
-	for (var i = 0; i < botoes.length; i++)
-		botoes[i].ativarInteracao();
+	ativarBotoes();
 
 	atualizar();
+}
+function ativarBotoes()
+{
+	for (var i = 0; i < botoes.length; i++)
+		botoes[i].ativarInteracao();
+}
+function desativarBotoes()
+{
+	for (var i = 0; i < botoes.length; i++)
+		botoes[i].desativarInteracao();
 }
 function atualizar()
 {
@@ -98,9 +117,8 @@ function atualizar()
 	for (var i = 0; i < botoes.length; i++)
 		botoes[i].desenhar();
 	painelNotificacoes.desenhar();
+	mapa.desenhar();
 }
-
-
 function desenharFundo()
 {
 	var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -109,6 +127,8 @@ function desenharFundo()
 
 	ctx.fillStyle = grd;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	rua.desenhar();
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

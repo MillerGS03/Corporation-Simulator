@@ -4,65 +4,75 @@ var carro2 = new Image();
 var carro3 = new Image();
 var carro4 = new Image();
 var carro5 = new Image();
-var nula = new Image();
 imgRua.src = "imagens/rua.png"
-carro1.src = "imagens/carro1.png";
-carro2.src = "imagens/carro2.png";
-carro3.src = "imagens/carro3.png";
-carro4.src = "imagens/carro4.png";
-carro5.src = "imagens/carro5.png";
-nula.src = "imagens/null.png";
-var yc1 = 0;
-var yc2 = 710;
-var yc3 = -100;
-var yc4 = 820;
-var yc5 = -200;
+carro1.src = "imagens/carros/carro1.png";
+carro2.src = "imagens/carros/carro2.png";
+carro3.src = "imagens/carros/carro3.png";
+carro4.src = "imagens/carros/carro4.png";
+carro5.src = "imagens/carros/carro5.png";
 
 function Rua()
 {
-	this.desenharRua = function() {
-		ctx.drawImage(imgRua, 700, 60);
+	this.x = 700;
+	this.y = 0;
+
+	this.carros = new Array();
+
+	this.carros.push(new Carro(this.x + 28, 0, carro1));
+	this.carros.push(new Carro(this.x + 65, 710, carro2));
+	this.carros.push(new Carro(this.x + 28, -100, carro3));
+	this.carros.push(new Carro(this.x + 65, 820, carro4));
+	this.carros.push(new Carro(this.x + 28, -200, carro5));
+	
+	this.desenhar = function() {
+		ctx.drawImage(imgRua, this.x, this.y);
+		this.desenharCarros();
+	}
+	this.iniciarMovimentacao = function(autoUpdate) {
+			setInterval(this.moverCarros, 10, this.carros, autoUpdate);
+	}
+	this.moverCarros = function(arrayCarros, autoUpdate) {
+		arrayCarros;
+
+		arrayCarros[0].y++;
+		arrayCarros[1].y--;
+		arrayCarros[2].y++;
+		arrayCarros[3].y--;
+		arrayCarros[4].y++;
+
+		if (arrayCarros[0].y > canvas.height)
+			arrayCarros[0].y = 0;
+		if (arrayCarros[1].y < 0)
+			arrayCarros[1].y = 710;
+		if (arrayCarros[2].y > canvas.height)
+			arrayCarros[2].y = -100;
+		if (arrayCarros[3].y < 0)
+			arrayCarros[3].y = 820;
+		if (arrayCarros[4].y > canvas.height)
+			arrayCarros[4].y = -200;
+
+		if (autoUpdate)
+			atualizar();
 	}
 	this.desenharCarros = function() {
-		ctx.drawImage(carro1, 710, yc1++);
-		ctx.drawImage(carro2, 750, yc2--);
-		ctx.drawImage(carro3, 710, yc3++);
-		ctx.drawImage(carro4, 750, yc4--);
-		ctx.drawImage(carro5, 710, yc5++);
-		if (yc1 > canvas.height)
-			yc1 = 0;
-		if (yc2 < canvas.height)
-			yc2 = 710;
-		if (yc3 > canvas.height)
-			yc3 = -100;
-		if (yc4 < canvas.height)
-			yc4 = 820;
-		if (yc5 > canvas.height)
-			yc5 = -200;
-	}
-	this.apagarCarros = function() {
-		ctx.drawImage(nula, 710, yc1++);
-		ctx.drawImage(nula, 750, yc2--);
-		ctx.drawImage(nula, 710, yc3++);
-		ctx.drawImage(nula, 750, yc4--);
-		ctx.drawImage(nula, 710, yc5++);
-	}
-	this.testar = function() {
-		if (yc1 > canvas.height)
-			yc1 = 0;
-		if (yc2 < canvas.height)
-			yc2 = 710;
-		if (yc3 > canvas.height)
-			yc3 = -100;
-		if (yc4 < canvas.height)
-			yc4 = 820;
-		if (yc5 > canvas.height)
-			yc5 = -200;
+		this.carros[0].desenhar();
+		this.carros[1].desenhar();
+		this.carros[2].desenhar();
+		this.carros[3].desenhar();
+		this.carros[4].desenhar();
 	}
 	this.desenha = function(){
 		this.desenharRua();
 		setTimeout(this.desenharCarros, 300);
-		this.apagarCarros();
 		this.testar();
+	}
+}
+function Carro(x, y, img) {
+	this.x = x;
+	this.y = y;
+	this.imagem = img;
+
+	this.desenhar = function() {
+		ctx.drawImage(this.imagem, this.x, this.y);
 	}
 }

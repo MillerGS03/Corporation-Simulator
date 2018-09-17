@@ -1,9 +1,12 @@
-function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
+function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
 {
 	this.x = x;
 	this.y = y;
-	this.radius = r;
-	this.radiusOnHover = rHover;
+    this.width = w;
+    this.height = h;
+    this.radius = r;
+    this.widthOnHover = wHover;
+    this.heightOnHover = hHover;
 	this.backgroundColor = bgColor;
 	this.backgroundHoverColor = bgHoverColor;
 	this.backgroundImage = bgImage;
@@ -22,17 +25,14 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 		
 		if (this.hovering)
 		{
-			ctx.arc(this.x, this.y, this.radiusOnHover, 0, Math.PI * 2);
-			ctx.fillStyle = this.backgroundHoverColor;
+            ctx.fillStyle = this.backgroundHoverColor;
+            roundRect(this.x, this.y, this.widthOnHover, this.heightOnHover, this.radius, true, true)
 		}
 		else
 		{
-			ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
 			ctx.fillStyle = this.backgroundColor;
+            roundRect(this.x, this.y, this.width, this.height, this.radius, true, true);
 		}
-		ctx.fill();
-		ctx.stroke();
-
 		if (this.backgroundImage != null && !this.hovering)
 			ctx.drawImage(this.backgroundImage, this.x - this.backgroundImage.width/2, this.y - this.backgroundImage.height/2);
 		else if (this.backgroundHoverImage != null && this.hovering)
@@ -46,9 +46,9 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 			ctx.textBaseline = "middle";
 			ctx.font = this.font;
 			if (this.hovering)
-				ctx.fillText(this.text, this.x, this.y, this.radiusOnHover * 2 - 5);
+				ctx.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2, this.widthOnHover - 5);
 			else
-				ctx.fillText(this.text, this.x, this.y, this.radius * 2 - 5);
+				ctx.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2, this.width - 5);
 		}
 		ctx.restore();
 	}
@@ -77,15 +77,16 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 		var posX = e.clientX - rect.left;
 		var posY = e.clientY - rect.top;
-		var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
 
 		for (var i = 0; i < botoes.length; i++)
 			if(botoes[i].x == x && botoes[i].y == y)
 			{
 				if (botoes[i].hovering)
-					botoes[i].hovering = distCentro < rHover;				
+                    botoes[i].hovering = posX >= botoes[i].x && posX <= botoes[i].x + botoes[i].widthOnHover &&
+                                         posY >= botoes[i].y && posY <= botoes[i].y + botoes[i].heightOnHover;				
 				else
-					botoes[i].hovering = distCentro < r;
+                    botoes[i].hovering = posX >= botoes[i].x && posX <= botoes[i].x + botoes[i].width &&
+                                         posY >= botoes[i].y && posY <= botoes[i].y + botoes[i].height;	
 				//--------------------------//
 				// O problema está aqui: os eventos de todos os botões disparam e interferem uns com os outros
 				if (botoes[i].changeCursor)

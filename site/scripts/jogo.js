@@ -3,6 +3,7 @@ adicionarScript("scripts/objetosJogo/BarraSuperior.js")
 adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
 adicionarScript("scripts/objetosJogo/Mapa.js")
 adicionarScript("scripts/objetosJogo/Rua.js");
+adicionarScript("scripts/objetosJogo/BotaoRetangular.js");
 
 var canvas = null;
 var ctx = null;

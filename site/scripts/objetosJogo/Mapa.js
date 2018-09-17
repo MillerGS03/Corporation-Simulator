@@ -1,11 +1,20 @@
 function Mapa()
 {
+    this.width = 700;
+    this.height = 500;
+    this.x = (canvas.width - this.width)/2;
+    this.y = 130
+
     this.aberto = false;
+    this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
+                             { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
+        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
+    this.btnFechar.onclick = function(e) {
+        mapa.abrirFechar();
+    }
+
     this.desenhar = function() {
-        this.width = 700;
-        this.height = 500;
-        this.x = (canvas.width - this.width)/2;
-        this.y = 130
+
         if (this.aberto)
         {
             ctx.save();
@@ -23,8 +32,7 @@ function Mapa()
             ctx.font = "bold 24pt Century Gothic";
             ctx.fillText("Mapa", this.x + this.width/2, this.y + 10, this.width - 5);
 
-            var btnFechar = new BotaoCircular(this.x + this.width - 30, this.y + 30, 20, 20, "#232323", "#535353", null, null);
-            btnFechar.desenhar();
+            mapa.btnFechar.desenhar();
 
             roundRect(this.x, this.y + 60, this.width, this.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
@@ -34,9 +42,17 @@ function Mapa()
     this.abrirFechar = function() {
         this.aberto = !this.aberto;
         if (this.aberto)
+        {
             desativarBotoes();
+            this.btnFechar.ativarInteracao();
+            botoes.push(this.btnFechar);
+        }
         else
+        {
+            this.btnFechar.desativarInteracao();
+            botoes.pop();
             ativarBotoes();
+        }
         atualizar();
     }
 }

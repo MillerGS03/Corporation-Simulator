@@ -1,9 +1,12 @@
-adicionarScript("scripts/objetosJogo/BotaoCircular.js")
+adicionarScript("scripts/objetosJogo/botoes/BotaoCircular.js")
+adicionarScript("scripts/objetosJogo/botoes/BotaoRetangular.js");
 adicionarScript("scripts/objetosJogo/BarraSuperior.js")
 adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
-adicionarScript("scripts/objetosJogo/Mapa.js")
+adicionarScript("scripts/objetosJogo/menus/Mapa.js")
+adicionarScript("scripts/objetosJogo/menus/Estatisticas.js")
+adicionarScript("scripts/objetosJogo/menus/Construcao.js")
+adicionarScript("scripts/objetosJogo/menus/Calendario.js")
 adicionarScript("scripts/objetosJogo/Rua.js");
-adicionarScript("scripts/objetosJogo/BotaoRetangular.js");
 
 var canvas = null;
 var ctx = null;
@@ -41,6 +44,9 @@ var btnCalendario;
 var btnNotificacoes;
 var painelNotificacoes;
 var mapa;
+var calendario;
+var construcao;
+var estatisticas;
 var rua;
 
 function iniciar()
@@ -66,7 +72,12 @@ function iniciar()
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
 
 	painelNotificacoes = new PainelNotificacoes();
+
 	mapa = new Mapa();
+	estatisticas = new Estatisticas();
+	calendario = new Calendario();
+	construcao = new Construcao();
+
 	rua = new Rua();
 	rua.iniciarMovimentacao(true);
 
@@ -89,6 +100,15 @@ function iniciar()
 	}
 	btnMapa.onclick = function() {
 		mapa.abrirFechar();
+	}
+	btnEstatisticas.onclick = function() {
+		estatisticas.abrirFechar();
+	}
+	btnCalendario.onclick = function() {
+		calendario.abrirFechar();
+	}
+	btnConstrucao.onclick = function() {
+		construcao.abrirFechar();
 	}
 
 	botoes.push(btnEstatisticas);
@@ -119,6 +139,9 @@ function atualizar()
 		botoes[i].desenhar();
 	painelNotificacoes.desenhar();
 	mapa.desenhar();
+	calendario.desenhar();
+	construcao.desenhar();
+	estatisticas.desenhar();
 }
 function desenharFundo()
 {

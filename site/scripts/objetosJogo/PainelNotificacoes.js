@@ -35,9 +35,9 @@ function PainelNotificacoes()
     {
         if (!painelNotificacoes.abrirOuFechar)
         {
-            painelNotificacoes.x -= 3;
+            painelNotificacoes.x -= 5;
             if (painelNotificacoes.x > canvas.width - 259)
-                setTimeout(painelNotificacoes.abrir, 5);
+                setTimeout(painelNotificacoes.abrir, 12);
             else
                 painelNotificacoes.x = canvas.width - 260;
             atualizar();
@@ -47,9 +47,9 @@ function PainelNotificacoes()
     {
         if (painelNotificacoes.abrirOuFechar)
         {
-            painelNotificacoes.x += 3;
+            painelNotificacoes.x += 5;
             if (painelNotificacoes.x < canvas.width + 3)
-                setTimeout(painelNotificacoes.fechar, 5);
+                setTimeout(painelNotificacoes.fechar, 12);
             else
                 painelNotificacoes.x = canvas.width + 3;
             atualizar();

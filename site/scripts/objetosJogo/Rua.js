@@ -1,15 +1,13 @@
 var imgRua = new Image();
-var carro1 = new Image();
-var carro2 = new Image();
-var carro3 = new Image();
-var carro4 = new Image();
-var carro5 = new Image();
-imgRua.src = "imagens/rua.png"
-carro1.src = "imagens/carros/carro1.png";
-carro2.src = "imagens/carros/carro2.png";
-carro3.src = "imagens/carros/carro3.png";
-carro4.src = "imagens/carros/carro4.png";
-carro5.src = "imagens/carros/carro5.png";
+imgRua.src = "imagens/rua.png";
+
+var imgsCarros = new Array();
+
+for (var i = 0; i < 5; i++)
+{
+	imgsCarros.push(new Image());
+	imgsCarros[i].src = "imagens/carros/carro" + (i + 1) + ".png";
+}
 
 function Rua()
 {
@@ -18,11 +16,11 @@ function Rua()
 
 	this.carros = new Array();
 
-	this.carros.push(new Carro(this.x + 28, 0, carro1));
-	this.carros.push(new Carro(this.x + 65, 710, carro2));
-	this.carros.push(new Carro(this.x + 28, -100, carro3));
-	this.carros.push(new Carro(this.x + 65, 820, carro4));
-	this.carros.push(new Carro(this.x + 28, -200, carro5));
+	this.carros.push(new Carro(this.x + 28, - (100 + Math.floor(Math.random() * 2500)), imgsCarros[0]));
+	this.carros.push(new Carro(this.x + 65, canvas.height + 200 + Math.floor(Math.random() * 2500), imgsCarros[3]));
+	this.carros.push(new Carro(this.x + 28, - (100 + Math.floor(Math.random() * 2500)), imgsCarros[1]));
+	this.carros.push(new Carro(this.x + 65, canvas.height + 200 + Math.floor(Math.random() * 2500), imgsCarros[4]));
+	this.carros.push(new Carro(this.x + 28, - (100 + Math.floor(Math.random() * 2500)), imgsCarros[2]));
 	
 	this.desenhar = function() {
 		ctx.drawImage(imgRua, this.x, this.y);
@@ -41,16 +39,39 @@ function Rua()
 		arrayCarros[4].y++;
 
 		if (arrayCarros[0].y > canvas.height)
-			arrayCarros[0].y = 0;
+		{
+			arrayCarros[0].y = - (200 + Math.floor(Math.random() * 2500));
+			arrayCarros[0].imagem = imgsCarros[Math.floor(Math.random() * 3)];
+		}
 		if (arrayCarros[1].y < 0)
-			arrayCarros[1].y = 710;
+		{
+			arrayCarros[1].y = canvas.height + 200 + Math.floor(Math.random() * 2500);
+			arrayCarros[1].imagem = imgsCarros[Math.floor(Math.random() * 2) + 3];
+		}
 		if (arrayCarros[2].y > canvas.height)
-			arrayCarros[2].y = -100;
+		{
+			arrayCarros[2].y = - (200 + Math.floor(Math.random() * 2500));
+			arrayCarros[2].imagem = imgsCarros[Math.floor(Math.random() * 3)];
+		}
 		if (arrayCarros[3].y < 0)
-			arrayCarros[3].y = 820;
+		{
+			arrayCarros[3].y = canvas.height + 200 + Math.floor(Math.random() * 2500);
+			arrayCarros[3].imagem = imgsCarros[Math.floor(Math.random() * 2) + 3];
+		}
 		if (arrayCarros[4].y > canvas.height)
-			arrayCarros[4].y = -200;
+		{
+			arrayCarros[4].y = - (200 + Math.floor(Math.random() * 2500));
+			arrayCarros[4].imagem = imgsCarros[Math.floor(Math.random() * 3)];
+		}
 
+		if (Math.abs(arrayCarros[0].y - arrayCarros[2].y) <= 70)
+			arrayCarros[0].y = - (200 + Math.floor(Math.random() * 2500));
+		if (Math.abs(arrayCarros[0].y - arrayCarros[4].y) <= 70)
+			arrayCarros[4].y = - (200 + Math.floor(Math.random() * 2500));
+		if (Math.abs(arrayCarros[2].y - arrayCarros[4].y) <= 70)
+			arrayCarros[2].y = - (200 + Math.floor(Math.random() * 2500));
+		if (Math.abs(arrayCarros[1].y - arrayCarros[3].y) <= 70)
+			arrayCarros[1].y = canvas.height + 200 + Math.floor(Math.random() * 2500);
 		if (autoUpdate)
 			atualizar();
 	}

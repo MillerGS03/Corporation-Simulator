@@ -73,15 +73,15 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		var rect = e.target.getBoundingClientRect();
-
-		var posX = e.clientX - rect.left;
-		var posY = e.clientY - rect.top;
-		var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
-
 		for (var i = 0; i < botoes.length; i++)
 			if(botoes[i].x == x && botoes[i].y == y)
 			{
+				var rect = e.target.getBoundingClientRect();
+				
+				var posX = e.clientX - rect.left;
+				var posY = e.clientY - rect.top;
+				var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
+
 				if (botoes[i].hovering)
 					botoes[i].hovering = distCentro < rHover;				
 				else

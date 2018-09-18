@@ -73,14 +73,13 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		var rect = e.target.getBoundingClientRect();
-
-		var posX = e.clientX - rect.left;
-		var posY = e.clientY - rect.top;
-
 		for (var i = 0; i < botoes.length; i++)
 			if(botoes[i].x == x && botoes[i].y == y)
 			{
+				var rect = e.target.getBoundingClientRect();
+				var posX = e.clientX - rect.left;
+				var posY = e.clientY - rect.top;
+
 				if (botoes[i].hovering)
                     botoes[i].hovering = posX >= botoes[i].x && posX <= botoes[i].x + botoes[i].widthOnHover &&
                                          posY >= botoes[i].y && posY <= botoes[i].y + botoes[i].heightOnHover;				

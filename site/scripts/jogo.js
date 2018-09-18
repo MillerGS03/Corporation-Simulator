@@ -118,7 +118,6 @@ function iniciar()
 	botoes.push(btnNotificacoes);
 
 	ativarBotoes();
-
 	atualizar();
 }
 function ativarBotoes()

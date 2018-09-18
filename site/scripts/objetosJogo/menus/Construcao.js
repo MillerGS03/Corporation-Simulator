@@ -1,7 +1,7 @@
 function Construcao()
 {
-    this.width = 700;
-    this.height = 500;
+    this.width = 800;
+    this.height = 600;
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
 

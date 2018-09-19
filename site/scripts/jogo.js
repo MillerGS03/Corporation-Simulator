@@ -48,12 +48,31 @@ var calendario;
 var construcao;
 var estatisticas;
 var rua;
+var contaTempo = null;
 
 function iniciar()
 {
  	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
+	barra = new BarraSuperior();
+
+	painelNotificacoes = new PainelNotificacoes();
+
+	mapa = new Mapa();
+	estatisticas = new Estatisticas();
+	calendario = new Calendario();
+	construcao = new Construcao();
+
+	rua = new Rua();
+	rua.iniciarMovimentacao(true);
+
+
+	criarBotoes();
+	ativarBotoes();
+	atualizar();
+}
+function criarBotoes() {
 	barra = new BarraSuperior();
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
@@ -70,17 +89,6 @@ function iniciar()
 	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
-
-	painelNotificacoes = new PainelNotificacoes();
-
-	mapa = new Mapa();
-	estatisticas = new Estatisticas();
-	calendario = new Calendario();
-	construcao = new Construcao();
-
-	rua = new Rua();
-	rua.iniciarMovimentacao(true);
-
 	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
 		if (qtasNotificacoes == "0")
 		{
@@ -116,9 +124,6 @@ function iniciar()
 	botoes.push(btnMapa);
 	botoes.push(btnCalendario);
 	botoes.push(btnNotificacoes);
-
-	ativarBotoes();
-	atualizar();
 }
 function ativarBotoes()
 {

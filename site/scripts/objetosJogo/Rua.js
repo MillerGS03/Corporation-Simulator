@@ -43,6 +43,9 @@ function Rua()
 	this.pararMovimentacao = function() {
 		forcarParada = true;
 	}
+	this.entregar = function() {
+
+	}
 	this.moverCarros = function(ruaUsada, autoUpdate) {
 		arrayCarros = ruaUsada.carros;
 
@@ -82,11 +85,6 @@ function Rua()
 		for (var i = 0; i < this.carros.length; i++)
 			this.carros[i].desenhar();
 	}
-	this.desenha = function(){
-		this.desenharRua();
-		setTimeout(this.desenharCarros, 300);
-		this.testar();
-	}
 }
 function Carro(x, y, img) {
 	this.x = x;
@@ -122,4 +120,22 @@ function Carro(x, y, img) {
 					this.parado = true;
 			}
 	}
+}
+function CaminhaoDeEntrega(x, y, img) {
+	this.x = x;
+	this.y = y;
+	this.imagem = img; 
+
+	this.desenhar = function() {
+		ctx.save();
+		ctx.fillStyle = "black";
+		ctx.fillRect(this.x, this.y, 30, 50);
+		ctx.restore();
+	}
+	this.mover = function() {
+		this.y++;
+		if (this.y > canvas.height)
+			this.onChegouAoFinal();
+	}
+	this.onChegouAGaragem = function(){}
 }

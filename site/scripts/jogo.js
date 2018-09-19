@@ -48,7 +48,8 @@ var calendario;
 var construcao;
 var estatisticas;
 var rua;
-var contaTempo = null;
+var timerDias = null;
+var contador = 0;
 
 function iniciar()
 {
@@ -67,12 +68,22 @@ function iniciar()
 	rua = new Rua();
 	rua.iniciarMovimentacao(true);
 
-
 	criarBotoes();
 	ativarBotoes();
 	atualizar();
+
+	contador = 0;
+	timerDias = setInterval(function() {
+		contador++;
+		if (contador % 10 == 0)
+		{
+			barra.passarDia();
+			atualizar();
+		}
+	}, 1000);
 }
-function criarBotoes() {
+function criarBotoes() 
+{
 	barra = new BarraSuperior();
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,

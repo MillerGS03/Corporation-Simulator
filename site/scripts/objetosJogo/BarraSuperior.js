@@ -64,4 +64,9 @@ function BarraSuperior() {
 		ctx.fillText(this.dia + "° dia", 733, 36);
 		ctx.restore();
 	}
+	this.passarDia = function() {
+		this.dia++;
+		if (this.dia > 30)
+			this.dia = 1;
+	}
 }

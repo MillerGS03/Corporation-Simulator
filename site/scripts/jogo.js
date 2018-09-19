@@ -1,11 +1,12 @@
 adicionarScript("scripts/objetosJogo/botoes/BotaoCircular.js")
 adicionarScript("scripts/objetosJogo/botoes/BotaoRetangular.js");
-adicionarScript("scripts/objetosJogo/BarraSuperior.js")
-adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
-adicionarScript("scripts/objetosJogo/menus/Mapa.js")
-adicionarScript("scripts/objetosJogo/menus/Estatisticas.js")
-adicionarScript("scripts/objetosJogo/menus/Construcao.js")
-adicionarScript("scripts/objetosJogo/menus/Calendario.js")
+adicionarScript("scripts/objetosJogo/BarraSuperior.js");
+adicionarScript("scripts/objetosJogo/PainelNotificacoes.js");
+adicionarScript("scripts/objetosJogo/menus/Mapa.js");
+adicionarScript("scripts/objetosJogo/menus/Estatisticas.js");
+adicionarScript("scripts/objetosJogo/menus/Construcao.js");
+adicionarScript("scripts/objetosJogo/menus/Calendario.js");
+adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
 adicionarScript("scripts/objetosJogo/Rua.js");
 
 var canvas = null;
@@ -48,12 +49,42 @@ var calendario;
 var construcao;
 var estatisticas;
 var rua;
+var timerDias = null;
+var contador = 0;
 
 function iniciar()
 {
  	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
+	barra = new BarraSuperior();
+
+	painelNotificacoes = new PainelNotificacoes();
+
+	mapa = new Mapa();
+	estatisticas = new Estatisticas();
+	calendario = new Calendario();
+	construcao = new Construcao();
+
+	rua = new Rua();
+	rua.iniciarMovimentacao(true);
+
+	criarBotoes();
+	ativarBotoes();
+	atualizar();
+
+	contador = 0;
+	timerDias = setInterval(function() {
+		contador++;
+		if (contador % 10 == 0)
+		{
+			barra.passarDia();
+			atualizar();
+		}
+	}, 1000);
+}
+function criarBotoes() 
+{
 	barra = new BarraSuperior();
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
@@ -70,17 +101,6 @@ function iniciar()
 	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
-
-	painelNotificacoes = new PainelNotificacoes();
-
-	mapa = new Mapa();
-	estatisticas = new Estatisticas();
-	calendario = new Calendario();
-	construcao = new Construcao();
-
-	rua = new Rua();
-	rua.iniciarMovimentacao(true);
-
 	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
 		if (qtasNotificacoes == "0")
 		{
@@ -116,9 +136,6 @@ function iniciar()
 	botoes.push(btnMapa);
 	botoes.push(btnCalendario);
 	botoes.push(btnNotificacoes);
-
-	ativarBotoes();
-	atualizar();
 }
 function ativarBotoes()
 {

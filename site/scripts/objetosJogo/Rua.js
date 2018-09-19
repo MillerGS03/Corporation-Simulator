@@ -23,11 +23,9 @@ function Rua()
 
 	var intervalo = null;
 
-	// Atribuição dos carros descendo a um vetor, cada um criado numa posição y aleatória
-	for (var i = 0; i < this.qtosCarrosDescendo; i++) 
+	for (var i = 0; i < this.qtosCarrosDescendo; i++)
 		this.carros.push(new Carro(this.x + 30, - (100 + Math.floor(Math.random() * 2500)),
-								   imgsCarros[Math.floor(Math.random() * 5)]));
-	// Atribuição dos carros subindo a um vetor, cada um criado numa posição y aleatória
+		                           imgsCarros[Math.floor(Math.random() * 5)]));
 	for (var i = this.qtosCarrosDescendo; i < this.qtosCarrosDescendo + this.qtosCarrosSubindo; i++)
 		this.carros.push(new Carro(this.x + 69, canvas.height + 200 + Math.floor(Math.random() * 2500),
 		                           imgsCarros[Math.floor(Math.random() * 5) + 5]));
@@ -48,17 +46,17 @@ function Rua()
 	this.moverCarros = function(ruaUsada, autoUpdate) {
 		arrayCarros = ruaUsada.carros;
 
-		for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++) // Move cada um dos carros descendo para frente
+		for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++)
 			arrayCarros[i].moverCarro(1, forcarParada);
-		for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++) // Move cada um dos carros subindo para frente
+		for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++)
 			arrayCarros[i].moverCarro(-1, forcarParada);
 
-		for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++) // Testa colisão ou muita proximidade entre carros descendo
+		for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++)
 			for (var j = i + 1; j < ruaUsada.qtosCarrosDescendo; j++)
 				if (Math.abs(arrayCarros[i].y - arrayCarros[j].y) <= 200)
 					arrayCarros[i].y = - (200 + Math.floor(Math.random() * 2500));
 
-		for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++) // Testa colisão ou muita proximidade entre carros subindo
+		for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++)
 			for (var j = i + 1; j < arrayCarros.length; j++)
 				if (Math.abs(arrayCarros[i].y - arrayCarros[j].y) <= 200)
 					arrayCarros[i].y = canvas.height + 200 + Math.floor(Math.random() * 2500);
@@ -66,7 +64,7 @@ function Rua()
 		if (autoUpdate)
 			atualizar();
 
-		if (forcarParada) // Testa se todos os carros já estão parados
+		if (forcarParada)
 		{
 			var todosParados = true;
 			for (var i = 0; i < arrayCarros.length; i++)
@@ -84,6 +82,11 @@ function Rua()
 		for (var i = 0; i < this.carros.length; i++)
 			this.carros[i].desenhar();
 	}
+	this.desenha = function(){
+		this.desenharRua();
+		setTimeout(this.desenharCarros, 300);
+		this.testar();
+	}
 }
 function Carro(x, y, img) {
 	this.x = x;
@@ -99,16 +102,16 @@ function Carro(x, y, img) {
 			{
 				if ((this.y + 54 > 0 && this.y < canvas.height) || !forcarParada)
 				{
-					if ((this.y < canvas.height && sentido >= 0) || (this.y + 54 > 0 && sentido < 0)) // Se o carro ainda está em posição válida
+					if ((this.y < canvas.height && sentido >= 0) || (this.y + 54 > 0 && sentido < 0))
 						this.y += sentido;
-					else // Se o carro passou do canvas
+					else 
 					{						
-						if (sentido >= 0) // Reseta a posição e aleatoriza o modelo dos carros descendo
+						if (sentido >= 0)
 						{
 							this.y = - (200 + Math.floor(Math.random() * 2500));
 							this.imagem = imgsCarros[Math.floor(Math.random() * 5)];
 						}
-						else // Reseta a posição e aleatoriza o modelo dos carros subindo
+						else
 						{
 							this.y = canvas.height + (200 + Math.floor(Math.random() * 2500));
 							this.imagem = imgsCarros[Math.floor(Math.random() * 5) + 5];
@@ -116,7 +119,7 @@ function Carro(x, y, img) {
 					}
 				}
 				else
-					this.parado = true; // Para ao invés de resetar a posição se o programa estiver forçando parada dos carros
+					this.parado = true;
 			}
 	}
 }

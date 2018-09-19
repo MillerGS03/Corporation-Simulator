@@ -37,7 +37,7 @@ function PainelNotificacoes()
         {
             painelNotificacoes.x -= 5;
             if (painelNotificacoes.x > canvas.width - 259)
-                setTimeout(painelNotificacoes.abrir, 12);
+                setTimeout(painelNotificacoes.abrir, 10);
             else
                 painelNotificacoes.x = canvas.width - 260;
             atualizar();
@@ -49,7 +49,7 @@ function PainelNotificacoes()
         {
             painelNotificacoes.x += 5;
             if (painelNotificacoes.x < canvas.width + 3)
-                setTimeout(painelNotificacoes.fechar, 12);
+                setTimeout(painelNotificacoes.fechar, 10);
             else
                 painelNotificacoes.x = canvas.width + 3;
             atualizar();

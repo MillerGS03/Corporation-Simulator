@@ -13,6 +13,13 @@ function Construcao()
         construcao.abrirFechar();
     }
 
+    this.itens = new Array();
+    for (var i = 0; i < 4; i++)
+    {
+        this.itens.push(new ItemAVender(this.x + 30 + 190 * i, this.y + 75, "Teste", 0, imgBtnConstrucaoHover));
+        this.itens.push(new ItemAVender(this.x + 30 + 190 * i, this.y + 335, "Teste", 0, imgBtnConstrucaoHover));
+    }
+
     this.desenhar = function() {
 
         if (this.aberto)
@@ -35,6 +42,9 @@ function Construcao()
             construcao.btnFechar.desenhar();
 
             roundRect(this.x, this.y + 60, this.width, this.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
+
+            for (var i = 0; i < this.itens.length; i++)
+                this.itens[i].desenhar();
 
             ctx.restore();
         }

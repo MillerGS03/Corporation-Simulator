@@ -1,11 +1,12 @@
 adicionarScript("scripts/objetosJogo/botoes/BotaoCircular.js")
 adicionarScript("scripts/objetosJogo/botoes/BotaoRetangular.js");
-adicionarScript("scripts/objetosJogo/BarraSuperior.js")
-adicionarScript("scripts/objetosJogo/PainelNotificacoes.js")
-adicionarScript("scripts/objetosJogo/menus/Mapa.js")
-adicionarScript("scripts/objetosJogo/menus/Estatisticas.js")
-adicionarScript("scripts/objetosJogo/menus/Construcao.js")
-adicionarScript("scripts/objetosJogo/menus/Calendario.js")
+adicionarScript("scripts/objetosJogo/BarraSuperior.js");
+adicionarScript("scripts/objetosJogo/PainelNotificacoes.js");
+adicionarScript("scripts/objetosJogo/menus/Mapa.js");
+adicionarScript("scripts/objetosJogo/menus/Estatisticas.js");
+adicionarScript("scripts/objetosJogo/menus/Construcao.js");
+adicionarScript("scripts/objetosJogo/menus/Calendario.js");
+adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
 adicionarScript("scripts/objetosJogo/Rua.js");
 
 var canvas = null;

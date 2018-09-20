@@ -1,4 +1,4 @@
-function ItemAVender(x, y, nome, preco, img) 
+function ItemAVender(x, y, nome, descricao, preco, img) 
 {
     this.x = x;
     this.y = y;
@@ -6,7 +6,7 @@ function ItemAVender(x, y, nome, preco, img)
     this.preco = preco;
     this.imagem = img;
 
-    this.width = 180;
+    this.width = 190;
     this.height = 250;
 
     this.botaoComprar = new BotaoRetangular(this.x + 15, this.y + this.height - 40, this.width - 30, 30, 
@@ -24,9 +24,9 @@ function ItemAVender(x, y, nome, preco, img)
         
         ctx.fillStyle = "White";
         ctx.lineWidth = 1;
-        ctx.fillRect(this.x + 20, this.y + 35, this.width - 40, 160);
-        ctx.strokeRect(this.x + 20, this.y + 35, this.width - 40, 160)
-        ctx.drawImage(this.imagem, this.x + this.width/2 - this.imagem.width/2, this.y + 115 - this.imagem.height/2);
+        ctx.fillRect(this.x + 25, this.y + 45, this.width - 50, 150);
+        ctx.strokeRect(this.x + 25, this.y + 45, this.width - 50, 150)
+        ctx.drawImage(this.imagem, this.x + this.width/2 - this.imagem.width/2, this.y + 120 - this.imagem.height/2);
 
         this.botaoComprar.desenhar();
 

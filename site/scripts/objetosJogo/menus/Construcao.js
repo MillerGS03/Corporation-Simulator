@@ -4,7 +4,7 @@ function Construcao()
 
     this.botoesConstrucao = new Array();
 
-    this.width = 800;
+    this.width = 850;
     this.height = 600;
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
@@ -18,10 +18,25 @@ function Construcao()
     }
 
     this.itens = new Array();
-    for (var i = 0; i < 4; i++)
-    {
-        this.itens.push(new ItemAVender(this.x + 30 + 190 * i, this.y + 75, "Teste", 0, imgBtnConstrucaoHover));
-        this.itens.push(new ItemAVender(this.x + 30 + 190 * i, this.y + 335, "Teste", 0, imgBtnConstrucaoHover));
+
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém","", 500, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover));
+
+    this.itens[0].botaoComprar.onclick = function() {
+        construcao.abrirFechar();
+        itensConstruidos.push(new Garagem(0,0, 200, 200));
+        itensConstruidos[0].seguirMouse();
+    }
+    this.itens[1].botaoComprar.onclick = function() {
+        construcao.abrirFechar();
+    }
+    this.itens[2].botaoComprar.onclick = function() {
+        construcao.abrirFechar();
+    }
+    this.itens[3].botaoComprar.onclick = function() {
+        construcao.abrirFechar();
     }
 
     this.desenhar = function() {

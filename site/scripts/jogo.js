@@ -7,6 +7,7 @@ adicionarScript("scripts/objetosJogo/menus/Estatisticas.js");
 adicionarScript("scripts/objetosJogo/menus/Construcao.js");
 adicionarScript("scripts/objetosJogo/menus/Calendario.js");
 adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
+adicionarScript("scripts/objetosJogo/construcoes/Garagem.js");
 adicionarScript("scripts/objetosJogo/Rua.js");
 
 var canvas = null;
@@ -36,7 +37,7 @@ imgBtnConstrucaoHover.src = "imagens/botoes/btnConstrucaoHover.png"
 imgBtnMapaHover.src = "imagens/botoes/btnMapaHover.png";
 imgBtnCalendarioHover.src = "imagens/botoes/btnCalendarioHover.png";
 
-var botoes = new Array();
+var botoes;
 var barra;
 var btnEstatisticas;
 var btnConstrucao;
@@ -51,6 +52,7 @@ var estatisticas;
 var rua;
 var timerDias = null;
 var contador = 0;
+var itensConstruidos;
 
 function iniciar()
 {
@@ -85,7 +87,9 @@ function iniciar()
 }
 function criarBotoes() 
 {
-	barra = new BarraSuperior();
+	botoes = new Array();
+	itensConstruidos = new Array();
+
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
 		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, true, false);
@@ -169,6 +173,9 @@ function desenharFundo()
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	rua.desenhar();
+
+	for (var i = 0; i < itensConstruidos.length; i++)
+		itensConstruidos[i].desenhar();
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

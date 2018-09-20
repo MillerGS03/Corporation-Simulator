@@ -1,5 +1,9 @@
 function Construcao()
 {
+    var qtosBotoesInicialmente = 0;
+
+    this.botoesConstrucao = new Array();
+
     this.width = 800;
     this.height = 600;
     this.x = (canvas.width - this.width)/2;
@@ -55,13 +59,26 @@ function Construcao()
         {
             desativarBotoes();
             this.btnFechar.ativarInteracao();
+            qtosBotoesInicialmente = botoes.length;
             botoes.push(this.btnFechar);
+            for (var i = 0; i < this.itens.length; i++)
+            {
+                botoes.push(this.itens[i].botaoComprar);
+                this.itens[i].botaoComprar.ativarInteracao();
+            }
         }
         else
         {
             this.btnFechar.desativarInteracao();
             this.btnFechar.hovering = false;
             botoes.pop();
+
+            for (var i = 0; i < this.itens.length; i++)
+            {
+                this.itens[this.itens.length - i - 1].botaoComprar.desativarInteracao();
+                botoes.pop();
+            }
+
             ativarBotoes();
         }
         atualizar();

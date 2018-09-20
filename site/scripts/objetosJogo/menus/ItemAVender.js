@@ -9,14 +9,33 @@ function ItemAVender(x, y, nome, preco, img)
     this.width = 180;
     this.height = 250;
 
+    this.botaoComprar = new BotaoRetangular(this.x + 15, this.y + this.height - 40, this.width - 30, 30, 
+        {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10}, this.width - 30, 30, "#aaaaaa", "#bababa", null, null, "bold 14pt Century Gothic",
+        "green", "$" + this.preco, false, true, false);
+
     this.desenhar = function() {
         ctx.save();
 
-        ctx.fillStyle = "Silver";
+        ctx.fillStyle = "Gray";
         ctx.strokeStyle = "black";
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2;
 
         roundRect(this.x, this.y, this.width, this.height, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10}, true, true);
+        
+        ctx.fillStyle = "White";
+        ctx.lineWidth = 1;
+        ctx.fillRect(this.x + 20, this.y + 35, this.width - 40, 160);
+        ctx.strokeRect(this.x + 20, this.y + 35, this.width - 40, 160)
+        ctx.drawImage(this.imagem, this.x + this.width/2 - this.imagem.width/2, this.y + 115 - this.imagem.height/2);
+
+        this.botaoComprar.desenhar();
+
+        ctx.fillStyle = "Black";
+        ctx.font = "bold 18pt Century Gothic";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.fillText(this.nome, this.x + this.width / 2, this.y + 3, this.width - 10);
+
         ctx.restore();
     }
 }

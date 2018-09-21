@@ -13,7 +13,7 @@ function Rua()
 {
 	var forcarParada = false;
 
-	this.x = 780;
+	this.x = 720;
 	this.y = 0;
 
 	this.qtosCarrosDescendo = 2;

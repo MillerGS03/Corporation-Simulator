@@ -1,4 +1,5 @@
 var imgArmazem = new Image();
+imgArmazem.src = "imagens/construcoes/armazem.png";
 
 function Armazem(x, y, w, h) {
     this.x = x;
@@ -31,7 +32,7 @@ function Armazem(x, y, w, h) {
 
         ctx.drawImage(imgArmazem, this.x + this.width / 2 - imgArmazem.width/2, this.y + this.height / 2 - imgArmazem.height/2)
 
-        ctx.font = "bold 15pt Century Gothic";
+        ctx.font = "bold 14pt Century Gothic";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "Black";

@@ -1,5 +1,7 @@
 var imgItemGaragem = new Image();
-imgItemGaragem.src = "imagens/iconesItens/garagem.png"
+var imgItemArmazem = new Image();
+imgItemGaragem.src = "imagens/iconesItens/garagem.png";
+imgItemArmazem.src = "imagens/iconesItens/armazem.png";
 
 function Construcao()
 {
@@ -23,7 +25,7 @@ function Construcao()
     this.itens = new Array();
 
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgItemGaragem));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém","", 500, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém","", 500, imgItemArmazem));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover));
 

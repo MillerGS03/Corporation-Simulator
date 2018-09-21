@@ -27,35 +27,47 @@ function Construcao()
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover));
 
+    function TestarPosicionamento()
+    {
+        var itemAtual = itensConstruidos[itensConstruidos.length - 1];
+        itemAtual.posicaoValida = false;
+        if (itemAtual.x + itemAtual.width < rua.x - 2 && itemAtual.x > 1 && itemAtual.y > 62 && itemAtual.y + itemAtual.height < canvas.height - 1)
+        {
+            var colidiu = false;
+            for (var i = itensConstruidos.length - 2; i >= 0; i--)
+                if (itemAtual.x + itemAtual.width > itensConstruidos[i].x && itemAtual.x < itensConstruidos[i].x + itensConstruidos[i].width &&
+                    itemAtual.y + itemAtual.height > itensConstruidos[i].y && itemAtual.y < itensConstruidos[i].y + itensConstruidos[i].height)
+                    {
+                        colidiu = true;
+                        break;
+                    }
+            itemAtual.posicaoValida = !colidiu;
+        }
+    }
+
     this.itens[0].botaoComprar.onclick = function() {
         construcao.abrirFechar();
-        itensConstruidos.push(new Garagem(0,0, 140, 140));
-        itensConstruidos[itensConstruidos.length - 1].seguirMouse(function() {
-            var grg = itensConstruidos[itensConstruidos.length - 1];
-            grg.posicaoValida = false;
-            if (grg.x + grg.width < rua.x && grg.x > 1 && grg.y > 62 && grg.y + grg.height < canvas.height - 1)
-            {
-                var colidiu = false;
-                for (var i = itensConstruidos.length - 2; i >= 0; i--)
-                    if (grg.x + grg.width > itensConstruidos[i].x && grg.x < itensConstruidos[i].x + itensConstruidos[i].width &&
-                        grg.y + grg.height > itensConstruidos[i].y && grg.y < itensConstruidos[i].y + itensConstruidos[i].height)
-                        {
-                            colidiu = true;
-                            break;
-                        }
-                grg.posicaoValida = !colidiu;
-            }
-        });
+        itensConstruidos.push(new Garagem(0,0, 130, 130));
+        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
         desativarBotoes();
     }
     this.itens[1].botaoComprar.onclick = function() {
         construcao.abrirFechar();
+        itensConstruidos.push(new Armazem(0,0, 100, 100));
+        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
+        desativarBotoes();
     }
     this.itens[2].botaoComprar.onclick = function() {
         construcao.abrirFechar();
+        itensConstruidos.push(new Operacional(0,0, 140, 140));
+        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
+        desativarBotoes();
     }
     this.itens[3].botaoComprar.onclick = function() {
         construcao.abrirFechar();
+        itensConstruidos.push(new Marketing(0,0, 140, 140));
+        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
+        desativarBotoes();
     }
 
     this.desenhar = function() {

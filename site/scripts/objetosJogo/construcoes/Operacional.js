@@ -1,7 +1,6 @@
-var imgGaragem = new Image();
-imgGaragem.src = "imagens/construcoes/garagem.png"
+var imgOperacional = new Image();
 
-function Garagem(x, y, w, h) {
+function Operacional(x, y, w, h) {
     this.x = x;
     this.y = y;
     this.width = w;
@@ -30,13 +29,13 @@ function Garagem(x, y, w, h) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.strokeRect(this.x, this.y, this.width, this.height);
 
-        ctx.drawImage(imgGaragem, this.x + this.width / 2 - imgGaragem.width/2, this.y + this.height / 2 - imgGaragem.height/2)
+        ctx.drawImage(imgOperacional, this.x + this.width / 2 - imgOperacional.width/2, this.y + this.height / 2 - imgOperacional.height/2)
 
         ctx.font = "bold 18pt Century Gothic";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "Black";
-        ctx.fillText("Garagem", this.x + this.width/2, this.y + this.height/2, this.width - 5);
+        ctx.fillText("Operacional", this.x + this.width/2, this.y + this.height/2, this.width - 5);
 
         ctx.restore();
     }

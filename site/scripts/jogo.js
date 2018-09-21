@@ -8,6 +8,9 @@ adicionarScript("scripts/objetosJogo/menus/Construcao.js");
 adicionarScript("scripts/objetosJogo/menus/Calendario.js");
 adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
 adicionarScript("scripts/objetosJogo/construcoes/Garagem.js");
+adicionarScript("scripts/objetosJogo/construcoes/Armazem.js");
+adicionarScript("scripts/objetosJogo/construcoes/Marketing.js");
+adicionarScript("scripts/objetosJogo/construcoes/Operacional.js");
 adicionarScript("scripts/objetosJogo/Rua.js");
 
 var canvas = null;

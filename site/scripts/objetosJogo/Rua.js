@@ -13,7 +13,7 @@ function Rua()
 {
 	var forcarParada = false;
 
-	this.x = 700;
+	this.x = 780;
 	this.y = 0;
 
 	this.qtosCarrosDescendo = 2;
@@ -31,11 +31,11 @@ function Rua()
 
 	// Instancia a quantidade de carros descendo determinada, em posição e modelo aleatórios
 	for (var i = 0; i < this.qtosCarrosDescendo; i++) 
-		this.carros.push(new Carro(this.x + 30, - (100 + Math.floor(Math.random() * 2500)),
+		this.carros.push(new Carro(this.x + 15, - (100 + Math.floor(Math.random() * 2500)),
 								   imgsCarros[Math.floor(Math.random() * this.qtasImagensCarrosDescendo)]));
 	// Instancia a quantidade de carros subindo determinada, em posição e modelo aleatórios
 	for (var i = this.qtosCarrosDescendo; i < this.qtosCarrosDescendo + this.qtosCarrosSubindo; i++)
-		this.carros.push(new Carro(this.x + 69, canvas.height + 200 + Math.floor(Math.random() * 2500),
+		this.carros.push(new Carro(this.x + 54, canvas.height + 200 + Math.floor(Math.random() * 2500),
 		                           imgsCarros[Math.floor(Math.random() * this.qtasImagensCarrosSubindo) + this.qtasImagensCarrosDescendo]));
 	
 	this.desenhar = function() {

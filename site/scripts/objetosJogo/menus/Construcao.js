@@ -1,3 +1,6 @@
+var imgItemGaragem = new Image();
+imgItemGaragem.src = "imagens/iconesItens/garagem.png"
+
 function Construcao()
 {
     var qtosBotoesInicialmente = 0;
@@ -19,15 +22,31 @@ function Construcao()
 
     this.itens = new Array();
 
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgItemGaragem));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém","", 500, imgBtnConstrucaoHover));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover));
 
     this.itens[0].botaoComprar.onclick = function() {
         construcao.abrirFechar();
-        itensConstruidos.push(new Garagem(0,0, 200, 200));
-        itensConstruidos[0].seguirMouse();
+        itensConstruidos.push(new Garagem(0,0, 140, 140));
+        itensConstruidos[itensConstruidos.length - 1].seguirMouse(function() {
+            var grg = itensConstruidos[itensConstruidos.length - 1];
+            grg.posicaoValida = false;
+            if (grg.x + grg.width < rua.x && grg.x > 1 && grg.y > 62 && grg.y + grg.height < canvas.height - 1)
+            {
+                var colidiu = false;
+                for (var i = itensConstruidos.length - 2; i >= 0; i--)
+                    if (grg.x + grg.width > itensConstruidos[i].x && grg.x < itensConstruidos[i].x + itensConstruidos[i].width &&
+                        grg.y + grg.height > itensConstruidos[i].y && grg.y < itensConstruidos[i].y + itensConstruidos[i].height)
+                        {
+                            colidiu = true;
+                            break;
+                        }
+                grg.posicaoValida = !colidiu;
+            }
+        });
+        desativarBotoes();
     }
     this.itens[1].botaoComprar.onclick = function() {
         construcao.abrirFechar();

@@ -1,3 +1,4 @@
+var valores = new Array(1, 2, 3, 4, 5, 6);
 function Estatisticas()
 {
     this.width = 700;
@@ -35,7 +36,7 @@ function Estatisticas()
             estatisticas.btnFechar.desenhar();
 
             roundRect(this.x, this.y + 60, this.width, this.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
-
+            desenharGrafico(this.x, this.y);
             ctx.restore();
         }
     }
@@ -56,4 +57,47 @@ function Estatisticas()
         }
         atualizar();
     }
+}
+function desenharGrafico(x, y)
+{
+    y += 60;
+    ctx.strokeStyle = "#eee";
+    ctx.stroke();
+
+    // axis
+    ctx.beginPath();
+    ctx.lineTo(x, y);
+    ctx.moveTo(x + 30, y + 290);
+    ctx.lineTo(x + 530, y + 290);
+    ctx.moveTo(x + 60, y);
+    ctx.lineTo(x + 60, y + 375);
+
+    
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+    
+    // graphing functons
+
+    var roulette17 = (function() {
+        var winnings = 0;
+        return function() {
+            winnings = valores[3];
+            return winnings;
+        };
+    })();
+
+    var lineGraph = function(o) {
+        ctx.beginPath();
+        ctx.moveTo(x + 60, y + 290);
+        for(var i = x + 61; i < 500; i += 1) {
+            ctx.lineTo(i, y + -o.stepFunction() + 290);
+        }
+        ctx.strokeStyle = o.color;
+        ctx.stroke();
+    };
+
+    lineGraph({
+        'stepFunction': roulette17,
+        'color': '#00e'
+    });
 }

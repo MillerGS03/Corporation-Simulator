@@ -34,10 +34,11 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
             roundRect(this.x, this.y, this.width, this.height, this.radius, true, true);
 		}
 		if (this.backgroundImage != null && !this.hovering)
-			ctx.drawImage(this.backgroundImage, this.x - this.backgroundImage.width/2, this.y - this.backgroundImage.height/2);
+			ctx.drawImage(this.backgroundImage, this.x + this.width / 2 - this.backgroundImage.width/2,
+				                                this.y + this.width / 2 - this.backgroundImage.height/2);
 		else if (this.backgroundHoverImage != null && this.hovering)
-			ctx.drawImage(this.backgroundHoverImage, this.x - this.backgroundHoverImage.width/2,
-				                                     this.y - this.backgroundHoverImage.height/2);
+			ctx.drawImage(this.backgroundHoverImage, this.x + this.width / 2 - this.backgroundHoverImage.width/2,
+				                                     this.y + this.width / 2 - this.backgroundHoverImage.height/2);
 		if (this.font != null && this.font != "" && this.text != null && this.text != "" &&
 		 ((this.textOnlyOnHover && this.hovering) || !this.textOnlyOnHover))
 		{

@@ -102,10 +102,10 @@ function ItemAVender(x, y, nome, descricao, preco, img, indice)
                 ctx.font = "bold 12pt Arial";
                 ctx.fillStyle = "white";
                 if (typeof(descricao) == typeof(""))
-                    ctx.fillText(descricao, xDescricao + 5, yDescricao + 5, 200);
+                    ctx.fillText(descricao, xDescricao + 5, yDescricao + 35, 195);
                 else
                     for (var i = 0; i < descricao.length; i++)
-                        ctx.fillText(descricao[i], xDescricao + 5, yDescricao + 35 + 20 * i, 200);
+                        ctx.fillText(descricao[i], xDescricao + 5, yDescricao + 35 + 20 * i, 190);
             }
         ctx.restore();
     }

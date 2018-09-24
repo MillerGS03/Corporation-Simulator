@@ -25,11 +25,17 @@ function Construcao()
     this.itens = new Array();
 
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém",
-    ["Isto é um armazém. Ele é", "utilizado para armazenar", "matéria-prima."],
+    ["Utilizado para armazenar", "matéria-prima."],
     500, imgItemArmazem, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgItemGaragem, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem",
+    ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
+	1500, imgItemGaragem, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional",
+   	"", 
+    3000, imgBtnConstrucaoHover, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing",
+   	["Promova sua empresa e", "aumente a clientela!"],
+    3500, imgBtnConstrucaoHover, this.itens.length));
 
     function TestarPosicionamento()
     {

@@ -24,10 +24,12 @@ function Construcao()
 
     this.itens = new Array();
 
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgItemGaragem));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém","", 500, imgItemArmazem));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém",
+    ["Isto é um armazém. Ele é", "utilizado para armazenar", "matéria-prima."],
+    500, imgItemArmazem, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem","", 1500, imgItemGaragem, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional","", 3000, imgBtnConstrucaoHover, this.itens.length));
+    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing","", 3500, imgBtnConstrucaoHover, this.itens.length));
 
     function TestarPosicionamento()
     {
@@ -49,13 +51,13 @@ function Construcao()
 
     this.itens[0].botaoComprar.onclick = function() {
         construcao.abrirFechar();
-        itensConstruidos.push(new Garagem(0,0, 130, 130));
+        itensConstruidos.push(new Armazem(0,0, 100, 100));
         itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
         desativarBotoes();
     }
     this.itens[1].botaoComprar.onclick = function() {
         construcao.abrirFechar();
-        itensConstruidos.push(new Armazem(0,0, 100, 100));
+        itensConstruidos.push(new Garagem(0,0, 130, 130));
         itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
         desativarBotoes();
     }
@@ -97,6 +99,9 @@ function Construcao()
 
             for (var i = 0; i < this.itens.length; i++)
                 this.itens[i].desenhar();
+            for (var i = 0; i < this.itens.length; i++)
+                if (this.itens[i].getDescricaoVisivel())
+                    this.itens[i].desenharDescricao();
 
             ctx.restore();
         }
@@ -112,7 +117,9 @@ function Construcao()
             for (var i = 0; i < this.itens.length; i++)
             {
                 botoes.push(this.itens[i].botaoComprar);
+                botoes.push(this.itens[i].botaoDica);
                 this.itens[i].botaoComprar.ativarInteracao();
+                this.itens[i].botaoDica.ativarInteracao();
             }
         }
         else
@@ -124,6 +131,8 @@ function Construcao()
             for (var i = 0; i < this.itens.length; i++)
             {
                 this.itens[this.itens.length - i - 1].botaoComprar.desativarInteracao();
+                this.itens[this.itens.length - i - 1].botaoDica.desativarInteracao();
+                botoes.pop();
                 botoes.pop();
             }
 

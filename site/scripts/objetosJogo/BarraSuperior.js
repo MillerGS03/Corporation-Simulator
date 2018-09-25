@@ -9,7 +9,7 @@ function BarraSuperior() {
 	this.nivel = 5;
 	this.xp = 10;
 	this.maxXP = 80;
-	this.dinheiro = 2000;
+	this.dinheiro = 5000;
 	this.dia = 1;
 	this.desenhar = function() {
 		ctx.save();

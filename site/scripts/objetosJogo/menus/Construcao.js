@@ -1,7 +1,19 @@
+// Ícones dos itens a serem construídos mostrados no menu de construção
 var imgItemGaragem = new Image();
 var imgItemArmazem = new Image();
+var imgItemOperacional = new Image();
 imgItemGaragem.src = "imagens/iconesItens/garagem.png";
 imgItemArmazem.src = "imagens/iconesItens/armazem.png";
+imgItemOperacional.src = "imagens/iconesItens/armazem.png";
+
+// Imagens dos itens construídos
+var imgArmazem = new Image();
+var imgGaragem = new Image();
+var imgOperacional = new Image();
+var imgMarketing = new Image();
+imgArmazem.src = "imagens/construcoes/armazem.png";
+imgGaragem.src = "imagens/construcoes/garagem.png";
+imgOperacional.src = "imagens/construcoes/operacional.png";
 
 function Construcao()
 {
@@ -31,13 +43,13 @@ function Construcao()
     ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
 	1500, imgItemGaragem, this.itens.length));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional",
-   	"", 
-    3000, imgBtnConstrucaoHover, this.itens.length));
+   	"Especialize a produção!", 
+    3000, imgItemOperacional, this.itens.length));
     this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing",
    	["Promova sua empresa e", "aumente a clientela!"],
     3500, imgBtnConstrucaoHover, this.itens.length));
 
-    function TestarPosicionamento()
+    function testarPosicionamento()
     {
         var itemAtual = itensConstruidos[itensConstruidos.length - 1];
         itemAtual.posicaoValida = false;
@@ -54,32 +66,40 @@ function Construcao()
             itemAtual.posicaoValida = !colidiu;
         }
     }
+    function comprar(item, indiceItem)
+    {
+        var jaTem = false;
+        for (var i = 0; i < itensConstruidos.length; i++)
+            if(itensConstruidos[i].nome === item.nome)
+            {
+                jaTem = true;
+                break;
+            }
+        if (jaTem)
+            alert("Você já tem esse item!");
+        else if (barra.dinheiro >= construcao.itens[indiceItem].preco && !jaTem)
+        {
+            construcao.abrirFechar();
+            itensConstruidos.push(item);
+            itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
+            desativarBotoes();
+        }
+        else 
+            alert("Você não tem dinheiro suficiente!");
+    }
 
     this.itens[0].botaoComprar.onclick = function() {
-        construcao.abrirFechar();
-        itensConstruidos.push(new Armazem(0,0, 100, 100));
-        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
-        desativarBotoes();
+        comprar(new ItemConstruido(0, 0, 100, 100, "Armazém", imgArmazem, 0), 0);
     }
     this.itens[1].botaoComprar.onclick = function() {
-        construcao.abrirFechar();
-        itensConstruidos.push(new Garagem(0,0, 130, 130));
-        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
-        desativarBotoes();
+        comprar(new ItemConstruido(0, 0, 130, 130, "Garagem", imgGaragem, 1), 1);
     }
     this.itens[2].botaoComprar.onclick = function() {
-        construcao.abrirFechar();
-        itensConstruidos.push(new Operacional(0,0, 140, 140));
-        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
-        desativarBotoes();
+        comprar(new ItemConstruido(0, 0, 140, 140, "Operacional", imgOperacional, 2), 2);
     }
     this.itens[3].botaoComprar.onclick = function() {
-        construcao.abrirFechar();
-        itensConstruidos.push(new Marketing(0,0, 140, 140));
-        itensConstruidos[itensConstruidos.length - 1].seguirMouse(TestarPosicionamento);
-        desativarBotoes();
+        comprar(new ItemConstruido(0, 0, 140, 140, "Marketing",imgMarketing, 3), 3)
     }
-
     this.desenhar = function() {
 
         if (this.aberto)
@@ -138,9 +158,9 @@ function Construcao()
             {
                 this.itens[this.itens.length - i - 1].botaoComprar.desativarInteracao();
                 this.itens[this.itens.length - i - 1].botaoDica.desativarInteracao();
-                botoes.pop();
-                botoes.pop();
             }
+            while (botoes.length > qtosBotoesInicialmente)
+                botoes.pop();
 
             ativarBotoes();
         }

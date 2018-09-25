@@ -19,6 +19,20 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.autoUpdate = autoUpdate;
 	this.changeCursor = changeCursor;
 
+	this.setX = function(novoX)
+	{
+		this.x = novoX;
+		xAtual = novoX;
+	}
+	this.setY = function(novoY)
+	{
+		this.y = novoY;
+		yAtual = novoY;
+	}
+
+	var xAtual = this.x;
+	var yAtual = this.y;
+
 	this.desenhar = function() { // Desenha o botão
 		ctx.save();
 		ctx.beginPath();
@@ -66,7 +80,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
 		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].hovering && botoes[i].x == x && botoes[i].y == y)
+			if(botoes[i].hovering && botoes[i].x == xAtual && botoes[i].y == yAtual)
 			{
 				botoes[i].onclick(e);
 				break;
@@ -75,7 +89,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
 		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].x == x && botoes[i].y == y)
+			if(botoes[i].x == xAtual && botoes[i].y == yAtual)
 			{
 				var rect = e.target.getBoundingClientRect();
 				var posX = e.clientX - rect.left;

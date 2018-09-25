@@ -1,10 +1,10 @@
 // Ícones dos itens a serem construídos mostrados no menu de construção
-var imgItemGaragem = new Image();
 var imgItemArmazem = new Image();
+var imgItemGaragem = new Image();
 var imgItemOperacional = new Image();
-imgItemGaragem.src = "imagens/iconesItens/garagem.png";
 imgItemArmazem.src = "imagens/iconesItens/armazem.png";
-imgItemOperacional.src = "imagens/iconesItens/armazem.png";
+imgItemGaragem.src = "imagens/iconesItens/garagem.png";
+imgItemOperacional.src = "imagens/iconesItens/operacional.png";
 
 // Imagens dos itens construídos
 var imgArmazem = new Image();

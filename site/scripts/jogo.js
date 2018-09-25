@@ -7,6 +7,7 @@ adicionarScript("scripts/objetosJogo/menus/Estatisticas.js");
 adicionarScript("scripts/objetosJogo/menus/Construcao.js");
 adicionarScript("scripts/objetosJogo/menus/Calendario.js");
 adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
+adicionarScript("scripts/objetosJogo/menus/MenuItemConstruido.js");
 adicionarScript("scripts/objetosJogo/construcoes/ItemConstruido.js");
 adicionarScript("scripts/objetosJogo/Rua.js");
 
@@ -155,7 +156,7 @@ function atualizar()
 {
 	desenharFundo();
 	barra.desenhar();
-	for (var i = 0; i < botoes.length; i++)
+	for (var i = 0; i < 5; i++)
 		botoes[i].desenhar();
 	painelNotificacoes.desenhar();
 	mapa.desenhar();
@@ -176,6 +177,9 @@ function desenharFundo()
 
 	for (var i = 0; i < itensConstruidos.length; i++)
 		itensConstruidos[i].desenhar();
+	for (var i = 0; i < itensConstruidos.length; i++)
+		if (itensConstruidos[i].menuVisivel)
+			itensConstruidos[i].menu.desenhar();
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retÃ¢ngulo com bordas redondas
 {
@@ -206,6 +210,13 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retÃ
     if (fill) {
         ctx.fill();
 	}
+}
+function getMousePos()
+{
+	var rect = event.target.getBoundingClientRect();
+	var xMouse = event.clientX - rect.left;
+	var yMouse = event.clientY - rect.top;
+	return {x: xMouse, y: yMouse};
 }
 function adicionarScript(caminho)
 {

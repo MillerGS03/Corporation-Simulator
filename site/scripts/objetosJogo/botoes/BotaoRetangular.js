@@ -19,6 +19,8 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.autoUpdate = autoUpdate;
 	this.changeCursor = changeCursor;
 
+	this.ativo = false;
+
 	this.setX = function(novoX)
 	{
 		this.x = novoX;
@@ -68,12 +70,20 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 		ctx.restore();
 	}
 	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
-		canvas.addEventListener("mousemove", testarHover);
-		canvas.addEventListener("click", clicou)
+		if (!this.ativo)
+		{
+			canvas.addEventListener("mousemove", testarHover);
+			canvas.addEventListener("click", clicou);
+			this.ativo = true;
+		}
 	}
 	this.desativarInteracao = function() { // Desativa os eventos de mousemove e click
-		canvas.removeEventListener("mousemove", testarHover);
-		canvas.removeEventListener("click", clicou);
+		if (this.ativo)
+		{
+			canvas.removeEventListener("mousemove", testarHover);
+			canvas.removeEventListener("click", clicou);
+			this.ativo = false;
+		}
 	}
 	this.onclick = function(e) {} // Handler do evento de click. Pode ser configurado na instância
 

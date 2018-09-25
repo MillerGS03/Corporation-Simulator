@@ -16,6 +16,8 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.autoUpdate = autoUpdate;
 	this.changeCursor = changeCursor;
 
+	this.ativo = false;
+
 	this.desenhar = function() { // Desenha o botão
 		ctx.save();
 		ctx.beginPath();
@@ -53,12 +55,20 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 		ctx.restore();
 	}
 	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
-		canvas.addEventListener("mousemove", testarHover);
-		canvas.addEventListener("click", clicou)
+		if (!this.ativo)
+		{
+			canvas.addEventListener("mousemove", testarHover);
+			canvas.addEventListener("click", clicou);
+			this.ativo = true;
+		}
 	}
 	this.desativarInteracao = function() { // Desativa os eventos de mousemove e click
-		canvas.removeEventListener("mousemove", testarHover);
-		canvas.removeEventListener("click", clicou);
+		if (this.ativo)
+		{
+			canvas.removeEventListener("mousemove", testarHover);
+			canvas.removeEventListener("click", clicou);
+			this.ativo = false;
+		}
 	}
 	this.onclick = function(e) {} // Handler do evento de click. Pode ser configurado na instância
 

@@ -3,13 +3,41 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     this.y = y;
     this.width = w;
     this.height = h;
-    
+
+    var xMenu = this.x;
+    var yMenu = this.y;
+
+    var este = this;
+
     this.nome = nome;
 
     this.botao = new BotaoRetangular(this.x, this.y, this.width, this.height, null, this.width, this.height, "Silver", "#cbcbcb",
                                      imagem, imagem, "bold 14pt Century Gothic", "Black", nome, true, false, false);
+    this.botao.onclick = function() {abrirMenu(); }
 
-    this.botao.onclick = function() {alert("Oi");}
+    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"]);
+
+    function abrirMenu()
+    {
+        este.menuVisivel = true; 
+        este.menu.x = getMousePos().x; 
+        este.menu.y = getMousePos().y;
+        canvas.addEventListener("click", testarClick);
+    }
+    function fecharMenu()
+    {
+        este.menuVisivel = false;
+        canvas.removeEventListener("click", testarClick);
+    }
+    function testarClick()
+    {
+        var mousePos = getMousePos();
+        var estaDentro = mousePos.x >= este.menu.x && mousePos.x < este.menu.x + 200 && mousePos.y >= este.menu.y && mousePos.y < este.menu.y + 300;
+        if (!estaDentro)
+            fecharMenu();
+    }
+    
+    this.menuVisivel = false;
 
     var testandoPosicionamento = false;
     this.posicaoValida = false;
@@ -19,7 +47,7 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     this.desenhar = function()
     {
         ctx.save();
-        
+ 
         if (testandoPosicionamento)
         {
             if (this.posicaoValida)
@@ -51,11 +79,11 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
         canvas.removeEventListener("mousemove", moverParaMouse);
         canvas.removeEventListener("mousemove", funcaoPosicionamento);
         canvas.removeEventListener("click", pararDeSeguirMouse);
-        if (!itensConstruidos[itensConstruidos.length - 1].posicaoValida)
+        if (!este.posicaoValida)
             itensConstruidos.pop();
         else
         {
-            botoes.push(itensConstruidos[itensConstruidos.length - 1].botao);
+            botoes.push(este.botao);
             barra.dinheiro -= construcao.itens[indiceItem].preco;
         }
         testandoPosicionamento = false;
@@ -63,12 +91,11 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     }
     function moverParaMouse(e)
     {
-        var rect = e.target.getBoundingClientRect();
-        var xMouse = e.clientX - rect.left;
-        var yMouse = e.clientY - rect.top;
-        itensConstruidos[itensConstruidos.length - 1].x = xMouse;
-        itensConstruidos[itensConstruidos.length - 1].botao.setX(xMouse);
-        itensConstruidos[itensConstruidos.length - 1].y = yMouse;
-        itensConstruidos[itensConstruidos.length - 1].botao.setY(yMouse);
+        var mousePos = getMousePos();
+        
+        este.x = mousePos.x;
+        este.botao.setX(mousePos.x);
+        este.y = mousePos.y;
+        este.botao.setY(mousePos.y);
     }
 }

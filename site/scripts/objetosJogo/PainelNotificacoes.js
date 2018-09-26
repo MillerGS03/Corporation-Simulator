@@ -3,6 +3,8 @@ function PainelNotificacoes()
     this.x = canvas.width + 3;
     this.y = 162;
 
+    var este = this;
+
     this.abrirOuFechar = true;
 
     this.desenhar = function() {
@@ -19,39 +21,39 @@ function PainelNotificacoes()
         ctx.restore();
     }
     this.abrirFechar = function() {
-        if (painelNotificacoes.abrirOuFechar)
+        if (este.abrirOuFechar)
         {
-            painelNotificacoes.abrirOuFechar = false;
-            painelNotificacoes.abrir();
+            este.abrirOuFechar = false;
+            este.abrir();
         }
-        else if (!painelNotificacoes.abrirOuFechar)
+        else if (!este.abrirOuFechar)
         {
-            painelNotificacoes.abrirOuFechar = true;
-            painelNotificacoes.fechar();
+            este.abrirOuFechar = true;
+            este.fechar();
         }
 
     }
     this.abrir = function()
     {
-        if (!painelNotificacoes.abrirOuFechar)
+        if (!este.abrirOuFechar)
         {
-            painelNotificacoes.x -= 5;
-            if (painelNotificacoes.x > canvas.width - 259)
-                setTimeout(painelNotificacoes.abrir, 10);
+            este.x -= 5;
+            if (este.x > canvas.width - 259)
+                setTimeout(este.abrir, 10);
             else
-                painelNotificacoes.x = canvas.width - 260;
+            este.x = canvas.width - 260;
             atualizar();
         }
     }
     this.fechar = function()
     {
-        if (painelNotificacoes.abrirOuFechar)
+        if (este.abrirOuFechar)
         {
-            painelNotificacoes.x += 5;
-            if (painelNotificacoes.x < canvas.width + 3)
-                setTimeout(painelNotificacoes.fechar, 10);
+            este.x += 5;
+            if (este.x < canvas.width + 3)
+                setTimeout(este.fechar, 10);
             else
-                painelNotificacoes.x = canvas.width + 3;
+                este.x = canvas.width + 3;
             atualizar();
         }
     }

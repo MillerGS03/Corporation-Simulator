@@ -5,12 +5,14 @@ function Calendario()
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
+    var este = this;
+
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
     this.btnFechar.onclick = function(e) {
-        calendario.abrirFechar();
+        este.abrirFechar();
     }
 
     this.desenhar = function() {
@@ -45,13 +47,11 @@ function Calendario()
         {
             desativarBotoes();
             this.btnFechar.ativarInteracao();
-            botoes.push(this.btnFechar);
         }
         else
         {
             this.btnFechar.desativarInteracao();
             this.btnFechar.hovering = false;
-            botoes.pop();
             ativarBotoes();
         }
         atualizar();

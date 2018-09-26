@@ -28,6 +28,10 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	{
 		testesHoverAdicionais.push(teste);
 	}
+	this.removerTestesHover = function() 
+	{
+		testesHoverAdicionais = new Array();
+	}
 
 	this.setX = function(novoX)
 	{
@@ -97,12 +101,8 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].hovering && botoes[i].x == xAtual && botoes[i].y == yAtual)
-			{
-				botoes[i].onclick(e);
-				break;
-			}
+		if (este.hovering)
+			este.onclick(e);
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{

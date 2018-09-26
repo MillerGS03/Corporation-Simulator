@@ -21,17 +21,12 @@ function PainelNotificacoes()
         ctx.restore();
     }
     this.abrirFechar = function() {
-        if (este.abrirOuFechar)
-        {
-            este.abrirOuFechar = false;
+        este.abrirOuFechar = !este.abrirOuFechar;
+        
+        if (!este.abrirOuFechar)
             este.abrir();
-        }
-        else if (!este.abrirOuFechar)
-        {
-            este.abrirOuFechar = true;
+        else if (este.abrirOuFechar)
             este.fechar();
-        }
-
     }
     this.abrir = function()
     {

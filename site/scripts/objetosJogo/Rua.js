@@ -25,6 +25,8 @@ function Rua()
 	this.carros = new Array();
 	this.todosOsCarrosParados = false;
 
+	var este = this;
+
 	var caminhao = null;
 
 	var intervalo = null;
@@ -48,7 +50,7 @@ function Rua()
 			forcarParada = false;
 			for (var i = 0; i < this.carros.length; i++)
 				this.carros[i].parado = false;
-			intervalo = setInterval(this.moverCarros, 10, this, autoUpdate);
+			intervalo = setInterval(this.moverCarros, 10, autoUpdate);
 	}
 	this.pararMovimentacao = function() {
 		forcarParada = true;
@@ -65,22 +67,22 @@ function Rua()
 			}
 		}
 	}
-	this.moverCarros = function(ruaUsada, autoUpdate) {
-		if (!ruaUsada.todosOsCarrosParados) // Se tiver algum carro a ser movido
+	this.moverCarros = function(autoUpdate) {
+		if (!este.todosOsCarrosParados) // Se tiver algum carro a ser movido
 		{
-			arrayCarros = ruaUsada.carros;
+			arrayCarros = este.carros;
 
-			for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++) // Move os carros descendo
-				arrayCarros[i].moverCarro(1, forcarParada, ruaUsada.qtasImagensCarrosDescendo, ruaUsada.qtasImagensCarrosSubindo);
-			for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++) // Move os carros subindo
-				arrayCarros[i].moverCarro(-1, forcarParada, ruaUsada.qtasImagensCarrosDescendo, ruaUsada.qtasImagensCarrosSubindo);
+			for (var i = 0; i < este.qtosCarrosDescendo; i++) // Move os carros descendo
+				arrayCarros[i].moverCarro(1, forcarParada, este.qtasImagensCarrosDescendo, este.qtasImagensCarrosSubindo);
+			for (var i = este.qtosCarrosDescendo; i < arrayCarros.length; i++) // Move os carros subindo
+				arrayCarros[i].moverCarro(-1, forcarParada, este.qtasImagensCarrosDescendo, este.qtasImagensCarrosSubindo);
 
-			for (var i = 0; i < ruaUsada.qtosCarrosDescendo; i++) // Testa colisão ou muita proximidade entre carros descendo
-				for (var j = i + 1; j < ruaUsada.qtosCarrosDescendo; j++)
+			for (var i = 0; i < este.qtosCarrosDescendo; i++) // Testa colisão ou muita proximidade entre carros descendo
+				for (var j = i + 1; j < este.qtosCarrosDescendo; j++)
 					if (Math.abs(arrayCarros[i].y - arrayCarros[j].y) <= 200)
 						arrayCarros[i].y = - (200 + Math.floor(Math.random() * 2500));
 
-			for (var i = ruaUsada.qtosCarrosDescendo; i < arrayCarros.length; i++) // Testa colisão ou muita proximidade entre carros subindo
+			for (var i = este.qtosCarrosDescendo; i < arrayCarros.length; i++) // Testa colisão ou muita proximidade entre carros subindo
 				for (var j = i + 1; j < arrayCarros.length; j++)
 					if (Math.abs(arrayCarros[i].y - arrayCarros[j].y) <= 200)
 						arrayCarros[i].y = canvas.height + 200 + Math.floor(Math.random() * 2500);
@@ -90,15 +92,15 @@ function Rua()
 
 			if (forcarParada) // Testa se todos os carros estão fora do canvas em caso de forçação de parada
 			{
-				ruaUsada.todosOsCarrosParados = true;
+				este.todosOsCarrosParados = true;
 				for (var i = 0; i < arrayCarros.length; i++)
 					if (!arrayCarros[i].parado)
 					{
-						ruaUsada.todosOsCarrosParados = false;
+						este.todosOsCarrosParados = false;
 						break;
 					}
-				if (ruaUsada.todosOsCarrosParados)
-					ruaUsada.onMovimentacaoParou();
+				if (este.todosOsCarrosParados)
+					este.onMovimentacaoParou();
 			}
 		}
 	}

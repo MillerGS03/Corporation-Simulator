@@ -18,6 +18,10 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 	this.ativo = false;
 
+	var este = this;
+
+	this.testeHoverAdicional = function() {return true;}
+
 	this.desenhar = function() { // Desenha o botão
 		ctx.save();
 		ctx.beginPath();
@@ -74,41 +78,40 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].hovering && botoes[i].x == x && botoes[i].y == y)
-			{
-				botoes[i].onclick(e);
-				break;
-			}
+		if(este.hovering)
+			este.onclick(e);
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		for (var i = 0; i < botoes.length; i++)
-			if(botoes[i].x == x && botoes[i].y == y)
-			{
-				var rect = e.target.getBoundingClientRect();
-				
-				var posX = e.clientX - rect.left;
-				var posY = e.clientY - rect.top;
-				var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
+		var rect = e.target.getBoundingClientRect();
+		
+		var posX = e.clientX - rect.left;
+		var posY = e.clientY - rect.top;
 
-				if (botoes[i].hovering)
-					botoes[i].hovering = distCentro < rHover;				
-				else
-					botoes[i].hovering = distCentro < r;
-				//--------------------------//
-				// O problema está aqui: os eventos de todos os botões disparam e interferem uns com os outros
-				if (botoes[i].changeCursor)
-				{
-					if (botoes[i].hovering)
-						canvas.style.cursor = "pointer";
-					else
-						canvas.style.cursor = "default";
-				}
-				//--------------------------//
-				if (botoes[i].autoUpdate)
-					atualizar();
-				break;
-			}
+		if (Math.abs(posX - este.x) <= este.radius && Math.abs(posY - este.y) <= este.radius)
+		{
+			var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
+
+			if (este.hovering)
+				este.hovering = distCentro < rHover;				
+			else
+				este.hovering = distCentro < r;
+			if (!este.testeHoverAdicional())
+				este.hovering = false;
+		}
+		else
+			este.hovering = false;
+		//--------------------------//
+		// O problema está aqui: os eventos de todos os botões disparam e interferem uns com os outros
+		if (este.changeCursor)
+		{
+			if (este.hovering)
+				canvas.style.cursor = "pointer";
+			else
+				canvas.style.cursor = "default";
+		}
+		//--------------------------//
+		if (este.autoUpdate)
+			atualizar();
 	}
 }

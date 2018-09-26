@@ -14,6 +14,15 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     this.botao = new BotaoRetangular(this.x, this.y, this.width, this.height, null, this.width, this.height, "Silver", "#cbcbcb",
                                      imagem, imagem, "bold 14pt Century Gothic", "Black", nome, true, false, false);
     this.botao.onclick = function() {abrirMenu(); }
+    
+    this.botao.adicionarTesteHover (
+        function()
+        {
+            var mousePos = getMousePos();
+            var estaDentro = mousePos.x >= este.menu.x && mousePos.x < este.menu.x + 200 && mousePos.y >= este.menu.y && mousePos.y < este.menu.y + 300;
+            return !estaDentro;
+        }
+    );
 
     this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"]);
 

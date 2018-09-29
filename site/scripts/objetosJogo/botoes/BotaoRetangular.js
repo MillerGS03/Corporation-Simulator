@@ -84,16 +84,16 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
 		if (!this.ativo)
 		{
-			canvas.addEventListener("mousemove", testarHover);
-			canvas.addEventListener("click", clicou);
+			$("#meuCanvas").on("mousemove", testarHover);
+			$("#meuCanvas").on("click", clicou);
 			this.ativo = true;
 		}
 	}
 	this.desativarInteracao = function() { // Desativa os eventos de mousemove e click
 		if (this.ativo)
 		{
-			canvas.removeEventListener("mousemove", testarHover);
-			canvas.removeEventListener("click", clicou);
+			$("#meuCanvas").off("mousemove", testarHover);
+			$("#meuCanvas").off("click", clicou);
 			this.ativo = false;
 		}
 	}
@@ -106,17 +106,12 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-
-		var rect = e.target.getBoundingClientRect();
-		var posX = e.clientX - rect.left;
-		var posY = e.clientY - rect.top;
-
 		if (este.hovering)
-			este.hovering = posX >= este.x && posX <= este.x + este.widthOnHover &&
-									posY >= este.y && posY <= este.y + este.heightOnHover;				
+			este.hovering = xMouse >= este.x && xMouse <= este.x + este.widthOnHover &&
+									yMouse >= este.y && yMouse <= este.y + este.heightOnHover;				
 		else
-			este.hovering = posX >= este.x && posX <= este.x + este.width &&
-									posY >= este.y && posY <= este.y + este.height;
+			este.hovering = xMouse >= este.x && xMouse <= este.x + este.width &&
+									yMouse >= este.y && yMouse <= este.y + este.height;
 		for (var i = 0; i < testesHoverAdicionais.length; i++)
 			if (!testesHoverAdicionais[i]())
 				este.hovering = false;

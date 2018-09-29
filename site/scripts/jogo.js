@@ -1,42 +1,42 @@
-adicionarScript("scripts/objetosJogo/botoes/BotaoCircular.js")
-adicionarScript("scripts/objetosJogo/botoes/BotaoRetangular.js");
-adicionarScript("scripts/objetosJogo/BarraSuperior.js");
-adicionarScript("scripts/objetosJogo/PainelNotificacoes.js");
-adicionarScript("scripts/objetosJogo/menus/Mapa.js");
-adicionarScript("scripts/objetosJogo/menus/Estatisticas.js");
-adicionarScript("scripts/objetosJogo/menus/Construcao.js");
-adicionarScript("scripts/objetosJogo/menus/Calendario.js");
-adicionarScript("scripts/objetosJogo/menus/ItemAVender.js");
-adicionarScript("scripts/objetosJogo/menus/MenuItemConstruido.js");
-adicionarScript("scripts/objetosJogo/construcoes/ItemConstruido.js");
-adicionarScript("scripts/objetosJogo/Rua.js");
+﻿adicionarScript("../scripts/objetosJogo/botoes/BotaoCircular.js")
+adicionarScript("../scripts/objetosJogo/botoes/BotaoRetangular.js");
+adicionarScript("../scripts/objetosJogo/BarraSuperior.js");
+adicionarScript("../scripts/objetosJogo/PainelNotificacoes.js");
+adicionarScript("../scripts/objetosJogo/menus/Mapa.js");
+adicionarScript("../scripts/objetosJogo/menus/Estatisticas.js");
+adicionarScript("../scripts/objetosJogo/menus/Construcao.js");
+adicionarScript("../scripts/objetosJogo/menus/Calendario.js");
+adicionarScript("../scripts/objetosJogo/menus/ItemAVender.js");
+adicionarScript("../scripts/objetosJogo/menus/MenuItemConstruido.js");
+adicionarScript("../scripts/objetosJogo/construcoes/ItemConstruido.js");
+adicionarScript("../scripts/objetosJogo/Rua.js");
 
 var canvas = null;
 var ctx = null;
 
-// Imagens dos botões circulares
+// imagens dos botões circulares
 var imgBtnEstatisticas = new Image();
 var imgBtnConstrucao = new Image();
 var imgBtnMapa = new Image();
 var imgBtnCalendario = new Image();
 var imgBtnNotificacoes = new Image();
 var imgBtnNotificacoes2 = new Image();
-imgBtnEstatisticas.src = "imagens/botoes/btnEstatisticas.png";
-imgBtnConstrucao.src = "imagens/botoes/btnConstrucao.png"
-imgBtnMapa.src = "imagens/botoes/btnMapa.png";
-imgBtnCalendario.src = "imagens/botoes/btnCalendario.png";
-imgBtnNotificacoes.src = "imagens/botoes/btnNotificacoes.png";
-imgBtnNotificacoes2.src = "imagens/botoes/btnNotificacoes2.png";
+imgBtnEstatisticas.src = "../imagens/botoes/btnEstatisticas.png";
+imgBtnConstrucao.src = "../imagens/botoes/btnConstrucao.png"
+imgBtnMapa.src = "../imagens/botoes/btnMapa.png";
+imgBtnCalendario.src = "../imagens/botoes/btnCalendario.png";
+imgBtnNotificacoes.src = "../imagens/botoes/btnNotificacoes.png";
+imgBtnNotificacoes2.src = "../imagens/botoes/btnNotificacoes2.png";
 
-//Imagens dos botões circulares no evento hover
+// imagens dos botões circulares no evento hover
 var imgBtnEstatisticasHover = new Image();
 var imgBtnConstrucaoHover = new Image();
 var imgBtnMapaHover = new Image();
 var imgBtnCalendarioHover = new Image();
-imgBtnEstatisticasHover.src = "imagens/botoes/btnEstatisticasHover.png";
-imgBtnConstrucaoHover.src = "imagens/botoes/btnConstrucaoHover.png"
-imgBtnMapaHover.src = "imagens/botoes/btnMapaHover.png";
-imgBtnCalendarioHover.src = "imagens/botoes/btnCalendarioHover.png";
+imgBtnEstatisticasHover.src = "../imagens/botoes/btnEstatisticasHover.png";
+imgBtnConstrucaoHover.src = "../imagens/botoes/btnConstrucaoHover.png"
+imgBtnMapaHover.src = "../imagens/botoes/btnMapaHover.png";
+imgBtnCalendarioHover.src = "../imagens/botoes/btnCalendarioHover.png";
 
 var botoes;
 var barra;
@@ -54,6 +54,9 @@ var rua;
 var timerDias = null;
 var contador = 0;
 var itensConstruidos;
+
+var xMouse;
+var yMouse;
 
 function iniciar()
 {
@@ -85,6 +88,15 @@ function iniciar()
 			atualizar();
 		}
 	}, 1000);
+
+	$(document).ready(function(){
+		$("#meuCanvas").mousemove(function(e){
+			var rect = e.target.getBoundingClientRect();
+	
+			xMouse = e.clientX - rect.left;
+			yMouse = e.clientY - rect.top;
+		}); 
+	 })
 }
 function criarBotoes() 
 {
@@ -210,13 +222,6 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
     if (fill) {
         ctx.fill();
 	}
-}
-function getMousePos()
-{
-	var rect = event.target.getBoundingClientRect();
-	var xMouse = event.clientX - rect.left;
-	var yMouse = event.clientY - rect.top;
-	return {x: xMouse, y: yMouse};
 }
 function adicionarScript(caminho)
 {

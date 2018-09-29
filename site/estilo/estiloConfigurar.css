@@ -1,0 +1,9 @@
+div#painelConfiguracoes
+{
+    position: relative;
+    top: 20px;
+    margin: auto;
+    width: 600px;
+    height: 800px;
+    background-color: white;
+}

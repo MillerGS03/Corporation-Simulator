@@ -1,7 +1,7 @@
 var iconeDica = new Image();
 var iconeDicaHover = new Image();
-iconeDica.src = "imagens/iconesItens/iconeDica.png";
-iconeDicaHover.src = "imagens/iconesItens/iconeDicaHover.png";
+iconeDica.src = "../imagens/iconesItens/iconeDica.png";
+iconeDicaHover.src = "../imagens/iconesItens/iconeDicaHover.png";
 
 function ItemAVender(x, y, nome, descricao, preco, img, indice) 
 {

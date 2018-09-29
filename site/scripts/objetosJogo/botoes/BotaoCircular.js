@@ -61,8 +61,9 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
 		if (!this.ativo)
 		{
-			canvas.addEventListener("mousemove", testarHover);
-			canvas.addEventListener("click", clicou);
+			$("#meuCanvas").on("mousemove", testarHover);
+			$("#meuCanvas").on("click", clicou);
+
 			this.ativo = true;
 		}
 	}
@@ -71,6 +72,7 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 		{
 			canvas.removeEventListener("mousemove", testarHover);
 			canvas.removeEventListener("click", clicou);
+			
 			this.ativo = false;
 		}
 	}

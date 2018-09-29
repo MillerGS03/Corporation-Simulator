@@ -1,5 +1,5 @@
 var imgMapa = new Image();
-imgMapa.src = "imagens/fundoMapa.png";
+imgMapa.src = "../imagens/fundoMapa.png";
 
 function Mapa()
 {

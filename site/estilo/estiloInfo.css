@@ -110,11 +110,6 @@ div#menu .userData
 	width: 400px;
 	height: 828px;
 }
-.menuOpcoes-fixed
-{
-	position: fixed;
-	top: 0;
-}
 a
 {
 	text-decoration:none;

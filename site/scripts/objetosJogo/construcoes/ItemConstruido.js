@@ -20,14 +20,13 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     function abrirMenu()
     {
         este.menuVisivel = true; 
-        este.menu.x = getMousePos().x; 
-        este.menu.y = getMousePos().y;
-        canvas.addEventListener("click", testarClick);
+        este.menu.x = xMouse; 
+        este.menu.y = yMouse;
+        $("#meuCanvas").on("click", testarClick);
         este.botao.adicionarTesteHover (
             function()
             {
-                var mousePos = getMousePos();
-                var estaDentro = mousePos.x > este.menu.x && mousePos.x < este.menu.x + 200 && mousePos.y > este.menu.y && mousePos.y < este.menu.y + 300;
+                var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + 200 && yMouse > este.menu.y && yMouse < este.menu.y + 300;
                 return !estaDentro;
             }
         );
@@ -36,12 +35,11 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     {
         este.menuVisivel = false;
         este.botao.removerTestesHover();
-        canvas.removeEventListener("click", testarClick);
+        $("#meuCanvas").off("click", testarClick);
     }
     function testarClick()
     {
-        var mousePos = getMousePos();
-        var estaDentro = mousePos.x >= este.menu.x && mousePos.x < este.menu.x + 200 && mousePos.y >= este.menu.y && mousePos.y < este.menu.y + 300;
+        var estaDentro = xMouse >= este.menu.x && xMouse < este.menu.x + 200 && yMouse >= este.menu.y && yMouse < este.menu.y + 300;
         if (!estaDentro)
             fecharMenu();
     }
@@ -74,20 +72,21 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
     {
         funcaoPosicionamento = funcPos;
 
-        moverParaMouse(event);
-        canvas.addEventListener("mousemove", moverParaMouse);
-        canvas.addEventListener("click", pararDeSeguirMouse)
+        moverParaMouse();
+        $("#meuCanvas").on("mousemove", moverParaMouse);
+        $("#meuCanvas").on("click", pararDeSeguirMouse)
         if (funcaoPosicionamento != null)
         {
-            canvas.addEventListener("mousemove", funcaoPosicionamento);
+            $("#meuCanvas").on("mousemove", funcaoPosicionamento);
             testandoPosicionamento = true;
         }
     }
     function pararDeSeguirMouse()
     {
-        canvas.removeEventListener("mousemove", moverParaMouse);
-        canvas.removeEventListener("mousemove", funcaoPosicionamento);
-        canvas.removeEventListener("click", pararDeSeguirMouse);
+        $("#meuCanvas").off("mousemove", moverParaMouse);
+        $("#meuCanvas").off("mousemove", funcaoPosicionamento);
+        $("#meuCanvas").off("click", pararDeSeguirMouse);
+
         if (!este.posicaoValida)
             itensConstruidos.pop();
         else
@@ -98,13 +97,11 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
         testandoPosicionamento = false;
         ativarBotoes();
     }
-    function moverParaMouse(e)
+    function moverParaMouse()
     {
-        var mousePos = getMousePos();
-        
-        este.x = mousePos.x;
-        este.botao.setX(mousePos.x);
-        este.y = mousePos.y;
-        este.botao.setY(mousePos.y);
+        este.x = xMouse;
+        este.y = yMouse;
+        este.botao.x = xMouse;
+        este.botao.y = yMouse;
     }
 }

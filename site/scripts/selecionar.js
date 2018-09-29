@@ -104,6 +104,10 @@ function iniciarSelecionar()
         $("#select").off("change", testarOpcao);
         $("#select").off("mouseleave", apagarEfeitoSelect);
         $("#btnCarregar").off("click", carregarJogo);
+        ctxSelect = null;
+        ctx = null;
+        canvasSelect = null;
+        canvas = null;
 
         abrir("jogo.html");
     }

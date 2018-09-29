@@ -5,16 +5,12 @@ var ctx;
 function iniciarMenu(){
 	canvas = document.getElementById("meuCanvas");
 	ctx = canvas.getContext("2d");
-    canvasSelect = document.getElementById("canvasSelect");
-    ctxSelect = canvasSelect.getContext("2d");
-	roundRect(50, 100, 900, 500, {upperLeft: 50, upperRight:50, lowerLeft: 50, lowerRight:50}, true, true, "white", null);
+	roundRect(50, 1, 900, 1500, {upperLeft: 50, upperRight:50, lowerLeft: 50, lowerRight:50}, true, true, "white", null);
 	ctx.font = "bold 20pt Century Gothic";
 	ctx.fillStyle = "Black";
 	ctx.textAlign = "center";
-	ctx.fillText("Selecione o jogo desejado:", canvas.width/2, 200);
-    addOptions();
+	ctx.fillText("", canvas.width/2, 200);
 }
-
 function roundRect(x, y, width, height, radius, fill, stroke, cor, txt) // Desenha um retângulo com bordas redondas
 {
 	var cornerRadius = { upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0 };
@@ -54,48 +50,4 @@ function roundRect(x, y, width, height, radius, fill, stroke, cor, txt) // Desen
             ctx.fillText(txt, x + 95, y + 33);
         }
 	}
-}
-function CriarEfeitoSelect(e)
-{
-    var height, rx, ry, width, x, xc, y, yc, w, h;
-    h = canvasSelect.height;
-    w = canvasSelect.width;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    x = event.clientX;
-    y = event.clientY;
-    rx = w * x / width;
-    ry = h * y / height;
-
-    var grdSelect = ctxSelect.createRadialGradient(rx, ry, 1, rx, ry, w);
-    grdSelect.addColorStop(0, "rgb(190, 190, 190)");
-    grdSelect.addColorStop(1, "white");
-
-    ctxSelect.fillStyle = grdSelect;
-    ctxSelect.fillRect(0, 0, canvasSelect.width, canvasSelect.height)
-}
-
-function addOptions()
-{
-    var s = document.getElementById("select");
-    var numeroDeJogos = 3 //pegar do bd
-    for (var i = 1; i <= numeroDeJogos; i++)
-    {
-        var o = document.createElement("option")
-        o.text = "ola";
-        s.add(o);
-    }
-}
-
-function TestarOpcao()
-{
-    var s = document.getElementById("select");
-    if (s.selectedIndex > 0) {
-        document.getElementById("btnCarregar").style.visibility = "visible";
-    }
-}
-
-function carregarJogo()
-{
-    window.open("jogo.html");
 }

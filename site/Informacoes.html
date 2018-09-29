@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="scripts/info.js"></script>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="./estilo/estiloInfo.css">
@@ -19,19 +20,19 @@
 		</nav>
 	</header>
 	<div class="menuOpcoes" id="menu">
-		<h1 class="tituloMenu">Menu de opções</h1><br>
+		<h1 class="tituloMenu">Menu de opções</h1><br><br><br><br><br>
 		<span class="fotoPerfil"></span>
 		<h2 class="userData" id="user"></h2>
 		<h3 class="userData" id="rank"></h3>
-		<div class="opcao" id="configuracoes"><a href="http://sitesinuteis.com.br/"><h3>Configurações</h3></a></div>
-		<div class="opcao" id="classificacao"><a href=""><h3>Classificação Mundial</h3></a></div>
-		<div class="opcao" id="manual"><a href=""><h3>Manual</h3></a></div>
-		<div class="opcao" id="simulacoes"><a href=""><h3>Simulações</h3></a></div>
-		<div class="opcao" id="jogos"><a href="selecionar.html"><h3>Jogos</h3></a></div>
+		<div class="opcao" id="configuracoes" onclick="abrir('configurar.html');"><h3>Configurações</h3></div>
+		<div class="opcao" id="classificacao" onclick="abrir('classificacao.html');"><h3>Classificação Mundial</h3></div>
+		<div class="opcao" id="manual" onclick="abrir('manual.html');"><h3>Manual</h3></div>
+		<div class="opcao" id="simulacoes" onclick="abrir('simulacoes.html');"><h3>Simulações</h3></div>
+		<div class="opcao" id="jogos" onclick="abrir('selecionar.html');"><h3>Jogos</h3></div>
 	</div>
 	<section id="conteudo"></section>
-	<footer>
+	<!--<footer>
 		<img src="./imagens/cotuca_transparente_logo.png">
-	</footer>
+	</footer>!-->
 </body>
 </html>

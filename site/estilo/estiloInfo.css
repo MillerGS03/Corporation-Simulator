@@ -2,7 +2,7 @@ body
 {
 	margin: 0px;
 	padding: 0px;
-	background-color: black;
+	background-color: #4c98a5;
 	min-width: 1000px;
 	max-width: 3000px;
 }
@@ -77,11 +77,13 @@ nav ul li#ranking
 }
 div#menu .tituloMenu
 {
+	position: absolute;
 	font-size: 24pt;
 	font-family: "Century Gothic";
 	text-align: center;
 	font-weight: bold;
 	text-decoration: underline;
+	left: 75px;
 }
 div#menu .fotoPerfil
 {
@@ -104,12 +106,14 @@ div#menu .userData
 }
 .menuOpcoes
 {
-	position: relative;
-	top: 1px;
 	background-color: rgb(192, 192, 192);
 	width: 400px;
-	height: 838px;
-	border: 2px solid black;
+	height: 828px;
+}
+.menuOpcoes-fixed
+{
+	position: fixed;
+	top: 0;
 }
 a
 {
@@ -164,12 +168,12 @@ section#conteudo
 	position: absolute;
 	top: 93px;
 	left: 402px;
-	height: 838px;
-	border: 2px solid black;
+	flex: 1;
 	text-align: center;
 }
 footer
 {
+	position: absolute;
 	background-color: black;
 	border-top: 2px solid white;
 	width: 100%;

@@ -1,46 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<script type="text/javascript" src="./scripts/selecionar.js"></script>
-	<script type="text/javascript" src="./scripts/info.js"></script>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="./estilo/estiloSelect.css">
-	<title>Informações do usuário</title>
-</head>
-<body onload="ColocarDados(); testarAncora(); iniciar();" onresize="testarAncora();">
-	<header id="a">
-		<h1>Enterprise Simulator</h1>
-		<nav>
-			<ul id="listaNavegacao">
-				<a href="index.html" class="botaoNav"><li id="home">Home</li></a>
-				<a href="" class="botaoNav"><li id="funcionalidades">Funcionalidades</li></a>
-				<a href="" class="botaoNav"><li id="galeria">Galeria</li></a>
-				<a href="" class="botaoNav"><li id="ranking">Ranking</li></a>
-			</ul>
-		</nav>
-	</header>
-	<div class="menuOpcoes" id="menu">
-		<h1 class="tituloMenu">Menu de opções</h1><br>
-		<span class="fotoPerfil"></span>
-		<h2 class="userData" id="user"></h2>
-		<h3 class="userData" id="rank"></h3>
-		<div class="opcao" id="configuracoes"><a href="http://sitesinuteis.com.br/"><h3>Configurações</h3></a></div>
-		<div class="opcao" id="classificacao"><a href=""><h3>Classificação Mundial</h3></a></div>
-		<div class="opcao" id="manual"><a href=""><h3>Manual</h3></a></div>
-		<div class="opcao" id="simulacoes"><a href=""><h3>Simulações</h3></a></div>
-		<div class="opcao" id="jogos"><a href=""><h3>Jogos</h3></a></div>
-	</div>
-	<section id="conteudo">
-		<canvas id="meuCanvas" width="1000" height="700" style="position: relative; top: 69px;"></canvas>
-		<canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 300px; left: 550px; z-index: 3;"></canvas>
-		<select id="select" class="select" onmousemove="CriarEfeitoSelect(event);" onchange="TestarOpcao();"><option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
-		</select>
-		<form action="" method="post">
-			<input type="submit" id="btnCarregar" class="btnCarregar" value="Carregar!" onclick="carregarJogo();">
-		</form>
-	</section>
-	<footer>
-		<img src="./imagens/cotuca_transparente_logo.png">
-	</footer>
-</body>
-</html>
+<script src="scripts/selecionar.js"></script>
+<link rel="stylesheet" type="text/css" href="./estilo/estiloSelecionar.css">
+<div>
+    <canvas id="meuCanvas" width="1000" height="700" style="position: relative; top: 69px;"></canvas>
+    <canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 300px; left: 550px; z-index: 3;"></canvas>
+    <select class="select" id="select" onmousemove="CriarEfeitoSelect(event);" onchange="TestarOpcao();">
+        <option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
+    </select>
+    <form action="" method="post">
+    	<input type="submit" id="btnCarregar" class="btnCarregar" value="Carregar!" onclick="carregarJogo();">
+    </form>
+</div>

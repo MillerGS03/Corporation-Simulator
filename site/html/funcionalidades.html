@@ -1,3 +1,31 @@
+<script src="scripts/funcionalidades.js"></script>
 <link rel="stylesheet" type="text/css" href="estilo/estiloFuncionalidades.css">
 
-<h1>Funcionalidades</h1>
+<div id="conteinerSlides">
+    <div class="slides fade">
+      <div class="numero">1 / 3</div>
+      <h1 class="text">Crie uma empresa e divirta-se aprendendo!</h2>
+      <img src="imagens/funcionalidades/slide1.png" style="width:100%">
+    </div>
+  
+    <div class="slides fade">
+      <div class="numero">2 / 3</div>
+      <h1 class="text">Crie simulações para testar conceitos de contabilidade!</div>
+      <img src="img2.jpg" style="width:100%">
+    </div>
+  
+    <div class="slides fade">
+      <div class="numero">3 / 3</div>
+      <h1 class="text">Leia sobre os principais assuntos de contabilidade!</div>
+      <img src="img3.jpg" style="width:100%">
+    </div>
+</div>
+
+<div class="botao" id="esquerda" onclick="avancarSlide(-1)"><img src="imagens/funcionalidades/setaEsquerda.png"></div>
+<div class="botao" id="direita" onclick="avancarSlide(1)"><img src="imagens/funcionalidades/setaDireita.png"></div>
+
+<div style="text-align:center">
+    <span id="btn1" class="btn" onclick="mudarSlide(1)"></span> 
+    <span id="btn2" class="btn" onclick="mudarSlide(2)"></span> 
+    <span id="btn3" class="btn" onclick="mudarSlide(3)"></span> 
+  </div>

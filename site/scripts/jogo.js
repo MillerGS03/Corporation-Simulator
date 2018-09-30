@@ -1,4 +1,6 @@
-﻿var canvas = null;
+﻿iniciar();
+
+var canvas = null;
 var ctx = null;
 
 // imagens dos botões circulares
@@ -76,14 +78,12 @@ function iniciar()
 		}
 	}, 1000);
 
-	$(document).ready(function(){
-		$("#meuCanvas").mousemove(function(e){
+	canvas.addEventListener("mousemove", (function(e){
 			var rect = e.target.getBoundingClientRect();
 	
 			xMouse = e.clientX - rect.left;
 			yMouse = e.clientY - rect.top;
-		}); 
-	 })
+	})); 
 }
 function criarBotoes() 
 {
@@ -210,11 +210,6 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
         ctx.fill();
 	}
 }
-//function adicionarScript(caminho)
-//{
-//	document.write("<script type=\"text/javascript\" src=\"" + caminho + "\"></script>")
-//}
-
-$(document).ready(function (){
-	$("body").on("resize", testarAncora());
-});
+//$(document).ready(function (){
+//	iniciar();
+//});

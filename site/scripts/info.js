@@ -33,8 +33,5 @@ function testarAncora()
 }
 function abrir(arq) {
 	$("#conteudo").empty();
-	//$('#conteudo').load(arq);
-	$.ajax(arq).done(function(data) {
-    	$("#conteudo").html(data);
-	});
+	$('#conteudo').load(arq);
 }

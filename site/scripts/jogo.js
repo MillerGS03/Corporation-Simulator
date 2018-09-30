@@ -1,6 +1,4 @@
-﻿iniciar();
-
-var canvas = null;
+﻿var canvas = null;
 var ctx = null;
 
 // imagens dos botões circulares
@@ -47,6 +45,7 @@ var itensConstruidos;
 var xMouse;
 var yMouse;
 
+iniciar();
 function iniciar()
 {
  	canvas = document.getElementById('meuCanvas');

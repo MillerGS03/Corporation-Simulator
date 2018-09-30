@@ -3,11 +3,12 @@
 <head>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="../scripts/info.js"></script>
+	<script type="text/javascript" src="../scripts/jogo.js"></script>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../estilo/estiloInfo.css">
-	<title>Corporation Simulator</title>
+	<title>Informações do usuário</title>
 </head>
-<body onload="colocarDados(); testarAncora();" onresize="testarAncora();">
+<body onload="ColocarDados(); testarAncora(); iniciar();" onresize="testarAncora();">
 	<header id="a">
 		<h1>Enterprise Simulator</h1>
 		<nav>
@@ -24,14 +25,18 @@
 		<span class="fotoPerfil"></span>
 		<h2 class="userData" id="user"></h2>
 		<h3 class="userData" id="rank"></h3>
-		<div class="opcao" id="configuracoes" onclick="abrir('configurar.html');"><h3>Configurações</h3></div>
-		<div class="opcao" id="classificacao" onclick="abrir('classificacao.html');"><h3>Classificação Mundial</h3></div>
-		<div class="opcao" id="manual" onclick="abrir('manual.html');"><h3>Manual</h3></div>
-		<div class="opcao" id="simulacoes" onclick="abrir('simulacoes.html');"><h3>Simulações</h3></div>
+		<div class="opcao" id="configuracoes"><a href="http://sitesinuteis.com.br/"><h3>Configurações</h3></a></div>
+		<div class="opcao" id="classificacao"><a href=""><h3>Classificação Mundial</h3></a></div>
+		<div class="opcao" id="manual"><a href=""><h3>Manual</h3></a></div>
+		<div class="opcao" id="simulacoes"><a href=""><h3>Simulações</h3></a></div>
 		<div class="opcao" id="jogos" onclick="abrir('selecionar.html');"><h3>Jogos</h3></div>
 	</div>
-	<section id="conteudo"></section>
-	<footer id="footer">
+	<section id="conteudo">
+		<canvas id="meuCanvas" width="1000" height="700" style="border: 2px solid black; position: relative; top: 69px;">
+			Seu navegador não suporta o elemento Canvas. Atualize-se!
+		</canvas>
+	</section>
+	<footer>
 		<img src="../imagens/cotuca_transparente_logo.png">
 	</footer>
 </body>

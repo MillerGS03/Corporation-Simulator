@@ -1,3 +1,16 @@
+function testarAncora()
+{
+	document.getElementById('listaNavegacao').style.position = "relative";
+	if (window.innerWidth >= 3000)
+	{
+		document.getElementById('listaNavegacao').style.left = "2220px";
+		document.getElementById('meuCanvas').style.transform = "scale(2)";
+	}
+	else if (window.innerWidth >= 1000)
+		document.getElementById('listaNavegacao').style.left = 470 + (window.innerWidth - 1000) + "px";
+	else
+		document.getElementById('listaNavegacao').style.left = "470px";
+}
 function verificarCampos()
 {
 	var houveErro = false;
@@ -94,5 +107,5 @@ function testarIgualdade(campoConfirme, campoRelativo, titulo, mensagemErro)
 
 function abrirIntroducao()
 {
-	window.open("html/informacoes.html", "_self");
+	window.open("informacoes.html", "_self");
 }

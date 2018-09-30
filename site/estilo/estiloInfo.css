@@ -6,7 +6,7 @@ body
 	min-width: 1000px;
 	max-width: 3000px;
 }
-header 
+header
 {
 	min-width: 1000px;
 	margin: 0px;
@@ -163,12 +163,11 @@ section#conteudo
 	position: absolute;
 	top: 93px;
 	left: 402px;
-	flex: 1;
 	text-align: center;
 }
 footer
 {
-	position: absolute;
+	position: relative;
 	background-color: black;
 	border-top: 2px solid white;
 	width: 100%;

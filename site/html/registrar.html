@@ -1,40 +1,61 @@
-<script src="scripts/registrar.js"></script>
-<link rel="stylesheet" type="text/css" href="estilo/estiloRegistrar.css">
-
-<h1>Cadastro</h1>
-<hr>
-<form>
-	<label>
-			<span>Nome</span><br>
-			<input type="text" name="nome" placeholder="Ex: Gabriel José" maxlength="30" class="texto">
-	</label>
-	<br>
-	<label>
-			<span>Email</span><br>
-			<input type="email" name="email" placeholder="Ex: gabs@email.com" maxlength="30" class="texto">
-	</label>
-	<br>
-	<label>
-			<span>Sexo</span><br>
-			<input type="radio" name="sexo" value="M"> Masculino
-			<input type="radio" name="sexo" value="F"> Feminino
-	</label>
-	<br>
-	<label>
-			<span>Username</span><br>
-			<input type="text" name="username" placeholder="Ex: GabsTheOne" maxlength="30" class="texto">
-	</label>
-	<br>
-	<label>
-			<span>Senha</span><br>
-			<input type="password" name="senha" placeholder="Insira sua senha" maxlength="30" class="texto">
-	</label>
-	<br>		
-	<label>
-			<span>Confirmar senha</span><br>
-			<input type="password" name="confSenha" placeholder="Insira sua senha novamente" maxlength="30" class="texto">
-	</label>
-	<br>
-	<a id="botaoRegistrar" onclick="verificarCampos();">Registrar</a>
-	<p id="corrija"></p>
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<title>Corporation Simulator</title>
+	<link rel="stylesheet" type="text/css" href="../estilo/estiloRegistrar.css">
+	<script type="text/javascript" src="../scripts/registrar.js"></script>
+</head>
+<body onresize="testarAncora();" onload="testarAncora();">
+	<header id="a">
+		<h1>Corporation Simulator</h1>
+		<nav>
+			<ul id="listaNavegacao">
+				<a href="../index.html" class="botaoNav"><li id="home">Home</li></a>
+				<a href="" class="botaoNav"><li id="funcionalidades">Funcionalidades</li></a>
+				<a href="" class="botaoNav"><li id="galeria">Galeria</li></a>
+				<a href="" class="botaoNav"><li id="ranking">Ranking</li></a>
+			</ul>
+		</nav>
+	</header>
+	<section>
+		<h1>Cadastro</h1>
+		<hr>
+		<form>
+			<label>
+					<span>Nome</span><br>
+					<input type="text" name="nome" placeholder="Ex: Gabriel José" maxlength="30" class="texto">
+			</label>
+			<br>
+			<label>
+					<span>Email</span><br>
+					<input type="email" name="email" placeholder="Ex: gabs@email.com" maxlength="30" class="texto">
+			</label>
+			<br>
+			<label>
+					<span>Sexo</span><br>
+					<input type="radio" name="sexo" value="M"> Masculino
+					<input type="radio" name="sexo" value="F"> Feminino
+			</label>
+			<br>
+			<label>
+					<span>Username</span><br>
+					<input type="text" name="username" placeholder="Ex: GabsTheOne" maxlength="30" class="texto">
+			</label>
+			<br>
+			<label>
+					<span>Senha</span><br>
+					<input type="password" name="senha" placeholder="Insira sua senha" maxlength="30" class="texto">
+			</label>
+			<br>		
+			<label>
+					<span>Confirmar senha</span><br>
+					<input type="password" name="confSenha" placeholder="Insira sua senha novamente" maxlength="30" class="texto">
+			</label>
+			<br>
+			<a id="botaoRegistrar" onclick="verificarCampos();">Registrar</a>
+			<p id="corrija"></p>
+		</form>
+	</section>
+</body>
+</html>

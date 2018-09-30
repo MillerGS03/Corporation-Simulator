@@ -1,0 +1,108 @@
+section#conteudo
+{
+    width: 950px;
+    height: 600px;
+
+    background: white;
+    z-index: 1;
+    
+    position: absolute;    
+    top: 135px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    border: 2px solid black;
+    border-radius: 30px;
+
+    font-family: "Century Gothic";
+}
+section#conteudo .botao
+{
+    position: absolute;
+    top: 268px;
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#esquerda { left: 15px;}
+#direita { right: 15px;}
+
+#conteinerSlides
+{
+    width: 710px;
+    height: 500px;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.botao img
+{
+    transition: .2s;
+    border-radius: 50%;
+}
+.botao:hover img
+{
+    opacity: .8;
+}
+
+section#conteudo h1
+{
+    text-align: center;
+    font-size: 22pt;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.slides
+{
+    display: none;
+}
+.btn {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    position: absolute;
+    bottom: 15px;
+}
+.active, .btn:hover {
+    background-color: #717171;
+  }
+#btn1
+{
+    left: 443px;
+}
+#btn2
+{
+    left: 468px;
+}
+#btn3
+{
+    left: 493px;
+}  
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @-webkit-keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }

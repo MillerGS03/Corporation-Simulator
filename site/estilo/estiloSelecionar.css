@@ -27,7 +27,7 @@
 {
 	position: absolute;
 	top: 500px;
-	left: 350px;
+	margin: auto;
 	width: 200px;
 	height: 50px;
 	background-color: white;

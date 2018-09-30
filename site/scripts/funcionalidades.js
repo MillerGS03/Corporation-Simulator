@@ -1,28 +1,5 @@
-var slideIndex = 1;
+criarSlide("imagens/funcionalidades/slide1.png", "Crie uma empresa e divirta-se aprendendo!");
+criarSlide(null, "Crie simulações para testar conceitos de contabilidade!");
+criarSlide(null, "Leia sobre os principais assuntos de contabilidade!");
+
 mostrarSlide(slideIndex);
-
-// Next/previous controls
-function avancarSlide(n) {
-    mostrarSlide(slideIndex += n);
-}
-
-// Thumbnail image controls
-function mudarSlide(n) {
-    mostrarSlide(slideIndex = n);
-}
-
-function mostrarSlide(n) {
-  var i;
-  var slides = document.getElementsByClassName("slides");
-  var dots = document.getElementsByClassName("btn");
-  if (n > slides.length) {slideIndex = 1} 
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none"; 
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block"; 
-  dots[slideIndex-1].className += " active";
-}

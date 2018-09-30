@@ -1,10 +1,67 @@
 section#conteudo
 {
-    width: 600px;
-    height: 600px;
+    width: 900px;
+    height: 670px;
     background: white;
     position: absolute;
     z-index: 1;
-    left: 50%;
-    margin-left: -300px;
+    top: 105px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    border: 2px solid black;
+    border-radius: 10px;
+}
+section#conteudo h1
+{
+    margin-top: 5px;
+    text-align: center;
+    font-family: "Century Gothic";
+    font-size: 22pt;
+}
+img
+{
+    position: relative;
+    left: 30px;
+    border-radius: 30px;
+    border: 2px solid black;
+    padding-top: 4px;
+}
+
+ol#ranking
+{
+    counter-reset: item;
+    position: absolute;
+    top: 60px;
+    left: 370px;
+    font-size: 17pt;
+}
+ol#ranking li 
+{
+    display: block;
+}
+ol#ranking li::before {
+    display: inline-block;
+    content: counter(item) "° - ";
+    counter-increment: item;
+    width: 2em;
+    margin-left: -2em;
+}
+form
+{
+    position: absolute;
+    top: 400px;
+    left: 20px;
+}
+input[type=search]
+{
+    padding: 5px;
+    font-size: 12pt;
+    width: 210px;
+}
+button[type=submit]
+{
+    height: 35px;
 }

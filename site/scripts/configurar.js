@@ -1,4 +1,5 @@
 var arquivo;
+
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
 	$("#mudarImagem").css("top", "200px");

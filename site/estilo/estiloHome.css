@@ -1,0 +1,98 @@
+div#fundoJogo div#login
+{
+	z-index: 1;
+	background-color: white;
+	width: 345px;
+	height: 430px;
+	position: absolute;
+	top: 180px;
+	left: 600px;
+	border: 2px solid black;
+	border-radius: 25px;
+	font-size: 15pt;
+	font-family: "Helvetica", "sans-serif";
+	padding: 10px;
+	padding-top: 0px;
+}
+div#fundoJogo div#login h1
+{
+	text-align: center;
+	font-family: "Century Gothic", "sans-serif";
+	font-size: 26pt;
+	margin-bottom: 40px;
+	font-weight: normal;
+}
+div#fundoJogo div#login label
+{
+	position: relative;
+	left: 7px;
+	display: inline-block;
+	margin-bottom: 15px;
+}
+div#fundoJogo div#login input
+{
+	width: 320px;
+	font-size: 14pt;
+	padding: 4px;
+	margin-top: 5px;
+}
+div#fundoJogo div#login div#botoes
+{
+	position: relative;
+	top: 20px;
+	text-align: center;
+}
+div#fundoJogo div#login .botaoLogin
+{
+	margin: auto;
+	width: 170px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 17pt;
+	border-radius: 16px;
+	color: white;
+	border: 3px solid green;
+	display: inline-block;
+	transition: .5s;
+}
+div#fundoJogo div#login .botaoLogin:hover {
+	transform: scale(1.05)
+}
+div#fundoJogo div#login a#botaoEntrar:hover
+{
+	background-color: #10A139;
+}
+div#fundoJogo div#login a#botaoEntrar
+{
+	background-color: #009129;
+	margin-bottom: 5px;
+}
+div#fundoJogo div#login a#botaoRegistrar
+{
+	margin-top: 5px;
+	background-color: #346ac1;
+	border: 3px solid #245ab1;
+}
+div#fundoJogo div#login a#botaoRegistrar:hover
+{
+	background-color: #447ad1;
+}
+#botoes
+{
+	width: 170px;
+	margin: auto;
+}
+div#fundoJogo h1#crie
+{
+	z-index: 1;
+	display: inline-block;
+	position: absolute;
+	left: 110px;
+	top: 140px;
+	font-family: "Century Gothic";
+	font-size: 75pt;
+	font-weight: 900;
+	color: #FBFBFB;
+	text-shadow: 0 0 4px black;
+}

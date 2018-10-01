@@ -25,8 +25,9 @@
 
 .btnCarregar
 {
-	position: relative;
-	top: 450px;
+	position: absolute;
+	top: 500px;
+	margin: auto;
 	width: 200px;
 	height: 50px;
 	background-color: white;
@@ -45,23 +46,4 @@
 	background-color: green;
 	transform: scale(1.2, 1.2);
 	cursor: pointer;
-}
-div#fundo
-{
-	background-color: white;
-	width: 1000px;
-	height: 600px;
-	border-radius: 5%;
-	z-index: 30;
-	bottom: 2000px;
-}
-#fundo h1
-{
-	position: absolute;
-	top: 80px;
-	font-family: "Century Gothic";
-	font-size: 18pt;
-	color: black;
-	font-weight: bold;
-	left: 600px;
 }

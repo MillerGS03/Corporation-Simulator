@@ -1,84 +1,13 @@
-body
+section#conteudo
 {
-	margin: 0px;
-	padding: 0px;
-	background-color: #4c98a5;
-	min-width: 1000px;
-	max-width: 3000px;
-}
-header 
-{
-	min-width: 1000px;
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-	height: 90px;
-	background-color: black;
-	border-bottom: 2px solid white;
-	box-shadow: 0px 2px 2px black;
-	color: white;
-}
-header h1
-{
-	position: relative;
-	top: 15px;
-	left: 45px;
-	margin: 0px;
-	font-family: "Century Gothic", "sans-serif";
-	font-size: 35pt;
-	display: inline-block;
-}
-nav ul
-{
-	display: inline-block;
 	position: absolute;
-	right: 7px;
-}
-nav ul li
-{
-	display: inline-block;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	text-decoration: none;
-	font-family: "Century Gothic";
-	position: relative;
-	bottom: 15px;
-	border: 2px solid white;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	margin-left: 1px;
-	margin-right: 1px;
-	color: white;
-	background-color: black;
-	transition: .3s;
-}
-nav ul li:hover
-{
-	background-color: #505050;
-	height: 40px;
-	bottom: 25px;
-}
-nav ul li#home
-{
-	width: 80px;
-}
-nav ul li#funcionalidades
-{
-	width: 155px;
-}
-nav ul li#galeria
-{
-	width: 95px;
-}
-nav ul li#ranking
-{
-	width: 95px;
-}
-section
-{
-	position: relative;
-	top: 10px;
+	z-index: 1;
+	top: 130px;
+	left: 0;
+	right: 0;
+	margin-left: auto; 
+	margin-right: auto; 
+	
 	background-color: black;
 	color: white;
 	width: 600px;
@@ -107,7 +36,7 @@ input.texto
 	border-radius: 25px;
 	border: 2px solid black;
 }
-section h1
+section#conteudo h1
 {
 	margin-top: 15px;
 	margin-bottom: 15px;

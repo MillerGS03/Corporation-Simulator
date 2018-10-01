@@ -6,8 +6,18 @@ function iniciarSelecionar()
     $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
 
+
+    var canvas = document.getElementById("meuCanvas");
+    var ctx = canvas.getContext("2d");
+
     canvasSelect = document.getElementById("canvasSelect");
     ctxSelect = canvasSelect.getContext("2d");
+    ctx.fillStyle = "white";
+    roundRect(50, 100, 900, 500, {upperLeft: 50, upperRight:50, lowerLeft: 50, lowerRight:50}, true, true, ctx);
+    ctx.font = "bold 20pt Century Gothic";
+    ctx.fillStyle = "Black";
+    ctx.textAlign = "center";
+    ctx.fillText("Selecione o jogo desejado:", canvas.width/2, 200);
     addOptions();
 
     
@@ -95,7 +105,9 @@ function iniciarSelecionar()
         $("#select").off("mouseleave", apagarEfeitoSelect);
         $("#btnCarregar").off("click", carregarJogo);
         ctxSelect = null;
+        ctx = null;
         canvasSelect = null;
+        canvas = null;
 
         abrir("jogo.html");
     }

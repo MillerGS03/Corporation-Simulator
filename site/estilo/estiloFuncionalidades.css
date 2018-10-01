@@ -1,0 +1,10 @@
+section#conteudo
+{
+    width: 600px;
+    height: 600px;
+    background: white;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    margin-left: -300px;
+}

@@ -15,7 +15,7 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
                                      imagem, imagem, "bold 14pt Century Gothic", "Black", nome, true, false, false);
     this.botao.onclick = function() {abrirMenu(); }
 
-    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"]);
+    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"], nome);
 
     function abrirMenu()
     {

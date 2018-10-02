@@ -1,0 +1,38 @@
+Banco de dados
+Jogo
+ - Início do jogo para selecionar cenário
+ - Menus dos botões (mapa, estatisticas, notificação, etc)
+ - Eventos de acordo com a data
+ - Itens construídos (armazém, etc)
+Simulação
+ - Tabelas de despesas
+ - Menu para adição de contas
+Configuração
+Manual
+Classificação Mundial e ranking
+Galeria
+
+01/10 - 08/10:
+ Configurações (F)
+ Design do manual (F)
+ Texto do manual (F e G)
+ Menus dos botões (G)
+
+08/10 - 15/10:
+ Classificação mundial e ranking (F e G)
+ Início do jogo para selecionar cenário (F e G)
+ Itens construídos (F e G)
+ Menu para adição de contas (F)
+ Banco de dados (G)
+
+15/10 - 22/10:
+ Itens construídos (F e G)
+ Tabela de despesas (F e G)
+22/10 - 29/10:
+ Itens construídos (F e G)
+ Eventos de acordo com a data (F e G)
+ Galeria (F)
+29/10 - 05/11:
+ Eventos de acordo com a data (F e G)
+ Bugs eventuais
+ 

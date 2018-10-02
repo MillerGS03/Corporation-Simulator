@@ -23,21 +23,8 @@ function Mapa()
         if (this.aberto)
         {
             ctx.save();
-            ctx.fillStyle = "#333333";
-            ctx.globalAlpha = 0.3;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalAlpha = 1;
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            roundRect(this.x, this.y, this.width, this.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
-           
-            ctx.fillStyle = "White";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "top";
-            ctx.font = "bold 24pt Century Gothic";
-            ctx.fillText("Mapa", this.x + this.width/2, this.y + 10, this.width - 5);
-
-            mapa.btnFechar.desenhar();
+            
+            desenharJanela();
             
             var grd=ctx.createRadialGradient(this.x + this.width / 2,this.y + (this.height - 60)/2,this.width / 2,this.x + this.width / 2,this.y + (this.height - 60)/2,this.width);
             grd.addColorStop(0,"#00b71e");
@@ -62,5 +49,23 @@ function Mapa()
             ativarBotoes();
         }
         atualizar();
+    }
+    function desenharJanela()
+    {
+        ctx.fillStyle = "#333333";
+        ctx.globalAlpha = 0.3;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true);
+        
+        ctx.fillStyle = "White";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.font = "bold 24pt Century Gothic";
+        ctx.fillText("Mapa", este.x + este.width/2, este.y + 10, este.width - 5);
+
+        este.btnFechar.desenhar();
     }
 }

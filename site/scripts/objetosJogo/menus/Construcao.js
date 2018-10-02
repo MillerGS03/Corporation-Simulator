@@ -36,20 +36,7 @@ function Construcao()
         este.abrirFechar();
     }
 
-    this.itens = new Array();
-
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Armazém",
-    ["Utilizado para armazenar", "matéria-prima."],
-    500, imgItemArmazem, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Garagem",
-    ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
-	1500, imgItemGaragem, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Operacional",
-   	"Especialize a produção!", 
-    3000, imgItemOperacional, this.itens.length));
-    this.itens.push(new ItemAVender(this.x + 20 + 205 * this.itens.length, this.y + 175, "Marketing",
-   	["Promova sua empresa e", "aumente a clientela!"],
-    3500, imgBtnConstrucaoHover, this.itens.length));
+    configurarItens();
 
     function testarPosicionamento()
     {
@@ -89,49 +76,74 @@ function Construcao()
         else 
             alert("Você não tem dinheiro suficiente!");
     }
-
-    this.itens[0].botaoComprar.onclick = function() {
-        comprar(new ItemConstruido(0, 0, 100, 100, "Armazém", imgArmazem, 0), 0);
-    }
-    this.itens[1].botaoComprar.onclick = function() {
-        comprar(new ItemConstruido(0, 0, 130, 130, "Garagem", imgGaragem, 1), 1);
-    }
-    this.itens[2].botaoComprar.onclick = function() {
-        comprar(new ItemConstruido(0, 0, 140, 140, "Operacional", imgOperacional, 2), 2);
-    }
-    this.itens[3].botaoComprar.onclick = function() {
-        comprar(new ItemConstruido(0, 0, 140, 140, "Marketing",imgMarketing, 3), 3)
-    }
     this.desenhar = function() {
 
         if (this.aberto)
         {
             ctx.save();
-            ctx.fillStyle = "#333333";
-            ctx.globalAlpha = 0.3;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalAlpha = 1;
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            roundRect(this.x, this.y, this.width, this.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
-           
-            ctx.fillStyle = "White";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "top";
-            ctx.font = "bold 24pt Century Gothic";
-            ctx.fillText("Construção", this.x + this.width/2, this.y + 10, this.width - 5);
 
-            construcao.btnFechar.desenhar();
-
-            roundRect(this.x, this.y + 60, this.width, this.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
-
-            for (var i = 0; i < this.itens.length; i++)
-                this.itens[i].desenhar();
-            for (var i = 0; i < this.itens.length; i++)
-                if (this.itens[i].getDescricaoVisivel())
-                    this.itens[i].desenharDescricao();
+            desenharJanela();
+            desenharItensAVenda();
 
             ctx.restore();
+        }
+    }
+    function desenharJanela()
+    {
+        ctx.fillStyle = "#333333";
+        ctx.globalAlpha = 0.3;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
+       
+        ctx.fillStyle = "White";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.font = "bold 24pt Century Gothic";
+        ctx.fillText("Construção", este.x + este.width/2, este.y + 10, este.width - 5);
+
+        este.btnFechar.desenhar();
+
+        roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
+    }
+    function desenharItensAVenda()
+    {
+        for (var i = 0; i < este.itens.length; i++)
+        este.itens[i].desenhar();
+        for (var i = 0; i < este.itens.length; i++)
+            if (este.itens[i].getDescricaoVisivel())
+                este.itens[i].desenharDescricao();
+    }
+    function configurarItens()
+    {
+        este.itens = new Array();
+        
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Armazém",
+                        ["Utilizado para armazenar", "matéria-prima."],
+                        500, imgItemArmazem, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Garagem",
+                        ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
+                        1500, imgItemGaragem, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Operacional",
+                        "Especialize a produção!", 
+                        3000, imgItemOperacional, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Marketing",
+                        ["Promova sua empresa e", "aumente a clientela!"],
+                        3500, imgBtnConstrucaoHover, este.itens.length));
+
+        este.itens[0].botaoComprar.onclick = function() {
+            comprar(new ItemConstruido(0, 0, 100, 100, "Armazém", imgArmazem, 0), 0);
+        }
+        este.itens[1].botaoComprar.onclick = function() {
+            comprar(new ItemConstruido(0, 0, 130, 130, "Garagem", imgGaragem, 1), 1);
+        }
+        este.itens[2].botaoComprar.onclick = function() {
+            comprar(new ItemConstruido(0, 0, 140, 140, "Operacional", imgOperacional, 2), 2);
+        }
+        este.itens[3].botaoComprar.onclick = function() {
+            comprar(new ItemConstruido(0, 0, 140, 140, "Marketing",imgMarketing, 3), 3)
         }
     }
     this.abrirFechar = function() {

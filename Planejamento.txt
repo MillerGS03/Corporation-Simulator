@@ -28,10 +28,12 @@ Galeria
 15/10 - 22/10:
  Itens construídos (F e G)
  Tabela de despesas (F e G)
+
 22/10 - 29/10:
  Itens construídos (F e G)
  Eventos de acordo com a data (F e G)
  Galeria (F)
+
 29/10 - 05/11:
  Eventos de acordo com a data (F e G)
  Bugs eventuais

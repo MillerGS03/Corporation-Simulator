@@ -9,4 +9,26 @@
     	</form>
     	<div class="overlay"></div>
     </div>
+    <div>
+    	<form id="personalInfo">
+    		<label>Nome: </label><input type="label" name="nome"><br>
+    		<label>E-mail: </label><input type="label" name="email"><br>
+    		<label>Sexo: </label><input type="radio" name="sexo">Masculino<input type="radio" name="sexo">Feminino<br>
+    		<label>Username: </label><input type="label" name="username"><br>
+    		<h3>Mudar senha:</h3>
+    		<label>Senha atual: </label><input type="password" name="senha" id="senhaAntiga"><label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label><br>
+    		<label>Nova Senha: </label><input type="password" name="senha" id="senhaNova"><label id="exibir2" class="exibir" onclick="Exibir2();">Exibir</label><br>
+    		<label>Confirmar senha: </label><input type="password" name="confSenha" id="confSenha"><label id="exibir3" class="exibir" onclick="Exibir3();">Exibir</label>
+    		<input type="button" onclick="verificarCampos();" name="Confirmar" value="Atualizar Informações" id="confirm">
+    		<p id="corrija"> </p>
+    	</form>
+    </div>
+    <hr>
+    <div>
+    	<h2 id="tituloBio">Adicionar biografia:</h2>
+    	<form>
+    		<textarea id="bio" placeholder="Digite aqui sua biografia!" cols="100" rows="10"></textarea>
+    		<input type="button" onclick="AtualizarBio();" value="Atualizar biografia" id="atualizarBio">
+    	</form>
+    </div>
 </div>

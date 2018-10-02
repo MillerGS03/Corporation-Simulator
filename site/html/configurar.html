@@ -4,7 +4,7 @@
     <h1>Configurações do Usuário</h1>
     <div class="foto" id="foto">
     	<h1 id="mudarImagem">Mudar foto de perfil</h1>
-    	<form class="novaImagem">
+    	<form>
     		<input type="file" class="novaImagem" id="newImage">
     	</form>
     	<div class="overlay"></div>
@@ -16,7 +16,7 @@
     		<label>Sexo: </label><input type="radio" name="sexo">Masculino<input type="radio" name="sexo">Feminino<br>
     		<label>Username: </label><input type="label" name="username"><br>
     		<h3>Mudar senha:</h3>
-    		<label>Senha atual: </label><input type="password" name="senha" id="senhaAntiga"><label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label><br>
+    		<label>Senha atual: </label><input type="password" id="senhaAntiga"><label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label><br>
     		<label>Nova Senha: </label><input type="password" name="senha" id="senhaNova"><label id="exibir2" class="exibir" onclick="Exibir2();">Exibir</label><br>
     		<label>Confirmar senha: </label><input type="password" name="confSenha" id="confSenha"><label id="exibir3" class="exibir" onclick="Exibir3();">Exibir</label>
     		<input type="button" onclick="verificarCampos();" name="Confirmar" value="Atualizar Informações" id="confirm">

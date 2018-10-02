@@ -16,29 +16,33 @@ $("#newImage").on("change", function () {
 	r.readAsDataURL(arquivo);
 });
 $("#exibir1").on("mousedown", function (){
-	var x = document.getElementById("senhaAntiga");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
+	mostrarSenha("senhaAntiga");
 });
 $("#exibir2").on("mousedown", function (){
-	var x = document.getElementById("senhaNova");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
+	mostrarSenha("senhaNova");
 });
 $("#exibir3").on("mousedown", function (){
-	var x = document.getElementById("confSenha");
+	mostrarSenha('confSenha');
+});
+$("#exibir1").on("mouseup", function (){
+	mostrarSenha("senhaAntiga");
+});
+$("#exibir2").on("mouseup", function (){
+	mostrarSenha("senhaNova");
+});
+$("#exibir3").on("mouseup", function (){
+	mostrarSenha('confSenha');
+});
+
+function mostrarSenha(id)
+{
+	var x = document.getElementById(id);
     if (x.type === "password") {
         x.type = "text";
     } else {
         x.type = "password";
     }
-});
+}
 
 function update()
 {
@@ -52,6 +56,12 @@ function update()
 
 function Atualizar()
 {
+	var username = document.getElementsByName("username")[0].innerHTML;
+	var nome = document.getElementsByName("nome")[0].innerHTML;
+	var email = document.getElementsByName("email")[0].innerHTML;
+	var sexo = document.getElementsByName("sexo")[0].innerHTML[0];
+	var senha = document.getElementsByName("senhaNova")[0].innerHTML;
+	alert(username + nome + email + sexo + senha);
 	//inserir no banco de dados
 }
 function verificarCampos()

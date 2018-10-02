@@ -1,5 +1,6 @@
 var arquivo;
 
+
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
 	$("#mudarImagem").css("top", "200px");
@@ -33,6 +34,18 @@ $("#exibir2").on("mouseup", function (){
 $("#exibir3").on("mouseup", function (){
 	mostrarSenha('confSenha');
 });
+$("#rightPage").on("click", function () {
+	$("#conteudo").load("configurar2.html");
+	setTimeout(mudarCor, 5);
+});
+$("#leftPage").on("click", function () {
+	$("#conteudo").load("configurar.html");
+});
+$("#backColor").on("change", function(){
+	var cor = document.getElementById("backColor").value;
+	$("body").css("background-color", cor);
+	$("#conteudo").css("background-color", cor);
+})
 
 function mostrarSenha(id)
 {
@@ -156,4 +169,16 @@ function testarIgualdade(campoConfirme, campoRelativo, titulo, mensagemErro)
 		campoConfirme.parentElement.firstElementChild.textContent = titulo;
 	}
 	return igual;
+}
+function mudarCor()
+{
+	const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+  		const hex = x.toString(16)
+  		return hex.length === 1 ? '0' + hex : hex
+	}).join('')
+	var rgb = $("#conteudo").css("background-color");
+
+	rgb = rgb.substring(4, rgb.length-1).replace(/ /g, '').split(',');
+	var cor = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
+	$("#backColor").attr("value", "" + cor);
 }

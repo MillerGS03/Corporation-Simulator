@@ -16,9 +16,23 @@
     		<label>Sexo: </label><input type="radio" name="sexo">Masculino<input type="radio" name="sexo">Feminino<br>
     		<label>Username: </label><input type="label" name="username"><br>
     		<h3>Mudar senha:</h3>
-    		<label>Senha atual: </label><input type="password" id="senhaAntiga"><label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label><br>
-    		<label>Nova Senha: </label><input type="password" name="senha" id="senhaNova"><label id="exibir2" class="exibir" onclick="Exibir2();">Exibir</label><br>
-    		<label>Confirmar senha: </label><input type="password" name="confSenha" id="confSenha"><label id="exibir3" class="exibir" onclick="Exibir3();">Exibir</label>
+            <table>
+                <tr>
+                    <td><label>Senha atual: </label></td>
+                    <td><input type="password" id="senhaAntiga"></td>
+                    <td><label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label><br></td>
+                </tr>
+                <tr>
+                    <td><label>Nova Senha: </label></td>
+                    <td><input type="password" name="senha" id="senhaNova"></td>
+                    <td><label id="exibir2" class="exibir" onclick="Exibir2();">Exibir</label><br></td>
+                </tr>
+                <tr>
+                    <td><label>Confirmar senha: </label></td>
+                    <td><input type="password" name="confSenha" id="confSenha"></td>
+                    <td><label id="exibir3" class="exibir" onclick="Exibir3();">Exibir</label></td>
+                </tr>
+            </table>
     		<input type="button" onclick="verificarCampos();" name="Confirmar" value="Atualizar Informações" id="confirm">
     		<p id="corrija"> </p>
     	</form>
@@ -31,4 +45,5 @@
     		<input type="button" onclick="AtualizarBio();" value="Atualizar biografia" id="atualizarBio">
     	</form>
     </div>
+    <img src="../imagens/right-arrow.png" id="rightPage">
 </div>

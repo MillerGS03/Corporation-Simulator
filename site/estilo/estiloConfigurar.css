@@ -8,7 +8,25 @@ div#painelConfiguracoes
     background-color: white;
     border-radius: 5%;	
 }
+div#painelConfiguracoesInter
+{
+    position: relative;
+    top: 100px;
+    margin: auto;
+    width: 900px;
+    height: 400px;
+    background-color: white;
+    border-radius: 5%;	
+}
 #painelConfiguracoes h1
+{
+	font-size: 20pt;
+	font-family: "Century Gothic";
+	text-align: center;
+	position: relative;
+	top: 40px;
+}
+#painelConfiguracoesInter h1
 {
 	font-size: 20pt;
 	font-family: "Century Gothic";
@@ -59,7 +77,6 @@ div#painelConfiguracoes
 	cursor: pointer;
 	opacity: 0;
 }
-
 
 hr
 {
@@ -148,4 +165,41 @@ p#corrija
 	position: absolute;
 	top: 730px;
 	left: 650px;
+}
+#rightPage
+{
+	position: absolute;
+	top: 725px;
+	right: 10px;
+}
+#leftPage
+{
+	position: absolute;
+	top: 320px;
+	left: 10px;
+}
+#rightPage:hover, #leftPage:hover
+{
+	opacity: 0.8;
+	transform: scale(1.2);
+	cursor: pointer;
+}
+#alterarBack
+{
+	position: absolute;
+	left: 350px;
+	top: 60px;
+	font-family: "Century Gothic";
+	font-size: 16pt;
+}
+.frmAlter
+{
+	position: absolute;
+	top: 130px;
+	left: 380px;
+}
+.frmAlter input[type="color"]
+{
+	width: 120px;
+	height: 30px;
 }

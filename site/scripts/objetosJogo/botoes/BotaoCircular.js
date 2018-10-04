@@ -73,6 +73,9 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 			canvas.removeEventListener("mousemove", testarHover);
 			canvas.removeEventListener("click", clicou);
 			
+			if (this.hovering)
+				canvas.style.cursor = "default";
+
 			this.ativo = false;
 		}
 	}
@@ -80,39 +83,38 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		if(este.hovering)
+		if (este.hovering)
 			este.onclick(e);
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		var rect = e.target.getBoundingClientRect();
-		
-		var posX = e.clientX - rect.left;
-		var posY = e.clientY - rect.top;
+		var mudouHover = este.hovering;
 
-		if (Math.abs(posX - este.x) <= este.radius && Math.abs(posY - este.y) <= este.radius)
+		if ((Math.abs(xMouse - este.x) <= este.radius && Math.abs(yMouse - este.y) <= este.radius) ||
+	        (Math.abs(xMouse - este.x) <= este.radiusOnHover && Math.abs(yMouse - este.y) <= este.radiusOnHover && este.hovering))
 		{
-			var distCentro = Math.sqrt(Math.pow(x - posX, 2) + Math.pow(y - posY, 2));
+			var distCentro = Math.sqrt(Math.pow(este.x - xMouse, 2) + Math.pow(este.y - yMouse, 2));
 
 			if (este.hovering)
-				este.hovering = distCentro < rHover;				
+				este.hovering = distCentro < este.radiusOnHover;				
 			else
-				este.hovering = distCentro < r;
+				este.hovering = distCentro < este.radius;
 			if (!este.testeHoverAdicional())
 				este.hovering = false;
 		}
 		else
 			este.hovering = false;
-		//--------------------------//
-		// O problema está aqui: os eventos de todos os botões disparam e interferem uns com os outros
+
+		mudouHover = mudouHover != este.hovering;
+
 		if (este.changeCursor)
 		{
 			if (este.hovering)
 				canvas.style.cursor = "pointer";
-			else
+			else if (mudouHover)
 				canvas.style.cursor = "default";
 		}
-		//--------------------------//
+
 		if (este.autoUpdate)
 			atualizar();
 	}

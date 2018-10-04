@@ -106,6 +106,8 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
+		var mudouHover = este.hovering; 
+
 		if (este.hovering)
 			este.hovering = xMouse >= este.x && xMouse <= este.x + este.widthOnHover &&
 									yMouse >= este.y && yMouse <= este.y + este.heightOnHover;				
@@ -115,16 +117,17 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 		for (var i = 0; i < testesHoverAdicionais.length; i++)
 			if (!testesHoverAdicionais[i]())
 				este.hovering = false;
-		//--------------------------//
-		// O problema está aqui: os eventos de todos os botões disparam e interferem uns com os outros
+
+		mudouHover = mudouHover != este.hovering;
+
 		if (este.changeCursor)
 		{
 			if (este.hovering)
 				canvas.style.cursor = "pointer";
-			else
+			else if (mudouHover)
 				canvas.style.cursor = "default";
 		}
-		//--------------------------//
+		
 		if (este.autoUpdate)
 			atualizar();
 	}

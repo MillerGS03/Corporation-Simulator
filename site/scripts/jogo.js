@@ -72,10 +72,10 @@ function iniciar()
 		contador++;
 		if (contador % 10 == 0)
 		{
-			barra.passarDia();
+			passarDia();
 			atualizar();
 		}
-	}, 1000);
+	}, 50);
 
 	canvas.addEventListener("mousemove", (function(e){
 			var rect = e.target.getBoundingClientRect();
@@ -83,6 +83,8 @@ function iniciar()
 			xMouse = e.clientX - rect.left;
 			yMouse = e.clientY - rect.top;
 	})); 
+
+	calendario.adicionarEvento(25, 2, 1, 1);
 }
 function criarBotoes() 
 {
@@ -178,6 +180,11 @@ function desenharFundo()
 	for (var i = 0; i < itensConstruidos.length; i++)
 		if (itensConstruidos[i].menuVisivel)
 			itensConstruidos[i].menu.desenhar();
+}
+function passarDia()
+{
+	calendario.passarDia();
+	barra.atualizarDia(calendario.dia);
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

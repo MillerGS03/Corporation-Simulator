@@ -110,3 +110,7 @@ function ItemAVender(x, y, nome, descricao, preco, img, indice)
         ctx.restore();
     }
 }
+class Itens
+{
+    static armazem = {nome: "Armazém", descricao: ["Utilizado para armazenar", "matéria-prima."] };
+}

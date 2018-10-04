@@ -2,18 +2,22 @@
 var imgItemArmazem = new Image();
 var imgItemGaragem = new Image();
 var imgItemOperacional = new Image();
+var imgItemRecursosHumanos = new Image();
 imgItemArmazem.src = "../imagens/iconesItens/armazem.png";
 imgItemGaragem.src = "../imagens/iconesItens/garagem.png";
 imgItemOperacional.src = "../imagens/iconesItens/operacional.png";
+imgItemRecursosHumanos.src = "../imagens/iconesItens/recursosHumanos.png"
 
 // Imagens dos itens construídos
 var imgArmazem = new Image();
 var imgGaragem = new Image();
 var imgOperacional = new Image();
+var imgRecursosHumanos = new Image();
 var imgMarketing = new Image();
 imgArmazem.src = "../imagens/construcoes/armazem.png";
 imgGaragem.src = "../imagens/construcoes/garagem.png";
 imgOperacional.src = "../imagens/construcoes/operacional.png";
+imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png"
 
 function Construcao()
 {

@@ -21,5 +21,5 @@ function abrir(arq) {
 	$("#conteudo").empty();
 	$('#conteudo').load(arq);
 
-	setTimeout(testarAncora, 10);
+	setTimeout(testarAncora, 20);
 }

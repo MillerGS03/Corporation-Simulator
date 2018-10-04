@@ -404,7 +404,11 @@ function Calendario()
         ctx.font = "bold 12pt Century Gothic";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.fillText(evento.nomeTipo, x + 40, y + 25, widthCaixa - 40);
+        ctx.fillText(evento.nomeTipo, x + 55, y + 25, widthCaixa - 55);
+
+        ctx.fillStyle = "white";
+        roundRect(x + 3, y + 3, 44, 44, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10}, true, true);
+        ctx.drawImage(evento.imagem, x + 5, y + 5);
     }
     this.abrirFechar = function() {
         this.aberto = !this.aberto;
@@ -434,8 +438,10 @@ function Calendario()
     }
 }
 
+var imgIconeEntrega = new Image();
 var imgEntrega = new Image();
-imgEntrega.src = "../imagens/menusBotoes/entrega.png";
+imgIconeEntrega.src = "../imagens/menusBotoes/iconeEntrega.png";
+imgEntrega.src = "../imagens/menusBotoes/imagemEntrega.png";
 
 function EventoData(dia, mes, ano, tipo)
 {
@@ -448,7 +454,8 @@ function EventoData(dia, mes, ano, tipo)
     {
         case 1:
             this.nomeTipo = "Entrega de matéria-prima";
-            this.icone = imgEntrega;
+            this.icone = imgIconeEntrega;
+            this.imagem = imgEntrega;
             break;
     }
 }

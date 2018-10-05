@@ -1,21 +1,39 @@
-function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
-    this.x = x;
-    this.y = y;
-    this.width = w;
-    this.height = h;
+var imgArmazem = new Image();
+var imgGaragem = new Image();
+var imgOperacional = new Image();
+var imgRecursosHumanos = new Image();
+var imgMarketing = new Image();
+imgArmazem.src = "../imagens/construcoes/armazem.png";
+imgGaragem.src = "../imagens/construcoes/garagem.png";
+imgOperacional.src = "../imagens/construcoes/operacional.png";
+imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png"
+
+ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100};
+ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130};
+ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140};
+ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130};
+ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 100, height: 100};
+
+function ItemConstruido(informacoes) {
+    this.x = 0;
+    this.y = 0;
+    this.width = informacoes.width;
+    this.height = informacoes.height;
 
     var xMenu = this.x;
     var yMenu = this.y;
 
     var este = this;
 
-    this.nome = nome;
+    this.nome = informacoes.nome;
+    this.imagem = informacoes.imagem;
+    this.preco = informacoes.preco;
 
     this.botao = new BotaoRetangular(this.x, this.y, this.width, this.height, null, this.width, this.height, "Silver", "#cbcbcb",
-                                     imagem, imagem, "bold 14pt Century Gothic", "Black", nome, true, false, false);
+                                     this.imagem, this.imagem, "bold 14pt Century Gothic", "Black", this.nome, true, false, false);
     this.botao.onclick = function() {abrirMenu(); }
 
-    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"], nome);
+    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"], this.nome);
 
     function abrirMenu()
     {
@@ -92,7 +110,7 @@ function ItemConstruido(x, y, w, h, nome, imagem, indiceItem) {
         else
         {
             botoes.push(este.botao);
-            barra.dinheiro -= construcao.itens[indiceItem].preco;
+            barra.dinheiro -= este.preco;
         }
         testandoPosicionamento = false;
         ativarBotoes();

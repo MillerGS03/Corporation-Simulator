@@ -1,24 +1,3 @@
-// Ícones dos itens a serem construídos mostrados no menu de construção
-var imgItemArmazem = new Image();
-var imgItemGaragem = new Image();
-var imgItemOperacional = new Image();
-var imgItemRecursosHumanos = new Image();
-imgItemArmazem.src = "../imagens/iconesItens/armazem.png";
-imgItemGaragem.src = "../imagens/iconesItens/garagem.png";
-imgItemOperacional.src = "../imagens/iconesItens/operacional.png";
-imgItemRecursosHumanos.src = "../imagens/iconesItens/recursosHumanos.png"
-
-// Imagens dos itens construídos
-var imgArmazem = new Image();
-var imgGaragem = new Image();
-var imgOperacional = new Image();
-var imgRecursosHumanos = new Image();
-var imgMarketing = new Image();
-imgArmazem.src = "../imagens/construcoes/armazem.png";
-imgGaragem.src = "../imagens/construcoes/garagem.png";
-imgOperacional.src = "../imagens/construcoes/operacional.png";
-imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png"
-
 function Construcao()
 {
     var qtosBotoesInicialmente = 0;
@@ -124,30 +103,22 @@ function Construcao()
     {
         este.itens = new Array();
         
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Armazém",
-                        ["Utilizado para armazenar", "matéria-prima."],
-                        500, imgItemArmazem, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Garagem",
-                        ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
-                        1500, imgItemGaragem, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Operacional",
-                        "Especialize a produção!", 
-                        3000, imgItemOperacional, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, "Marketing",
-                        ["Promova sua empresa e", "aumente a clientela!"],
-                        3500, imgBtnConstrucaoHover, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.armazem, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.garagem, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.operacional, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.recursosHumanos, este.itens.length));
 
         este.itens[0].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(0, 0, 100, 100, "Armazém", imgArmazem, 0), 0);
+            comprar(new ItemConstruido(ItemConstruido.armazem), 0);
         }
         este.itens[1].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(0, 0, 130, 130, "Garagem", imgGaragem, 1), 1);
+            comprar(new ItemConstruido(ItemConstruido.garagem), 1);
         }
         este.itens[2].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(0, 0, 140, 140, "Operacional", imgOperacional, 2), 2);
+            comprar(new ItemConstruido(ItemConstruido.operacional), 2);
         }
         este.itens[3].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(0, 0, 140, 140, "Marketing",imgMarketing, 3), 3)
+            comprar(new ItemConstruido(ItemConstruido.recursosHumanos), 3)
         }
     }
     this.abrirFechar = function() {

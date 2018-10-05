@@ -11,6 +11,37 @@ function BarraSuperior() {
 	this.maxXP = 80;
 	this.dinheiro = 5000;
 	this.dia = 1;
+
+	this.ganharXP(xp)
+	{
+		this.xp += xp;
+		if (this.xp > this.maxXP)
+		{
+			uparNivel();
+			var xpAdicional = this.xp - this.maxXP;
+			this.xp = 0;
+			this.ganharXP(xpAdicional);
+		}
+	}
+	function uparNivel()
+	{
+		this.nivel++;
+		
+		var base = 1;
+
+		if (this.nivel < 10)
+			base = 1.5;
+		else if (this.nivel < 20)
+			base = 1.4;
+		else if (this.nivel < 30)
+			base = 1.3;
+		else if (this.nivel < 40)
+			base = 1.25;
+		else if (this.nivel < 50)
+			base = 1.2;
+
+		this.maxXP = 20 * Math.pow(base, this.nivel % 10);
+	}
 	this.desenhar = function() {
 		ctx.save();
 		ctx.fillStyle = "#232323";

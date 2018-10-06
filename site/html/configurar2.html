@@ -1,12 +1,22 @@
 <script src="../scripts/configurar.js"></script>
 <link rel="stylesheet" type="text/css" href="../estilo/estiloConfigurar.css">
-<div id="painelConfiguracoesInter">
-    <h1>Configurações de Interface</h1>
-    <div id="inteface">
-	    <h2 id="alterarBack">Alterar cor de fundo:</h2>
-	    <form class="frmAlter">
-	    	<input type="color" id="backColor" value="">
-	    </form>
+<div id="painelConfiguracoes">
+    <div>
+    	<h2 id="tituloBio">Adicionar biografia:</h2>
+    	<form>
+    		<textarea id="bio" placeholder="Digite aqui sua biografia!" cols="100" rows="10"></textarea>
+    		<input type="button" onclick="AtualizarBio();" value="Atualizar biografia" id="atualizarBio">
+    	</form>
+    </div>
+    <hr>
+    <div id="configInter">
+	    <h1>Configurações de Interface</h1>
+	    <div id="inteface">
+		    <h2 id="alterarBack">Alterar cor de fundo:</h2>
+		    <form class="frmAlter">
+		    	<input type="color" id="backColor" value="">
+		    </form>
+		</div>
 	</div>
-    <img src="../imagens/left-arrow.png" id="leftPage">
+    <img src="../imagens/funcionalidades/setaEsquerda.png" id="leftPage">
 </div>

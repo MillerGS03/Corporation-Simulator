@@ -1,12 +1,12 @@
 div#painelConfiguracoes
 {
     position: relative;
-    bottom: 10px;
+    bottom: 0px;
     margin: auto;
     width: 900px;
     height: 800px;
     background-color: white;
-    border-radius: 5%;	
+    border-radius: 5%;
 }
 div#painelConfiguracoesInter
 {
@@ -55,6 +55,16 @@ div#painelConfiguracoesInter
     cursor: pointer;
     bottom: 0px;
 }
+.banner:hover > .overlay {
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color:#000;
+    opacity:0.5;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    bottom: 0px;
+}
 #mudarImagem
 {
 	position: relative;
@@ -77,11 +87,44 @@ div#painelConfiguracoesInter
 	cursor: pointer;
 	opacity: 0;
 }
+.banner
+{
+	position: absolute;
+	background: lightgrey;
+	background-size: 100%;
+	width: 200px;
+	height: 250px;
+	right: 600px;
+	top: 500px;
+	z-index: 4;
+}
+#mudarBanner
+{
+	position: relative;
+	visibility: hidden;
+	font-family: "Century Gothic";
+	font-size: 10pt;
+	text-decoration: underline;
+	color: white;
+	z-index: 50;
+	cursor: pointer;
+}
+.novoBanner
+{
+	position: absolute;
+	width: 200px;
+	height: 250px;
+	bottom: 0px;
+	left: 0px;
+	z-index: 44;
+	cursor: pointer;
+	opacity: 0;
+}
 
 hr
 {
 	position: absolute;
-	top: 450px;
+	top: 350px;
 	left: 25px;
 	color: lightgrey;
 	width: 850px;
@@ -96,7 +139,7 @@ hr
 	font-weight: bold;
 	color: black;
 	position: absolute;
-	top: 470px;
+	top: 20px;
 	left: 100px;
 }
 #bio
@@ -105,7 +148,7 @@ hr
 	font-size: 12pt;
 	color: black;
 	position: absolute;
-	top: 530px;
+	top: 90px;
 	right: 40px;
 }
 #personalInfo
@@ -132,10 +175,10 @@ hr
 #confirm
 {
 	position: absolute;
-	top: 270px;
-	left: 180px;
+	top: 430px;
+	right: 0px;
 	background-color: white;
-	color: green;
+	color: black;
 	border-radius: 5px;
 	border: 1px solid black;
 	height: 30px;
@@ -154,8 +197,8 @@ hr
 p#corrija
 {
 	position: absolute;
-	top: 260px;
-	right: 300px;
+	top: 400px;
+	right: 200px;
 	font-style: italic;
 	text-align: center;
 	width: 500px;
@@ -163,7 +206,7 @@ p#corrija
 #atualizarBio
 {
 	position: absolute;
-	top: 730px;
+	top: 300px;
 	left: 650px;
 }
 #rightPage
@@ -175,7 +218,7 @@ p#corrija
 #leftPage
 {
 	position: absolute;
-	top: 320px;
+	top: 720px;
 	left: 10px;
 }
 #rightPage:hover, #leftPage:hover
@@ -188,7 +231,7 @@ p#corrija
 {
 	position: absolute;
 	left: 350px;
-	top: 60px;
+	top: 90px;
 	font-family: "Century Gothic";
 	font-size: 16pt;
 }
@@ -200,6 +243,41 @@ p#corrija
 }
 .frmAlter input[type="color"]
 {
+	position: absolute;
+	top: 15px;
 	width: 120px;
 	height: 30px;
+}
+#alterarBackB
+{
+	position: absolute;
+	left: 350px;
+	top: 600px;
+	font-family: "Century Gothic";
+	font-size: 16pt;
+}
+.frmAlterB
+{
+	position: absolute;
+	top: 650px;
+	left: 400px;
+}
+.frmAlterB input[type="color"]
+{
+	position: absolute;
+	top: 15px;
+	width: 120px;
+	height: 30px;
+}
+#retirarBanner
+{
+	position: relative;
+	top: 700px;
+	right: 250px;
+}
+#configInter
+{
+	position: absolute;
+	top: 350px;
+	width: 100%;
 }

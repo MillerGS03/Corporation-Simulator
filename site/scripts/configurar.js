@@ -1,5 +1,5 @@
 var arquivo;
-
+var senhaAtual = "teste";
 
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
@@ -12,9 +12,32 @@ $("#newImage").on("change", function () {
 	arquivo = document.getElementById("newImage").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;') 
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 250px 250px;');
 	};
 	r.readAsDataURL(arquivo);
+});
+$("#mudarImagem").on("click", function() {
+	$("#newImage").trigger("click");
+});
+$("#banner").on("mouseenter", function() {
+	$("#mudarBanner").css("visibility", "visible");
+	$("#mudarBanner").css("top", "170px");
+});
+$("#banner").on("mouseleave", function() {
+	$("#mudarBanner").css("visibility", "hidden");
+});
+$("#newBanner").on("change", function () {
+	arquivo = document.getElementById("newBanner").files[0];
+	var r = new FileReader();
+	r.onload = function (e) {
+		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 200px 250px;');
+		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 400px 500px;');
+	};
+	r.readAsDataURL(arquivo);
+});
+$("#mudarBanner").on("click", function() {
+	$("#newBanner").trigger("click");
 });
 $("#exibir1").on("mousedown", function (){
 	mostrarSenha("senhaAntiga");
@@ -36,16 +59,39 @@ $("#exibir3").on("mouseup", function (){
 });
 $("#rightPage").on("click", function () {
 	$("#conteudo").load("configurar2.html");
-	setTimeout(mudarCor, 5);
+	setTimeout(mudarCorConteudo, 5);
 });
 $("#leftPage").on("click", function () {
 	$("#conteudo").load("configurar.html");
+	setTimeout(mudarCorMenu, 5);
 });
 $("#backColor").on("change", function(){
 	var cor = document.getElementById("backColor").value;
 	$("body").css("background-color", cor);
 	$("#conteudo").css("background-color", cor);
 })
+$("#backColorB").on("change", function(){
+	var cor = document.getElementById("backColorB").value;
+	$("#menu").css("background-color", cor);
+	$("#banner").css("background-color", cor);
+})
+$("#retirarBanner").on("click", function() {
+	const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+  		const hex = x.toString(16)
+  		return hex.length === 1 ? '0' + hex : hex
+	}).join('')
+	var rgb = $("#menu").css("background-color");
+
+	rgb = rgb.substring(4, rgb.length-1).replace(/ /g, '').split(',');
+	var nada = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
+
+	$("#banner").attr('style', 'background-color: ' + nada + ';');
+	$("#menu").attr('style', 'background-color: ' + nada + ';');
+	$("#banner").attr('style', 'background: ' + nada + ';');
+	$("#menu").attr('style', 'background: ' + nada + ';');
+	mudarCorMenu();
+});
+
 
 function mostrarSenha(id)
 {
@@ -69,12 +115,12 @@ function update()
 
 function Atualizar()
 {
-	var username = document.getElementsByName("username")[0].innerHTML;
-	var nome = document.getElementsByName("nome")[0].innerHTML;
-	var email = document.getElementsByName("email")[0].innerHTML;
-	var sexo = document.getElementsByName("sexo")[0].innerHTML[0];
-	var senha = document.getElementsByName("senhaNova")[0].innerHTML;
-	alert(username + nome + email + sexo + senha);
+	var username = document.getElementsByName("username")[0].value;
+	var nome = document.getElementsByName("nome")[0].value;
+	var email = document.getElementsByName("email")[0].value;
+	var sexo = document.getElementsByName("sexo")[0].value;
+	var senha = document.getElementsByName("senhaNova")[0].value;
+	//alert(username + nome + email + sexo + senha);
 	//inserir no banco de dados
 }
 function verificarCampos()
@@ -86,6 +132,8 @@ function verificarCampos()
 				 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 				 "Email",
 				 "Formato Inválido"))
+		houveErro = true;
+	if (!testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
 		houveErro = true;
 	if (!testarRadioSelecionado(document.getElementsByName('sexo'), "Sexo", "Selecione uma opção"))
 		houveErro = true;
@@ -99,6 +147,7 @@ function verificarCampos()
 	{
 		document.getElementById("corrija").textContent = "";
 		Atualizar();
+		alert('Informações atualizadas com sucesso!');
 	}
 	else
 	{
@@ -117,7 +166,7 @@ function testarFormato(campo, formato, titulo, mensagemErro)
 	else
 	{
 		campo.parentElement.style.color = "black";
-		campo.parentElement.firstElementChild.textContent = titulo;
+		campo.parentElement.firstElementChild.textContent = titulo + ":";
 	}
 	return sucesso;
 }
@@ -133,7 +182,7 @@ function testarTamanho(campo, tamanho, titulo, mensagemErro)
 	else
 	{
 		campo.parentElement.style.color = "black";
-		campo.parentElement.firstElementChild.textContent = titulo;
+		campo.parentElement.firstElementChild.textContent = titulo + ":";
 	}
 	return sucesso;
 }
@@ -151,7 +200,7 @@ function testarRadioSelecionado(botoes, titulo, mensagemErro)
 	else
 	{
 		botoes[0].parentElement.firstElementChild.style.color = "black";
-		botoes[0].parentElement.firstElementChild.textContent = titulo;
+		botoes[0].parentElement.firstElementChild.textContent = titulo + ":";
 	}
 	return !nadaSelecionado;
 }
@@ -166,11 +215,24 @@ function testarIgualdade(campoConfirme, campoRelativo, titulo, mensagemErro)
 	else
 	{
 		campoConfirme.parentElement.style.color = "black";
-		campoConfirme.parentElement.firstElementChild.textContent = titulo;
+		campoConfirme.parentElement.firstElementChild.textContent = titulo + ":";
 	}
 	return igual;
 }
-function mudarCor()
+function testarSenhaAntiga(campo, titulo, msgErro)
+{
+	var senhaCerta = true;
+	if (campo.value != senhaAtual)
+		senhaCerta = false;
+	if (!senhaCerta)
+	{
+		campo.parentElement.style.color = "darkred";
+		campo.parentElement.firstElementChild.textContent = titulo + " - " + msgErro;
+	}
+	return senhaCerta;
+}
+
+function mudarCorConteudo()
 {
 	const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
   		const hex = x.toString(16)
@@ -182,3 +244,27 @@ function mudarCor()
 	var cor = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
 	$("#backColor").attr("value", "" + cor);
 }
+function mudarCorMenu()
+{
+	const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+  		const hex = x.toString(16)
+  		return hex.length === 1 ? '0' + hex : hex
+	}).join('')
+	var rgb = $("#menu").css("background-color");
+	rgb = rgb.substring(4, rgb.length-1).replace(/ /g, '').split(',');
+	var cor = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
+	$("#backColorB").attr("value", "" + cor);
+	$("#banner").css('background-color', cor);
+}
+function carregarFoto()
+{
+	$("#foto").css('background', $('#perfil').css('background'));
+}
+function carregarBanner()
+{
+	var img = $('#menu').css('background');
+	$("#banner").attr('style', 'background: '+img+';background-size: 200px 250px;');
+}
+setTimeout(mudarCorMenu, 5);
+carregarFoto();
+carregarBanner();

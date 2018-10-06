@@ -1,0 +1,47 @@
+.painelManual
+{
+	position: absolute;
+	top: 0;
+	background-color: white;
+	font-family: "Century Gothic";
+	color: black;
+	width: 100%;
+	height: 100%;
+}
+#conteudo .painelManual h1
+{
+	text-align: center;
+	font-size: 28pt;
+}
+#conteudo .painelManual h2
+{
+	position: relative;
+	left: 40px;
+	text-align: justify;
+	font-size: 20pt;
+}
+#conteudo .painelManual p
+{
+	position: relative;
+	left: 25px;
+	text-align: justify;
+	font-size: 14pt;
+}
+#conteudo .painelManual hr
+{
+	color: lightgrey;
+	size: 6px;
+	width: 97%;
+}
+#avancar
+{
+	position: absolute;
+	bottom: 80px;
+	right: 10px;
+}
+#retroceder
+{
+	position: absolute;
+	bottom: 80px;
+	left: 10px;
+}

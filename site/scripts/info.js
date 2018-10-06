@@ -35,7 +35,5 @@ function abrir(arq) {
 	$("#conteudo").empty();
 	$('#conteudo').load(arq);
 
-	setTimeout(function() {
-		$("footer").css("top", ($("body").height()) + "px");
-	}, 10);
+	setTimeout(testarAncora, 25);
 }

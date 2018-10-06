@@ -97,7 +97,10 @@ function Construcao()
         este.itens[i].desenhar();
         for (var i = 0; i < este.itens.length; i++)
             if (este.itens[i].getDescricaoVisivel())
+            {
                 este.itens[i].desenharDescricao();
+                break;
+            }
     }
     function configurarItens()
     {
@@ -121,6 +124,13 @@ function Construcao()
             comprar(new ItemConstruido(ItemConstruido.recursosHumanos), 3)
         }
     }
+
+    this.setNivel = function(nivel)
+    {
+        for (var i = 0; i < this.itens.length; i++)
+            this.itens[i].setNivel(nivel);
+    }
+
     this.abrirFechar = function() {
         this.aberto = !this.aberto;
         if (this.aberto)
@@ -129,20 +139,14 @@ function Construcao()
             this.btnFechar.ativarInteracao();
             qtosBotoesInicialmente = botoes.length;
             for (var i = 0; i < this.itens.length; i++)
-            {
-                this.itens[i].botaoComprar.ativarInteracao();
-                this.itens[i].botaoDica.ativarInteracao();
-            }
+                this.itens[i].habilitar();
         }
         else
         {
             this.btnFechar.desativarInteracao();
 
             for (var i = 0; i < this.itens.length; i++)
-            {
-                this.itens[this.itens.length - i - 1].botaoComprar.desativarInteracao();
-                this.itens[this.itens.length - i - 1].botaoDica.desativarInteracao();
-            }
+                this.itens[i].desabilitar();
 
             ativarBotoes();
         }

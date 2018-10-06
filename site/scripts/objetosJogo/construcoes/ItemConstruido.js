@@ -6,7 +6,7 @@ var imgMarketing = new Image();
 imgArmazem.src = "../imagens/construcoes/armazem.png";
 imgGaragem.src = "../imagens/construcoes/garagem.png";
 imgOperacional.src = "../imagens/construcoes/operacional.png";
-imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png"
+imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png";
 
 ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100};
 ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130};
@@ -14,7 +14,8 @@ ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operaciona
 ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130};
 ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 100, height: 100};
 
-function ItemConstruido(informacoes) {
+function ItemConstruido(informacoes) 
+{
     this.x = 0;
     this.y = 0;
     this.width = informacoes.width;
@@ -31,7 +32,7 @@ function ItemConstruido(informacoes) {
 
     this.botao = new BotaoRetangular(this.x, this.y, this.width, this.height, null, this.width, this.height, "Silver", "#cbcbcb",
                                      this.imagem, this.imagem, "bold 14pt Century Gothic", "Black", this.nome, true, false, false);
-    this.botao.onclick = function() {abrirMenu(); }
+    this.botao.onclick = function() { abrirMenu(); };
 
     this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"], this.nome);
 

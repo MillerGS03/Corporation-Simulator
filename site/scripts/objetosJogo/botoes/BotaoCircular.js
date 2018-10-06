@@ -58,7 +58,11 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 		}
 		ctx.restore();
 	}
-	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
+	
+	/**
+	 * Ativa os eventos de mousemove e click
+	 */
+	this.ativarInteracao = function() {
 		if (!this.ativo)
 		{
 			canvas.addEventListener("mousemove", testarHover);
@@ -67,7 +71,11 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 			this.ativo = true;
 		}
 	}
-	this.desativarInteracao = function() { // Desativa os eventos de mousemove e click
+
+	/**
+	 * Desativa os eventos de mousemove e click
+	 */
+	this.desativarInteracao = function() { 
 		if (this.ativo)
 		{
 			canvas.removeEventListener("mousemove", testarHover);

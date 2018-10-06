@@ -52,6 +52,9 @@ function iniciar()
 	ctx = canvas.getContext("2d");
 
 	barra = new BarraSuperior();
+	barra.onNivelMudou = function() {
+		construcao.setNivel(barra.nivel);
+	}
 
 	painelNotificacoes = new PainelNotificacoes();
 
@@ -217,6 +220,3 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret√
         ctx.fill();
 	}
 }
-//$(document).ready(function (){
-//	iniciar();
-//});

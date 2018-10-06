@@ -28,6 +28,7 @@ function BarraSuperior() {
 	function uparNivel()
 	{
 		este.nivel++;
+		este.onNivelMudou();
 		
 		var base = 1.1;
 
@@ -103,4 +104,5 @@ function BarraSuperior() {
 	{
 		this.dia = dia;
 	}
+	this.onNivelMudou = function() {};
 }

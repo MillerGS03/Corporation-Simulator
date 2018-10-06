@@ -74,6 +74,7 @@ function iniciar()
 		{
 			passarDia();
 			atualizar();
+			barra.ganharXP(1);
 		}
 	}, 50);
 
@@ -93,16 +94,16 @@ function criarBotoes()
 
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
-		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, true, false);
+		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, false, false);
 	btnConstrucao = new BotaoCircular(60, 230, 40, 48,
 		"#347b87", "#4c98a5", imgBtnConstrucao, imgBtnConstrucaoHover,
-		"bold 13pt Century Gothic", "#232323", "Construção", true, true, false);
+		"bold 13pt Century Gothic", "#232323", "Construção", true, false, false);
 	btnMapa = new BotaoCircular(60, 330, 40, 48,
 		"#347b87", "#4c98a5", imgBtnMapa, imgBtnMapaHover,
-		"bold 14pt Century Gothic", "#232323", "Mapa", true, true, false);
+		"bold 14pt Century Gothic", "#232323", "Mapa", true, false, false);
 	btnCalendario = new BotaoCircular(60, 430, 40, 48,
 		"#347b87", "#4c98a5", imgBtnCalendario, imgBtnCalendarioHover,
-		"bold 13pt Century Gothic", "#232323", "Calendário", true, true, false);
+		"bold 13pt Century Gothic", "#232323", "Calendário", true, false, false);
 	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);

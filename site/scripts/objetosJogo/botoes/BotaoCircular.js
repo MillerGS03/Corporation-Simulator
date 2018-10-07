@@ -20,7 +20,20 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 	var este = this;
 
-	this.testeHoverAdicional = function() {return true;}
+	var testesHoverAdicionais = new Array();
+
+	/**
+	 * Adiciona uma função para testar se o mouse está sobre o botão, que acontecerá além da que já testa sua posição dentro do retângulo.
+	 * @param {function} teste Função de teste. Ela deve retornar verdadeiro se cumprir o critério, ou falso se não cumprir.
+	 */
+	this.adicionarTesteHover = function(teste)
+	{
+		testesHoverAdicionais.push(teste);
+	}
+	this.removerTestesHover = function() 
+	{
+		testesHoverAdicionais = new Array();
+	}
 
 	this.desenhar = function() { // Desenha o botão
 		ctx.save();
@@ -107,7 +120,8 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 				este.hovering = distCentro < este.radiusOnHover;				
 			else
 				este.hovering = distCentro < este.radius;
-			if (!este.testeHoverAdicional())
+			for (var i = 0; i < testesHoverAdicionais.length; i++)
+			if (!testesHoverAdicionais[i]())
 				este.hovering = false;
 		}
 		else

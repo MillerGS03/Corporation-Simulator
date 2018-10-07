@@ -19,11 +19,18 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.autoUpdate = autoUpdate;
 	this.changeCursor = changeCursor;
 
+	this.stroke = true;
+
 	this.ativo = false;
 
 	var este = this;
 
 	var testesHoverAdicionais = new Array();
+
+	/**
+	 * Adiciona uma função para testar se o mouse está sobre o botão, que acontecerá além da que já testa sua posição dentro do retângulo.
+	 * @param {function} teste Função de teste. Ela deve retornar verdadeiro se cumprir o critério, ou falso se não cumprir.
+	 */
 	this.adicionarTesteHover = function(teste)
 	{
 		testesHoverAdicionais.push(teste);
@@ -47,19 +54,19 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	var xAtual = this.x;
 	var yAtual = this.y;
 
-	this.desenhar = function() { // Desenha o botão
+	this.desenhar = function() 
+	{ // Desenha o botão
 		ctx.save();
-		ctx.beginPath();
 		
 		if (this.hovering)
 		{
             ctx.fillStyle = this.backgroundHoverColor;
-            roundRect(this.x, this.y, this.widthOnHover, this.heightOnHover, this.radius, true, true)
+            roundRect(this.x, this.y, this.widthOnHover, this.heightOnHover, this.radius, true, this.stroke)
 		}
 		else
 		{
 			ctx.fillStyle = this.backgroundColor;
-            roundRect(this.x, this.y, this.width, this.height, this.radius, true, true);
+            roundRect(this.x, this.y, this.width, this.height, this.radius, true, this.stroke);
 		}
 		if (this.backgroundImage != null && !this.hovering)
 			ctx.drawImage(this.backgroundImage, this.x + this.width / 2 - this.backgroundImage.width/2,

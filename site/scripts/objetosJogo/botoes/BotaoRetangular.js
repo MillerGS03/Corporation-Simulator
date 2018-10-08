@@ -102,6 +102,10 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 			canvas.removeEventListener("mousemove", testarHover);
 			canvas.removeEventListener("click", clicou);
 			this.ativo = false;
+
+			if (this.hovering && this.changeCursor)
+				canvas.style.cursor = "default";
+			this.hovering = false;
 		}
 	}
 	this.onclick = function(e) {} // Handler do evento de click. Pode ser configurado na instância

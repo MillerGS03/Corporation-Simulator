@@ -94,8 +94,9 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 			canvas.removeEventListener("mousemove", testarHover);
 			canvas.removeEventListener("click", clicou);
 			
-			if (this.hovering)
+			if (this.hovering && this.changeCursor)
 				canvas.style.cursor = "default";
+			this.hovering = false;
 
 			this.ativo = false;
 		}

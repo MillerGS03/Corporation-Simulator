@@ -25,7 +25,7 @@ function Calendario()
 
     var diasDaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     var meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    var qtosDiasTemOMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    this.qtosDiasTemOMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     var comecoDoMes = 0;
 
@@ -98,7 +98,7 @@ function Calendario()
     {
         var diasTotais = (ano - 1) * 365;
         for (var i = 0; i < mes - 1; i++)
-            diasTotais += qtosDiasTemOMes[i];
+            diasTotais += este.qtosDiasTemOMes[i];
 
         return diasTotais % 7;
     }
@@ -108,7 +108,7 @@ function Calendario()
      */
     this.passarDia = function() {
         this.dia++;
-        if (this.dia > qtosDiasTemOMes[this.mes - 1])
+        if (this.dia > this.qtosDiasTemOMes[this.mes - 1])
         {
             this.dia = 1;
             this.mes++;
@@ -283,7 +283,7 @@ function Calendario()
         var xQuadrado = xInicial + dia * tamanhoDias;
         var yQuadrado = yInicial + alturaHeader + semana * tamanhoDias;
 
-        if (diaAtual > 0 && diaAtual <= qtosDiasTemOMes[mesExibido - 1])
+        if (diaAtual > 0 && diaAtual <= este.qtosDiasTemOMes[mesExibido - 1])
         {
             if (diaAtual == diaSelecionado || xMouse > xQuadrado && xMouse < xQuadrado + tamanhoDias && yMouse > yQuadrado && yMouse < yQuadrado + tamanhoDias)
                 ctx.fillStyle = "#aaaaaa";
@@ -328,7 +328,7 @@ function Calendario()
             var semana = Math.floor(yMouseCalendario / tamanhoDias);
             var diaAtual = dia + semana * 7 - comecoDoMes + 1;
             
-            if (diaAtual > 0 && diaAtual <= qtosDiasTemOMes[mesExibido - 1] && diaAtual != diaSelecionado)
+            if (diaAtual > 0 && diaAtual <= este.qtosDiasTemOMes[mesExibido - 1] && diaAtual != diaSelecionado)
             {
                 diaSelecionado = diaAtual;
                 xSelecionado = xInicial + dia * tamanhoDias;

@@ -354,8 +354,8 @@ function Calendario()
                     yInicial + alturaHeader + tamanhoDias * (semana + 0.5),
                     tamanhoDias/2 - paddingCirculoHoje, tamanhoDias/2 - paddingCirculoHoje,
                     0, 0, 2 * Math.PI);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "red";
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "orange";
         ctx.stroke();
         ctx.closePath();
         ctx.restore();

@@ -26,6 +26,7 @@ ItemAVender.recursosHumanos = {nome: "RH", descricao: ["Recursos Humanos:", "Sã
                            preco: 3000, img: imgItemRecursosHumanos, nivelMinimo: 3};
 ItemAVender.marketing   = {nome: "Marketing", descricao: ["Promova sua empresa e", "aumente a clientela!"],
                            preco: 3500, img: imgItemRecursosHumanos, nivelMinimo: 4};
+ItemAVender.caminho     = {nome: "Caminho", descricao: "Ligue partes da empresa!", preco: 100, img: null, nivelMinimo: 1};
 
 function ItemAVender(x, y, informacoes, indice) 
 {
@@ -136,7 +137,8 @@ function ItemAVender(x, y, informacoes, indice)
         ctx.lineWidth = 1;
         ctx.fillRect(this.x + 25, this.y + 45, this.width - 50, 150);
         ctx.strokeRect(this.x + 25, this.y + 45, this.width - 50, 150)
-        ctx.drawImage(this.imagem, this.x + this.width/2 - this.imagem.width/2, this.y + 120 - this.imagem.height/2);
+        if (this.imagem != null)
+            ctx.drawImage(this.imagem, this.x + this.width/2 - this.imagem.width/2, this.y + 120 - this.imagem.height/2);
 
         ctx.fillStyle = "black";
         ctx.textAlign = "center";

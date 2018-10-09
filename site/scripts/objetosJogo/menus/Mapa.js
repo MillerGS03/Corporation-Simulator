@@ -99,7 +99,10 @@ function Mapa()
             this.btnFechar.ativarInteracao();
 
             if (lugarAberto != -1)
+            {
                 btnVoltar.ativarInteracao();
+                abrirLugar();
+            }
             else
                 ativarLugares();
         }
@@ -109,7 +112,10 @@ function Mapa()
             this.btnFechar.hovering = false;
                 
             if (lugarAberto == -1)
+            {
                 desativarLugares();
+                fecharLugar();
+            }
             btnVoltar.desativarInteracao();
 
             ativarBotoes();
@@ -153,9 +159,12 @@ function Mapa()
         for (var i = 0; i < lugares.length; i++)
             lugares[i].desenhar();
     }
+
+    var banco = new Banco(this.x, this.y);
     function desenharBanco()
     {
         desenharBaseLugar("Banco", imgIconeBanco);
+        banco.desenhar();
     }
     function desenharComercio()
     {
@@ -191,7 +200,7 @@ function Mapa()
         // No banco, será possível realizar empréstimos
         var banco         = new BotaoRetangular(este.x + 55, este.y + 80, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgBanco, imgBanco, fonte, "black", "Banco", true, false, true);
-        banco.onclick = function() {desativarLugares(); lugarAberto = 0;};
+        banco.onclick = function() {desativarLugares(); lugarAberto = 0; abrirLugar();};
 
         // Na área comercial, será possível abrir franquias
         var comercio      = new BotaoRetangular(este.x + 90, este.y + 275, 130, 130, null, 130, 130, corTransparente, corTransparente,
@@ -222,6 +231,20 @@ function Mapa()
             lugares[i].stroke = false;
         }
     }
+    function abrirLugar()
+    {
+        banco.desativar();
+        switch (lugarAberto)
+        {
+            case 0:
+                banco.ativar();
+                break;
+        }
+    }
+    function fecharLugar()
+    {
+        banco.desativar();
+    }
     function ativarLugares()
     {
         for (var i = 0; i < lugares.length; i++)
@@ -233,5 +256,31 @@ function Mapa()
         for (var i = 0; i < lugares.length; i++)
             lugares[i].desativarInteracao();
         btnVoltar.ativarInteracao();
+    }
+}
+function Banco(x, y)
+{
+    this.x = x;
+    this.y = y;
+
+    this.btnFazerEmprestimo = new BotaoRetangular(this.x + 70, this.y + 150, 200, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                  200, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                  "Fazer empréstimo", false, false, false);
+    this.desenhar = function()
+    {
+        ctx.save();
+
+        this.btnFazerEmprestimo.desenhar();
+        alert(this.txtQuantidade.render());
+
+        ctx.restore();
+    }
+    this.ativar = function()
+    {
+        this.btnFazerEmprestimo.ativarInteracao();
+    }
+    this.desativar = function()
+    {
+        this.btnFazerEmprestimo.desativarInteracao();
     }
 }

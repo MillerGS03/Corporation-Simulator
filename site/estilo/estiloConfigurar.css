@@ -38,7 +38,7 @@ div#painelConfiguracoesInter
 {
 	position: absolute;
 	background: url("../imagens/a.png");
-	background-size: 300px 300px;
+	background-size: 100%;
 	width: 300px;
 	height: 300px;
 	right: 500px;
@@ -54,7 +54,6 @@ div#painelConfiguracoesInter
     transition: background-color 0.5s;
     cursor: pointer;
     bottom: 0px;
-    background-size: 300px 300px;
 }
 .banner:hover > .overlay {
     width:100%;

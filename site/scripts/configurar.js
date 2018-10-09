@@ -1,10 +1,6 @@
 var arquivo;
 var senhaAtual = "teste";
 
-setTimeout(function() {
-	$("#foto").css("background-size", "300px 300px");
-}, 10);
-
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
 	$("#mudarImagem").css("top", "200px");

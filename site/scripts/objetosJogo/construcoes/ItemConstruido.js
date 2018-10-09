@@ -13,9 +13,8 @@ ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, ima
 ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140};
 ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130};
 ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 100, height: 100};
-ItemConstruido.caminho = {nome: "", preco: ItemAVender.caminho.preco, imagem: null, width: 20, height: 20};
 
-function ItemConstruido(informacoes, isPrimeiro) 
+function ItemConstruido(informacoes) 
 {
     this.x = 0;
     this.y = 0;
@@ -42,21 +41,19 @@ function ItemConstruido(informacoes, isPrimeiro)
         este.menuVisivel = true; 
         este.menu.x = xMouse; 
         este.menu.y = yMouse;
-        for (var i = 0; i < itens.length; i++)
-            itens[i].botao.adicionarTesteHover (
-                function()
-                {
-                    var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + 200 && yMouse > este.menu.y && yMouse < este.menu.y + 300;
-                    return !estaDentro;
-                }
-            );
         $("#meuCanvas").on("click", testarClick);
+        este.botao.adicionarTesteHover (
+            function()
+            {
+                var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + 200 && yMouse > este.menu.y && yMouse < este.menu.y + 300;
+                return !estaDentro;
+            }
+        );
     }
     function fecharMenu()
     {
         este.menuVisivel = false;
-        for (var i = 0; i < itens.length; i++)
-            itens[i].botao.removerTestesHover();
+        este.botao.removerTestesHover();
         $("#meuCanvas").off("click", testarClick);
     }
     function testarClick()
@@ -79,7 +76,7 @@ function ItemConstruido(informacoes, isPrimeiro)
  
         if (testandoPosicionamento)
         {
-            if (this.posicaoValida && tocando)
+            if (this.posicaoValida)
                 this.botao.backgroundColor = "Green";
             else
                 this.botao.backgroundColor = "Red";
@@ -90,18 +87,12 @@ function ItemConstruido(informacoes, isPrimeiro)
 
         ctx.restore();
     }
-
-    var itens = null;
-    this.passarItens = function(itensConstruidos)
-    {
-        itens = itensConstruidos;
-    }
     this.seguirMouse = function(funcPos)
     {
         funcaoPosicionamento = funcPos;
 
-        mover();
-        $("#meuCanvas").on("mousemove", mover);
+        moverParaMouse();
+        $("#meuCanvas").on("mousemove", moverParaMouse);
         $("#meuCanvas").on("click", pararDeSeguirMouse)
         if (funcaoPosicionamento != null)
         {
@@ -111,12 +102,12 @@ function ItemConstruido(informacoes, isPrimeiro)
     }
     function pararDeSeguirMouse()
     {
-        $("#meuCanvas").off("mousemove", mover);
+        $("#meuCanvas").off("mousemove", moverParaMouse);
         $("#meuCanvas").off("mousemove", funcaoPosicionamento);
         $("#meuCanvas").off("click", pararDeSeguirMouse);
 
         if (!este.posicaoValida)
-            itens.pop();
+            itensConstruidos.pop();
         else
         {
             botoes.push(este.botao);
@@ -125,97 +116,11 @@ function ItemConstruido(informacoes, isPrimeiro)
         testandoPosicionamento = false;
         ativarBotoes();
     }
-
-    var tocando = false;
-    function mover()
+    function moverParaMouse()
     {
-        if (isPrimeiro)
-        {
-            este.setX(rua.x - este.width - 2);
-            este.setY(yMouse);
-            tocando = true;
-        }
-        else
-        {
-            var coordenadaMaisProxima = new Object();
-            coordenadaMaisProxima.distancia = 5000;
-            coordenadaMaisProxima.x = -1;
-            coordenadaMaisProxima.y = -1;
-
-            // Aqui, a coordenada mais próxima deve ser encontrada.
-            for (var i = 0; i < itens.length - 1; i++)
-            {
-                var distX = distanciaX(itens[i]);
-                if (distX <= coordenadaMaisProxima.distancia && distX > 0)
-                {
-                    if (xMouse < itens[i].x)
-                        coordenadaMaisProxima.x = itens[i].x - este.width - 1;
-                    else
-                        coordenadaMaisProxima.x = itens[i].x + itens[i].width + 1;
-                    coordenadaMaisProxima.y = -1;
-                }
-                else
-                {
-                var distY = distanciaY(itens[i]);
-                if (distY < coordenadaMaisProxima.distancia && distY > 0)
-                {
-                    if (yMouse < itens[i].y)
-                        coordenadaMaisProxima.y = itens[i].y - este.height - 1;
-                    else
-                        coordenadaMaisProxima.y = itens[i].y + itens[i].height + 1;
-                    coordenadaMaisProxima.x = -1;
-                }
-            }
-            }
-
-            tocando = false;
-            if (coordenadaMaisProxima.x >= 0)
-            {
-                este.setX(coordenadaMaisProxima.x);
-                tocando = true;
-            }
-            else
-                este.setX(xMouse);
-            
-            if (coordenadaMaisProxima.y >= 0)
-            {
-                este.setY(coordenadaMaisProxima.y);
-                tocando = true;
-            }
-            else
-                este.setY(yMouse);
-        }
-    }
-    this.setX = function(x)
-    {
-        this.x = x;
-        this.botao.x = x;
-    }
-    this.setY = function(y)
-    {
-        this.y = y;
-        this.botao.y = y;
-    }
-    function distanciaX(outroItem)
-    {
-        if ((yMouse <= outroItem.y + outroItem.height && yMouse >= outroItem.y) ||
-            (outroItem.y < yMouse + este.height && outroItem.y > yMouse))
-        {
-            if (xMouse < outroItem.x)
-                return Math.abs(xMouse - outroItem.x);
-            return Math.abs(xMouse - (outroItem.x + outroItem.width))
-        }
-        return -1;
-    }
-    function distanciaY(outroItem)
-    {
-        if ((xMouse <= outroItem.x + outroItem.width && xMouse >= outroItem.x) ||
-            (outroItem.x < xMouse + este.width && outroItem.x > xMouse))
-        {
-            if (yMouse < outroItem.y)
-                return Math.abs(yMouse - outroItem.y);
-            return Math.abs(yMouse - (outroItem.y + outroItem.height));
-        }
-        return -1;
+        este.x = xMouse;
+        este.y = yMouse;
+        este.botao.x = xMouse;
+        este.botao.y = yMouse;
     }
 }

@@ -25,12 +25,12 @@ function Construcao()
     {
         var itemAtual = itensConstruidos[itensConstruidos.length - 1];
         itemAtual.posicaoValida = false;
-        if (itemAtual.x + itemAtual.width < rua.x - 1 && itemAtual.x > 1 && itemAtual.y > 62 && itemAtual.y + itemAtual.height < canvas.height - 1)
+        if (itemAtual.x + itemAtual.width < rua.x - 2 && itemAtual.x > 1 && itemAtual.y > 62 && itemAtual.y + itemAtual.height < canvas.height - 1)
         {
             var colidiu = false;
             for (var i = itensConstruidos.length - 2; i >= 0; i--)
-                if (itemAtual.x + itemAtual.width >= itensConstruidos[i].x && itemAtual.x <= itensConstruidos[i].x + itensConstruidos[i].width &&
-                    itemAtual.y + itemAtual.height >= itensConstruidos[i].y && itemAtual.y <= itensConstruidos[i].y + itensConstruidos[i].height)
+                if (itemAtual.x + itemAtual.width > itensConstruidos[i].x && itemAtual.x < itensConstruidos[i].x + itensConstruidos[i].width &&
+                    itemAtual.y + itemAtual.height > itensConstruidos[i].y && itemAtual.y < itensConstruidos[i].y + itensConstruidos[i].height)
                     {
                         colidiu = true;
                         break;
@@ -53,8 +53,6 @@ function Construcao()
         {
             construcao.abrirFechar();
             itensConstruidos.push(item);
-            for (var i = 0; i < itensConstruidos.length; i++)
-                itensConstruidos[i].passarItens(itensConstruidos);
             itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
             desativarBotoes();
         }
@@ -114,16 +112,16 @@ function Construcao()
         este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.recursosHumanos, este.itens.length));
 
         este.itens[0].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.armazem, itensConstruidos.length == 0), 0);
+            comprar(new ItemConstruido(ItemConstruido.armazem), 0);
         }
         este.itens[1].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.garagem, itensConstruidos.length == 0), 1);
+            comprar(new ItemConstruido(ItemConstruido.garagem), 1);
         }
         este.itens[2].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.operacional, itensConstruidos.length == 0), 2);
+            comprar(new ItemConstruido(ItemConstruido.operacional), 2);
         }
         este.itens[3].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.recursosHumanos, itensConstruidos.length == 0), 3)
+            comprar(new ItemConstruido(ItemConstruido.recursosHumanos), 3)
         }
     }
 

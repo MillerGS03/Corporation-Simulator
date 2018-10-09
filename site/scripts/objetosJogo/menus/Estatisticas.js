@@ -36,6 +36,7 @@ function Estatisticas()
             ctx.beginPath();
             ctx.moveTo(X, Y);
             var atual, atualY = Y, atualX = X;
+
             ctx.restore();
         }
     }
@@ -76,8 +77,7 @@ function Estatisticas()
     function desenharEixos(x, y, e)
     {
         ctx.save();
-        ctx.strokeStyle = "#eee";
-        ctx.stroke();
+        
         ctx.beginPath();
         ctx.lineTo(x, y);
         ctx.moveTo(x - 30, y);
@@ -86,6 +86,8 @@ function Estatisticas()
         ctx.lineTo(x, y + 30);
         ctx.strokeStyle = "#000";
         ctx.stroke();
+        ctx.closePath();
+
         ctx.fillStyle = "Black";
         var str = "";
         for (var i = 1; i <= 10; i++) {
@@ -95,7 +97,6 @@ function Estatisticas()
             ctx.fillText(str, x - (i!=10?35:22), y - (34 * i), x);
             ctx.font = "bold 8pt Century Gothic";
             ctx.fillText((i!=10?e:e+1), x - 9, y - (34 * i) - 3);
-            ctx.stroke();
         }
         ctx.font = "bold 16pt Century Gothic";
         ctx.fillText("R$", x - 30, y - 385);
@@ -105,8 +106,8 @@ function Estatisticas()
         var yAtual;
         var atual;
         dias = calendario.qtosDiasTemOMes[calendario.mes - 1];
-        ctx.save();
         var aux3 = x;
+
         ctx.beginPath();
         for (var i = 0; i <= dias; i++) {
             aux3 += (i!=0?(i<11?16:21):5);
@@ -124,6 +125,8 @@ function Estatisticas()
             ctx.lineTo(xAtual, yAtual);
             ctx.stroke();
         }
+        ctx.closePath();
+
         ctx.beginPath();
         ctx.strokeStyle = "Black";
         ctx.moveTo(x + 620, y);
@@ -132,6 +135,7 @@ function Estatisticas()
         ctx.lineTo(x + 620, y + 7.5);
         ctx.lineTo(x + 620, y);
         ctx.stroke();
+        ctx.closePath();
         ctx.beginPath();
         ctx.strokeStyle = "Black";
         ctx.moveTo(x, y - 350);
@@ -140,6 +144,8 @@ function Estatisticas()
         ctx.lineTo(x + 7.5, y - 350);
         ctx.lineTo(x, y - 350);
         ctx.stroke();
+        ctx.closePath();
+
         ctx.restore();
     }
 }

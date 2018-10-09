@@ -1,4 +1,6 @@
-var valores = new Array(757612, 70238, 555451, 129640, 161541, 610650, 955473);
+var valores = new Array();
+var atual = 0;
+var dias;
 function Estatisticas()
 {
     this.width = 700;
@@ -101,7 +103,6 @@ function Estatisticas()
         ctx.font = "bold 16pt Century Gothic";
         ctx.fillText("R$", x - 30, y - 385);
         ctx.font = "bold 10pt Century Gothic";
-        var dias;
         var xAtual;
         var yAtual;
         var atual;
@@ -147,5 +148,15 @@ function Estatisticas()
         ctx.closePath();
 
         ctx.restore();
+    }
+    this.adicionarValor = function (v) {
+        if (!isNaN(v))
+            valores[atual] = v;
+        if (atual >= dias){
+            for (var i = 0; i < dias; i++)
+                valores[i] = valores[i+1];
+        }
+        else
+            atual++;
     }
 }

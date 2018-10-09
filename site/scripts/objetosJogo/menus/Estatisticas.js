@@ -1,4 +1,4 @@
-var valores = new Array(1, 2, 3, 4, 5, 6);
+var valores = new Array(757612, 70238, 555451, 129640, 161541, 610650, 955473);
 function Estatisticas()
 {
     this.width = 700;
@@ -20,10 +20,22 @@ function Estatisticas()
 
         if (this.aberto)
         {
+            var escala;
+            var X = este.x + 65;
+            var Y = este.y + 450;
             ctx.save();
-
+            var aux = 0;
+            for (var i = 0; i < valores.length; i++) {
+                if (aux < valores[i])
+                    aux = valores[i];
+            }
+            var aux2 = aux + "";
+            escala = aux2.length - 1;
             desenharJanela();
-            desenharGrafico(this.x, this.y);
+            desenharEixos(X, Y, escala);
+            ctx.beginPath();
+            ctx.moveTo(X, Y);
+            var atual, atualY = Y, atualX = X;
 
             ctx.restore();
         }
@@ -62,47 +74,78 @@ function Estatisticas()
         este.btnFechar.desenhar();
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
     }
-    function desenharGrafico(x, y)
+    function desenharEixos(x, y, e)
     {
-        y += 60;
-        ctx.strokeStyle = "#eee";
-        ctx.stroke();
-    
-        // axis
+        ctx.save();
+        
         ctx.beginPath();
         ctx.lineTo(x, y);
-        ctx.moveTo(x + 30, y + 290);
-        ctx.lineTo(x + 530, y + 290);
-        ctx.moveTo(x + 60, y);
-        ctx.lineTo(x + 60, y + 375);
-    
-        
+        ctx.moveTo(x - 30, y);
+        ctx.lineTo(x + 620, y);
+        ctx.moveTo(x, y - 350);
+        ctx.lineTo(x, y + 30);
         ctx.strokeStyle = "#000";
         ctx.stroke();
-        
-        // graphing functons
-    
-        var roulette17 = (function() {
-            var winnings = 0;
-            return function() {
-                winnings = valores[3];
-                return winnings;
-            };
-        })();
-    
-        var lineGraph = function(o) {
-            ctx.beginPath();
-            ctx.moveTo(x + 60, y + 290);
-            for(var i = x + 61; i < 500; i += 1) {
-                ctx.lineTo(i, y + -o.stepFunction() + 290);
-            }
-            ctx.strokeStyle = o.color;
+        ctx.closePath();
+
+        ctx.fillStyle = "Black";
+        var str = "";
+        for (var i = 1; i <= 10; i++) {
+            str = (i!=10?i + " x 10":"10");
+            ctx.textAlign = "center";
+            ctx.font = "bold 12pt Century Gothic";
+            ctx.fillText(str, x - (i!=10?35:22), y - (34 * i), x);
+            ctx.font = "bold 8pt Century Gothic";
+            ctx.fillText((i!=10?e:e+1), x - 9, y - (34 * i) - 3);
+        }
+        ctx.font = "bold 16pt Century Gothic";
+        ctx.fillText("R$", x - 30, y - 385);
+        ctx.font = "bold 10pt Century Gothic";
+        var dias;
+        var xAtual;
+        var yAtual;
+        var atual;
+        dias = calendario.qtosDiasTemOMes[calendario.mes - 1];
+        var aux3 = x;
+
+        ctx.beginPath();
+        for (var i = 0; i <= dias; i++) {
+            aux3 += (i!=0?(i<11?16:21):5);
+            ctx.fillText(i, aux3, y);
             ctx.stroke();
-        };
-    
-        lineGraph({
-            'stepFunction': roulette17,
-            'color': '#00e'
-        });
+            ctx.strokeStyle = "#4286f4";
+            atual = valores[i]/Math.pow(10, e);
+            yAtual = y-(34 * atual);
+            if (i != 0) {
+                xAtual = aux3; 
+            }
+            else {
+                xAtual = x;
+            }
+            ctx.lineTo(xAtual, yAtual);
+            ctx.stroke();
+        }
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.strokeStyle = "Black";
+        ctx.moveTo(x + 620, y);
+        ctx.lineTo(x + 620, y - 7.5);
+        ctx.lineTo(x + 635, y);
+        ctx.lineTo(x + 620, y + 7.5);
+        ctx.lineTo(x + 620, y);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.strokeStyle = "Black";
+        ctx.moveTo(x, y - 350);
+        ctx.lineTo(x - 7.5, y - 350);
+        ctx.lineTo(x, y - 365);
+        ctx.lineTo(x + 7.5, y - 350);
+        ctx.lineTo(x, y - 350);
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.restore();
     }
 }

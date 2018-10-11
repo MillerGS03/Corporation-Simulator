@@ -148,24 +148,23 @@ function ItemConstruido(informacoes, isPrimeiro)
                 var distX = distanciaX(itens[i]);
                 if (distX <= coordenadaMaisProxima.distancia && distX > 0)
                 {
+                    coordenadaMaisProxima.distancia = distX;
                     if (xMouse < itens[i].x)
                         coordenadaMaisProxima.x = itens[i].x - este.width - 1;
                     else
                         coordenadaMaisProxima.x = itens[i].x + itens[i].width + 1;
                     coordenadaMaisProxima.y = -1;
                 }
-                else
-                {
                 var distY = distanciaY(itens[i]);
                 if (distY < coordenadaMaisProxima.distancia && distY > 0)
                 {
+                    coordenadaMaisProxima.distancia = distY;
                     if (yMouse < itens[i].y)
                         coordenadaMaisProxima.y = itens[i].y - este.height - 1;
                     else
                         coordenadaMaisProxima.y = itens[i].y + itens[i].height + 1;
                     coordenadaMaisProxima.x = -1;
                 }
-            }
             }
 
             tocando = false;

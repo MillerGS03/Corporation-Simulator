@@ -53,7 +53,7 @@ function Mapa()
     var lugarAberto = -1;
     var btnVoltar = new BotaoRetangular(this.x + 20, this.y + 80, 40, 40, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                         40, 40, "gray", "#a3a3a3", imgBtnVoltar, imgBtnVoltar, "", "", "", false, false, false);
-    btnVoltar.onclick = function() {ativarLugares(); lugarAberto = -1};
+    btnVoltar.onclick = function() {ativarMapa(); lugarAberto = -1};
 
     const corFundo = "#00b71e"
     var lugares = new Array();
@@ -104,7 +104,7 @@ function Mapa()
                 abrirLugar();
             }
             else
-                ativarLugares();
+                ativarMapa();
         }
         else
         {
@@ -113,7 +113,7 @@ function Mapa()
                 
             if (lugarAberto == -1)
             {
-                desativarLugares();
+                desativarMapa();
                 fecharLugar();
             }
             btnVoltar.desativarInteracao();
@@ -200,22 +200,22 @@ function Mapa()
         // No banco, será possível realizar empréstimos
         var btnBanco         = new BotaoRetangular(este.x + 55, este.y + 80, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgBanco, imgBanco, fonte, "black", "Banco", true, false, true);
-        btnBanco.onclick = function() {desativarLugares(); lugarAberto = 0; abrirLugar();};
+        btnBanco.onclick = function() {desativarMapa(); lugarAberto = 0; abrirLugar();};
 
         // Na área comercial, será possível abrir franquias
         var btnComercio      = new BotaoRetangular(este.x + 90, este.y + 275, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgComercio, imgComercio, fonte, "black", "Comércio", true, false, true);
-        btnComercio.onclick = function() {desativarLugares(); lugarAberto = 1;};
+        btnComercio.onclick = function() {desativarMapa(); lugarAberto = 1;};
 
         // Na fábrica, será possível aumentar a produção
         var btnFabrica       = new BotaoRetangular(este.x + 555, este.y + 90, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgFabrica, imgFabrica, fonte, "black", "Fábrica", true, false, true);
-        btnFabrica.onclick = function() {desativarLugares(); lugarAberto = 2;};
+        btnFabrica.onclick = function() {desativarMapa(); lugarAberto = 2;};
         
         // Nos fornecedores, será possível regular a entregar de matéria prima
         var btnFornecedores  = new BotaoRetangular(este.x + 600, este.y + 438, 140, 140, null, 140, 140, corTransparente, corTransparente,
                                                 imgFornecedores, imgFornecedores, fonte, "black", "Fornecedores", true, false, true);
-        btnFornecedores.onclick = function() {desativarLugares(); lugarAberto = 3;};               
+        btnFornecedores.onclick = function() {desativarMapa(); lugarAberto = 3;};               
 
         lugares.push(btnEmpresa);
         lugares.push(btnBanco);
@@ -245,13 +245,14 @@ function Mapa()
     {
         banco.desativar();
     }
-    function ativarLugares()
+    function ativarMapa()
     {
+        fecharLugar();
         for (var i = 0; i < lugares.length; i++)
             lugares[i].ativarInteracao();
         btnVoltar.desativarInteracao();
     }
-    function desativarLugares()
+    function desativarMapa()
     {
         for (var i = 0; i < lugares.length; i++)
             lugares[i].desativarInteracao();
@@ -276,11 +277,11 @@ function Banco(x, y)
     this.btnFazerSaque = new BotaoRetangular(xOperacoes + 60, yOperacoes + 70, 200, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                              200, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     "Fazer saque", false, false, false);
-    this.btnFazerSaque.onclick = function() {aberto = 1};
+    this.btnFazerSaque.onclick = function() {aberto = 1; ativarTeclado()};
     this.btnFazerDeposito = new BotaoRetangular(xOperacoes + 60, yOperacoes + 130, 200, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                   200, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                    "Fazer depósito", false, false, false);
-    this.btnFazerDeposito.onclick = function() {aberto = 2};
+    this.btnFazerDeposito.onclick = function() {aberto = 2; ativarTeclado()};
 
     /**
      * 0 -> Tela inicial
@@ -321,13 +322,63 @@ function Banco(x, y)
         desenharTeclado();
     }
 
+    var xTeclado = este.x + 275;
+    var yTeclado = este.y + 275;
+
     var botoesTeclado = new Array();
-    for (var i = 0; i < 10; i++)
-        botoesTeclado.push(new BotaoRetangular(este.x + 150 + ((i - 1) % 3) * 40, este.y + 300 + Math.ceil((i / 3))*40, 
-                           30, 30, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 30, 30, "gray", "#a3a3a3", null,
-                           null, "bold 18pt Century Gothic", "white", i + "", false, false, false));
-    botoesTeclado[0].x = este.x + 190;
-    botoesTeclado[0].y = este.y + 460;
+    for (var i = 0; i < 12; i++)
+        botoesTeclado.push(criarBotaoTeclado(i));
+
+    function criarBotaoTeclado(numero)
+    {
+        var xBotao = 0;
+        var yBotao = 0;
+        var widthBotao = 40;
+        var heightBotao = 40;
+        var corBotao = "gray";
+        var corBotaoHover = "#a3a3a3";
+        var texto = "";
+
+        if (numero >= 12)
+        {
+            widthBotao = 80;
+            xBotao =  xTeclado + widthBotao * 3 + 45;
+            switch (numero)
+            {
+                case 12:
+                    corBotao = "#cc4040";
+                    corBotaoHover = "#dd5050";
+                    texto = "Cancelar";
+                    break;
+                case 13:
+                    break;
+                case 14:
+                    break;
+            }
+        }
+        else
+        {
+            if (numero < 10)
+                texto = numero + "";
+            if (numero != 0)
+            {
+                if (numero != 11)
+                    xBotao = xTeclado + 20 + ((numero - 1) % 3) * (widthBotao + 5);
+                else
+                    xBotao = xTeclado + 30 + widthBotao * 2;
+                yBotao = yTeclado + 25 + Math.ceil(numero / 3 - 1) * (heightBotao + 5);
+            }
+            else
+            {
+                xBotao = xTeclado + 25 + widthBotao;
+                yBotao = yTeclado + 40 + heightBotao * 3;
+            }
+        }
+        return (new BotaoRetangular(xBotao, yBotao, widthBotao, widthBotao,
+                                   {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 
+                                    widthBotao, heightBotao, corBotao, corBotaoHover, null, null,
+                                    "bold 18pt Century Gothic", "black", texto, false, false, true));
+    }
 
     function desenharTeclado()
     {
@@ -335,8 +386,7 @@ function Banco(x, y)
 
         ctx.fillStyle = "#a1a1a1";
         ctx.strokeStyle = "black";
-        var widthTeclado = 250;
-        roundRect(este.x + 400 - widthTeclado/2, este.y + 250, widthTeclado, 320, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
+        roundRect(este.x + 275, yTeclado, 250, 230, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
         for (var i = 0; i < botoesTeclado.length; i++)
             botoesTeclado[i].desenhar();
     
@@ -385,11 +435,29 @@ function Banco(x, y)
                 this.btnFazerSaque.ativarInteracao();
                 this.btnFazerDeposito.ativarInteracao();
                 break;
+            case 1:
+                ativarTeclado();
+                break;
+            case 2:
+                ativarTeclado();
+                break;
         }
+    }
+    function ativarTeclado()
+    {
+        for (var i = 0; i < botoesTeclado.length; i++)
+            botoesTeclado[i].ativarInteracao();
     }
     this.desativar = function()
     {
         this.btnFazerSaque.desativarInteracao();
         this.btnFazerDeposito.desativarInteracao();
+        if (aberto > 0)
+            desativarTeclado();
+    }
+    function desativarTeclado()
+    {
+        for (var i = 0; i < botoesTeclado.length; i++)
+            botoesTeclado[i].desativarInteracao();
     }
 }

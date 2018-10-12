@@ -1,0 +1,67 @@
+.select
+{
+	position: absolute;
+	top: 200px;
+	left: 300px;
+	width: 400px;
+	height: 65px;
+	background-color: transparent;
+	border-radius: 10px;
+	font-family: "Century Gothic";
+	font-size: 18pt;
+	z-index: 40;
+}
+.select:hover
+{
+	cursor: pointer;
+}
+
+.opcaoSelect
+{
+	width: 400px;
+	height: 65px;
+	font-size: 16pt;
+}
+
+.btnCarregar
+{
+	position: absolute;
+	top: 390px;
+	left: 380px;
+	width: 200px;
+	height: 50px;
+	background-color: white;
+	border-radius: 50px;
+	font-size: 15pt;
+	font-family: "Century Gothic";
+	color: green;
+	font-weight: bold;
+	visibility: hidden;
+	z-index: 323;
+}
+
+.btnCarregar:hover
+{
+	color: white;
+	background-color: green;
+	transform: scale(1.2, 1.2);
+	cursor: pointer;
+}
+#painelSelecionar
+{
+	position: relative;
+	top: 100px;
+	left: 250px;
+	width: 1000px;
+	height: 600px;
+	border-radius: 10%;
+	background: white;
+	font-family: "Century Gothic";
+}
+#txtSelecionar
+{
+	font-size: 24pt;
+	position: absolute;
+	left: 300px;
+	top: 80px;
+}

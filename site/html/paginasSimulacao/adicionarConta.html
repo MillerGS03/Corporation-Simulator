@@ -1,0 +1,32 @@
+<script src="../scripts/Simulacao/addConta.js"></script>
+<link rel="stylesheet" type="text/css" href="../estilo/Simulacao/estiloAdicionarConta.css">
+<div id="painelConta">
+	<span class="btnSair" id="sairModal"></span>
+	<h1>Adicionar Conta</h1>
+	<hr>
+	<form class="frm" action="">
+		<label id="nome">
+			<span>Nome da Conta:</span><br>
+			<input type="text" id="nomeConta">
+		</label>
+		<label id="tipo"> 											<!-- ganho ou perda -->
+			<span>Tipo:</span><br>
+			<input type="radio" name="tipoConta" id="ganho">Ganho     <input type="radio" name="tipoConta" id="perda">Perda
+		</label>
+		<label id="valor">
+			<span>Valor:</span><br>
+			<input type="text" id="valorConta">
+		</label>
+		<label id="intervaloTempo">
+			<span>Intervalo de tempo:</span><br>
+			<input type="text" id="nTempo"><select id="tTempo"><option>Dia(s)</option><option>Mes(es)</option><option>Ano(s)</option></select>
+		</label>
+		<label id="class">
+			<span>Classificacao:</span><br>
+			<select id="classificacoes">
+				<option selected disabled>Classificacoes disponiveis</option>
+			</select>
+		</label>
+		<input type="button" id="adicionarConta" value="Adicionar conta">
+	</form>
+</div>

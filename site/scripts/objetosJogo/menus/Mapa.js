@@ -186,8 +186,8 @@ function Mapa()
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "black";
-        ctx.fillText(nome, este.x + este.width / 2, este.y + 90);
-        ctx.drawImage(imagem, este.x + este.width - 74, este.y + 70);
+        ctx.fillText(nome, este.x + este.width / 2, este.y + 80);
+        ctx.drawImage(imagem, este.x + este.width - 74, este.y + 65);
     }
     function configurarLugares()
     {
@@ -266,32 +266,53 @@ function Banco(x, y)
 
     var este = this;
 
-    var xOperacoes = this.x + 25;
-    var yOperacoes = this.y + 150;
-    var widthOperacoes = 320;
-    var heightOperacoes = 200;
+    var widthTela = 620;
+    var heightTela = 295;
+    var xTela = this.x + 400 - widthTela/2;
+    var yTela = this.y + 105;
 
-    var xInfoConta = xOperacoes + widthOperacoes + 20;
-    var yInfoConta = this.y + 150;
+    var xInfoConta = xTela + 30;
+    var yInfoConta = yTela + 30;
 
-    this.btnFazerSaque = new BotaoRetangular(xOperacoes + 60, yOperacoes + 70, 200, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
-                                             200, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
-                                                    "Fazer saque", false, false, false);
-    this.btnFazerSaque.onclick = function() {aberto = 1; ativarTeclado()};
-    this.btnFazerDeposito = new BotaoRetangular(xOperacoes + 60, yOperacoes + 130, 200, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
-                                                  200, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
-                                                   "Fazer depósito", false, false, false);
-    this.btnFazerDeposito.onclick = function() {aberto = 2; ativarTeclado()};
+    this.btnTelaInicial = new BotaoRetangular(xTela + 10, yTela + 10, 90, 40, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                              90, 40, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                              "Voltar", false, false, false);
+    this.btnTelaInicial.onclick = function() {aberto = 0; ativarTela()};
+
+    this.btnFazerSaque = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 50, 300, 50, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                             300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                             "Fazer saque", false, false, false);
+    this.btnFazerSaque.onclick = function() {aberto = 1; ativarTela()};
+
+    this.btnFazerDeposito = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 110, 300, 50, 
+                                                {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                "Fazer depósito", false, false, false);
+    this.btnFazerDeposito.onclick = function() {aberto = 2; ativarTela()};
+
+    this.btnInfoConta = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 170, 300, 50, 
+                                                {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                "Informações da Conta", false, false, false);
+    this.btnInfoConta.onclick = function() {aberto = 3; ativarTela()};
 
     /**
      * 0 -> Tela inicial
      * 1 -> Saque
      * 2 -> Depósito
+     * 3 -> Informações da conta
      */
     var aberto = 0;
+
     this.desenhar = function()
     {
         ctx.save();
+
+        desenharTeclado();
+        desenharVisor();
+
+        if (aberto > 0)
+            este.btnTelaInicial.desenhar();
 
         switch (aberto)
         {
@@ -304,160 +325,190 @@ function Banco(x, y)
             case 2:
                 desenharTelaDeposito();
                 break;
+            case 3:
+                desenharTelaInfoConta();
+                break;
         }
 
         ctx.restore();
     }
-    function desenharTelaInicial()
-    {
-        desenharOperacoes();
-        desenharInfoConta();
-    }
-    function desenharTelaSaque()
-    {
-        desenharTeclado();
-    }
-    function desenharTelaDeposito()
-    {
-        desenharTeclado();
-    }
-
-    var xTeclado = este.x + 275;
-    var yTeclado = este.y + 275;
-
-    var botoesTeclado = new Array();
-    for (var i = 0; i < 12; i++)
-        botoesTeclado.push(criarBotaoTeclado(i));
-
-    function criarBotaoTeclado(numero)
-    {
-        var xBotao = 0;
-        var yBotao = 0;
-        var widthBotao = 40;
-        var heightBotao = 40;
-        var corBotao = "gray";
-        var corBotaoHover = "#a3a3a3";
-        var texto = "";
-
-        if (numero >= 12)
-        {
-            widthBotao = 80;
-            xBotao =  xTeclado + widthBotao * 3 + 45;
-            switch (numero)
-            {
-                case 12:
-                    corBotao = "#cc4040";
-                    corBotaoHover = "#dd5050";
-                    texto = "Cancelar";
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-            }
-        }
-        else
-        {
-            if (numero < 10)
-                texto = numero + "";
-            if (numero != 0)
-            {
-                if (numero != 11)
-                    xBotao = xTeclado + 20 + ((numero - 1) % 3) * (widthBotao + 5);
-                else
-                    xBotao = xTeclado + 30 + widthBotao * 2;
-                yBotao = yTeclado + 25 + Math.ceil(numero / 3 - 1) * (heightBotao + 5);
-            }
-            else
-            {
-                xBotao = xTeclado + 25 + widthBotao;
-                yBotao = yTeclado + 40 + heightBotao * 3;
-            }
-        }
-        return (new BotaoRetangular(xBotao, yBotao, widthBotao, widthBotao,
-                                   {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 
-                                    widthBotao, heightBotao, corBotao, corBotaoHover, null, null,
-                                    "bold 18pt Century Gothic", "black", texto, false, false, true));
-    }
-
     function desenharTeclado()
     {
         ctx.save();
 
         ctx.fillStyle = "#a1a1a1";
         ctx.strokeStyle = "black";
-        roundRect(este.x + 275, yTeclado, 250, 230, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
+        roundRect(xTeclado, yTeclado, widthTeclado, heightTeclado, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
         for (var i = 0; i < botoesTeclado.length; i++)
             botoesTeclado[i].desenhar();
     
         ctx.restore();
     }
-    function desenharOperacoes()
+    function desenharVisor()
     {
         ctx.save();
-        
+
         ctx.fillStyle = "#d1d1d1";
         ctx.strokeStyle = "black";
-        roundRect(xOperacoes, yOperacoes, widthOperacoes, heightOperacoes, {upperLeft:10, upperRight:10, lowerLeft:10, lowerRight:10}, true, true);
+        roundRect(xTela, yTela, widthTela, heightTela, {upperLeft:10, upperRight:10, lowerLeft:10, lowerRight:10}, true, true);
         
-        ctx.fillStyle = "black";
-        ctx.font = "bold 20pt Century Gothic";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "top";
-        ctx.fillText("Operações", xOperacoes + widthOperacoes/2, yOperacoes + 15, widthOperacoes);
-
-        este.btnFazerSaque.desenhar();
+        ctx.restore();
+    }
+    function desenharTelaInicial()
+    {
         este.btnFazerDeposito.desenhar();
-        
-        ctx.restore();
+        este.btnFazerSaque.desenhar();
+        este.btnInfoConta.desenhar();
     }
-    function desenharInfoConta()
+    function desenharTelaSaque()
     {
         ctx.save();
-        
-        ctx.fillStyle = "#d1d1d1";
-        ctx.strokeStyle = "black";
-        roundRect(xInfoConta, yInfoConta, 410, 400, {upperLeft:10, upperRight:10, lowerLeft:10, lowerRight:10}, true, true);
-
-        ctx.fillStyle = "black";
-        ctx.font = "bold 20pt Century Gothic";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "top";
-        ctx.fillText("Sua Conta", xInfoConta + 205, yInfoConta + 15, 410);
 
         ctx.restore();
     }
+    function desenharTelaDeposito()
+    {
+        ctx.save();
+
+        ctx.restore();
+    }
+    function desenharTelaInfoConta()
+    {
+        ctx.save();
+
+        ctx.restore();
+    }
+
+    var widthTeclado = 250;
+    var heightTeclado = 180;
+    var xTeclado = este.x + 400 - widthTeclado/2;
+    var yTeclado = este.y + 410;
+
+    var botoesTeclado = new Array();
+    for (var i = 0; i <= 15; i++)
+        botoesTeclado.push(criarBotaoTeclado(i));
+
+    var apertouDigito = function(digito) {};
+    var apertouCancela = function () {};
+    var apertouCorrige = function() {};
+    var apertouEntra = function() {};
+
+    function criarBotaoTeclado(numero)
+    {
+        var xBotao = 0;
+        var yBotao = 0;
+        var widthBotao = 35;
+        var heightBotao = 35;
+        var corBotao = "gray";
+        var corBotaoHover = "#a3a3a3";
+        var texto = "";
+        var fonte = "bold 17pt Century Gothic";
+        var funcaoClick = null;
+
+        if (numero > 11)
+        {
+            widthBotao = 80;
+            xBotao =  xTeclado + widthTeclado - 20 - widthBotao;
+            yBotao = yTeclado + 15 +  (heightBotao + 5) * (numero - 12);
+            fonte = "bold 14pt Century Gothic";
+            switch (numero)
+            {
+                case 12:
+                    corBotao = "#cc4040";
+                    corBotaoHover = "#dd5050";
+                    texto = "Cancela";
+                    funcaoClick = function() {apertouCancela()};
+                    break;
+                case 13:
+                    corBotao = "#fffb21";
+                    corBotaoHover = "#fffd8d";
+                    texto = "Corrige";
+                    funcaoClick = function() {apertouCorrige()};
+                    break;
+                case 14:
+                    corBotao = "#40cc40";
+                    corBotaoHover = "#50dd50";
+                    texto = "Entra";
+                    funcaoClick = function() {apertouEntra()};
+                    break;
+            }
+        }
+        else
+        {
+            if (numero < 10)
+            {
+                texto = numero + "";
+                funcaoClick = function() {apertouDigito(numero)};
+            }
+            if (numero != 0)
+            {
+                if (numero != 11)
+                    xBotao = xTeclado + 20 + ((numero - 1) % 3) * (widthBotao + 5);
+                else
+                    xBotao = xTeclado + 30 + widthBotao * 2;
+                yBotao = yTeclado + 15 + Math.ceil(numero / 3 - 1) * (heightBotao + 5);
+            }
+            else
+            {
+                xBotao = xTeclado + 25 + widthBotao;
+                yBotao = yTeclado + 30 + heightBotao * 3;
+            }
+        }
+        var botao = new BotaoRetangular(xBotao, yBotao, widthBotao, heightBotao,
+                                        {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 
+                                        widthBotao, heightBotao, corBotao, corBotaoHover, null, null,
+                                        fonte, "black", texto, false, false, false);
+        if (funcaoClick != null)
+            botao.onclick = funcaoClick;
+        return botao;
+    }
+
     this.ativar = function()
     {
-        switch (aberto)
-        {
-            case 0:
-                this.btnFazerSaque.ativarInteracao();
-                this.btnFazerDeposito.ativarInteracao();
-                break;
-            case 1:
-                ativarTeclado();
-                break;
-            case 2:
-                ativarTeclado();
-                break;
-        }
+        ativarTeclado();
+        ativarTela();
     }
     function ativarTeclado()
     {
         for (var i = 0; i < botoesTeclado.length; i++)
             botoesTeclado[i].ativarInteracao();
     }
+    function ativarTela()
+    {
+        if (aberto > 0)
+        {
+            este.btnTelaInicial.ativarInteracao();
+            este.btnFazerSaque.desativarInteracao();
+            este.btnFazerDeposito.desativarInteracao();
+            este.btnInfoConta.desativarInteracao();
+        }
+        else
+        {
+            este.btnTelaInicial.desativarInteracao();
+            este.btnFazerSaque.ativarInteracao();
+            este.btnFazerDeposito.ativarInteracao();
+            este.btnInfoConta.ativarInteracao();
+        }
+    }
     this.desativar = function()
     {
-        this.btnFazerSaque.desativarInteracao();
-        this.btnFazerDeposito.desativarInteracao();
-        if (aberto > 0)
-            desativarTeclado();
+        desativarTeclado();
     }
     function desativarTeclado()
     {
         for (var i = 0; i < botoesTeclado.length; i++)
             botoesTeclado[i].desativarInteracao();
+    }
+    function desativarTela()
+    {
+        if (aberto > 0)
+            este.btnTelaInicial.desativarInteracao();
+        switch (aberto)
+        {
+            case 0:
+                este.btnFazerSaque.desativarInteracao();
+                este.btnFazerDeposito.desativarInteracao();
+            break;
+        }
     }
 }

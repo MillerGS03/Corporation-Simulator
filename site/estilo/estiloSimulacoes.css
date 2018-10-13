@@ -51,8 +51,11 @@
 {
 	position: relative;
 	top: 100px;
-	left: 250px;
-	width: 1000px;
+	left: 0px;
+	right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 900px;
 	height: 600px;
 	border-radius: 10%;
 	background: white;

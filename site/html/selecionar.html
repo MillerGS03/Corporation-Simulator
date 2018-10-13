@@ -2,11 +2,24 @@
 <link rel="stylesheet" type="text/css" href="../estilo/estiloSelecionar.css">
 <div id="painelSelecionar">
 	<h1 id="txtSelecionar">Selecione o jogo desejado:</h1>
-    <canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 200px; left: 300px; z-index: 3;"></canvas>
+    <canvas id="canvasSelect" width="400" height="65" style="position: absolute; top: 200px; left: 125px; z-index: 3;"></canvas>
     <select class="select" id="select">
         <option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
     </select>
     <!--<form action="" method="post"> -->
     	<input type="submit" id="btnCarregar" class="btnCarregar" value="Carregar!">
     <!--</form>-->
+    <button id="newGame">Criar novo jogo</button>
+    <div id="modalJogo" class="modal">
+		<div id="modalJogo-content">
+			<div id="painelAdicaoJogo">
+				<span id="btnSair"></span>
+				<form class="frm">
+					<h2 id="txtNome">Nome do novo jogo:</h2>
+					<input type="text" id="nomeJogo">
+					<button id="criar">Criar!</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

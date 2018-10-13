@@ -1,5 +1,6 @@
 var username;
 var rank;
+var conteudoAberto = null;
 
 function acessarDados() 
 {
@@ -31,9 +32,13 @@ function testarAncora()
 		$('#conteudo').css("width", "577px");
 	}
 }
-function abrir(arq) {
+function abrir(arq) 
+{
+	if (conteudoAberto == "jogo.html")
+		finalizarJogo();
 	$("#conteudo").empty();
 	$('#conteudo').load(arq);
+	conteudoAberto = arq;
 
 	setTimeout(testarAncora, 25);
 }

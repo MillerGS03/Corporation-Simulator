@@ -1,4 +1,12 @@
-﻿var canvas = null;
+﻿/**
+ * Variável contendo o elemento canvas;
+ * @type {HTMLCanvasElement}
+ */
+var canvas = null;
+/**
+ * Variável de contexto do canvas.
+ * @type {CanvasRenderingContext2D}
+ */
 var ctx = null;
 
 // imagens dos botões circulares
@@ -26,6 +34,11 @@ imgBtnMapaHover.src = "../imagens/botoes/btnMapaHover.png";
 imgBtnCalendarioHover.src = "../imagens/botoes/btnCalendarioHover.png";
 
 var botoes;
+
+/**
+ * Barra de informações (Nível, dinheiro em caixa e dia do mês)
+ * @type {BarraSuperior}
+ */
 var barra;
 var btnEstatisticas;
 var btnConstrucao;
@@ -34,6 +47,10 @@ var btnCalendario;
 var btnNotificacoes;
 var painelNotificacoes;
 var mapa;
+/**
+ * Calendário
+ * @type {Calendario}
+ */
 var calendario;
 var construcao;
 var estatisticas;
@@ -48,7 +65,7 @@ var yMouse;
 iniciar();
 function iniciar()
 {
- 	canvas = document.getElementById('meuCanvas');
+	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
 	barra = new BarraSuperior();
@@ -81,7 +98,7 @@ function iniciar()
 		}
 	}, 50);
 
-	canvas.addEventListener("mousemove", (function(e){
+	$("#meuCanvas").on("mousemove", (function(e){
 			var rect = e.target.getBoundingClientRect();
 	
 			xMouse = e.clientX - rect.left;
@@ -89,6 +106,11 @@ function iniciar()
 	})); 
 
 	calendario.adicionarEvento(25, 2, 1, 1);
+}
+function finalizarJogo()
+{
+	$("#meuCanvas").off();
+	clearInterval(timerDias);
 }
 function criarBotoes() 
 {

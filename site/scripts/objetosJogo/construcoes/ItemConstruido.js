@@ -115,7 +115,7 @@ function ItemConstruido(informacoes, isPrimeiro)
         $("#meuCanvas").off("mousemove", funcaoPosicionamento);
         $("#meuCanvas").off("click", pararDeSeguirMouse);
 
-        if (!este.posicaoValida)
+        if (!este.posicaoValida || !tocando)
             itens.pop();
         else
         {

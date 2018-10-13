@@ -16,7 +16,7 @@ $("#criar").on('click', function(){
 function iniciarSelecionar()
 {
     $("#select").on("mousemove", criarEfeitoSelect);
-    setInterval(testarOpcao, 10);
+    $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
 
     canvasSelect = document.getElementById("canvasSelect");
@@ -95,7 +95,7 @@ function iniciarSelecionar()
     function testarOpcao()
     {
         var s = document.getElementById("select");
-        if (s.selectedIndex > 0) {
+        if (s != null && s.selectedIndex > 0) {
             $("#btnCarregar").css("visibility", "visible");
             $("#btnCarregar").on("click", carregarJogo);
         }
@@ -135,4 +135,5 @@ function adicionarUmaOpcao(txt)
     o.text = txt;
     s.add(o);
     s.options[++numeroDeJogos].selected = true;
+    testarOpcao();
 }

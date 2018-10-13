@@ -91,16 +91,16 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.ativarInteracao = function() { // Ativa os eventos de mousemove e click
 		if (!this.ativo)
 		{
-			canvas.addEventListener("mousemove", testarHover);
-			canvas.addEventListener("click", clicou);
+			$("#meuCanvas").on("mousemove", testarHover);
+			$("#meuCanvas").on("click", clicou);
 			this.ativo = true;
 		}
 	}
 	this.desativarInteracao = function() { // Desativa os eventos de mousemove e click
 		if (this.ativo)
 		{
-			canvas.removeEventListener("mousemove", testarHover);
-			canvas.removeEventListener("click", clicou);
+			$("#meuCanvas").off("mousemove", testarHover);
+			$("#meuCanvas").off("click", clicou);
 			this.ativo = false;
 
 			if (this.hovering && this.changeCursor)

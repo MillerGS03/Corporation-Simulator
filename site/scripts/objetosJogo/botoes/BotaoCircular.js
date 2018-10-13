@@ -78,8 +78,8 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.ativarInteracao = function() {
 		if (!this.ativo)
 		{
-			canvas.addEventListener("mousemove", testarHover);
-			canvas.addEventListener("click", clicou);
+			$("#meuCanvas").on("mousemove", testarHover);
+			$("#meuCanvas").on("click", clicou);
 
 			this.ativo = true;
 		}
@@ -91,8 +91,8 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.desativarInteracao = function() { 
 		if (this.ativo)
 		{
-			canvas.removeEventListener("mousemove", testarHover);
-			canvas.removeEventListener("click", clicou);
+			$("#meuCanvas").off("mousemove", testarHover);
+			$("#meuCanvas").off("click", clicou);
 			
 			if (this.hovering && this.changeCursor)
 				canvas.style.cursor = "default";

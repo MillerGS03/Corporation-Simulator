@@ -9,30 +9,6 @@ var canvas = null;
  */
 var ctx = null;
 
-// imagens dos botões circulares
-var imgBtnEstatisticas = new Image();
-var imgBtnConstrucao = new Image();
-var imgBtnMapa = new Image();
-var imgBtnCalendario = new Image();
-var imgBtnNotificacoes = new Image();
-var imgBtnNotificacoes2 = new Image();
-imgBtnEstatisticas.src = "../imagens/botoes/btnEstatisticas.png";
-imgBtnConstrucao.src = "../imagens/botoes/btnConstrucao.png"
-imgBtnMapa.src = "../imagens/botoes/btnMapa.png";
-imgBtnCalendario.src = "../imagens/botoes/btnCalendario.png";
-imgBtnNotificacoes.src = "../imagens/botoes/btnNotificacoes.png";
-imgBtnNotificacoes2.src = "../imagens/botoes/btnNotificacoes2.png";
-
-// imagens dos botões circulares no evento hover
-var imgBtnEstatisticasHover = new Image();
-var imgBtnConstrucaoHover = new Image();
-var imgBtnMapaHover = new Image();
-var imgBtnCalendarioHover = new Image();
-imgBtnEstatisticasHover.src = "../imagens/botoes/btnEstatisticasHover.png";
-imgBtnConstrucaoHover.src = "../imagens/botoes/btnConstrucaoHover.png"
-imgBtnMapaHover.src = "../imagens/botoes/btnMapaHover.png";
-imgBtnCalendarioHover.src = "../imagens/botoes/btnCalendarioHover.png";
-
 var botoes;
 
 /**

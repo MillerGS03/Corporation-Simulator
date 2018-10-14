@@ -69,6 +69,7 @@ function iniciar()
 	ctx = canvas.getContext("2d");
 
 	barra = new BarraSuperior();
+	barra.dinheiro = 400000;
 	barra.onNivelMudou = function() {
 		construcao.setNivel(barra.nivel);
 	}
@@ -211,6 +212,7 @@ function passarDia()
 {
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
+	estatisticas.adicionarValor(barra.dinheiro);
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

@@ -1,21 +1,3 @@
-// Ícones dos itens a serem construídos mostrados no menu de construção
-var imgItemArmazem = new Image();
-var imgItemGaragem = new Image();
-var imgItemOperacional = new Image();
-var imgItemRecursosHumanos = new Image();
-imgItemArmazem.src = "../imagens/iconesItens/armazem.png";
-imgItemGaragem.src = "../imagens/iconesItens/garagem.png";
-imgItemOperacional.src = "../imagens/iconesItens/operacional.png";
-imgItemRecursosHumanos.src = "../imagens/iconesItens/recursosHumanos.png"
-
-var iconeDica = new Image();
-var iconeDicaHover = new Image();
-iconeDica.src = "../imagens/iconesItens/iconeDica.png";
-iconeDicaHover.src = "../imagens/iconesItens/iconeDicaHover.png";
-
-var imgBloqueado = new Image();
-imgBloqueado.src = "../imagens/iconesItens/bloqueado.png";
-
 ItemAVender.armazem     = {nome: "Armazém", descricao: ["Utilizado para armazenar", "matéria-prima."],
                             preco: 500, img: imgItemArmazem, nivelMinimo: 1};
 ItemAVender.garagem     = {nome: "Garagem", descricao: ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],

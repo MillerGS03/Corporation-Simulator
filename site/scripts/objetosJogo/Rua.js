@@ -1,14 +1,3 @@
-var imgRua = new Image();
-imgRua.src = "../imagens/rua.png";
-
-var imgsCarros = new Array();
-
-for (var i = 0; i < 12; i++)
-{
-	imgsCarros.push(new Image());
-	imgsCarros[i].src = "../imagens/carros/carro" + (i + 1) + ".png";
-}
-
 function Rua()
 {
 	var forcarParada = false;

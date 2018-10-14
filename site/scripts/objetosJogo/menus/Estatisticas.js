@@ -1,16 +1,3 @@
-var valores = new Array();
-var valoresTotais = new Array();
-var datas = new Array();
-var atual = 0;
-var atualTudo = 0;
-var dataAtual = 0;
-var dias;
-var imgProx = new Image();
-var imgAnterior = new Image();
-var tudo = false;
-var updateDeGrafico = false;
-var vezes = 0;
-var primerioUpdateDeData = true;
 function Estatisticas()
 {
     this.width = 700;
@@ -19,16 +6,26 @@ function Estatisticas()
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
     var este = this;
+    
+    var valores = new Array();
+    var valoresTotais = new Array();
+    var datas = new Array();
+    var atual = 0;
+    var atualTudo = 0;
+    var dataAtual = 0;
+    var dias;
+    var tudo = false;
+    var updateDeGrafico = false;
+    var vezes = 0;
+    var primerioUpdateDeData = true;
 
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
 
-    imgProx.src = '../imagens/funcionalidades/setaDireita.png';
-    imgAnterior.src = '../imagens/funcionalidades/setaEsquerda.png';
     this.btnProx = new BotaoCircular(este.x + este.width - 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgProx, imgProx, "18pt Century Gothic", "white", "", false, false, true);
-    this.btnAnterior = new BotaoCircular(este.x + 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgAnterior, imgAnterior, "18pt Century Gothic", "white", "", false, false, true);
+    this.btnAnterior = new BotaoCircular(este.x + 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgAnt, imgAnt, "18pt Century Gothic", "white", "", false, false, true);
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }

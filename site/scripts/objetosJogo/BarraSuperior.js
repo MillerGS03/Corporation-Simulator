@@ -1,10 +1,3 @@
-var imgDinheiro = new Image();
-var imgNivel = new Image();
-var imgCalendario = new Image();
-imgDinheiro.src = "../imagens/iconesBarraSuperior/iconeDinheiro.png";
-imgNivel.src = "../imagens/iconesBarraSuperior/iconeNivel.png";
-imgCalendario.src = "../imagens/iconesBarraSuperior/iconeCalendario.png";
-
 function BarraSuperior() {
 	this.nivel = 1;
 	this.xp = 0;

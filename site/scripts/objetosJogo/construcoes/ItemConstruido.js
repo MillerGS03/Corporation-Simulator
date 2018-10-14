@@ -1,13 +1,4 @@
-var imgArmazem = new Image();
-var imgGaragem = new Image();
-var imgOperacional = new Image();
-var imgRecursosHumanos = new Image();
-var imgMarketing = new Image();
-imgArmazem.src = "../imagens/construcoes/armazem.png";
-imgGaragem.src = "../imagens/construcoes/garagem.png";
-imgOperacional.src = "../imagens/construcoes/operacional.png";
-imgRecursosHumanos.src = "../imagens/construcoes/recursosHumanos.png";
-
+// Informaçõe estáticas
 ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100};
 ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130};
 ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140};

@@ -1,31 +1,3 @@
-var imgRuas = new Image();
-var imgBtnVoltar = new Image();
-
-var imgBanco = new Image();
-var imgFabrica = new Image();
-var imgComercio = new Image();
-var imgFornecedores = new Image();
-var imgEmpresa = new Image();
-
-var imgIconeBanco = new Image();
-var imgIconeComercio = new Image();
-var imgIconeFabrica = new Image();
-var imgIconeFornecedores = new Image();
-
-imgRuas.src = "../imagens/mapa/ruas.png";
-imgBtnVoltar.src = "../imagens/mapa/btnVoltar.png";
-
-imgBanco.src = "../imagens/mapa/banco.png";
-imgComercio.src = "../imagens/mapa/comercio.png";
-imgFabrica.src = "../imagens/mapa/fabrica.png";
-imgFornecedores.src = "../imagens/mapa/fornecedores.png";
-imgEmpresa.src = "../imagens/mapa/empresa.png";
-
-imgIconeBanco.src = "../imagens/mapa/iconeBanco.png";
-imgIconeComercio.src = "../imagens/mapa/iconeComercio.png";
-imgIconeFabrica.src = "../imagens/mapa/iconeFabrica.png";
-imgIconeFornecedores.src = "../imagens/mapa/iconeFornecedores.png";
-
 function Mapa()
 {
     this.width = 800;

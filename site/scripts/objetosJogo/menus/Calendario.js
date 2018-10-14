@@ -5,6 +5,7 @@ imgPosterior.src = "../imagens/menusBotoes/posterior.png";
 
 function Calendario()
 {
+    var f = 5;
     this.width = 900;
     this.height = 620;
     this.x = (canvas.width - this.width)/2;
@@ -110,6 +111,16 @@ function Calendario()
         this.dia++;
         if (this.dia > this.qtosDiasTemOMes[this.mes - 1])
         {
+            var numero = Math.floor(Math.random() * (2 - (-2) + 1)) - 2;
+            if (f + numero >= 0 && f + numero <= 10)
+                f += numero;
+            else if ((f + numero - 1 >= 0 && f + numero - 1 <= 10) || (f + numero + 1 >= 0 && f + numero + 1 <= 10))
+            {
+                if (numero < 0)
+                    f += numero + 1;
+                else
+                    f += numero - 1;
+            }
             this.dia = 1;
             this.mes++;
             if (this.mes > 12)
@@ -147,6 +158,8 @@ function Calendario()
             ctx.restore();
         }
     }
+
+    this.fatorEconomia = function () { return f;};
 
     /**
      * Desenha a janela do Calendário no canvas

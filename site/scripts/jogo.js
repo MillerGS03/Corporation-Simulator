@@ -189,6 +189,7 @@ function passarDia()
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
+	mapa.setFator(calendario.fatorEconomia());
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

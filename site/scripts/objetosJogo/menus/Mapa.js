@@ -1,5 +1,6 @@
 function Mapa()
 {
+    var fator = 5;
     this.width = 800;
     this.height = 600;
     this.x = (canvas.width - this.width)/2;
@@ -143,6 +144,7 @@ function Mapa()
     {
         desenharBaseLugar("Comércio", imgIconeComercio);
         comercio.desenhar();
+        comercio.setEconomia(fator);
     }
     function desenharFabrica()
     {
@@ -152,6 +154,7 @@ function Mapa()
     {
         desenharBaseLugar("Fornecedores", imgIconeFornecedores);
         fornecedores.desenhar();
+        fornecedores.setEconomia(fator);
     }
     function desenharBaseLugar(nome, imagem)
     {
@@ -180,7 +183,7 @@ function Mapa()
         // Na área comercial, será possível abrir franquias
         var btnComercio      = new BotaoRetangular(este.x + 90, este.y + 275, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgComercio, imgComercio, fonte, "black", "Comércio", true, false, true);
-        btnComercio.onclick = function() {desativarMapa(); lugarAberto = 1;};
+        btnComercio.onclick = function() {desativarMapa(); lugarAberto = 1; abrirLugar();};
 
         // Na fábrica, será possível aumentar a produção
         var btnFabrica       = new BotaoRetangular(este.x + 555, este.y + 90, 130, 130, null, 130, 130, corTransparente, corTransparente,
@@ -190,7 +193,7 @@ function Mapa()
         // Nos fornecedores, será possível regular a entregar de matéria prima
         var btnFornecedores  = new BotaoRetangular(este.x + 600, este.y + 438, 140, 140, null, 140, 140, corTransparente, corTransparente,
                                                 imgFornecedores, imgFornecedores, fonte, "black", "Fornecedores", true, false, true);
-        btnFornecedores.onclick = function() {desativarMapa(); lugarAberto = 3;};               
+        btnFornecedores.onclick = function() {desativarMapa(); lugarAberto = 3; abrirLugar();};               
 
         lugares.push(btnEmpresa);
         lugares.push(btnBanco);
@@ -243,4 +246,5 @@ function Mapa()
             lugares[i].desativarInteracao();
         btnVoltar.ativarInteracao();
     }
+    this.setFator = function(f) {fator = f;}
 }

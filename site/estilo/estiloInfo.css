@@ -6,6 +6,30 @@ body
 	min-width: 1000px;
 	max-width: 3000px;
 }
+@media screen and (min-width: 3000px) {
+	#conteudo {
+		width: 2577px;
+	}
+	#listaNavegacao {
+		left: 2220px;
+	}
+}
+@media screen and (min-width: 1000px) and (max-width: 3000px) {
+	#conteudo {
+		width: calc(100vw - 423px);
+	}
+	#listaNavegacao {
+		left: calc(100vw - 530px); 
+	}
+}
+@media screen and (max-width: 1000px) {
+	#conteudo {
+		width: 577px;
+	}
+	#listaNavegacao {
+		left: 470px;
+	}
+}
 header 
 {
 	min-width: 1000px;
@@ -31,8 +55,7 @@ header h1
 nav ul
 {
 	display: inline-block;
-	position: absolute;
-	right: 7px;
+	position: relative;
 }
 nav ul li
 {

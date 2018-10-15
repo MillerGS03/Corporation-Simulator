@@ -6,6 +6,30 @@ body
 	min-width: 1000px;
 	max-width: 3000px;
 }
+@media screen and (min-width: 3000px) {
+	#login {
+		left: 1850px;
+	}
+	#listaNavegacao {
+		left: 2220px;
+	}
+}
+@media screen and (min-width: 1000px) and (max-width: 3000px) {
+	#login {
+		left: calc(50vw + 100px);
+	}
+	#listaNavegacao {
+		left: calc(100vw - 530px); 
+	}
+}
+@media screen and (max-width: 1000px) {
+	#login {
+		left: 600px;
+	}
+	#listaNavegacao {
+		left: 470px;
+	}
+}
 header 
 {
 	min-width: 1000px;

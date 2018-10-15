@@ -131,18 +131,18 @@ function Mapa()
     }
 
     var economia = 4;
-    var fornecedores = new Fornecedores(this);
-    var banco = new Banco(this.x, this.y);
-    var comercio = new Comercio(this, economia, fornecedores.produzido(), fornecedores.custo());
+    this.fornecedores = new Fornecedores(this);
+    this.banco = new Banco(this.x, this.y);
+    this.comercio = new Comercio(this, economia, this.fornecedores.produzido(), this.fornecedores.custo());
     function desenharBanco()
     {
         desenharBaseLugar("Banco", imgIconeBanco);
-        banco.desenhar();
+        este.banco.desenhar();
     }
     function desenharComercio()
     {
         desenharBaseLugar("Comércio", imgIconeComercio);
-        comercio.desenhar();
+        este.comercio.desenhar();
     }
     function desenharFabrica()
     {
@@ -151,7 +151,7 @@ function Mapa()
     function desenharFornecedores()
     {
         desenharBaseLugar("Fornecedores", imgIconeFornecedores);
-        fornecedores.desenhar();
+        este.fornecedores.desenhar();
     }
     function desenharBaseLugar(nome, imagem)
     {
@@ -208,27 +208,27 @@ function Mapa()
     }
     function abrirLugar()
     {
-        banco.desativar();
-        comercio.desativar();
-        fornecedores.desativar();
+        este.banco.desativar();
+        este.comercio.desativar();
+        este.fornecedores.desativar();
         switch (lugarAberto)
         {
             case 0:
-                banco.ativar();
+                este.banco.ativar();
                 break;
             case 1:
-                comercio.ativar();
+                este.comercio.ativar();
                 break;
             case 3:
-                fornecedores.ativar();
+                este.fornecedores.ativar();
             break;
         }
     }
     function fecharLugar()
     {
-        banco.desativar();
-        comercio.desativar();
-        fornecedores.desativar();
+        este.banco.desativar();
+        este.comercio.desativar();
+        este.fornecedores.desativar();
     }
     function ativarMapa()
     {

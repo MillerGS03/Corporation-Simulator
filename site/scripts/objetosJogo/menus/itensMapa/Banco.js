@@ -6,7 +6,9 @@ function Banco(x, y)
 
     var esteB = this;
     this.jaAbriuConta = false;
+    this.jaTemCartaoDeCredito = false;
     this.extrato = new Extrato();
+    this.fatura = new FaturaCartaoCredito(5);
 
     var widthTela = 620;
     var heightTela = 295;
@@ -40,43 +42,38 @@ function Banco(x, y)
     }
 
     /**
+     * Qual modalidade está aberta
+     * 0 -> Nenhuma. Ele está na entrada do banco.
+     * 1 -> Conta corrente.
+     * 2 -> Cartão de crédito.
+     */
+    var abertoModalidade = 0;
+
+    /**
+     * Qual tela da conta corrente está aberta
      * 0 -> Tela inicial
      * 1 -> Saque
      * 2 -> Depósito
      * 3 -> Informações da conta
      */
-    var aberto = 0;
+    var abertoContaCorrente = 0;
 
     this.desenhar = function()
     {
         ctx.save();
 
-        if (this.jaAbriuConta)
+        switch (abertoModalidade)
         {
-            desenharTeclado();
-            desenharTela();
-
-            if (aberto > 0)
-                esteB.btnTelaInicial.desenhar();
-
-            switch (aberto)
-            {
-                case 0:
-                    desenharTelaComOperacoes();
-                    break;
-                case 1:
-                    desenharTelaSaque();
-                    break;
-                case 2:
-                    desenharTelaDeposito();
-                    break;
-                case 3:
-                    desenharTelaInfoConta();
-                    break;
-            }
+            case 0:
+                desenharTelaInicial();
+                break;
+            case 1:
+                desenharContaCorrente();
+                break;
+            case 2:
+                desenharCartaoCredito();
+                break;
         }
-        else
-            desenharTelaInicial();
 
         ctx.restore();
     }
@@ -84,21 +81,71 @@ function Banco(x, y)
     {
         ctx.save();
 
-        esteB.btnAbrirConta.desenhar();
+        esteB.btnContaCorrente.desenhar();
+        esteB.btnCartaoCredito.desenhar();
+        if (!esteB.jaAbriuConta)
+            desenharRequisitosContaCorrente();
+        if (!esteB.jaTemCartaoDeCredito)
+            desenharRequisitosCartaoCredito();
+
+        ctx.restore();
+    }
+    function desenharRequisitosContaCorrente()
+    {
         ctx.fillStyle = "black";
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
         ctx.font = "bold 17pt Century Gothic";
-        ctx.fillText("Preço: ", esteB.x + 400, esteB.y + 380, 500);
-        ctx.fillText("Nível mínimo: ", esteB.x + 400, esteB.y + 430, 500);
-        ctx.fillText("Taxa mensal: ", esteB.x + 400, esteB.y + 480, 500);
+        ctx.fillText("Taxa de abertura: ", esteB.x + 590, esteB.y + 180, 500);
+        ctx.fillText("Nível mínimo: ", esteB.x + 590, esteB.y + 220, 500);
+        ctx.fillText("Taxa mensal: ", esteB.x + 590, esteB.y + 260, 500);
         ctx.font = "17pt Century Gothic";
         ctx.textAlign = "left";
-        ctx.fillText("$250,00", esteB.x + 400, esteB.y + 380, 500);
-        ctx.fillText("3", esteB.x + 400, esteB.y + 430, 500);
-        ctx.fillText("$40,00 ", esteB.x + 400, esteB.y + 480, 500);
+        ctx.fillText("$100,00", esteB.x + 590, esteB.y + 180, 500);
+        ctx.fillText("3", esteB.x + 590, esteB.y + 220, 500);
+        ctx.fillText("$40,00 ", esteB.x + 590, esteB.y + 260, 500);
+    }
+    function desenharRequisitosCartaoCredito()
+    {
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "alphabetic";
+        ctx.font = "bold 17pt Century Gothic";
+        ctx.fillText("Taxa de emissão: ", esteB.x + 590, esteB.y + 380, 500);
+        ctx.fillText("Nível mínimo: ", esteB.x + 590, esteB.y + 420, 500);
+        ctx.fillText("Anuidade: ", esteB.x + 590, esteB.y + 460, 500);
+        ctx.font = "17pt Century Gothic";
+        ctx.textAlign = "left";
+        ctx.fillText("$50,00", esteB.x + 590, esteB.y + 380, 500);
+        ctx.fillText("3", esteB.x + 590, esteB.y + 420, 500);
+        ctx.fillText("$380,00 ", esteB.x + 590, esteB.y + 460, 500);
+    }
+    function desenharContaCorrente()
+    {
+        desenharTeclado();
+        desenharTela();
 
-        ctx.restore();
+        esteB.btnTelaInicial.desenhar();
+
+        switch (abertoContaCorrente)
+        {
+            case 0:
+                desenharTelaComOperacoes();
+                break;
+            case 1:
+                desenharTelaSaque();
+                break;
+            case 2:
+                desenharTelaDeposito();
+                break;
+            case 3:
+                desenharTelaInfoConta();
+                break;
+        }
+    }
+    function desenharCartaoCredito()
+    {
+        esteB.btnTelaInicial.desenhar();
     }
     function desenharTeclado()
     {
@@ -172,7 +219,7 @@ function Banco(x, y)
         for (var i = 0; i < botoesQuantia.length; i++)
             botoesQuantia[i].desenhar();
 
-        var texto = (aberto == 1)?"sacada.":"depositada.";
+        var texto = (abertoContaCorrente == 1)?"sacada.":"depositada.";
 
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
@@ -189,7 +236,7 @@ function Banco(x, y)
     {
         ctx.save();
 
-        var texto = [(aberto == 1)?"sacada.":"depositada.", (aberto == 1)?"sacar.":"depositar."];
+        var texto = [(abertoContaCorrente == 1)?"sacada.":"depositada.", (abertoContaCorrente == 1)?"sacar.":"depositar."];
 
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
@@ -207,8 +254,8 @@ function Banco(x, y)
     {
         ctx.save();
 
-        var operacao = (aberto == 1)?"Saque":"Depósito";
-        var fonteDinheiro = (aberto == 1)?"Saldo":"Dinheiro em caixa";
+        var operacao = (abertoContaCorrente == 1)?"Saque":"Depósito";
+        var fonteDinheiro = (abertoContaCorrente == 1)?"Saldo":"Dinheiro em caixa";
 
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
@@ -218,14 +265,14 @@ function Banco(x, y)
         {
             ctx.fillText(operacao + " de", xTela + widthTela / 2, yTela + 70, 600);
             ctx.font = "bold 18pt Century Gothic";
-            ctx.fillText("$" + quantiaResultado + ",00", xTela + widthTela / 2, yTela + 100, 600);
+            ctx.fillText(formatarDinheiro(quantiaResultado), xTela + widthTela / 2, yTela + 100, 600);
             ctx.font = "17pt Century Gothic";
             ctx.fillText("efetuado com sucesso.", xTela + widthTela / 2, yTela + 130, 600);
         }
         else
             ctx.fillText(fonteDinheiro + " insuficiente.", xTela + widthTela / 2, yTela + 100, 600);
         ctx.textAlign = "left";
-        ctx.fillText("Seu saldo atual é: $" + esteB.saldo + ",00", xTela + 30, yTela + heightTela - 30, 700);
+        ctx.fillText("Seu saldo atual é: " + formatarDinheiro(esteB.saldo), xTela + 30, yTela + heightTela - 30, 700);
 
         ctx.restore();
     }
@@ -237,7 +284,7 @@ function Banco(x, y)
         ctx.textAlign = "center";
         ctx.textBaseline = "alphabetic";
         ctx.font = "16pt Century Gothic";
-        ctx.fillText("Saldo: $" + esteB.saldo + ",00", xTela + widthTela/2, yTela + 90, widthTela - 20);
+        ctx.fillText("Saldo: " + formatarDinheiro(esteB.saldo), xTela + widthTela/2, yTela + 90, widthTela - 20);
 
         esteB.btnGerarExtrato.desenhar();
         if (esteB.extrato.aberto)
@@ -331,7 +378,7 @@ function Banco(x, y)
         var xBotao = xTela + 10;
         var yBotao = yTela + 80 + (numero % 4) * (heightBotao + 5);
 
-        var quantias = ["$50", "$100", "$250", "$500", "$1000", "$2500", "$5000", "Outro"];
+        var quantias = [50, 100, 250, 500, 1000, 2500, 5000, "Outro"];
 
         if (numero >= 4)
             xBotao = xTela + widthTela - 10 - widthBotao;
@@ -339,14 +386,16 @@ function Banco(x, y)
         var botao = new BotaoRetangular(xBotao, yBotao, widthBotao, heightBotao,
                                         {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 
                                         widthBotao, heightBotao, "gray", "#a3a3a3", null, null,
-                                        "16pt Century Gothic", "white", quantias[numero], false, false, false);
+                                        "16pt Century Gothic", "white",
+                                         typeof(quantias[numero]) == "number"?formatarDinheiro(quantias[numero]):quantias[numero],
+                                         false, false, false);
         if (quantias[numero] != "Outro")
         {
-            var intQuantia = parseInt(quantias[numero].substring(1));
-            botao.onclick = function() {(aberto == 1)?sacar(intQuantia):depositar(intQuantia)};
+            var intQuantia = quantias[numero];
+            botao.onclick = function() {(abertoContaCorrente == 1)?sacar(intQuantia):depositar(intQuantia)};
         }
         else
-            botao.onclick = function() {telaQuantia = 1; ativarTela()};
+            botao.onclick = function() {telaQuantia = 1; ativarTelaContaCorrente()};
         return botao;
     }
 
@@ -357,105 +406,155 @@ function Banco(x, y)
         for (var i = 0; i < 8; i++)
             botoesQuantia.push(criarBotaoQuantia(i));
 
-        esteB.btnAbrirConta = new BotaoRetangular(esteB.x + 275, esteB.y + 270, 250, 50,
-                                                  {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
-                                                  250, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
-                                                  "Abrir conta corrente", false, false, false);
-        esteB.btnAbrirConta.onclick = function() {
-            if (!esteB.jaAbriuConta)
+        var funcCriarCCorrente = function() {
+            if (barra.nivel < 1)
+                alert("Você ainda não atingiu o nível mínimo.");
+            else
             {
-                if (barra.nivel < 1)
-                    alert("Você ainda não atingiu o nível mínimo.");
-                else if (barra.dinheiro < 250)
-                    alert("Não há dinheiro suficiente em caixa.");
-                else
-                {
-                    barra.dinheiro -= 250;
+                fazerCompra("Abertura de conta corrente", 100, true, false, 2, function() {
                     esteB.jaAbriuConta = true;
                     esteB.ativar();
-                }
+                    esteB.btnContaCorrente.text = "Conta corrente";
+                    esteB.btnContaCorrente.x = esteB.x + (800 - esteB.btnContaCorrente.width)/2
+                })
             }
         }
+        var funcMostrarCCorrente = function() {
+            abertoModalidade = 1;
+            esteB.ativar();
+        }
+        esteB.btnContaCorrente = new BotaoRetangular(esteB.x + 95, esteB.y + 190, 270, 50,
+                                                    {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                    270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                    (esteB.jaAbriuConta)?"Conta corrente":"Abrir conta corrente", false, false, false);
+        esteB.btnContaCorrente.onclick = function() {
+            if (esteB.jaAbriuConta)
+                funcMostrarCCorrente();
+            else
+                funcCriarCCorrente();
+        }
 
+        var funcEmitirCartao = function() {
+            if (barra.nivel < 1)
+                alert("Você ainda não atingiu o nível mínimo.");
+            else
+            {
+                fazerCompra("Emissão de cartão de crédito", 50, false, true, 1, function() {
+                    esteB.jaTemCartaoDeCredito = true;
+                    esteB.ativar();
+                    esteB.btnCartaoCredito.text = "Cartão de crédito";
+                    esteB.btnCartaoCredito.x = esteB.x + (800 - esteB.btnCartaoCredito.width)/2
+                })
+            }
+        }
+        var funcMostrarCartao = function() {
+            abertoModalidade = 2;
+            esteB.ativar();
+        }
+        esteB.btnCartaoCredito = new BotaoRetangular(esteB.x + 95, esteB.y + 380, 270, 50,
+                                                    {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                    270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                    (esteB.jaTemCartaoDeCredito)?"Cartão de Crédito":"Emitir cartão de crédito", false, false, false);
+        esteB.btnCartaoCredito.onclick = function() {
+            if (esteB.jaTemCartaoDeCredito)
+                funcMostrarCartao();
+            else
+                funcEmitirCartao();
+        }
         esteB.btnTelaInicial = new BotaoRetangular(xTela + 10, yTela + 10, 90, 40, 
                                                   {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                   90, 40, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                   "Voltar", false, false, false);
         esteB.btnTelaInicial.onclick = function() {
-            if ((aberto == 1 || aberto == 2) && telaQuantia == 1)
-                telaQuantia = 0;
-            else
-                aberto = 0;
-            ativarTela();
+            if (abertoModalidade == 1)
+            {
+                if (abertoContaCorrente == 0)
+                    abertoModalidade = 0;
+                else if ((abertoContaCorrente == 1 || abertoContaCorrente == 2) && telaQuantia == 1)
+                    telaQuantia = 0;
+                else
+                    abertoContaCorrente = 0;
+            }
+            else if (abertoModalidade == 2)
+                abertoModalidade = 0;
+            esteB.ativar();
         };
 
         esteB.btnFazerSaque = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 50, 300, 50, 
                                                  {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                  300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                  "Fazer saque", false, false, false);
-        esteB.btnFazerSaque.onclick = function() {aberto = 1; telaQuantia = 0; ativarTela()};
+        esteB.btnFazerSaque.onclick = function() {abertoContaCorrente = 1; telaQuantia = 0; esteB.ativar()};
 
         esteB.btnFazerDeposito = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 110, 300, 50, 
                                                     {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                     300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     "Fazer depósito", false, false, false);
-        esteB.btnFazerDeposito.onclick = function() {aberto = 2; telaQuantia = 0; ativarTela()};
+        esteB.btnFazerDeposito.onclick = function() {abertoContaCorrente = 2; telaQuantia = 0; esteB.ativar()};
 
         esteB.btnInfoConta = new BotaoRetangular(xTela + widthTela / 2 - 150, yTela + 170, 300, 50, 
                                                 {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                 300, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                 "Informações da Conta", false, false, false);
-        esteB.btnInfoConta.onclick = function() {aberto = 3; ativarTela()};
+        esteB.btnInfoConta.onclick = function() {abertoContaCorrente = 3; esteB.ativar()};
 
         esteB.btnGerarExtrato = new BotaoRetangular(xTela + widthTela / 2 - 125, yTela + 130, 250, 45, 
                                                     {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                     250, 45, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     "Gerar extrato", false, false, false);
-        esteB.btnGerarExtrato.onclick = function() {esteB.extrato.aberto = true; ativarTela()};
+        esteB.btnGerarExtrato.onclick = function() {esteB.extrato.aberto = true; esteB.ativar()};
     }
     this.ativar = function()
     {
-        if (this.jaAbriuConta)
+        this.desativar();
+        switch (abertoModalidade)
         {
-            ativarTeclado();
-            ativarTela();
+            case 0:
+                this.btnContaCorrente.ativarInteracao();
+                this.btnCartaoCredito.ativarInteracao();
+                break;
+            case 1:
+                ativarTeclado();
+                ativarTelaContaCorrente();
+                break;
+            case 2:
+                ativarCartaoCredito();
+                break;
         }
-        else
-            this.btnAbrirConta.ativarInteracao();
     }
     function ativarTeclado()
     {
         for (var i = 0; i < botoesTeclado.length; i++)
             botoesTeclado[i].ativarInteracao();
     }
-    function ativarTela()
+    function ativarTelaContaCorrente()
     {
-        desativarTela();
-        if (aberto > 0)
+        esteB.btnTelaInicial.ativarInteracao();
+        switch (abertoContaCorrente)
         {
-            esteB.btnTelaInicial.ativarInteracao();
-            
-            if (aberto == 1 || aberto == 2)
-            {
-                if (telaQuantia == 0)
-                    ativarBotoesQuantia();
-                else if (telaQuantia == 1)
-                    visor.ativar();
-            }
-            else if (aberto == 3)
-            {
+            case 0: // Tela inicial
+                esteB.btnFazerSaque.ativarInteracao();
+                esteB.btnFazerDeposito.ativarInteracao();
+                esteB.btnInfoConta.ativarInteracao();
+                break;
+            case 3: // Informações da conta
                 if (esteB.extrato.aberto)
                     esteB.extrato.ativar();
                 else
                     esteB.btnGerarExtrato.ativarInteracao();
-            }
+                break;
+            default: // Saque ou depósito
+                if (telaQuantia == 0)
+                    ativarBotoesQuantia();
+                else if (telaQuantia == 1)
+                    visor.ativar();
+                break;
+
         }
-        else
-        {
-            esteB.btnFazerSaque.ativarInteracao();
-            esteB.btnFazerDeposito.ativarInteracao();
-            esteB.btnInfoConta.ativarInteracao();
-        }
+    }
+    function ativarCartaoCredito()
+    {
+        esteB.btnTelaInicial.ativarInteracao();
     }
     function ativarBotoesQuantia()
     {
@@ -464,13 +563,10 @@ function Banco(x, y)
     }
     this.desativar = function()
     {
-        if (this.jaAbriuConta)
-        {
-            desativarTeclado();
-            desativarTela();
-        }
-        else
-            this.btnAbrirConta.desativarInteracao();
+        this.btnContaCorrente.desativarInteracao();
+        this.btnCartaoCredito.desativarInteracao();
+        desativarTeclado();
+        desativarTela();
     }
     function desativarTeclado()
     {
@@ -490,7 +586,7 @@ function Banco(x, y)
     }
     function desativarBotoesQuantia()
     {
-        if ((aberto == 2 || aberto == 3) && telaQuantia == 0)
+        if (botoesQuantia[0].ativo)
             for (var i = 0; i < botoesQuantia.length; i++)
                 botoesQuantia[i].desativarInteracao();
     }
@@ -517,7 +613,7 @@ function Banco(x, y)
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
             ctx.font = "bold 18pt Century Gothic";
-            ctx.fillText("$" + this.quantia + ",00", this.x + 10, this.y + this.height/2, this.width - 20);
+            ctx.fillText(formatarDinheiro(this.quantia), this.x + 10, this.y + this.height/2, this.width - 20);
 
             ctx.restore();
         }
@@ -554,10 +650,10 @@ function Banco(x, y)
             if (ativo)
             {
                 if (this.quantia == "0")
-                    alert("Digite uma quantia para " + (aberto == 1)?"sacar":"depositar" + "!");
-                else if (aberto == 1)
+                    alert("Digite uma quantia para " + (abertoContaCorrente == 1)?"sacar":"depositar" + "!");
+                else if (abertoContaCorrente == 1)
                     sacar(parseInt(this.quantia));
-                else if (aberto == 2)
+                else if (abertoContaCorrente == 2)
                     depositar(parseInt(this.quantia))
             }
         }
@@ -577,7 +673,7 @@ function Banco(x, y)
                                              {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 },
                                              35, 35, "gray", "#a3a3a3", null, null, "bold 18pt Century Gothic",
                                              "white", "X", false, true, false);
-        this.btnFechar.onclick = function() {_this.aberto = false; ativarTela()};
+        this.btnFechar.onclick = function() {_this.aberto = false; ativarTelaContaCorrente()};
 
         this.ativar = function() {
             this.btnFechar.ativarInteracao();
@@ -630,7 +726,7 @@ function Banco(x, y)
             ctx.strokeRect(_this.x, _this.y + 55, _this.width, 28)
 
             ctx.fillStyle = "black";
-            ctx.font = "bold 14pt Consolas";
+            ctx.font = "bold 13pt Consolas";
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
             ctx.fillText("    Data         Lançamento              Valor    ", _this.x, _this.y + 69);
@@ -639,12 +735,12 @@ function Banco(x, y)
         }
         this.lancar = function(dia, mes, ano, nome, valor)
         {
-            var novoLancamento = new Lancamento(dia, mes, ano, nome, valor);
+            var novoLancamento = new Lancamento(dia, mes, ano, nome, valor, this);
             this.lancamentos.splice(ondeEsta(novoLancamento).onde, 0, novoLancamento);
         }
         this.removerLancamento = function(dia, mes, ano, nome, valor)
         {
-            var infoOnde = ondeEsta(new Lancamento(dia, mes, ano, nome, valor));
+            var infoOnde = ondeEsta(new Lancamento(dia, mes, ano, nome, valor, this));
             if (infoOnde.existe)
                 this.lancamentos.splice(infoOnde.onde, 1);
         }
@@ -665,8 +761,62 @@ function Banco(x, y)
             }
             return {existe: false, onde: inicio};
         }
-        
-        function Lancamento(dia, mes, ano, nome, valor)
+    }
+    function FaturaCartaoCredito(diaVencimento)
+    {
+        this.width = 780;
+        this.height = 650;
+
+        this.limite = 10000; // Posteriormente substituir pela renda mensal
+        this.limiteDisponivel = 10000;
+        this.diaVencimento = diaVencimento;
+        this.lancamentos = new Array();
+
+        var _this = this;
+
+        this.lancar = function(dia, mes, ano, nome, valorPorParcela, parcelas)
+        {
+            var novoLancamento = new Lancamento(dia, mes, ano, nome, valorPorParcela, this);
+            this.lancamentos.splice(ondeEsta(novoLancamento).onde, 0, novoLancamento);
+
+            var anoFutLanc = ano;
+            var mesFutLanc = mes;
+            console.log("oi");
+
+            for (var i = 1; i < parcelas; i++)
+            {
+                var anoFutLanc = (mesFutLanc < 12)?(anoFutLanc):(anoFutLanc + 1);
+                var mesFutLanc = (mesFutLanc < 12)?(mesFutLanc + 1):(1);
+                var diaFutLanc = (dia <= calendario.qtosDiasTemOMes[mesFutLanc - 1])?(dia):(calendario.qtosDiasTemOMes[mesFutLanc - 1]);
+
+                this.lancar(diaFutLanc, mesFutLanc, anoFutLanc, nome, valorPorParcela, 1);
+            }
+        }
+        this.removerLancamento = function(dia, mes, ano, nome, valorPorParcela)
+        {
+            var infoOnde = ondeEsta(new Lancamento(dia, mes, ano, nome, valorPorParcela, this));
+            if (infoOnde.existe)
+                this.lancamentos.splice(infoOnde.onde, 1);
+        }
+        function ondeEsta(novoLancamento)
+        {
+            var inicio = 0;
+            var fim = _this.lancamentos.length -1;
+            var meio;
+            while (inicio <= fim)
+            {
+                meio = Math.floor((inicio + fim) / 2);
+                if (_this.lancamentos[meio].compareTo(novoLancamento) > 0)
+                    fim = meio - 1;
+                else if (_this.lancamentos[meio].compareTo(novoLancamento) < 0)
+                    inicio = meio + 1;
+                else
+                    return {existe: true, onde: meio};
+            }
+            return {existe: false, onde: inicio};
+        }
+    }
+    function Lancamento(dia, mes, ano, nome, valor, origem)
         {
             this.dia = dia;
             this.mes = mes;
@@ -698,22 +848,22 @@ function Banco(x, y)
 
                 ctx.strokeStyle = "black";
                 ctx.fillStyle = (paridade == 0)?"#c3c3c3":"#a3a3a3";
-                ctx.fillRect(x, y, _this.width, 28);
-                ctx.strokeRect(x, y, _this.width, 28);
+                ctx.fillRect(x, y, origem.width, 28);
+                ctx.strokeRect(x, y, origem.width, 28);
                 
                 ctx.fillStyle = "black";
                 ctx.textAlign = "left";
                 ctx.textBaseline = "middle";
-                ctx.font = "13pt Consolas";
+                ctx.font = "12pt Consolas";
 
                 var pad = "                               ";
 
-                ctx.fillText("  " + this.data + pad.substr(0, 11 - this.data.length) +
+                ctx.fillText("  " + this.data + pad.substr(0, 12 - this.data.length) +
                                     this.nome + pad.substr(0, 50 - this.nome.length), x, y + 14);
 
                 ctx.fillStyle = (this.valor > 0)?"green":"red";
                 ctx.textAlign = "right";
-                ctx.fillText(((this.valor > 0)?("+" + this.valor):this.valor) + ",00", x + _this.width - 10, y + 14);
+                ctx.fillText(formatarDinheiro((this.valor > 0)?("+" + this.valor):this.valor), x + origem.width - 10, y + 14);
 
                 ctx.beginPath();
                 ctx.moveTo(x + 115, y);
@@ -730,5 +880,4 @@ function Banco(x, y)
                 ctx.restore();
             }
         }
-    }
 }

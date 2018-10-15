@@ -2,7 +2,6 @@ function Comercio(aquele, fatorEconomia, produzido, custo)
 {
 	var vendaPorFranquia = 10000;
 	this.f = fatorEconomia;
-	alert(this.f)
 	this.n = produzido;
 	this.maxFranquia = Math.floor(produzido/vendaPorFranquia);
 	this.preco = custo * 1.1;
@@ -188,11 +187,11 @@ function Comercio(aquele, fatorEconomia, produzido, custo)
 		precoFranquia = calcularPrecoDeFranquia();
 		ctx.textAlign = "left";
 		ctx.font = "bold 20pt Century Gothic";
-		ctx.fillText("Preço: " + precoFranquia, 375, 400, 4000);
+		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 375, 400, 4000);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto por dia: $" + gasto, 375, 450, 4000);
+		ctx.fillText("Gasto por dia: " + formatarDinheiro(gasto), 375, 450, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Ganho por dia: $" + ganho, 375, 500, 4000);
+		ctx.fillText("Ganho por dia: " + formatarDinheiro(ganho), 375, 500, 4000);
 		esteC.btnComprarFranquias.desenhar();
 	}
 	function desativarTela()
@@ -304,12 +303,12 @@ function Comercio(aquele, fatorEconomia, produzido, custo)
 		if (total < 0)
 		{
 			ctx.fillStyle = "darkred";
-			ctx.fillText("Prejuízo diário: $" + total, 350, esteC.y + 500, 3000);
+			ctx.fillText("Prejuízo diário: " + formatarDinheiro(total), 350, esteC.y + 500, 3000);
 		}
 		else
 		{
 			ctx.fillStyle = "green";
-			ctx.fillText("Lucro diário: $" + total, 350, esteC.y + 500, 3000);
+			ctx.fillText("Lucro diário: " + formatarDinheiro(total), 350, esteC.y + 500, 3000);
 		}
 		ativarTela();
 	}
@@ -339,9 +338,9 @@ function Comercio(aquele, fatorEconomia, produzido, custo)
 		esteC.btnMaisFranquiasV.desenhar();
 		ctx.fillStyle = "black";
 		ctx.textAlign = "left";
-		ctx.fillText("Pagamento: $" + pagamento, 375, 400, 4000);
+		ctx.fillText("Pagamento: " + formatarDinheiro(pagamento), 375, 400, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Economia por dia: $" + economia, 375, 450, 4000);
+		ctx.fillText("Economia por dia: " + formatarDinheiro(economia), 375, 450, 4000);
 		ativarTela();
 	}
 	function calcularPagamento()

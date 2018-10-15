@@ -1,3 +1,25 @@
+BotaoCircular.exceto = new Array();
+BotaoCircular.inativos = false;
+
+/**
+ * Desativa todos os botões, exceto os que estão inclusos no argumento. Se o argumento for omitido, não haverá exceções.
+ * @param {Array.<BotaoCircular>} exceto Exceções aos botões desativados.
+ */
+BotaoCircular.desativarTodos = function(exceto)
+{
+	if (exceto != null)
+		BotaoCircular.exceto = exceto;
+	BotaoCircular.inativos = true;
+	canvas.style.cursor = "default";
+}
+/**
+ * Reativa os botões
+ */
+BotaoCircular.reativar = function()
+{
+	BotaoCircular.exceto = new Array();
+	BotaoCircular.inativos = false;
+}
 function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
 {
 	this.x = x;
@@ -105,40 +127,43 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		if (este.hovering)
+		if (este.hovering && (!BotaoCircular.inativos || BotaoCircular.exceto.includes(este, 0)))
 			este.onclick(e);
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		var mudouHover = este.hovering;
-
-		if ((Math.abs(xMouse - este.x) <= este.radius && Math.abs(yMouse - este.y) <= este.radius) ||
-	        (Math.abs(xMouse - este.x) <= este.radiusOnHover && Math.abs(yMouse - este.y) <= este.radiusOnHover && este.hovering))
+		if (!BotaoCircular.inativos || BotaoCircular.exceto.includes(este, 0))
 		{
-			var distCentro = Math.sqrt(Math.pow(este.x - xMouse, 2) + Math.pow(este.y - yMouse, 2));
+			var mudouHover = este.hovering;
 
-			if (este.hovering)
-				este.hovering = distCentro < este.radiusOnHover;				
+			if ((Math.abs(xMouse - este.x) <= este.radius && Math.abs(yMouse - este.y) <= este.radius) ||
+				(Math.abs(xMouse - este.x) <= este.radiusOnHover && Math.abs(yMouse - este.y) <= este.radiusOnHover && este.hovering))
+			{
+				var distCentro = Math.sqrt(Math.pow(este.x - xMouse, 2) + Math.pow(este.y - yMouse, 2));
+
+				if (este.hovering)
+					este.hovering = distCentro < este.radiusOnHover;				
+				else
+					este.hovering = distCentro < este.radius;
+				for (var i = 0; i < testesHoverAdicionais.length; i++)
+				if (!testesHoverAdicionais[i]())
+					este.hovering = false;
+			}
 			else
-				este.hovering = distCentro < este.radius;
-			for (var i = 0; i < testesHoverAdicionais.length; i++)
-			if (!testesHoverAdicionais[i]())
 				este.hovering = false;
+
+			mudouHover = mudouHover != este.hovering;
+
+			if (este.changeCursor)
+			{
+				if (este.hovering)
+					canvas.style.cursor = "pointer";
+				else if (mudouHover)
+					canvas.style.cursor = "default";
+			}
+
+			if (este.autoUpdate)
+				atualizar();
 		}
-		else
-			este.hovering = false;
-
-		mudouHover = mudouHover != este.hovering;
-
-		if (este.changeCursor)
-		{
-			if (este.hovering)
-				canvas.style.cursor = "pointer";
-			else if (mudouHover)
-				canvas.style.cursor = "default";
-		}
-
-		if (este.autoUpdate)
-			atualizar();
 	}
 }

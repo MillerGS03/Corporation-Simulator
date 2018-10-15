@@ -156,7 +156,7 @@ function Estatisticas()
             ctx.fillText((i!=10?e:e+1), x - 9, y - (34 * i) - 3);
         }
         ctx.font = "bold 16pt Century Gothic";
-        ctx.fillText("R$", x - 30, y - 385);
+        ctx.fillText("$", x - 30, y - 385);
         ctx.font = "bold 10pt Century Gothic";
         var xAtual;
         var yAtual;

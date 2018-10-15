@@ -1,8 +1,3 @@
-var imgAnterior = new Image();
-imgAnterior.src = "../imagens/menusBotoes/anterior.png";
-var imgPosterior = new Image();
-imgPosterior.src = "../imagens/menusBotoes/posterior.png";
-
 function Calendario()
 {
     this.width = 900;
@@ -17,6 +12,7 @@ function Calendario()
     var yInicial = this.y + 74;
 
     this.dia = 1;
+    /** Mês atual, variando de 1 a 12 */
     this.mes = 1;
     this.ano = 1;
 
@@ -25,6 +21,8 @@ function Calendario()
 
     var diasDaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     var meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    
+    /** Armazena quantos dias tem o mês indicado pelo índice de 0 a 11 */
     this.qtosDiasTemOMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     var comecoDoMes = 0;

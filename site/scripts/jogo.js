@@ -34,6 +34,7 @@ var rua;
 var timerDias = null;
 var contador = 0;
 var itensConstruidos;
+var efetuacao;
 
 var xMouse;
 var yMouse;
@@ -166,6 +167,8 @@ function atualizar()
 	calendario.desenhar();
 	construcao.desenhar();
 	estatisticas.desenhar();
+	if (efetuacao != null && efetuacao.ativo)
+		efetuacao.desenhar();
 }
 function desenharFundo()
 {
@@ -190,6 +193,25 @@ function passarDia()
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
 }
+
+/**
+ * Mostra uma tela de confirmação de compra, exibindo o nome, o preço e as opções de pagamento.
+ * @param {string} nome Nome do item a ser comprado.
+ * @param {number} preco Preço do item.
+ * @param {boolean} aceitaCredito Se aceita ou não pagamento com crédito.
+ * @param {boolean} aceitaDebito Se aceita ou não pagamento com débito.
+ * @param {boolean} qtasParcelasMaximo Máximo de parcelas no crédito.
+ * @param {Function} funcaoSucesso Função executada caso a compra seja realizada com sucesso.
+ */
+function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso)
+{
+	efetuacao = new EfetuacaoDeCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso);
+	efetuacao.ativar();
+}
+function formatarDinheiro(valor)
+{
+	return "$" + valor.toFixed(2).replace(".", ",");
+}
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {
 	var cornerRadius = { upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0 };
@@ -200,7 +222,10 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
         for (var side in radius) {
             cornerRadius[side] = radius[side];
         }
-    }
+	}
+	else if (typeof radius === "number")
+		for (var side in cornerRadius)
+			cornerRadius[side] = radius;
 
     ctx.beginPath();
     ctx.moveTo(x + cornerRadius.upperLeft, y);

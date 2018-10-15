@@ -64,7 +64,7 @@ function ItemAVender(x, y, informacoes, indice)
 
     this.botaoComprar = new BotaoRetangular(this.x + 15, this.y + this.height - 40, this.width - 30, 30, 
         {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10}, this.width - 30, 30, corBotaoComprar, "#bababa", null, null, "bold 14pt Century Gothic",
-        "green", "$" + this.preco, false, true, false);
+        "green", formatarDinheiro(this.preco), false, true, false);
     this.botaoDica = new BotaoCircular(this.x + 25, this.y + 23, 16, 16, "#aaaaaa", "bababa", iconeDica, iconeDicaHover,
         "", "", "", false, true, false);
     this.botaoDica.onclick = function() {

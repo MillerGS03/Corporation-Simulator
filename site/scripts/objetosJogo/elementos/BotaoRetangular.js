@@ -1,3 +1,25 @@
+BotaoRetangular.exceto = new Array();
+BotaoRetangular.inativos = false;
+
+/**
+ * Desativa todos os botões, exceto os que estão inclusos no argumento. Se o argumento for omitido, não haverá exceções.
+ * @param {Array.<BotaoRetangular>} exceto Exceções aos botões desativados.
+ */
+BotaoRetangular.desativarTodos = function(exceto)
+{
+	if (exceto != null)
+		BotaoRetangular.exceto = exceto;
+	BotaoRetangular.inativos = true;
+	canvas.style.cursor = "default";
+}
+/**
+ * Reativa os botões
+ */
+BotaoRetangular.reativar = function()
+{
+	BotaoRetangular.exceto = new Array();
+	BotaoRetangular.inativos = false;
+}
 function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
 {
 	this.x = x;
@@ -112,34 +134,37 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		if (este.hovering)
+		if (este.hovering && (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0)))
 			este.onclick(e);
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		var mudouHover = este.hovering; 
-
-		if (este.hovering)
-			este.hovering = xMouse >= este.x && xMouse <= este.x + este.widthOnHover &&
-									yMouse >= este.y && yMouse <= este.y + este.heightOnHover;				
-		else
-			este.hovering = xMouse >= este.x && xMouse <= este.x + este.width &&
-									yMouse >= este.y && yMouse <= este.y + este.height;
-		for (var i = 0; i < testesHoverAdicionais.length; i++)
-			if (!testesHoverAdicionais[i]())
-				este.hovering = false;
-
-		mudouHover = mudouHover != este.hovering;
-
-		if (este.changeCursor)
+		if (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0))
 		{
+			var mudouHover = este.hovering; 
+
 			if (este.hovering)
-				canvas.style.cursor = "pointer";
-			else if (mudouHover)
-				canvas.style.cursor = "default";
+				este.hovering = xMouse >= este.x && xMouse <= este.x + este.widthOnHover &&
+										yMouse >= este.y && yMouse <= este.y + este.heightOnHover;				
+			else
+				este.hovering = xMouse >= este.x && xMouse <= este.x + este.width &&
+										yMouse >= este.y && yMouse <= este.y + este.height;
+			for (var i = 0; i < testesHoverAdicionais.length; i++)
+				if (!testesHoverAdicionais[i]())
+					este.hovering = false;
+
+			mudouHover = mudouHover != este.hovering;
+
+			if (este.changeCursor)
+			{
+				if (este.hovering)
+					canvas.style.cursor = "pointer";
+				else if (mudouHover)
+					canvas.style.cursor = "default";
+			}
+			
+			if (este.autoUpdate)
+				atualizar();
 		}
-		
-		if (este.autoUpdate)
-			atualizar();
 	}
 }

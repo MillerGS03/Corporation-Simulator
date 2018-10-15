@@ -84,7 +84,7 @@ function BarraSuperior() {
 		ctx.font = "bold 15pt Century Gothic";
 		ctx.textAlign = "left";
 		ctx.fillStyle = "Green";
-		ctx.fillText(this.dinheiro + ",00", 463, 30)
+		ctx.fillText(formatarDinheiro(this.dinheiro).substring(1), 463, 30)
 
 		// Desenha o dia
 		ctx.drawImage(imgCalendario, 690, 11);

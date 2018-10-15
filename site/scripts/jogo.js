@@ -46,7 +46,7 @@ function iniciar()
 	ctx = canvas.getContext("2d");
 
 	barra = new BarraSuperior();
-	barra.dinheiro = 400000;
+	barra.dinheiro = 4000000;
 	barra.onNivelMudou = function() {
 		construcao.setNivel(barra.nivel);
 	}
@@ -193,6 +193,7 @@ function passarDia()
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
 	mapa.setFator(calendario.fatorEconomia());
+	barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
 }
 
 /**

@@ -367,4 +367,6 @@ function Comercio(aquele)
 	{
 		return Math.floor(35000 * numeroDeFranquiasASeremExcluidas + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremExcluidas)/esteC.f);
 	}
+	this.custoTotal = function() {return gastoTotalDiario();};
+	this.ganhoTotal = function() {return ganhoTotalDiario();};
 }

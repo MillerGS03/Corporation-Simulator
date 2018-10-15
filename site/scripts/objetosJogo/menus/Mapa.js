@@ -248,4 +248,11 @@ function Mapa()
         este.btnVoltar.ativarInteracao();
     }
     this.setFator = function(f) {fator = f;}
+
+    this.custoTotal = function() {
+        return este.comercio.custoTotal() + este.fornecedores.custoTotal();
+    };
+    this.ganhoTotal = function() {
+        return este.comercio.ganhoTotal();
+    };
 }

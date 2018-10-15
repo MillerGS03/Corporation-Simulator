@@ -209,9 +209,29 @@ function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaxim
 	efetuacao = new EfetuacaoDeCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso);
 	efetuacao.ativar();
 }
+
+/**
+ * Recebe um valor inteiro e retorna uma string no formato $xxxx,xx.
+ * @param {number} valor Valor inteiro.
+ */
 function formatarDinheiro(valor)
 {
 	return "$" + valor.toFixed(2).replace(".", ",");
+}
+
+/**
+ * Recebe o dia, o mês e o ano e retorna uma data no formato dd/mm/aa. Se o ano for omitido, retorna dd/mm.
+ * @param {number} dia 
+ * @param {number} mes 
+ * @param {number} ano 
+ * @return {string} Data
+ */
+function formatarData(dia, mes, ano)
+{
+	var data = (dia < 10?"0" + dia:dia) + "/" + (mes < 10?"0" + mes:mes);
+	if (ano != null)
+		data += "/" + (ano < 10?"0" + ano:ano);
+	return data;
 }
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {

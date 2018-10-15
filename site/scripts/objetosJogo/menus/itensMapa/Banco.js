@@ -146,6 +146,8 @@ function Banco(x, y)
     function desenharCartaoCredito()
     {
         esteB.btnTelaInicial.desenhar();
+        if (esteB.fatura.aberto)
+            esteB.fatura.desenhar();
     }
     function desenharTeclado()
     {
@@ -457,7 +459,10 @@ function Banco(x, y)
                                                     (esteB.jaTemCartaoDeCredito)?"Cartão de Crédito":"Emitir cartão de crédito", false, false, false);
         esteB.btnCartaoCredito.onclick = function() {
             if (esteB.jaTemCartaoDeCredito)
+            {
+                esteB.fatura.aberto = true;
                 funcMostrarCartao();
+            }
             else
                 funcEmitirCartao();
         }
@@ -503,6 +508,12 @@ function Banco(x, y)
                                                     250, 45, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     "Gerar extrato", false, false, false);
         esteB.btnGerarExtrato.onclick = function() {esteB.extrato.aberto = true; esteB.ativar()};
+
+        esteB.btnGerarFaturaMesAtual = new BotaoRetangular(esteB.x + 275, yTela + 130, 250, 45, 
+                                                           {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                           250, 45, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                           "Gerar extrato", false, false, false);
+        esteB.btnGerarFaturaMesAtual.onclick = function() {esteB.fatura.aberto = true; esteB.ativar()};
     }
     this.ativar = function()
     {
@@ -555,6 +566,8 @@ function Banco(x, y)
     function ativarCartaoCredito()
     {
         esteB.btnTelaInicial.ativarInteracao();
+        if (esteB.fatura.aberto)
+            esteB.fatura.ativar();
     }
     function ativarBotoesQuantia()
     {
@@ -581,6 +594,7 @@ function Banco(x, y)
         esteB.btnFazerDeposito.desativarInteracao();
         esteB.btnInfoConta.desativarInteracao();
         esteB.extrato.desativar();
+        esteB.fatura.desativar();
         visor.desativar();
         desativarBotoesQuantia();
     }
@@ -676,9 +690,11 @@ function Banco(x, y)
         this.btnFechar.onclick = function() {_this.aberto = false; ativarTelaContaCorrente()};
 
         this.ativar = function() {
+            BotaoRetangular.desativarTodos([this.btnFechar]);
             this.btnFechar.ativarInteracao();
         }
         this.desativar = function() {
+            BotaoRetangular.reativar();
             this.btnFechar.desativarInteracao();
         }
         
@@ -766,6 +782,8 @@ function Banco(x, y)
     {
         this.width = 780;
         this.height = 650;
+        this.x = (canvas.width - this.width)/2;
+        this.y = (canvas.height - this.height)/2;
 
         this.limite = 10000; // Posteriormente substituir pela renda mensal
         this.limiteDisponivel = 10000;
@@ -774,6 +792,79 @@ function Banco(x, y)
 
         var _this = this;
 
+        this.btnFechar = new BotaoRetangular(this.x + this.width - 45, this.y + 10, 35, 35,
+            {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 },
+            35, 35, "gray", "#a3a3a3", null, null, "bold 18pt Century Gothic",
+            "white", "X", false, true, false);
+        this.btnFechar.onclick = function() {_this.aberto = false; esteB.ativar()};
+
+        this.ativar = function() {
+            BotaoRetangular.desativarTodos([this.btnFechar]);
+            this.btnFechar.ativarInteracao();
+        }
+        this.desativar = function() {
+            BotaoRetangular.reativar();
+            this.btnFechar.desativarInteracao();
+        }
+
+        this.aberto = false;
+
+        this.desenhar = function()
+        {
+            ctx.save();
+
+            desenharForma();
+            desenharHeader();
+
+            for (var i = 0, lancamentosDesteMes = 0; i < this.lancamentos.length; i++)
+            {
+                if ((this.lancamentos[i].mes == calendario.mes && this.lancamentos[i].dia > diaVencimento) ||
+                    (this.lancamentos[i].mes == calendario.mes + 1 && this.lancamentos[i].dia < diaVencimento))
+                {
+                    this.lancamentos[i].desenhar(this.x, this.y + 80 + 28 * lancamentosDesteMes, lancamentosDesteMes%2);
+                    lancamentosDesteMes++;
+                }
+            }
+
+            ctx.restore();
+        }
+        function desenharForma()
+        {
+            ctx.save();
+
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "black";
+            roundRect(_this.x, _this.y, _this.width, _this.height, {upperLeft: 15, upperRight: 15, lowerLeft: 15, lowerRight : 15}, true, true);
+            ctx.fillStyle = "black";
+            roundRect(_this.x, _this.y, _this.width, 55, {upperLeft: 15, upperRight: 15}, true, false);
+
+            ctx.fillStyle = "white";
+            ctx.font = "bold 18pt Century Gothic";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Fatura do cartão", _this.x + _this.width/2, _this.y + 27, _this.width);
+
+            _this.btnFechar.desenhar();
+
+            ctx.restore();
+        }
+        function desenharHeader()
+        {
+            ctx.save();
+
+            ctx.fillStyle = "gray";
+            ctx.strokeStyle = "black";
+            ctx.fillRect(_this.x, _this.y + 55, _this.width, 28);
+            ctx.strokeRect(_this.x, _this.y + 55, _this.width, 28)
+
+            ctx.fillStyle = "black";
+            ctx.font = "bold 13pt Consolas";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+            ctx.fillText("    Data         Lançamento              Valor    ", _this.x, _this.y + 69);
+
+            ctx.restore();
+        }
         this.lancar = function(dia, mes, ano, nome, valorPorParcela, parcelas)
         {
             var novoLancamento = new Lancamento(dia, mes, ano, nome, valorPorParcela, this);
@@ -824,9 +915,7 @@ function Banco(x, y)
             this.nome = nome;
             this.valor = valor;
 
-            this.data = ((this.dia < 10)?"0" + dia:dia) + "/" +
-                        ((this.mes < 10)?"0" + mes:mes) + "/" +
-                        ((this.ano < 10)?"0" + ano:ano);
+            this.data = formatarData(this.dia, this.mes, this.ano);
 
             var esteLancamento = this;
 

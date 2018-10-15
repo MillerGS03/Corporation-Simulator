@@ -56,7 +56,7 @@ function Mapa()
                     desenharFornecedores();
                     break;
             }
-            if (lugarAberto != -1)
+            if (lugarAberto != -1 && (lugarAberto != 0 || (!este.banco.fatura.aberto && !este.banco.extrato.aberto)))
                 btnVoltar.desenhar();
             
             ctx.restore();

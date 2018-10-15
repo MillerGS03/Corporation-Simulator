@@ -83,10 +83,9 @@ function Mapa()
             this.btnFechar.hovering = false;
                 
             if (lugarAberto == -1)
-            {
                 desativarMapa();
+            else
                 fecharLugar();
-            }
             btnVoltar.desativarInteracao();
 
             ativarBotoes();
@@ -145,6 +144,8 @@ function Mapa()
         desenharBaseLugar("Comércio", imgIconeComercio);
         comercio.desenhar();
         comercio.setEconomia(fator);
+        comercio.setCusto(fornecedores.custo());
+        comercio.setProduzido(fornecedores.produzido());
     }
     function desenharFabrica()
     {

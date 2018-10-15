@@ -1,14 +1,17 @@
-function Comercio(aquele, produzido, custo)
+function Comercio(aquele)
 {
-	var vendaPorFranquia = 10000;
 	this.f = 5;
-	this.n = produzido;
-	this.maxFranquia = Math.floor(produzido/vendaPorFranquia);
-	this.preco = custo * 1.1;
-	this.custo = custo;
+	this.n = 150;
+	var vendaPorFranquia = this.f * 50;
+	this.maxFranquia = Math.floor(this.n/vendaPorFranquia);
+	this.custo = 5;
+	this.preco = this.custo * 1.1;
 	this.x = aquele.x;
 	this.y = aquele.y;
 	this.franquias = 0;
+	this.setEconomia = function (fator){this.f = fator; vendaPorFranquia = fator * 50;}
+	this.setCusto = function(c) {this.custo = c; this.preco = this.custo * 1.1;};
+	this.setProduzido = function(p) {this.n = p; this.maxFranquia = Math.floor(this.n/vendaPorFranquia);};
 
 	var esteC = this;
 	var aqueleC = aquele;
@@ -57,10 +60,12 @@ function Comercio(aquele, produzido, custo)
 			telaAtual = 0;
 	};
 	this.btnAddFranquias.onclick = function(){
+		desativarTela();
 		telaAtual = 1;
 		criacaoDeFranquia();
 	};
 	this.btnVenderFranquias.onclick = function(){
+		desativarTela();
 		telaAtual = 2;
 		vendaDeFranquia();
 	};
@@ -92,7 +97,7 @@ function Comercio(aquele, produzido, custo)
 		{
 			if (numeroDeFranquiasASeremAdicionadas > 0)
 			{
-				if (numeroDeFranquiasASeremAdicionadas <= esteC.maxFranquia)
+				if (numeroDeFranquiasASeremAdicionadas + esteC.franquias <= esteC.maxFranquia)
 				{
 					barra.dinheiro -= precoFranquia;
 					esteC.franquias += numeroDeFranquiasASeremAdicionadas;
@@ -120,7 +125,7 @@ function Comercio(aquele, produzido, custo)
 			numeroDeFranquiasASeremExcluidas--;
 	};
 	this.btnVenderFranquiasV.onclick = function() {
-		if (numeroDeFranquiasASeremExcluidas > 0)
+		if (esteC.franquias - numeroDeFranquiasASeremExcluidas >= 0)
 		{
 			barra.dinheiro += pagamento;
 			esteC.franquias -= numeroDeFranquiasASeremExcluidas;
@@ -129,6 +134,8 @@ function Comercio(aquele, produzido, custo)
 			desativarTela();
 			telaAtual = 0;
 		}
+		else
+			alert('Franquias insuficientes');
 	};
 
 	this.desenhar = function() {
@@ -197,9 +204,9 @@ function Comercio(aquele, produzido, custo)
 		ctx.font = "bold 20pt Century Gothic";
 		ctx.fillText("Preço: " + precoFranquia, 375, 400, 4000);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto por dia: $" + gasto, 375, 450, 4000);
+		ctx.fillText("Gasto: $" + gasto + "/dia", 375, 450, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Ganho por dia: $" + ganho, 375, 500, 4000);
+		ctx.fillText("Ganho: $" + ganho + "/dia", 375, 500, 4000);
 		esteC.btnComprarFranquias.desenhar();
 	}
 	function desativarTela()
@@ -294,11 +301,11 @@ function Comercio(aquele, produzido, custo)
 	}
 	function calcularGastoPorDia()
 	{
-		return Math.floor(((numeroDeFranquiasASeremAdicionadas * 35000) + (esteC.n * esteC.custo * numeroDeFranquiasASeremAdicionadas)/(esteC.f==0?1:esteC.f))/30);
+		return Math.floor(((numeroDeFranquiasASeremAdicionadas * 35000) + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremAdicionadas)/(esteC.f==0?1:esteC.f))/30);
 	}
 	function calcularGanhoPorDia()
 	{
-		return Math.floor((esteC.preco * esteC.f * esteC.n * numeroDeFranquiasASeremAdicionadas)/30);
+		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * numeroDeFranquiasASeremAdicionadas)/30);
 	}
 	function desenharTelaInicial()
 	{
@@ -320,17 +327,15 @@ function Comercio(aquele, produzido, custo)
 			ctx.fillStyle = "green";
 			ctx.fillText("Lucro diário: $" + total, 350, esteC.y + 500, 3000);
 		}
-		ctx.fillStyle = "black";
-		ctx.fillText("Economia: " + esteC.f, 300, 500)
 		ativarTela();
 	}
 	function ganhoTotalDiario()
 	{
-		return Math.floor((esteC.franquias * esteC.f * esteC.n * esteC.preco)/30);
+		return Math.floor((esteC.franquias * esteC.f * vendaPorFranquia * esteC.preco)/30);
 	}
 	function gastoTotalDiario()
 	{
-		return Math.floor(((esteC.franquias * 35000) + (esteC.n * esteC.custo * esteC.franquias)/(esteC.f==0?1:esteC.f))/30);
+		return Math.floor(((esteC.franquias * 35000) + (vendaPorFranquia * esteC.custo * esteC.franquias)/(esteC.f==0?1:esteC.f))/30);
 	}
 	function vendaDeFranquia()
 	{
@@ -348,11 +353,12 @@ function Comercio(aquele, produzido, custo)
 		esteC.btnVenderFranquiasV.desenhar();
 		esteC.btnMenosFranquiasV.desenhar();
 		esteC.btnMaisFranquiasV.desenhar();
+		esteC.btnVoltar.desenhar();
 		ctx.fillStyle = "black";
 		ctx.textAlign = "left";
 		ctx.fillText("Pagamento: $" + pagamento, 375, 400, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Economia por dia: $" + economia, 375, 450, 4000);
+		ctx.fillText("Economia: $" + economia + "/dia", 375, 450, 4000);
 		ativarTela();
 	}
 	function calcularPagamento()
@@ -361,7 +367,6 @@ function Comercio(aquele, produzido, custo)
 	}
 	function calcularEconomia()
 	{
-		return Math.floor(35000 * numeroDeFranquiasASeremExcluidas + (esteC.n * esteC.custo * numeroDeFranquiasASeremExcluidas)/esteC.f);
+		return Math.floor(35000 * numeroDeFranquiasASeremExcluidas + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremExcluidas)/esteC.f);
 	}
-	this.setEconomia = function (fator){esteC.f = fator;}
 }

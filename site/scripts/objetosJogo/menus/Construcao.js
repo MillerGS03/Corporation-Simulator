@@ -49,17 +49,15 @@ function Construcao()
             }
         if (jaTem)
             alert("Você já tem esse item!");
-        else if (barra.dinheiro >= construcao.itens[indiceItem].preco && !jaTem)
-        {
-            construcao.abrirFechar();
-            itensConstruidos.push(item);
-            for (var i = 0; i < itensConstruidos.length; i++)
-                itensConstruidos[i].passarItens(itensConstruidos);
-            itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
-            desativarBotoes();
-        }
         else 
-            alert("Você não tem dinheiro suficiente!");
+            fazerCompra(item.nome, item.preco, true, true, 4, function() {
+                construcao.abrirFechar();
+                itensConstruidos.push(item);
+                for (var i = 0; i < itensConstruidos.length; i++)
+                    itensConstruidos[i].passarItens(itensConstruidos);
+                itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
+                desativarBotoes();
+            })
     }
     this.desenhar = function() {
 

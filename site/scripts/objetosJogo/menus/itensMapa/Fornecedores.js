@@ -56,17 +56,14 @@ function Fornecedores(mapa)
 			qtdDeFornecedoresCompra--;
 	};
 	this.btnComprarFornecedores.onclick = function() {
-		if (barra.dinheiro >= calcularGastoDiario())
-		{
+		fazerCompra("Fornecedores", calcularGastoDiario(), true, true, 2, function() {
 			produzido += (150 * qtdDeFornecedoresCompra);
 			esteF.fornecedores += qtdDeFornecedoresCompra;
 			qtdDeFornecedoresCompra = 1;
 			esteF.desativar();
 			telaAtual = 0;
 			primeiraVez = false;
-		}
-		else
-			alert('dinheiro insuficiente');
+		})
 	};
 
 	this.btnSim.onclick = function() {

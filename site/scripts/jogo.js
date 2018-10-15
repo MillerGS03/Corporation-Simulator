@@ -201,7 +201,7 @@ function passarDia()
  * @param {number} preco Preço do item.
  * @param {boolean} aceitaCredito Se aceita ou não pagamento com crédito.
  * @param {boolean} aceitaDebito Se aceita ou não pagamento com débito.
- * @param {boolean} qtasParcelasMaximo Máximo de parcelas no crédito.
+ * @param {number} qtasParcelasMaximo Máximo de parcelas no crédito.
  * @param {Function} funcaoSucesso Função executada caso a compra seja realizada com sucesso.
  */
 function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso)

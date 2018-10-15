@@ -93,27 +93,25 @@ function Comercio(aquele)
 		ganho = calcularGanhoPorDia();
 	};
 	this.btnComprarFranquias.onclick = function() {
-		if (barra.dinheiro >= precoFranquia)
+		if (numeroDeFranquiasASeremAdicionadas > 0)
 		{
-			if (numeroDeFranquiasASeremAdicionadas > 0)
+			if (numeroDeFranquiasASeremAdicionadas + esteC.franquias <= esteC.maxFranquia)
 			{
-				if (numeroDeFranquiasASeremAdicionadas + esteC.franquias <= esteC.maxFranquia)
-				{
-					barra.dinheiro -= precoFranquia;
-					esteC.franquias += numeroDeFranquiasASeremAdicionadas;
-					numeroDeFranquiasASeremAdicionadas = 1;
-					primeiraVez = false;
-					desativarTela();
-					telaAtual = 0;
-				}
-				else
-					alert('Não há fornecedores suficientes');
+				fazerCompra("Franquia", precoFranquia, true, true, 4, function(){
+						barra.dinheiro -= precoFranquia;
+						esteC.franquias += numeroDeFranquiasASeremAdicionadas;
+						numeroDeFranquiasASeremAdicionadas = 1;
+						primeiraVez = false;
+						desativarTela();
+						telaAtual = 0;
+				})
 			}
 			else
-				alert('Selecione ao menos 1 franquia para comprar');
+				alert('Não há fornecedores suficientes');	
+
 		}
 		else
-			alert('Dinheiro insuficiente');
+			alert('Selecione ao menos 1 franquia para comprar');
 	};
 
 	this.btnMaisFranquiasV.onclick = function() {

@@ -144,8 +144,8 @@ function Mapa()
         desenharBaseLugar("Comércio", imgIconeComercio);
         este.comercio.desenhar();
         este.comercio.setEconomia(fator);
-        este.comercio.setCusto(fornecedores.custo());
-        este.comercio.setProduzido(fornecedores.produzido());
+        este.comercio.setCusto(este.fornecedores.custo());
+        este.comercio.setProduzido(este.fornecedores.produzido());
     }
     function desenharFabrica()
     {

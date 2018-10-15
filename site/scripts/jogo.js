@@ -192,6 +192,7 @@ function passarDia()
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
+	mapa.setFator(calendario.fatorEconomia());
 }
 
 /**

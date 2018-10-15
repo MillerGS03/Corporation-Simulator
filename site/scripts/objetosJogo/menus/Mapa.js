@@ -22,9 +22,9 @@ function Mapa()
      *  3: Fornecedores
      */
     var lugarAberto = -1;
-    var btnVoltar = new BotaoRetangular(this.x + 20, this.y + 80, 40, 40, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+    this.btnVoltar = new BotaoRetangular(this.x + 20, this.y + 80, 40, 40, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                         40, 40, "gray", "#a3a3a3", imgBtnVoltar, imgBtnVoltar, "", "", "", false, false, false);
-    btnVoltar.onclick = function() {ativarMapa(); lugarAberto = -1};
+    this.btnVoltar.onclick = function() {ativarMapa(); lugarAberto = -1};
 
     const corFundo = "#00b71e"
     var lugares = new Array();
@@ -57,7 +57,7 @@ function Mapa()
                     break;
             }
             if (lugarAberto != -1)
-                btnVoltar.desenhar();
+                este.btnVoltar.desenhar();
             
             ctx.restore();
         }
@@ -71,7 +71,7 @@ function Mapa()
 
             if (lugarAberto != -1)
             {
-                btnVoltar.ativarInteracao();
+                este.btnVoltar.ativarInteracao();
                 abrirLugar();
             }
             else
@@ -86,7 +86,7 @@ function Mapa()
                 desativarMapa();
             else
                 fecharLugar();
-            btnVoltar.desativarInteracao();
+            este.btnVoltar.desativarInteracao();
 
             ativarBotoes();
         }
@@ -239,13 +239,13 @@ function Mapa()
         fecharLugar();
         for (var i = 0; i < lugares.length; i++)
             lugares[i].ativarInteracao();
-        btnVoltar.desativarInteracao();
+        este.btnVoltar.desativarInteracao();
     }
     function desativarMapa()
     {
         for (var i = 0; i < lugares.length; i++)
             lugares[i].desativarInteracao();
-        btnVoltar.ativarInteracao();
+        este.btnVoltar.ativarInteracao();
     }
     this.setFator = function(f) {fator = f;}
 }

@@ -5,12 +5,12 @@ function Comercio(aquele)
 	var vendaPorFranquia = this.f * 50;
 	this.maxFranquia = Math.floor(this.n/vendaPorFranquia);
 	this.custo = 5;
-	this.preco = this.custo * 1.1;
+	this.preco = this.custo * 1.2;
 	this.x = aquele.x;
 	this.y = aquele.y;
 	this.franquias = 0;
 	this.setEconomia = function (fator){this.f = fator; vendaPorFranquia = fator * 50;}
-	this.setCusto = function(c) {this.custo = c; this.preco = this.custo * 1.1;};
+	this.setCusto = function(c) {this.custo = c; this.preco = this.custo * 1.2;};
 	this.setProduzido = function(p) {this.n = p; this.maxFranquia = Math.floor(this.n/vendaPorFranquia);};
 
 	var esteC = this;
@@ -254,12 +254,12 @@ function Comercio(aquele)
 	this.ativar = function()
 	{
 		if (telaAtual == -1)
-			telaAtual = primeiraVez==true?3:0;
+			telaAtual = (primeiraVez==true?3:0);
 		ativarTela();
 	}
 	function voltarAoMapa()
 	{
-		//nao sei o que fazer aqui ;-;
+		mapa.btnVoltar.onclick();
 	}
 	function ativarTela()
 	{
@@ -290,7 +290,7 @@ function Comercio(aquele)
 	}
 	function calcularPrecoDeFranquia()
 	{
-		var x = 500000;
+		var x = 250000;
 		for (var i = 0; i < numeroDeFranquiasASeremAdicionadas + esteC.franquias - 1; i++)
 		{
 			x = Math.floor(x * 1.25);
@@ -299,11 +299,11 @@ function Comercio(aquele)
 	}
 	function calcularGastoPorDia()
 	{
-		return Math.floor(((numeroDeFranquiasASeremAdicionadas * 35000) + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremAdicionadas)/(esteC.f==0?1:esteC.f))/30);
+		return Math.floor((numeroDeFranquiasASeremAdicionadas * 1200) + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremAdicionadas));
 	}
 	function calcularGanhoPorDia()
 	{
-		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * numeroDeFranquiasASeremAdicionadas)/30);
+		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * numeroDeFranquiasASeremAdicionadas));
 	}
 	function desenharTelaInicial()
 	{
@@ -329,11 +329,11 @@ function Comercio(aquele)
 	}
 	function ganhoTotalDiario()
 	{
-		return Math.floor((esteC.franquias * esteC.f * vendaPorFranquia * esteC.preco)/30);
+		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * esteC.franquias));
 	}
 	function gastoTotalDiario()
 	{
-		return Math.floor(((esteC.franquias * 35000) + (vendaPorFranquia * esteC.custo * esteC.franquias)/(esteC.f==0?1:esteC.f))/30);
+		return Math.floor((esteC.franquias * 1200) + (vendaPorFranquia * esteC.custo * esteC.franquias));
 	}
 	function vendaDeFranquia()
 	{

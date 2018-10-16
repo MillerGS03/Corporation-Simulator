@@ -54,8 +54,8 @@ function iniciar()
 	painelNotificacoes = new PainelNotificacoes();
 
 	mapa = new Mapa();
-	estatisticas = new Estatisticas();
 	calendario = new Calendario();
+	estatisticas = new Estatisticas();
 	construcao = new Construcao();
 
 	rua = new Rua();

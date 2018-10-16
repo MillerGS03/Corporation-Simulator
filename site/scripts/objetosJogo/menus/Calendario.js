@@ -1,3 +1,12 @@
+Calendario.proximoMes = function(mesAtual)
+{
+    return (mesAtual < 12)?(mesAtual + 1):1;
+}
+Calendario.anoProximoMes = function(mesAtual, anoAtual)
+{
+    return (Calendario.proximoMes(mesAtual) > 1)?anoAtual:anoAtual + 1;
+}
+
 function Calendario()
 {
     var f = 5;

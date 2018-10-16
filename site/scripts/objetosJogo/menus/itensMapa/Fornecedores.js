@@ -245,7 +245,7 @@ function Fornecedores(mapa)
 		ctx.fillStyle = "black";
 		ctx.fillText("Número de fornecedores: " + esteF.fornecedores, aqueleF.x + 150, aqueleF.y + 175);
 		ctx.fillStyle = "black";
-		ctx.fillText("Custo: " + custo + "/produto", aqueleF.x + 125, aqueleF.y + 450);
+		ctx.fillText("Custo: " + formatarDinheiro(custo) + "/produto", aqueleF.x + 125, aqueleF.y + 450);
 		ctx.fillStyle = "green";
 		ctx.font = "bold 24pt Century Gothic";
 		ctx.fillText("Matéria-prima produzida: " + produzido + "/dia", aqueleF.x + 125, aqueleF.y + 500);

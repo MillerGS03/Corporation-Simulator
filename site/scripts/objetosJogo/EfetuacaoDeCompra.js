@@ -86,7 +86,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 						alert("Saldo insuficiente!");
 					break;
 				case "Crédito":
-					if (sucesso = mapa.banco.fatura.limiteDisponivel >= este.valor)
+					if (sucesso = mapa.banco.fatura.checarLimiteParcelas(calendario.dia, calendario.mes, calendario.ano, opcaoDeParcelasAtual, valorPorParcela))
 						mapa.banco.fatura.lancar(calendario.dia, calendario.mes, calendario.ano, este.nome, valorPorParcela, opcaoDeParcelasAtual)
 					else
 						alert("Limite de crédito disponível insuficiente!");

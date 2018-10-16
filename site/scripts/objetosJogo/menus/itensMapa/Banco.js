@@ -146,6 +146,7 @@ function Banco(x, y)
     function desenharCartaoCredito()
     {
         esteB.btnTelaInicial.desenhar();
+        esteB.btnGerarFaturaMesAtual.desenhar();
         if (esteB.fatura.aberto)
             esteB.fatura.desenhar();
     }
@@ -459,11 +460,7 @@ function Banco(x, y)
                                                     (esteB.jaTemCartaoDeCredito)?"Cartão de Crédito":"Emitir cartão de crédito", false, false, false);
         esteB.btnCartaoCredito.onclick = function() {
             if (esteB.jaTemCartaoDeCredito)
-            {
-                esteB.fatura.gerarFatura(calendario.mes, calendario.ano);
-                esteB.fatura.aberto = true;
                 funcMostrarCartao();
-            }
             else
                 funcEmitirCartao();
         }
@@ -513,8 +510,8 @@ function Banco(x, y)
         esteB.btnGerarFaturaMesAtual = new BotaoRetangular(esteB.x + 275, yTela + 130, 250, 45, 
                                                            {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                            250, 45, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
-                                                           "Gerar extrato", false, false, false);
-        esteB.btnGerarFaturaMesAtual.onclick = function() {esteB.fatura.aberto = true; esteB.ativar()};
+                                                           "Fatura do mês atual", false, false, false);
+        esteB.btnGerarFaturaMesAtual.onclick = function() {esteB.fatura.gerarFatura(calendario.mes, calendario.ano); esteB.fatura.aberto = true; esteB.ativar()};
     }
     this.ativar = function()
     {
@@ -567,6 +564,7 @@ function Banco(x, y)
     function ativarCartaoCredito()
     {
         esteB.btnTelaInicial.ativarInteracao();
+        esteB.btnGerarFaturaMesAtual.ativarInteracao();
         if (esteB.fatura.aberto)
             esteB.fatura.ativar();
     }
@@ -590,6 +588,8 @@ function Banco(x, y)
     function desativarTela()
     {
         esteB.btnTelaInicial.desativarInteracao();
+        esteB.btnGerarFaturaMesAtual.desativarInteracao();
+
         esteB.btnGerarExtrato.desativarInteracao();
         esteB.btnFazerSaque.desativarInteracao();
         esteB.btnFazerDeposito.desativarInteracao();
@@ -795,11 +795,41 @@ function Banco(x, y)
 
         this.getLimiteDisponivel = function(mes, ano)
         {
-            this.gerarFatura(mes, ano);
-            var limiteDisponivel = this.limiteTotal;
-            for (var i = 0; i < this.lancamentosDestaFatura.length; i++)
-                limiteDisponivel -= this.lancamentosDestaFatura[i].valor;
-            return limiteDisponivel;
+            var limiteDisp = this.limiteTotal;
+            for (var i = 0; i < this.lancamentos.length; i++)
+            {
+                if ((this.lancamentos[i].mes == mes &&
+                     this.lancamentos[i].ano == ano) &&
+                     this.lancamentos[i].dia > this.diaFechamento 
+                     ||
+                    (this.lancamentos[i].mes == Calendario.proximoMes(mes) &&
+                     this.lancamentos[i].ano == Calendario.anoProximoMes(mes, ano) &&
+                     this.lancamentos[i].dia < this.diaFechamento))
+                {
+                    limiteDisp -= this.lancamentos[i].valor;
+                }
+            }
+            return limiteDisp;
+        }
+        this.getLimiteSaqueDisponivel = function(mes, ano)
+        {
+            var limiteDisp = this.limiteTotal / 4;
+            for (var i = 0; i < this.lancamentos.length; i++)
+            {
+                if  (this.lancamentos[i].nome == "Saque"
+                     &&
+                    (this.lancamentos[i].mes == mes &&
+                     this.lancamentos[i].ano == ano) &&
+                     this.lancamentos[i].dia > this.diaFechamento 
+                     ||
+                    (this.lancamentos[i].mes == Calendario.proximoMes(mes) &&
+                     this.lancamentos[i].ano == Calendario.anoProximoMes(mes, ano) &&
+                     this.lancamentos[i].dia < this.diaFechamento))
+                {
+                    limiteDisp -= this.lancamentos[i].valor;
+                }
+            }
+            return limiteDisp;
         }
 
         /**
@@ -820,7 +850,7 @@ function Banco(x, y)
                     return false;
             return true;
         }
-        this.diaFechamento = diaFechamento;
+        this.diaFechamento = diaFechamento<28?diaFechamento:28;
         this.lancamentos = new Array();
         this.lancamentosDestaFatura = new Array();
 
@@ -842,8 +872,27 @@ function Banco(x, y)
         }
 
         var totalFatura = 0;
-        this.gerarFatura = function(mes, ano) {
+        var totalFaturaFormatado = "";
+        var dataVencimento = "";
+        var dataFechamento = "";
+        var entrada = 0;
+        var entradaFormatada = "";
+        var valorParcelasFatura = 0;
+        var valorParcelasFaturaFormatado = "";
+        var limiteDisponivel = 0;
+        var limiteDisponivelFormatado = "";
+        var limiteSaqueDisponivel = 0;
+        var limiteSaqueDisponivelFormatado = "";
+        var mesFatura = 0;
+        var anoFatura = 0;
+
+        this.gerarFatura = function(mes, ano) 
+        {
+            mesFatura = mes;
+            anoFatura = ano;
+
             this.lancamentosDestaFatura = new Array();
+            totalFatura = 0;
             for (var i = 0; i < this.lancamentos.length; i++)
             {
                 if ((this.lancamentos[i].mes == mes &&
@@ -858,6 +907,28 @@ function Banco(x, y)
                     totalFatura += this.lancamentos[i].valor;
                 }
             }
+            var diaVencimento = this.diaFechamento + 10;
+            var mesVencimento = Calendario.proximoMes(mes);
+            var anoVencimento = Calendario.anoProximoMes(mes);
+            if (diaVencimento > calendario.qtosDiasTemOMes[mesVencimento - 1])
+            {
+                anoVencimento = Calendario.anoProximoMes(mesVencimento);
+                mesVencimento = Calendario.proximoMes(mesVencimento);
+                diaVencimento -= calendario.qtosDiasTemOMes[mesVencimento - 1];
+            }
+            
+            dataFechamento = formatarData(this.diaFechamento, Calendario.proximoMes(mes), Calendario.anoProximoMes(ano));
+            dataVencimento = formatarData(diaVencimento, mesVencimento, anoVencimento);
+            totalFaturaFormatado = formatarDinheiro(totalFatura);
+            var valorComJuros = totalFatura * 1.3;
+            entrada = valorComJuros / 7;
+            entradaFormatada = formatarDinheiro(entrada);
+            valorParcelasFatura = (valorComJuros - entrada) / 12;
+            valorParcelasFaturaFormatado = formatarDinheiro(valorParcelasFatura);
+            limiteDisponivel = this.getLimiteDisponivel(mes, ano);
+            limiteDisponivelFormatado = formatarDinheiro(limiteDisponivel);
+            limiteSaqueDisponivel = this.getLimiteSaqueDisponivel(mes, ano);
+            limiteSaqueDisponivelFormatado = formatarDinheiro(limiteSaqueDisponivel);
         }
 
         this.aberto = false;
@@ -914,7 +985,7 @@ function Banco(x, y)
             ctx.font = "bold 13pt Consolas";
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
-            ctx.fillText("    Data         Lançamento              Valor    ", _this.x, _this.y + 69);
+            ctx.fillText("    Data    Histórico de Lançamentos     Valor    ", _this.x, _this.y + 69);
 
             for (var i = 0; i < _this.lancamentosDestaFatura.length; i++)
                 _this.lancamentosDestaFatura[i].desenhar(_this.x, _this.y + 80 + 28 * i, i % 2, false);
@@ -944,13 +1015,96 @@ function Banco(x, y)
             ctx.font = "bold 13pt Century Gothic";
             ctx.fillText(" Total", _this.x, _this.y + 94 + 28 * _this.lancamentosDestaFatura.length);
             ctx.textAlign = "right";
-            ctx.fillText(formatarDinheiro(totalFatura), _this.x + 480, _this.y + 94 + 28 * _this.lancamentosDestaFatura.length)
+            ctx.fillText(totalFaturaFormatado, _this.x + 480, _this.y + 94 + 28 * _this.lancamentosDestaFatura.length)
         
             ctx.restore();
         }
         function desenharInformacoesAdicionais() // Data de vencimento, total da fatura, pagamento mínimo
         {
+            desenharInfoPagamento();
+            desenharInfoLimites();
+        }
+        function desenharInfoPagamento()
+        {
+            ctx.save();
+            
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "#dddddd";
 
+            // Data de fechamento
+            ctx.fillRect(_this.x + 520, _this.y + 85, 150, 35);
+            ctx.strokeRect(_this.x + 520, _this.y + 85, 150, 35);
+            // Data de vencimento
+            ctx.fillRect(_this.x + _this.width - 170, _this.y + 85, 150, 35);
+            ctx.strokeRect(_this.x + _this.width - 170, _this.y + 85, 150, 35);
+            // Total da fatura
+            ctx.fillRect(_this.x + 520, _this.y + 140, 150, 35);
+            ctx.strokeRect(_this.x + 520, _this.y + 140, 150, 35);
+            // Parcelamento da fatura
+            ctx.fillRect(_this.x + _this.width - 170, _this.y + 140, 150, 35);
+            ctx.strokeRect(_this.x + _this.width - 170, _this.y + 140, 150, 35);
+
+            ctx.font = "10pt Century Gothic";
+            ctx.fillStyle = "black";
+            ctx.textBaseline = "bottom";
+            ctx.textAlign = "center";
+            
+            ctx.fillText("Data de fechamento", _this.x + 595, _this.y + 83, 150);
+            ctx.fillText("Data de vencimento", _this.x + _this.width - 95, _this.y + 83, 150);
+            ctx.fillText("Total da fatura", _this.x + 595, _this.y + 138, 150);
+            ctx.fillText("Parcelamento da fatura ", _this.x + _this.width - 95, _this.y + 138, 150);
+
+            ctx.font  = "bold 12pt Century Gothic";
+            ctx.textBaseline = "middle";
+            ctx.fillText(dataFechamento, _this.x + 595, _this.y + 102, 150);
+            ctx.fillText(dataVencimento, _this.x + _this.width - 95, _this.y + 102, 150);
+            ctx.fillText(totalFaturaFormatado, _this.x + 595, _this.y + 157, 150);
+            ctx.font = "bold 10pt Century Gothic";
+            ctx.textBaseline = "top";
+            ctx.fillText("Entrada " + entradaFormatada, _this.x + _this.width - 95, _this.y + 142, 150);
+            ctx.textBaseline = "bottom";
+            ctx.fillText(" + 12x " + valorParcelasFaturaFormatado, _this.x + _this.width - 95, _this.y + 173, 150);
+
+            ctx.restore();
+        }
+        function desenharInfoLimites()
+        {
+            ctx.save();
+
+            var xLimites = _this.x + 520;
+            var yLimites = _this.y + 240;
+            var widthLimites = _this.width - 540;
+            var heightLimites = 250;
+            
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "black";
+            ctx.fillRect(xLimites, yLimites, widthLimites, heightLimites);
+            ctx.strokeRect(xLimites, yLimites, widthLimites, heightLimites);
+
+            ctx.fillStyle = "gray";
+            ctx.fillRect(xLimites, yLimites, widthLimites, 35);
+            ctx.strokeRect(xLimites, yLimites, widthLimites, 35);
+
+            ctx.fillStyle = "black";
+            ctx.font = "bold 16pt Century Gothic";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Resumo de limite de crédito", xLimites + widthLimites/2, yLimites + 17);
+
+            ctx.font = "bold 14pt Century Gothic";
+            ctx.textAlign = "left";
+            ctx.textAlign = "alphabetic";
+            ctx.fillText("Lim. total: ", xLimites + 5, yLimites + 50);
+            ctx.fillText("Lim. de saque: ", xLimites + 5, yLimites + 80);
+            ctx.fillText("Lim. de saque disponível: ", xLimites + 5, yLimites + 110);
+            ctx.fillText("Lim. disponível: ", xLimites + 5, yLimites + 140);
+            ctx.font = "14pt Century Gothic";
+            ctx.fillText(formatarDinheiro(_this.limiteTotal), xLimites + 100, yLimites + 50);
+            ctx.fillText(formatarDinheiro(_this.limiteTotal/4), xLimites + 145, yLimites + 80);
+            ctx.fillText(limiteSaqueDisponivelFormatado, xLimites + 190, yLimites + 110);
+            ctx.fillText(limiteDisponivelFormatado, xLimites + 155, yLimites + 140);
+
+            ctx.restore();
         }
         this.lancar = function(dia, mes, ano, nome, valorPorParcela, parcelas)
         {

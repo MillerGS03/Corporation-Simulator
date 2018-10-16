@@ -1,23 +1,24 @@
 function Estatisticas()
 {
+    var datas = new Array();
+    iniciarDatas();
+    var valores = new Array();
+    var valoresTotais = new Array();
+    var posicoes = new Array();
+    var atual = 0;
+    var atualTudo = 0;
+    var tudo = false;
+    var vezes = 0;
+    var x;
+    var y;
+    var escalaAtual = 0;
+    var escalaTudo = 0;
+    passouDia = true;
     this.width = 700;
     this.height = 500;
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
-
     var este = this;
-    
-    var valores = new Array();
-    var valoresTotais = new Array();
-    var datas = new Array();
-    var atual = 0;
-    var atualTudo = 0;
-    var dataAtual = 0;
-    var dias;
-    var tudo = false;
-    var updateDeGrafico = false;
-    var vezes = 0;
-    var primerioUpdateDeData = true;
 
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
@@ -40,40 +41,19 @@ function Estatisticas()
 
         if (this.aberto)
         {
-            if (tudo){
-                este.btnAnterior.ativarInteracao();
-                este.btnProx.desativarInteracao();
-            }
-            else {
-                este.btnProx.ativarInteracao();
-                este.btnAnterior.desativarInteracao();
-            }
-            var escala;
-            var escalaTudo;
-            var X = este.x + 65;
-            var Y = este.y + 450;
             ctx.save();
-            var aux = 0;
-            for (var i = 0; i < valores.length; i++) {
-                if (aux < valores[i])
-                    aux = valores[i];
-            }
-            var aux2 = aux + "";
-            escala = aux2.length - 1;
-            for (var i = 0; i < valoresTotais.length; i++)
-                if (aux < valoresTotais[i])
-                    aux = valoresTotais[i];
-            aux2 = aux + "";
-            escalaTudo = aux2.length;
+            x = este.x + 45;
+            y = este.y + 450;
             desenharJanela();
-            if (!tudo)
-                desenharEixos(X, Y, escala);
+            thisAtivarBotoes();
+            escalaAtual = calcularEscala();
+            escalaTudo = calcularEscalaTudo();
+            desenharEixos();
+            ctx.strokeStyle = "#4286f4";
+            if (tudo)
+                desenharLinhaGraficoTudo();
             else
-                desenharEixos(X, Y, escala);
-            ctx.beginPath();
-            ctx.moveTo(X, Y);
-            var atual, atualY = Y, atualX = X;
-
+                desenharLinhaGrafico();
             ctx.restore();
         }
     }
@@ -85,7 +65,6 @@ function Estatisticas()
             this.btnFechar.ativarInteracao();
             this.btnProx.ativarInteracao();
             this.btnAnterior.desativarInteracao();
-            iniciarDatas();
         }
         else
         {
@@ -129,76 +108,33 @@ function Estatisticas()
             situacao = "Todo o período";
             este.btnAnterior.desenhar();
         }
-        ctx.fillText(situacao, este.x + este.width/2, este.y + 90, este.width - 5);
+        ctx.fillText(situacao, este.x + este.width/2, este.y + 65, este.width - 5);
     }
-    function desenharEixos(x, y, e)
+    function desenharEixos()
     {
         ctx.save();
-        
-        ctx.beginPath();
-        ctx.lineTo(x, y);
-        ctx.moveTo(x - 30, y);
-        ctx.lineTo(x + 620, y);
-        ctx.moveTo(x, y - 350);
-        ctx.lineTo(x, y + 30);
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
-        ctx.closePath();
-
+        desenharLinhas();
         ctx.fillStyle = "Black";
-        var str = "";
-        for (var i = 1; i <= 10; i++) {
-            str = (i!=10?i + " x 10":"10");
-            ctx.textAlign = "center";
-            ctx.font = "bold 12pt Century Gothic";
-            ctx.fillText(str, x - (i!=10?35:22), y - (34 * i), x);
-            ctx.font = "bold 8pt Century Gothic";
-            ctx.fillText((i!=10?e:e+1), x - 9, y - (34 * i) - 3);
-        }
-        ctx.font = "bold 16pt Century Gothic";
-        ctx.fillText("$", x - 30, y - 385);
-        ctx.font = "bold 10pt Century Gothic";
-        var xAtual;
-        var yAtual;
-        var atual;
-        var aux3 = x;
-        ctx.beginPath();
-        if (!tudo){
-            for (var i = 0; i < 15; i++) {
-                aux3 += (i!=0?40:15);
-                ctx.fillText(datas[i], aux3, y);
-                ctx.stroke();
-                ctx.strokeStyle = "#4286f4";
-                atual = valores[i]/Math.pow(10, e);
-                yAtual = y-(33 * atual);
-                if (i != 0) {
-                    xAtual = aux3; 
-                }
-                else {
-                    xAtual = x;
-                }
-                ctx.lineTo(xAtual, yAtual);
-                ctx.stroke();
-            }
+        var e = (tudo?escalaTudo:escalaAtual);
+        desenharEixoY(e);
+        desenharEixoX(e);
+        desenharSetas();
+        ctx.closePath();
+        ctx.restore();
+    }
+    function thisAtivarBotoes()
+    {
+        if (tudo){
+            este.btnAnterior.ativarInteracao();
+            este.btnProx.desativarInteracao();
         }
         else {
-            for(var i = 0; i < valoresTotais.length; i++) {
-                aux3 += 620/valoresTotais.length;
-                ctx.strokeStyle = "#4286f4";
-                atual = valoresTotais[i]/Math.pow(10, e);
-                yAtual = y-(33 * atual);
-                if (i != 0) {
-                    xAtual = aux3; 
-                }
-                else {
-                    xAtual = x;
-                }
-                ctx.lineTo(xAtual, yAtual);
-                ctx.stroke();
-            }
+            este.btnProx.ativarInteracao();
+            este.btnAnterior.desativarInteracao();
         }
-        ctx.closePath();
-
+    }
+    function desenharSetas()
+    {
         ctx.beginPath();
         ctx.strokeStyle = "Black";
         ctx.moveTo(x + 620, y);
@@ -217,8 +153,106 @@ function Estatisticas()
         ctx.lineTo(x, y - 350);
         ctx.stroke();
         ctx.closePath();
-
-        ctx.restore();
+    }
+    function desenharLinhas()
+    {
+        ctx.beginPath();
+        ctx.lineTo(x, y);
+        ctx.moveTo(x - 30, y);
+        ctx.lineTo(x + 620, y);
+        ctx.moveTo(x, y - 350);
+        ctx.lineTo(x, y + 30);
+        ctx.strokeStyle = "#000";
+        ctx.stroke();
+        ctx.closePath();
+    }
+    function desenharEixoY(e)
+    {
+        for (var i = 1; i <= 10; i++) {
+            ctx.textAlign = "right";
+            ctx.font = "bold 12pt Century Gothic";
+            ctx.fillText(i + "", x - 3, y - (34 * i), 3000);
+        }
+        ctx.textAlign = "left";
+        strEscala = defineStringEscala(e);
+        ctx.fillText("$ ("+ strEscala +")", x - 40, y - 385);
+    }
+    function desenharEixoX(e)
+    {
+        ctx.font = "bold 10pt Century Gothic";
+        var xAtual;
+        var yAtual;
+        var atual;
+        var aux = x;
+        ctx.beginPath();
+        if (!tudo){
+            for (var i = 0; i < 15; i++) {
+                aux += (i!=0?40:15);
+                posicoes[i] = aux + 20;
+                ctx.fillText(datas[i], aux, y + 5);
+            }
+        }
+    }
+    function calcularEscala()
+    {
+        var aux = "";
+        for (var i = 0; i < valores.length; i++) {
+            if (aux < valores[i])
+                aux = valores[i] + "";
+        }
+        return aux.length - 1;
+    }
+    function calcularEscalaTudo()
+    {
+        var aux = "";
+        for (var i = 0; i < valoresTotais.length; i++)
+            if (aux < valoresTotais[i])
+                aux = valoresTotais[i] + "";
+        return aux.length - 1;
+    }
+    function defineStringEscala(e)
+    {
+        var strE = "";
+        if (e == 1)
+            strE = "dezenas";
+        else if (e == 2)
+            strE = "centenas";
+        else if (e == 3)
+            strE = "milhares";
+        else if (e == 4)
+            strE = "dezenas de milhares";
+        else if (e == 5)
+            strE = "centenas de milhares";
+        else if (e == 6)
+            strE = "milhões";
+        else if (e == 7)
+            strE = "dezenas de milhões";
+        else if (e == 8)
+            strE = "centenas de milhões";
+        else if (e == 9)
+            strE = "bilhões";
+        else if (e == 10)
+            strE = "dezenas de bilhões";
+        else if (e == 11)
+            strE = "centenas de bilhões";
+        else if (e == 12)
+            strE = "trilhões";
+        else
+            strE = "dezenas de trilhões"
+        return strE;
+    }
+    function iniciarDatas()
+    {
+        var dia = calendario.dia;
+        var mes = calendario.mes;
+        for (var i = 0; i < 15; i++){
+            dia++;
+            datas[i] = formatarData(dia, mes, null);
+            if (dia == calendario.qtosDiasTemOMes[calendario.mes - 1]){
+                dia = 1;
+                mes++;
+            }
+        }
     }
     this.adicionarValor = function (v) {
         if (!isNaN(v)) {
@@ -231,31 +265,55 @@ function Estatisticas()
                 valores[atual++] = v;
             }
             valoresTotais[atualTudo++] = v;
-            if (vezes == 14){
+            if (vezes == 15){
                 for(var i = 0; i < 14; i++){
                     datas[i] = datas[i+1];
                 }
-                datas[14] = calendario.dia + "/" + calendario.mes;
+                datas[14] = formatarData(calendario.dia, calendario.mes, null);
             }
             else
                 vezes++;
+            passouDia = true;
         }
     }
-    function iniciarDatas()
+    function desenharLinhaGrafico()
     {
-        var dia;
-        var mes;
-        for (var i = 0; i < 15; i++){
-            mes = calendario.mes;
-            dia = calendario.dia + (i - 1);
-            if (dia == calendario.qtosDiasTemOMes[calendario.mes - 1]){
-                dia = 1;
-                mes++;
+        ctx.save();
+        ctx.beginPath();
+        var Y = 0;
+        var valorAtual = 0;
+        for (var i = 0; i < valores.length; i++)
+        {
+            if (valores[i] != null)
+            {
+                valorAtual = valores[i]/Math.pow(10, escalaAtual);
+                Y = y-(31.5 * valorAtual);
+                if (i == 0)
+                    ctx.moveTo(x, Y);
+                ctx.lineTo(posicoes[i], Y);
+                ctx.stroke();
             }
-            else{
-                dia++;
-            }
-            datas[i] = dia + "/" + mes;
         }
+        ctx.closePath();
+        ctx.restore();
+        passouDia = false;
+    }
+    function desenharLinhaGraficoTudo()
+    {
+        ctx.save();
+        ctx.beginPath();
+        var X = x;
+        var Y = 0;
+        var valorAtual = 0;
+        for(var i = 0; i < valoresTotais.length; i++)
+        {
+            X += (i!=0?(620/valoresTotais.length):0);
+            valorAtual = valoresTotais[i]/Math.pow(10, escalaTudo);
+            Y = y-(33 * valorAtual);
+            ctx.lineTo(X, Y);
+            ctx.stroke();
+        }
+        ctx.closePath();
+        ctx.restore();
     }
 }

@@ -195,11 +195,12 @@ function Fornecedores(mapa)
 		return produzido;
 	};
 	this.custo = function() {
-		custo = Math.floor(10/(f==0?1:f));
+		var aux = (f!=0?f:1);
+		custo = Math.round(10/aux);
 		return custo;
 	};
 	this.setEconomia = function(fat) {f = fat;}
-	this.custoTotal = function() {return calcularGastoTotal();};
+	this.custoTotal = function() { return Math.floor(150 * esteF.fornecedores * custo);};
 
 	function desenharTelaComeco()
 	{

@@ -2,18 +2,34 @@ function Estatisticas()
 {
     var datas = new Array();
     iniciarDatas();
-    var valores = new Array();
+    var meses = new Array();
+    iniciarMeses();
+    var valores15 = new Array();
     var valoresTotais = new Array();
     var posicoes = new Array();
+    var posicoes12 = new Array();
+    var valoresEconomia = new Array();
+    var valoresCustos = new Array();
+    var valoresGanhos = new Array();
+    var valoresCG = new Array();
     var atual = 0;
     var atualTudo = 0;
-    var tudo = false;
+    var telaAtualE = 0;
     var vezes = 0;
     var x;
     var y;
     var escalaAtual = 0;
     var escalaTudo = 0;
-    passouDia = true;
+    var escalaGanho = 0;
+    var escalaCusto = 0;
+    var escalaCG = 0;
+    var ec = 0;
+    var cus = 0;
+    var ga = 0;
+    var cg = 0;
+    var passouMes = false;
+    var mesAtual = 0;
+    var vezesMes = 1;
     this.width = 700;
     this.height = 500;
     this.x = (canvas.width - this.width)/2;
@@ -25,18 +41,115 @@ function Estatisticas()
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
 
-    this.btnProx = new BotaoCircular(este.x + este.width - 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgProx, imgProx, "18pt Century Gothic", "white", "", false, false, true);
-    this.btnAnterior = new BotaoCircular(este.x + 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgAnt, imgAnt, "18pt Century Gothic", "white", "", false, false, true);
+    this.btnDinheiro = new BotaoRetangular(este.x + 200, este.y + 150, 300, 50, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 300, 50, "lightgrey", "gray", null, null,
+    	"bold 18pt Century Gothic", "black", "Últimos 15 dias", false, false, false);
+    this.btnDinheiroTudo = new BotaoRetangular(este.x + 200, este.y + 225, 300, 50, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 300, 50, "lightgrey", "gray", null, null,
+    	"bold 18pt Century Gothic", "black", "Dinheiro em caixa", false, false, false);
+    this.btnVoltar = new BotaoRetangular(este.width + 50, este.y + 75, 75, 25, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 75, 25, "lightgrey", "gray", null, null,
+    	"bold 12pt Century Gothic", "black", "Voltar", false, false, false);
+    this.btnEconomia = new BotaoRetangular(este.x + 200, este.y + 300, 300, 50, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 300, 50, "lightgrey", "gray", null, null,
+    	"bold 18pt Century Gothic", "black", "Economia", false, false, false);
+    this.btnCustosGanhos = new BotaoRetangular(este.x + 200, este.y + 375, 300, 50, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 300, 50, "lightgrey", "gray", null, null,
+    	"bold 18pt Century Gothic", "black", "Custos e Ganhos", false, false, false);
+
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
-    this.btnProx.onclick = function(e){
-        tudo = true;
-    }
-    this.btnAnterior.onclick = function(e){
-        tudo = false;
-    }
+    this.btnVoltar.onclick = function()
+    {
+    	desativarTela();
+    	telaAtualE = 0;
+    	ativarTela();
+    };
+    this.btnDinheiro.onclick = function()
+    {
+    	desativarTela();
+    	telaAtualE = 1;
+    	ativarTela();
+    };
+    this.btnDinheiroTudo.onclick = function()
+    {
+    	desativarTela();
+    	telaAtualE = 2;
+    	ativarTela();
+    };
+    this.btnEconomia.onclick = function() 
+    {
+    	desativarTela();
+    	telaAtualE = 3;
+    	ativarTela();
+    };
+    this.btnCustosGanhos.onclick = function()
+    {
+    	desativarTela();
+    	telaAtualE = 4;
+    	ativarTela();
+    };
 
+    this.setEconomia = function(f) {
+    	if (passouMes)
+    	{
+    		valoresEconomia[ec++] = f;
+	    	if (ec == 12)
+	    	{
+	    		for (var i = 0; i < 12; i++)
+	    			valoresEconomia[i] = valoresEconomia[i+1];
+	    		valoresEconomia[11] = f;
+	    	}
+	    }
+    };
+    this.setCustos = function(c) {
+    	if (passouMes)
+    	{
+    		valoresCustos[cus++] = c;
+	    	if (cus == 12)
+	    	{
+	    		for(var i = 0; i < 12; i++)
+	    			valoresCustos[i] = valoresCustos[i+1];
+	    		valoresCustos[11] = c;
+	    	}
+	    }
+    };
+    this.setGanhos = function(g) {
+    	if (passouMes)
+    	{
+    		valoresGanhos[ga++] = g;
+	    	if (ga == 12)
+	    	{
+	    		for(var i = 0; i < 12; i++)
+	    			valoresGanhos[i] = valoresGanhos[i+1];
+	    		valoresGanhos[11] = g;
+	    	}
+    	}
+    };
+    this.setLucroPrejuizo = function(v) 
+    {
+    	if (passouMes)
+    	{
+    		valoresCG[cg++] = v;
+	    	if (cg == 12)
+	    	{
+	    		for (var i = 0; i < 12; i++)
+	    			valoresCG[i] = valoresCG[i+1];
+	    		valoresCG[11] = v;
+	    	}
+	    	passouMes = false;
+	    }
+    };
+    this.isPassouMes = function(m)
+    {
+    	if (mesAtual < m)
+    	{
+    		passouMes = true;
+    		mesAtual = m;
+    	}
+    	else if (mesAtual == 12 && m == 1)
+    	{
+    		passouMes = true;
+    		mesAtual = m;
+    	}
+    };
+    ativarTela();
     this.desenhar = function() {
 
         if (this.aberto)
@@ -45,15 +158,35 @@ function Estatisticas()
             x = este.x + 45;
             y = este.y + 450;
             desenharJanela();
-            thisAtivarBotoes();
-            escalaAtual = calcularEscala();
-            escalaTudo = calcularEscalaTudo();
-            desenharEixos();
-            ctx.strokeStyle = "#4286f4";
-            if (tudo)
-                desenharLinhaGraficoTudo();
+            if (telaAtualE == 0)
+            	desenharTelaInicio();
             else
-                desenharLinhaGrafico();
+            {
+            	este.btnVoltar.desenhar();
+            	escalaAtual = calcularEscala();
+            	escalaTudo = calcularEscalaTudo();
+            	escalaCG = calcularEscalaLucro();
+            	escalaGanho = calcularEscalaGanho();
+            	escalaCusto = calcularEscalaCusto();
+            	desenharEixos();
+            	switch(telaAtualE)
+            	{
+            		case 1:
+            			desenharLinhaGrafico("#4286f4");
+            		break;
+            		case 2:
+            			desenharLinhaGraficoTudo("#4286f4");
+            		break;
+            		case 3:
+            			desenharLinhaGraficoEconomia("#5e35e8");
+            		break;
+            		case 4:
+            			desenharLucro("#ffeb3a");
+            			desenharCusto("#ff2b2b");
+            			desenharGanho("#41e835");
+            		break;
+            	}
+            }
             ctx.restore();
         }
     }
@@ -63,17 +196,11 @@ function Estatisticas()
         {
             desativarBotoes();
             this.btnFechar.ativarInteracao();
-            this.btnProx.ativarInteracao();
-            this.btnAnterior.desativarInteracao();
         }
         else
         {
             this.btnFechar.desativarInteracao();
             this.btnFechar.hovering = false;
-            this.btnProx.desativarInteracao();
-            this.btnProx.hovering = false;
-            this.btnAnterior.desativarInteracao();
-            this.btnAnterior.hovering = false;
             ativarBotoes();
         }
         atualizar();
@@ -100,38 +227,70 @@ function Estatisticas()
         ctx.fillStyle = "Black";
         ctx.font = "bold 18pt Century Gothic";
         var situacao = "";
-        if (!tudo){
-            situacao = "Últimos 15 dias"
-            este.btnProx.desenhar();
-        }
-        else{
-            situacao = "Todo o período";
-            este.btnAnterior.desenhar();
-        }
         ctx.fillText(situacao, este.x + este.width/2, este.y + 65, este.width - 5);
+    }
+    function desenharTelaInicio()
+    {
+    	ctx.save();
+    	ctx.fillStyle = "black";
+    	ctx.font = "bold 25pt Century Gothic";
+    	ctx.fillText("Selecione o gráfico desejado:", este.x + 250, este.y + 75);
+    	este.btnDinheiro.desenhar();
+    	este.btnDinheiroTudo.desenhar();
+    	este.btnEconomia.desenhar();
+    	este.btnCustosGanhos.desenhar();
+    	ctx.restore();
     }
     function desenharEixos()
     {
         ctx.save();
         desenharLinhas();
         ctx.fillStyle = "Black";
-        var e = (tudo?escalaTudo:escalaAtual);
+        var e = 0;
+        switch(telaAtualE)
+        {
+        	case 1:
+        		e = escalaAtual;
+        	break;
+        	case 2:
+        		e = escalaTudo;
+        	break;
+        	case 3:
+        		e = 1;
+        	break;
+        	case 4:
+        		e = escalaCG;
+        	break;
+        }
         desenharEixoY(e);
         desenharEixoX(e);
         desenharSetas();
         ctx.closePath();
         ctx.restore();
     }
-    function thisAtivarBotoes()
+    function ativarTela()
     {
-        if (tudo){
-            este.btnAnterior.ativarInteracao();
-            este.btnProx.desativarInteracao();
-        }
-        else {
-            este.btnProx.ativarInteracao();
-            este.btnAnterior.desativarInteracao();
-        }
+    	if (telaAtualE == 0)
+    	{
+    		este.btnDinheiro.ativarInteracao();
+    		este.btnDinheiroTudo.ativarInteracao();
+    		este.btnEconomia.ativarInteracao();
+    		este.btnCustosGanhos.ativarInteracao();
+    	}
+    	else
+    		este.btnVoltar.ativarInteracao();
+    }
+    function desativarTela()
+    {
+    	if (telaAtualE == 0)
+    	{
+    		este.btnDinheiro.desativarInteracao();
+    		este.btnDinheiroTudo.desativarInteracao();
+    	}
+    	else
+    	{
+    		este.btnVoltar.desativarInteracao();
+    	}
     }
     function desenharSetas()
     {
@@ -175,7 +334,7 @@ function Estatisticas()
         }
         ctx.textAlign = "left";
         strEscala = defineStringEscala(e);
-        ctx.fillText("$ ("+ strEscala +")", x - 40, y - 385);
+        ctx.fillText("$ " + strEscala, x - 40, y - 385);
     }
     function desenharEixoX(e)
     {
@@ -185,20 +344,31 @@ function Estatisticas()
         var atual;
         var aux = x;
         ctx.beginPath();
-        if (!tudo){
-            for (var i = 0; i < 15; i++) {
+        if (telaAtualE == 1)
+        {
+            for (var i = 0; i < 15; i++)
+            {
                 aux += (i!=0?40:15);
                 posicoes[i] = aux + 20;
                 ctx.fillText(datas[i], aux, y + 5);
             }
         }
+        else if (telaAtualE == 3 || telaAtualE == 4)
+        {
+        	for (var i = 0; i < 12; i++)
+        	{
+        		aux += (i!=0?50:15);
+        		posicoes12[i] = aux + 20;
+        		ctx.fillText(meses[i], aux, y + 5);
+        	}
+        }
     }
     function calcularEscala()
     {
         var aux = "";
-        for (var i = 0; i < valores.length; i++) {
-            if (aux < valores[i])
-                aux = valores[i] + "";
+        for (var i = 0; i < valores15.length; i++) {
+            if (aux < valores15[i])
+                aux = valores15[i] + "";
         }
         return aux.length - 1;
     }
@@ -210,35 +380,75 @@ function Estatisticas()
                 aux = valoresTotais[i] + "";
         return aux.length - 1;
     }
+    function calcularEscalaGanho()
+    {
+    	var aux = 0;
+    	var aux2 = "";
+    	for (var i = 0; i < 12; i++)
+    	{
+    		if (valoresGanhos[i] > aux)
+    			aux = valoresGanhos[i];
+    	}
+    	aux2 = aux + "";
+    	return aux2.length - 1;
+    }
+    function calcularEscalaCusto()
+    {
+    	var aux = 0;
+    	var aux2 = "";
+    	for (var i = 0; i < 12; i++)
+    	{
+    		if (valoresCustos[i] > aux)
+    			aux = valoresCustos[i];
+    	}
+    	aux2 = aux + "";
+    	return aux2.length - 1;
+    }
+    function calcularEscalaLucro()
+    {
+    	var aux = 0;
+    	var aux2 = "";
+    	for (var i = 0; i < 12; i++)
+    	{
+    		if (valoresCG[i] > aux)
+    			aux = valoresCG[i];
+    	}
+    	aux2 = aux + "";
+    	return aux2.length - 1;
+    }
     function defineStringEscala(e)
     {
         var strE = "";
         if (e == 1)
-            strE = "dezenas";
+            strE = "(dezenas)";
         else if (e == 2)
-            strE = "centenas";
+            strE = "(centenas)";
         else if (e == 3)
-            strE = "milhares";
+            strE = "(milhares)";
         else if (e == 4)
-            strE = "dezenas de milhares";
+            strE = "(dezenas de milhares)";
         else if (e == 5)
-            strE = "centenas de milhares";
+            strE = "(centenas de milhares)";
         else if (e == 6)
-            strE = "milhões";
+            strE = "(milhões)";
         else if (e == 7)
-            strE = "dezenas de milhões";
+            strE = "(dezenas de milhões)";
         else if (e == 8)
-            strE = "centenas de milhões";
+            strE = "(centenas de milhões)";
         else if (e == 9)
-            strE = "bilhões";
+            strE = "(bilhões)";
         else if (e == 10)
-            strE = "dezenas de bilhões";
+            strE = "(dezenas de bilhões)";
         else if (e == 11)
-            strE = "centenas de bilhões";
+            strE = "(centenas de bilhões)";
         else if (e == 12)
-            strE = "trilhões";
-        else
-            strE = "dezenas de trilhões"
+            strE = "(trilhões)";
+        else if (e == 13)
+            strE = "(dezenas de trilhões)";
+        else if (e == 14)
+        	strE = "(centenas de trilhões)";
+        else if (e == 15)
+        	strE = "(quadrilhões)";
         return strE;
     }
     function iniciarDatas()
@@ -246,26 +456,33 @@ function Estatisticas()
         var dia = calendario.dia;
         var mes = calendario.mes;
         for (var i = 0; i < 15; i++){
-            dia++;
             datas[i] = formatarData(dia, mes, null);
             if (dia == calendario.qtosDiasTemOMes[calendario.mes - 1]){
                 dia = 1;
                 mes++;
             }
+            dia++;
         }
+    }
+    function iniciarMeses()
+    {
+    	var mes = calendario.mes;
+    	var ano = calendario.ano;
+    	for (var i = 0; i < 12; i++)
+    		meses[i] = formatarData(mes++, ano);
     }
     this.adicionarValor = function (v) {
         if (!isNaN(v)) {
             if (atual >= 15) {
                 for (var i = 0; i < 15; i++)
-                    valores[i] = valores[i+1];
-                valores[atual] = v;
+                    valores15[i] = valores15[i+1];
+                valores15[atual] = v;
             }
             else {
-                valores[atual++] = v;
+                valores15[atual++] = v;
             }
             valoresTotais[atualTudo++] = v;
-            if (vezes == 15){
+            if (vezes == 14){
                 for(var i = 0; i < 14; i++){
                     datas[i] = datas[i+1];
                 }
@@ -273,21 +490,30 @@ function Estatisticas()
             }
             else
                 vezes++;
-            passouDia = true;
+            vezesMes++;
+            if (vezesMes == calendario.qtosDiasTemOMes[calendario.mes - 1])
+            {
+            	for (var i = 0; i < 12; i++)
+            		meses[i] = meses[i+1];
+            	meses[11] = calendario.mes;
+            	vezesMes = 1;
+            }
         }
     }
-    function desenharLinhaGrafico()
+    function desenharLinhaGrafico(cor)
     {
         ctx.save();
         ctx.beginPath();
+        ctx.strokeStyle = cor;
         var Y = 0;
         var valorAtual = 0;
-        for (var i = 0; i < valores.length; i++)
+        for (var i = 0; i < valores15.length; i++)
         {
-            if (valores[i] != null)
+            if (valores15[i] != null)
             {
-                valorAtual = valores[i]/Math.pow(10, escalaAtual);
-                Y = y-(31.5 * valorAtual);
+                valorAtual = valores15[i]/Math.pow(10, escalaAtual);
+                Y = (valorAtual
+                	!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtuals)));
                 if (i == 0)
                     ctx.moveTo(x, Y);
                 ctx.lineTo(posicoes[i], Y);
@@ -296,12 +522,12 @@ function Estatisticas()
         }
         ctx.closePath();
         ctx.restore();
-        passouDia = false;
     }
-    function desenharLinhaGraficoTudo()
+    function desenharLinhaGraficoTudo(cor)
     {
         ctx.save();
         ctx.beginPath();
+        ctx.strokeStyle = cor;
         var X = x;
         var Y = 0;
         var valorAtual = 0;
@@ -309,9 +535,97 @@ function Estatisticas()
         {
             X += (i!=0?(620/valoresTotais.length):0);
             valorAtual = valoresTotais[i]/Math.pow(10, escalaTudo);
-            Y = y-(33 * valorAtual);
+            Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
             ctx.lineTo(X, Y);
             ctx.stroke();
+        }
+        ctx.closePath();
+        ctx.restore();
+    }
+    function desenharLinhaGraficoEconomia(cor)
+    {
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = cor;
+        var Y = 0;
+        var valorAtual = 0;
+        for (var i = 0; i < valoresEconomia.length; i++)
+        {
+            if (valoresEconomia[i] != null)
+            {
+                valorAtual = valoresEconomia[i];
+                Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
+                if (i == 0)
+                    ctx.moveTo(x, Y);
+                ctx.lineTo(posicoes12[i], Y);
+                ctx.stroke();
+            }
+        }
+        ctx.closePath();
+        ctx.restore();
+    }
+    function desenharLucro(cor)
+    {
+    	ctx.save();
+    	ctx.beginPath();
+    	ctx.strokeStyle = cor;
+        var valor = 0;
+        var Y = 0;
+        for (var i = 0; i < valoresCG.length; i++)
+        {
+        	if (valoresCG[i] != null)
+        	{
+        		valor = valoresCG[i]/Math.pow(10, escalaCG);
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
+        		if (i == 0)
+        			ctx.moveTo(x, Y);
+        		ctx.lineTo(posicoes12[i], Y);
+        		ctx.stroke();
+        	}
+        }
+        ctx.closePath();
+        ctx.restore();
+    }
+    function desenharCusto(cor)
+    {
+    	ctx.save();
+    	ctx.beginPath();
+    	ctx.strokeStyle = cor;
+        var valor = 0;
+        var Y = 0;
+        for (var i = 0; i < valoresCustos.length; i++)
+        {
+        	if (valoresCustos[i] != null)
+        	{
+        		valor = valoresCustos[i]/Math.pow(10, escalaCusto);
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
+        		if (i == 0)
+       	 			ctx.moveTo(x, Y);
+        		ctx.lineTo(posicoes12[i], Y);
+        		ctx.stroke();
+        	}
+        }
+        ctx.closePath();
+        ctx.restore();
+    }
+    function desenharGanho(cor)
+    {
+    	ctx.save();
+    	ctx.beginPath();
+    	ctx.strokeStyle = cor;
+        var valor = 0;
+        var Y = 0;
+        for (var i = 0; i < valoresGanhos.length; i++)
+        {
+        	if (valoresGanhos[i] != null)
+        	{
+        		valor = valoresGanhos[i]/Math.pow(10, escalaGanho);
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
+        		if (i == 0)
+        			ctx.moveTo(x, Y);
+        		ctx.lineTo(posicoes12[i], Y);
+        		ctx.stroke();
+        	}
         }
         ctx.closePath();
         ctx.restore();

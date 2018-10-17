@@ -1,0 +1,9 @@
+Receita de vendas = faturamento = vendas da empresa -> Credor das vendas.
+Ex:
+(D) - Conta Bancária    - 15.000
+(C) - Receita de Vendas - 15.000
+
+CMV = Custo das Mercadorias Vendidas = Preço de custo da mercadoria -> Devedor das atualizações do estoque
+Ex:
+(D) - CMV                    - 10.000
+(C) - Estoque de Mercadorias - 10.000

@@ -23,7 +23,7 @@ function Estatisticas()
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
+        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
 
     this.btnProx = new BotaoCircular(este.x + este.width - 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgProx, imgProx, "18pt Century Gothic", "white", "", false, false, true);
     this.btnAnterior = new BotaoCircular(este.x + 200, este.y + 100, 30, 30, "white", "#f2f2f2", imgAnt, imgAnt, "18pt Century Gothic", "white", "", false, false, true);

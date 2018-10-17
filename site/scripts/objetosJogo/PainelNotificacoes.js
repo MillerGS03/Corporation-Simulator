@@ -7,8 +7,9 @@ function PainelNotificacoes()
 
     var este = this;
     var notificacoes = new Array();
+    var qtasNotificacoesNovas = 0;
 
-    this.abrirOuFechar = true;
+    this.aberto = false;
 
     this.desenhar = function() 
     {
@@ -25,39 +26,39 @@ function PainelNotificacoes()
         ctx.fillText("Notificações", this.x + this.width / 2, this.y + 10, this.width);
 
         for (var i = 0; i < notificacoes.length; i++)
-            notificacoes[i].desenhar(this.x, this.y + 80 + i * 42);
+            notificacoes[i].desenhar();
 
         ctx.restore();
     }
 
     this.abrirFechar = function() 
     {
-        este.abrirOuFechar = !este.abrirOuFechar;
+        this.aberto = !this.aberto;
         
-        if (!este.abrirOuFechar)
-            este.abrir();
-        else if (este.abrirOuFechar)
-            este.fechar();
+        if (this.aberto)
+            abrir();
+        else
+            fechar();
     }
-    this.abrir = function()
+    function abrir()
     {
-        if (!este.abrirOuFechar)
+        if (este.aberto)
         {
             este.x -= 5;
             if (este.x >= canvas.width - este.width)
-                setTimeout(este.abrir, 10);
+                setTimeout(abrir, 10);
             else
             este.x = canvas.width - este.width;
             atualizar();
         }
     }
-    this.fechar = function()
+    function fechar()
     {
-        if (este.abrirOuFechar)
+        if (!este.aberto)
         {
             este.x += 5;
             if (este.x < canvas.width + 3)
-                setTimeout(este.fechar, 10);
+                setTimeout(fechar, 10);
             else
                 este.x = canvas.width + 3;
             atualizar();
@@ -65,27 +66,60 @@ function PainelNotificacoes()
     }
     this.adicionarNotificacao = function(titulo, mensagem, data)
     {
-        notificacoes.push(new Notificacao(titulo, mensagem, data));
+        notificacoes.push(new Notificacao(notificacoes.length, titulo, mensagem, data));
+        btnNotificacoes.atualizarNotificacoes(notificacoes.length);
+    }
+    function fecharNotificacao(indice)
+    {
+        notificacoes.splice(indice, 1);
+        atualizarIndicesNotificacoes();
+    }
+    function atualizarIndicesNotificacoes()
+    {
+        for (var i = 0; i < notificacoes.length; i++)
+            notificacoes[i].setIndice(i);
     }
 
-    function Notificacao(titulo, mensagem, data)
+    function Notificacao(indice, titulo, mensagem, data)
     {
         this.titulo = titulo;
         this.mensagem = mensagem;
         this.data = data;
 
+        var esteIndice = indice;
+        var xNotificacao = 0;
+        var yNotificacao = 80 + esteIndice * 42;
+
+        var estaNotificacao = this;
+
+        this.ativar = function() {
+            this.btnFechar.ativarInteracao();
+        }
+        this.desativar = function() {
+            this.btnFechar.desativarInteracao();
+        }
+
+        this.setIndice = function(novoIndice)
+        {
+            var esteIndice = novoIndice;
+            var xNotificacao = este.x;
+            var yNotificacao = este.y + 80 + esteIndice * 42;
+        }
         this.height = 40;
         this.width = este.width;
+        this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40, 5, 40, 40, "#232323", "#535353", null, null,
+                                             "bold 18pt Century Gothic", "red", "x", false, false, false);
+        this.btnFechar.onclick = function() {fecharNotificacao(estaNotificacao.indice)};
 
-        this.desenhar = function(x, y)
+        this.desenhar = function()
         {
             ctx.save();
 
             ctx.fillStyle = "silver";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
-            ctx.fillRect(x, y, this.width, this.height);
-            ctx.strokeRect(x, y, this.width, this.height);
+            ctx.fillRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
+            ctx.strokeRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
 
             ctx.restore();
         }

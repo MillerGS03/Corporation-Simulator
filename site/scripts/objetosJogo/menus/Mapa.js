@@ -11,7 +11,7 @@ function Mapa()
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                                          { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
+                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
     this.btnFechar.onclick = function() {este.abrirFechar()};
 
     /**
@@ -56,7 +56,7 @@ function Mapa()
                     desenharFornecedores();
                     break;
             }
-            if (lugarAberto != -1 && (lugarAberto != 0 || !este.banco.fatura.aberto))
+            if (lugarAberto != -1 /*&& (lugarAberto != 0 || !este.banco.fatura.aberto)*/)
                 este.btnVoltar.desenhar();
             
             ctx.restore();

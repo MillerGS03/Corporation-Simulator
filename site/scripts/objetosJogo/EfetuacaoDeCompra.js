@@ -25,13 +25,14 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		this.btnCancelar.ativarInteracao();
 		BotaoRetangular.desativarTodos([this.btnConfirmar, this.btnCancelar]);
 		BotaoCircular.desativarTodos();
+		/*
 		if (this.rbCredito != null && this.rbCredito.getChecked())
 		{
 			BotaoRetangular.exceto.push(this.btnMais);
 			BotaoRetangular.exceto.push(this.btnMenos);
 			this.btnMais.ativarInteracao();
 			this.btnMenos.ativarInteracao();
-		}
+		}*/
 		for (var i = 0; i < radioButtons.length; i++)
 		{
 			radioButtons[i].ativarInteracao();
@@ -43,11 +44,12 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		this.ativo = false;
 		this.btnConfirmar.desativarInteracao();
 		this.btnCancelar.desativarInteracao();
+		/*
 		if (this.rbCredito != null)
 		{
 			this.btnMais.desativarInteracao();
 			this.btnMenos.desativarInteracao();
-		}
+		}*/
 		for (var i= 0; i < radioButtons.length; i++)
 			radioButtons[i].desativarInteracao();
 		BotaoRetangular.reativar();
@@ -85,12 +87,12 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 					else
 						alert("Saldo insuficiente!");
 					break;
-				case "Crédito":
+				/*case "Crédito":
 					if (sucesso = mapa.banco.fatura.checarLimiteParcelas(calendario.dia, calendario.mes, calendario.ano, opcaoDeParcelasAtual, valorPorParcela))
 						mapa.banco.fatura.lancar(calendario.dia, calendario.mes, calendario.ano, este.nome, valorPorParcela, opcaoDeParcelasAtual)
 					else
 						alert("Limite de crédito disponível insuficiente!");
-					break;
+					break;*/
 			}
 			if (sucesso)
 			{
@@ -109,7 +111,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		if (mapa.banco.jaAbriuConta && este.aceitaDebito)
 			radioButtons.push(este.rbDebito = new RadioButton(este.x + 30, este.y + 210, "Débito", "white", radioButtons));
 		
-		este.rbCredito = null;
+		/*este.rbCredito = null;
 		if (mapa.banco.jaTemCartaoDeCredito && este.aceitaCredito)
 		{
 			var yCredito = (mapa.banco.jaAbriuConta && este.aceitaDebito)?(este.y + 250):(este.y + 210);
@@ -162,7 +164,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 				opcaoDeParcelasAtual--;
 				atualizarParcelas();
 			}
-		}
+		}*/
 		este.rbDinheiro.setChecked(true);
 	}
 	this.desenhar = function() 
@@ -171,8 +173,9 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 
 		desenharForma();
 		desenharTextos();
+		/*
 		if (este.rbCredito != null && este.rbCredito.getChecked())
-			desenharQtasParcelasCredito();
+			desenharQtasParcelasCredito();*/
 
 		for (var i = 0; i < radioButtons.length; i++)
 			radioButtons[i].desenhar();

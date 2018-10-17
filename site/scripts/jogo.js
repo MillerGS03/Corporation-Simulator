@@ -74,6 +74,8 @@ function iniciar()
 			atualizar();
 			barra.ganharXP(1);
 		}
+		if (contador % 200 == 0)
+			painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", "24/06/34");
 	}, 50);
 
 	$("#meuCanvas").on("mousemove", (function(e){

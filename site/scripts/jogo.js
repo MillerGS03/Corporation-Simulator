@@ -192,6 +192,13 @@ function passarDia()
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
+	estatisticas.isPassouMes(calendario.mes);
+	estatisticas.setEconomia(calendario.fatorEconomia());
+	estatisticas.setCustos(mapa.custoTotal());
+	estatisticas.setGanhos(mapa.ganhoTotal());
+	var l = mapa.ganhoTotal() - mapa.custoTotal();
+	l = (l<0?(l*(-1)):l)
+	estatisticas.setLucroPrejuizo(l);
 	mapa.setFator(calendario.fatorEconomia());
 	barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
 }

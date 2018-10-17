@@ -250,9 +250,15 @@ function Mapa()
     this.setFator = function(f) {fator = f;}
 
     this.custoTotal = function() {
-        return este.comercio.custoTotal() + este.fornecedores.custoTotal();
+        este.fornecedores.setEconomia(fator);
+        este.comercio.setEconomia(fator);
+        este.fornecedores.custo();
+        var custoTotal = este.comercio.custoTotal() + este.fornecedores.custoTotal();
+        return custoTotal;
     };
     this.ganhoTotal = function() {
-        return este.comercio.ganhoTotal();
+        este.comercio.setEconomia(fator);
+        var ganhoComercio = este.comercio.ganhoTotal();
+        return ganhoComercio;
     };
 }

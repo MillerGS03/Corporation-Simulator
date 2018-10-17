@@ -1,3 +1,19 @@
+@media screen and (min-width: 1000px) {
+	#login {
+		left: calc(50vw + 100px);
+	}
+	h1#crie {
+		font-size: 75pt;
+	}
+}
+@media screen and (max-width: 1000px) {
+	#login {
+		left: calc(50vw - 172px);
+	}
+	h1#crie {
+		font-size: 0;
+	}
+}
 div#fundoJogo div#login
 {
 	z-index: 1;
@@ -90,7 +106,6 @@ div#fundoJogo h1#crie
 	left: 110px;
 	top: 140px;
 	font-family: "Century Gothic";
-	font-size: 75pt;
 	font-weight: 900;
 	color: #FBFBFB;
 	text-shadow: 0 0 4px black;

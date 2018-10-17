@@ -120,6 +120,7 @@ function PainelNotificacoes()
             ctx.lineWidth = 2;
             ctx.fillRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
             ctx.strokeRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
+            this.btnFechar.desenhar();
 
             ctx.restore();
         }

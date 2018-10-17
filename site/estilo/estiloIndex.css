@@ -5,51 +5,8 @@ body
 	background-color: black;
 	min-width: 500px;
 }
-@media screen and (min-width: 1000px){
-	nav ul {
-		left: calc(100vw - 530px); 
-	}
-	nav ul li
-	{
-		bottom: 15px;
-	}
-	nav ul li:hover {
-		bottom: 25px;
-	}
-	header
-	{
-		height: 90px;
-	}
-	header h1
-	{
-		top: 15px;
-	}
-	#cortina {
-		top: 92px;
-	}
-}
-@media screen and (max-width: 1000px) {
-	header
-	{
-		height: 100px;
-	}
-	header h1
-	{
-		top: 20px;
-	}
-	nav ul {
-		left: calc(50vw - 236px);
-	}
-	nav ul li {
-		bottom: 5px;
-	}
-	nav ul li:hover {
-		bottom: 15px;
-	}
-	#cortina {
-		top: 102px;
-	}
-}
+/*@media screen and (min-width: 1000px){*/
+/*}*/
 header 
 {
 	min-width: 500px;
@@ -57,40 +14,43 @@ header
 	padding: 0px;
 	width: 100%;
 	background-color: black;
-	border-bottom: 2px solid white;
-	box-shadow: 0px 2px 2px black;
+	border-bottom: 0.3vh solid white;
+	box-shadow: 0px 0.3vh 0.3vh black;
 	color: white;
+	height: 12vh;
 }
 header h1
 {
-	transition: .3s;
 	position: relative;
 	margin: 0px;
 	font-family: "Century Gothic", "sans-serif";
-	font-size: 35pt;
+	font-size: 3vw;
 	display: inline-block;
-	left: 45px;
+	left: 4vw;
+	line-height: 12vh;
 }
 nav ul
 {
 	min-width: 461px;
 	display: inline-block;
 	position: absolute;
+	left: calc(100vw - 530px); 
 }
 nav ul li
 {
 	display: inline-block;
-	height: 30px;
-	line-height: 30px;
+	height: 4vh;
+	line-height: 4vh;
 	text-align: center;
 	text-decoration: none;
 	font-family: "Century Gothic";
+	font-size: 2.4vh;
 	position: relative;
-	border: 2px solid white;
+	border: 0.2vw solid white;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
-	margin-left: 1px;
-	margin-right: 1px;
+	margin-left: 0.2vh;
+	margin-right: 0.2vh;
 	color: white;
 	background-color: black;
 	transition: .3s;
@@ -98,15 +58,16 @@ nav ul li
 nav ul li:hover
 {
 	background-color: #505050;
-	height: 40px;
+	bottom: 25px;
+	height: 4vh;
 }
 nav ul li#home
 {
-	width: 80px;
+	width: 9vh;
 }
 nav ul li#funcionalidades
 {
-	width: 155px;
+	width: 20vh;
 }
 nav ul li#galeria
 {
@@ -119,7 +80,8 @@ nav ul li#ranking
 div#fundoJogo
 {
 	width: 100%;
-	height: 700px;
+	height: 76vh;
+	min-height: 400px;
 	background: url('../imagens/empresa.png') no-repeat;
 	background-size: 255vh;
 	background-position: center 0px;
@@ -128,7 +90,9 @@ div#fundoJogo div#cortina
 {
 	min-width: 500px;
 	width: 100%;
-	height: 700px;
+	height: 92vh;
+	min-height: 400px;
+	top: calc(12vh + 0.3vh);
 	background-color: black;
 	opacity: .6;
 	position: absolute;
@@ -141,16 +105,20 @@ footer
 	margin: 0px;
 	padding: 0px;
 	width: 100%;
-	height: 100px;
+	height: 12vh;
 	color: white;
 }
-footer img
+footer div
 {
 	position: relative;
-	left: 20px;
-	top: 15px;
-	border: 2px solid white;
+	left: 2vh;
+	top: 2vh;
+	border: 0.3vh solid white;
 	border-radius: 50%;
+	width: 10vh;
+	height: 10vh;
+	background: url("../imagens/cotuca_transparente_logo.png") no-repeat;
+	background-size: 100%;
 }
 a
 {

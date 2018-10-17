@@ -1,75 +1,119 @@
 @media screen and (min-width: 1000px) {
 	#login {
-		left: calc(50vw + 100px);
+		left: calc(60vw);
+		width: 22vw;
+		height: 27.4vw;
+		font-size: 1.3vw;
 	}
 	h1#crie {
-		font-size: 75pt;
+		font-size: 6vw;
+	}
+	div#fundoJogo div#login input
+	{
+		width: 20.5vw;
+		left: 0.5vw;
+		font-size: 1.21vw;
+		margin-left: 0px;
+	}
+	div#fundoJogo div#login h1
+	{
+		font-size: 2.1vw;
+		margin-bottom: 0.8vw;
+	}
+	div#fundoJogo div#login div#botoes
+	{
+		top: 0.55vw;
+		width: 22vw;
+	}
+	div#fundoJogo div#login .botaoLogin
+	{
+		width: 11vw;
+		height: 2.6vw;
+		line-height: 2.6vw;
+		font-size: 1.4vw;
+		border-radius: 1vw;
 	}
 }
 @media screen and (max-width: 1000px) {
 	#login {
-		left: calc(50vw - 172px);
+		width: 27vw;
+		height: 33.6vw;
+		left: calc(50vw - 13.5vw);
+		font-size: 1.59vw;
 	}
 	h1#crie {
 		font-size: 0;
+	}
+	div#fundoJogo div#login input
+	{
+		width: calc(24.78vw);
+		left: 0.61vw;
+		font-size: 1.48vw;
+	}
+	div#fundoJogo div#login h1
+	{
+		font-size: 2.57vw;
+		margin-bottom: 0.97vw;
+	}
+	div#fundoJogo div#login div#botoes
+	{
+		top: 0.67vw;
+		width: 27vw;
+	}
+	div#fundoJogo div#login .botaoLogin
+	{
+		width: 13.42vw;
+		height: 3.17vw;
+		line-height: 3.17vw;
+		font-size: 1.7vw;
+		border-radius: 1.22vw;
 	}
 }
 div#fundoJogo div#login
 {
 	z-index: 1;
 	background-color: white;
-	width: 345px;
-	height: 430px;
 	position: absolute;
-	top: 180px;
-	border: 2px solid black;
-	border-radius: 25px;
-	font-size: 15pt;
+	top: 20vh;
+	border: 0.1vw solid black;
+	border-radius: 2.2vw;
+	box-sizing: border-box;
 	font-family: "Helvetica", "sans-serif";
-	padding: 10px;
 	padding-top: 0px;
 }
 div#fundoJogo div#login h1
 {
 	text-align: center;
 	font-family: "Century Gothic", "sans-serif";
-	font-size: 26pt;
-	margin-bottom: 40px;
 	font-weight: normal;
 }
 div#fundoJogo div#login label
 {
 	position: relative;
-	left: 7px;
 	display: inline-block;
-	margin-bottom: 15px;
+	margin-bottom: 1vw;
+	margin-left: 0px;
 }
 div#fundoJogo div#login input
 {
-	width: 320px;
-	font-size: 14pt;
-	padding: 4px;
-	margin-top: 5px;
+	position: relative;
+	margin-top: 0.3vw;
 }
 div#fundoJogo div#login div#botoes
 {
 	position: relative;
-	top: 20px;
 	text-align: center;
 }
 div#fundoJogo div#login .botaoLogin
 {
-	margin: auto;
-	width: 170px;
-	height: 40px;
 	text-align: center;
-	line-height: 40px;
-	font-size: 17pt;
-	border-radius: 16px;
 	color: white;
-	border: 3px solid green;
+	border-width: 0.2vw;
+	border: solid green;
 	display: inline-block;
-	transition: .5s;
+	margin-left: auto;
+	margin-right: auto;
+	transition: transform .5s;
 }
 div#fundoJogo div#login .botaoLogin:hover {
 	transform: scale(1.05)
@@ -81,13 +125,13 @@ div#fundoJogo div#login a#botaoEntrar:hover
 div#fundoJogo div#login a#botaoEntrar
 {
 	background-color: #009129;
-	margin-bottom: 5px;
+	margin-bottom: 0.3vw;
 }
 div#fundoJogo div#login a#botaoRegistrar
 {
-	margin-top: 5px;
+	margin-top: 0.3vw;
 	background-color: #346ac1;
-	border: 3px solid #245ab1;
+	border: solid #245ab1;
 }
 div#fundoJogo div#login a#botaoRegistrar:hover
 {
@@ -95,7 +139,6 @@ div#fundoJogo div#login a#botaoRegistrar:hover
 }
 #botoes
 {
-	width: 170px;
 	margin: auto;
 }
 div#fundoJogo h1#crie
@@ -103,8 +146,8 @@ div#fundoJogo h1#crie
 	z-index: 1;
 	display: inline-block;
 	position: absolute;
-	left: 110px;
-	top: 140px;
+	left: 8.2vw;
+	top: 9.5vw;
 	font-family: "Century Gothic";
 	font-weight: 900;
 	color: #FBFBFB;

@@ -1,41 +1,55 @@
 section#conteudo
 {
-    width: 950px;
-    height: 600px;
+    width: 114vh;
+    height: 72vh;
 
     background: white;
     z-index: 1;
     
     position: absolute;    
-    top: 10vh;
+    top: 14vh;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
 
-    border: 2px solid black;
-    border-radius: 30px;
+    border: 0.2vh solid black;
+    border-radius: 3vh;
 
     font-family: "Century Gothic";
 }
 section#conteudo .botao
 {
     position: absolute;
-    top: 268px;
-    height: 64px;
-    width: 64px;
+    top: calc(36vh - 7.6vh);
+    height: 7.6vh;
+    width: 7.6vh;
     border-radius: 50%;
     cursor: pointer;
 }
-#esquerda { left: 15px;}
-#direita { right: 15px;}
+.botao div
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+#esquerda { left: 1.5vh;}
+#esquerda div {
+    background: url('../imagens/funcionalidades/setaEsquerda.png') no-repeat;
+    background-size: 100%;
+}
+#direita { right: 1.5vh;}
+#direita div {
+    background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
+    background-size: 100%;
+}
 
 #conteinerSlides
 {
-    width: 710px;
-    height: 500px;
+    width: 85vh;
+    height: 60vh;
     position: absolute;
-    top: 5px;
+    top: 0.6vh;
     left: 0;
     right: 0;
     margin-left: auto;
@@ -55,9 +69,9 @@ section#conteudo .botao
 section#conteudo h1
 {
     text-align: center;
-    font-size: 22pt;
+    font-size: 3.5vh;
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 1vh;
     text-align: center;
 }
 .slides
@@ -66,14 +80,14 @@ section#conteudo h1
 }
 .btn {
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    height: 1.6vh;
+    width: 1.6vh;
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.6s ease;
     position: absolute;
-    bottom: 15px;
+    bottom: 1.6vh;
 }
 .active, .btn:hover {
     background-color: #717171;

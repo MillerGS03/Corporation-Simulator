@@ -199,12 +199,13 @@ function Comercio(aquele)
 		gasto = calcularGastoPorDia();
 		ganho = calcularGanhoPorDia();
 		ctx.textAlign = "left";
-		ctx.font = "bold 20pt Century Gothic";
-		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 375, 400, 4000);
+		ctx.font = "bold 18pt Century Gothic";
+		ctx.fillText("Matéria-prima utilizada: " + (vendaPorFranquia* numeroDeFranquiasASeremAdicionadas) + "/dia", 375, 375, 4000);
+		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 375, 425, 4000);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(gasto) + "/dia", 375, 450, 4000);
+		ctx.fillText("Gasto: " + formatarDinheiro(gasto) + "/dia", 375, 475, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Ganho: " + formatarDinheiro(ganho) + "/dia", 375, 500, 4000);
+		ctx.fillText("Ganho: " + formatarDinheiro(ganho) + "/dia", 375, 525, 4000);
 		esteC.btnComprarFranquias.desenhar();
 	}
 	function desativarTela()
@@ -310,6 +311,7 @@ function Comercio(aquele)
 		ctx.fillStyle = "black";
 		ctx.font = "bold 24pt Century Gothic";
 		ctx.fillText("Número de franquias: " + esteC.franquias, esteC.x + 300, esteC.y + 175);
+		ctx.fillText("Matéria-prima utilizada: " + esteC.n, 450, esteC.y + 450, 3000);
 		esteC.btnAddFranquias.desenhar();
 		esteC.btnVenderFranquias.desenhar();
 		total = ganhoTotalDiario() - gastoTotalDiario();

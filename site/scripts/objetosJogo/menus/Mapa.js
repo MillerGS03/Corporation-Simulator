@@ -11,7 +11,7 @@ function Mapa()
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                                          { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
+                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
     this.btnFechar.onclick = function() {este.abrirFechar()};
 
     /**
@@ -56,7 +56,7 @@ function Mapa()
                     desenharFornecedores();
                     break;
             }
-            if (lugarAberto != -1 /*&& (lugarAberto != 0 || !este.banco.fatura.aberto)*/)
+            if (lugarAberto != -1 && (lugarAberto != 0 || !este.banco.fatura.aberto))
                 este.btnVoltar.desenhar();
             
             ctx.restore();
@@ -134,6 +134,7 @@ function Mapa()
     this.fornecedores = new Fornecedores(this);
     this.banco = new Banco(this.x, this.y);
     this.comercio = new Comercio(this, economia, this.fornecedores.produzido(), this.fornecedores.custo());
+    this.industria = new Industria(this);
     function desenharBanco()
     {
         desenharBaseLugar("Banco", imgIconeBanco);
@@ -145,11 +146,13 @@ function Mapa()
         este.comercio.desenhar();
         este.comercio.setEconomia(fator);
         este.comercio.setCusto(este.fornecedores.custo());
-        este.comercio.setProduzido(este.fornecedores.produzido());
+        este.comercio.setProduzido(este.fornecedores.produzido() + este.industria.produzido());
     }
     function desenharFabrica()
     {
         desenharBaseLugar("Fábrica", imgIconeFabrica);
+        este.industria.desenhar();
+        este.industria.setEconomia(fator);
     }
     function desenharFornecedores()
     {
@@ -189,7 +192,7 @@ function Mapa()
         // Na fábrica, será possível aumentar a produção
         var btnFabrica       = new BotaoRetangular(este.x + 555, este.y + 90, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgFabrica, imgFabrica, fonte, "black", "Fábrica", true, false, true);
-        btnFabrica.onclick = function() {desativarMapa(); lugarAberto = 2;};
+        btnFabrica.onclick = function() {desativarMapa(); lugarAberto = 2; abrirLugar();};
         
         // Nos fornecedores, será possível regular a entregar de matéria prima
         var btnFornecedores  = new BotaoRetangular(este.x + 600, este.y + 438, 140, 140, null, 140, 140, corTransparente, corTransparente,
@@ -223,9 +226,12 @@ function Mapa()
             case 1:
                 este.comercio.ativar();
                 break;
+            case 2:
+                este.industria.ativar();
+                break;
             case 3:
                 este.fornecedores.ativar();
-            break;
+                break;
         }
     }
     function fecharLugar()
@@ -233,6 +239,7 @@ function Mapa()
         este.banco.desativar();
         este.comercio.desativar();
         este.fornecedores.desativar();
+        este.industria.desativar();
     }
     function ativarMapa()
     {
@@ -253,7 +260,7 @@ function Mapa()
         este.fornecedores.setEconomia(fator);
         este.comercio.setEconomia(fator);
         este.fornecedores.custo();
-        var custoTotal = este.comercio.custoTotal() + este.fornecedores.custoTotal();
+        var custoTotal = este.comercio.custoTotal() + este.fornecedores.custoTotal() + este.industria.custoTotal();
         return custoTotal;
     };
     this.ganhoTotal = function() {

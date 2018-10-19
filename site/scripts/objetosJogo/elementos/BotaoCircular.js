@@ -128,7 +128,10 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
 		if (este.hovering && (!BotaoCircular.inativos || BotaoCircular.exceto.includes(este, 0)))
+		{
 			este.onclick(e);
+			canvas.dispatchEvent(new Event("mousemove"));
+		}
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{

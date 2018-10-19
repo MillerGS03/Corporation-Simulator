@@ -23,8 +23,10 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 
 		this.btnConfirmar.ativarInteracao();
 		this.btnCancelar.ativarInteracao();
-		BotaoRetangular.desativarTodos([this.btnConfirmar, this.btnCancelar]);
-		BotaoCircular.desativarTodos();
+		setTimeout(function() {
+			BotaoRetangular.desativarTodos([este.btnConfirmar, este.btnCancelar]);
+			BotaoCircular.desativarTodos();
+		}, 20);
 		/*
 		if (this.rbCredito != null && this.rbCredito.getChecked())
 		{
@@ -36,7 +38,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		for (var i = 0; i < radioButtons.length; i++)
 		{
 			radioButtons[i].ativarInteracao();
-			BotaoCircular.exceto.push(radioButtons[i].botao);
+			setTimeout(function() {BotaoCircular.exceto.push(radioButtons[i].botao) }, 20);
 		}
 	}
 	this.desativar = function()

@@ -75,14 +75,17 @@ function iniciar()
 			barra.ganharXP(1);
 		}
 		if (contador % 200 == 0)
-			painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", "24/06/34");
+			painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", calendario.dia, calendario.mes, calendario.ano);
 	}, 50);
 
 	$("#meuCanvas").on("mousemove", (function(e){
+		if (e.bubbles)
+		{
 			var rect = e.target.getBoundingClientRect();
 	
 			xMouse = e.clientX - rect.left;
 			yMouse = e.clientY - rect.top;
+		}
 	})); 
 
 	calendario.adicionarEvento(25, 2, 1, 1);

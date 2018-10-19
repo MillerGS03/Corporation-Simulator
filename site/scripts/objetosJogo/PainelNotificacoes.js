@@ -25,7 +25,7 @@ function PainelNotificacoes()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Notificações", this.x + this.width / 2, this.y + 10, this.width);
 
-        for (var i = 0; i < notificacoes.length; i++)
+        for (var i = 0; i < notificacoes.length && i < 6; i++)
             notificacoes[i].desenhar();
 
         ctx.restore();
@@ -36,7 +36,11 @@ function PainelNotificacoes()
         this.aberto = !this.aberto;
         
         if (this.aberto)
+        {
+            qtasNotificacoesNovas = 0;
+            btnNotificacoes.atualizarNotificacoes(0);
             abrir();
+        }
         else
             fechar();
     }
@@ -48,8 +52,12 @@ function PainelNotificacoes()
             if (este.x >= canvas.width - este.width)
                 setTimeout(abrir, 10);
             else
-            este.x = canvas.width - este.width;
-            atualizar();
+                este.x = canvas.width - este.width;
+            for (var i = 0; i < notificacoes.length && i < 6; i++)
+            {
+                notificacoes[i].ativar();
+                notificacoes[i].atualizarPosicao();
+            }
         }
     }
     function fechar()
@@ -61,13 +69,25 @@ function PainelNotificacoes()
                 setTimeout(fechar, 10);
             else
                 este.x = canvas.width + 3;
-            atualizar();
+            for (var i = 0; i < notificacoes.length; i++)
+            {
+                notificacoes[i].desativar();
+                notificacoes[i].atualizarPosicao();
+            }
         }
     }
-    this.adicionarNotificacao = function(titulo, mensagem, data)
+    this.adicionarNotificacao = function(titulo, mensagem, dia, mes, ano)
     {
-        notificacoes.push(new Notificacao(notificacoes.length, titulo, mensagem, data));
-        btnNotificacoes.atualizarNotificacoes(notificacoes.length);
+        notificacoes.splice(0, 0, new Notificacao(notificacoes.length, titulo, mensagem, dia, mes, ano));
+        atualizarIndicesNotificacoes();
+        if (this.aberto)
+            for (var i = 0; i < notificacoes.length && i < 6; i++)
+                notificacoes[i].ativar();
+        else
+        {
+            qtasNotificacoesNovas++;
+            btnNotificacoes.atualizarNotificacoes(qtasNotificacoesNovas);
+        }
     }
     function fecharNotificacao(indice)
     {
@@ -77,18 +97,22 @@ function PainelNotificacoes()
     function atualizarIndicesNotificacoes()
     {
         for (var i = 0; i < notificacoes.length; i++)
+        {
             notificacoes[i].setIndice(i);
+            notificacoes[i].ativar();
+        }
     }
 
-    function Notificacao(indice, titulo, mensagem, data)
+    function Notificacao(indice, titulo, mensagem, dia, mes, ano)
     {
         this.titulo = titulo;
         this.mensagem = mensagem;
-        this.data = data;
+        this.data = formatarData(dia, mes, ano);
+        this.height = 75;
+        this.width = este.width;
 
         var esteIndice = indice;
-        var xNotificacao = 0;
-        var yNotificacao = 80 + esteIndice * 42;
+        var yNotificacao = 80 + esteIndice * (this.height + 1);
 
         var estaNotificacao = this;
 
@@ -98,18 +122,21 @@ function PainelNotificacoes()
         this.desativar = function() {
             this.btnFechar.desativarInteracao();
         }
+        this.atualizarPosicao = function() {
+            yNotificacao = 80 + esteIndice * (this.height + 1);
+            this.btnFechar.x = este.x + 10;
+            this.btnFechar.y = este.y + yNotificacao + (this.height - 35)/2;
+        }
 
         this.setIndice = function(novoIndice)
         {
-            var esteIndice = novoIndice;
-            var xNotificacao = este.x;
-            var yNotificacao = este.y + 80 + esteIndice * 42;
+            esteIndice = novoIndice;
+            yNotificacao = 80 + esteIndice * (this.height + 1);
+            this.atualizarPosicao();
         }
-        this.height = 40;
-        this.width = este.width;
-        this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40, 5, 40, 40, "#232323", "#535353", null, null,
-                                             "bold 18pt Century Gothic", "red", "x", false, false, false);
-        this.btnFechar.onclick = function() {fecharNotificacao(estaNotificacao.indice)};
+        this.btnFechar = new BotaoRetangular(este.x + 10, este.y + yNotificacao + (this.height - 35)/2, 35, 35, 5, 35, 35, "#232323", "#535353", null, null,
+                                             "bold 18pt Century Gothic", "red", "X", false, false, false);
+        this.btnFechar.onclick = function() {console.log("oi");fecharNotificacao(esteIndice)};
 
         this.desenhar = function()
         {
@@ -118,8 +145,22 @@ function PainelNotificacoes()
             ctx.fillStyle = "silver";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
-            ctx.fillRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
-            ctx.strokeRect(este.x + xNotificacao, este.y + yNotificacao, this.width, this.height);
+            ctx.fillRect(este.x, este.y + yNotificacao, this.width, this.height);
+            ctx.strokeRect(este.x, este.y + yNotificacao, this.width, this.height);
+            
+            ctx.fillStyle = "black";
+            ctx.font = "bold 17pt Century Gothic";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "alphabetic";
+            ctx.fillText(this.titulo, este.x + 60, este.y + yNotificacao + 28, this.width - 65);
+            ctx.font = "13pt Century Gothic";
+            ctx.fillText(this.mensagem, este.x + 65, este.y + yNotificacao + 48, this.width - 70);
+        
+            ctx.textAlign = "right";
+            ctx.textBaseline = "bottom";
+            ctx.font = "italic 11pt Century Gothic";
+            ctx.fillText(this.data, este.x + this.width - 5, este.y + yNotificacao + this.height - 5, this.width - 10);
+
             this.btnFechar.desenhar();
 
             ctx.restore();

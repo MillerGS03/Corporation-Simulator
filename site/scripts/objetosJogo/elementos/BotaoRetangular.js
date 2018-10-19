@@ -7,16 +7,23 @@ BotaoRetangular.inativos = false;
  */
 BotaoRetangular.desativarTodos = function(exceto)
 {
-	if (exceto != null)
-		BotaoRetangular.exceto = exceto;
-	BotaoRetangular.inativos = true;
-	canvas.style.cursor = "default";
+	if (BotaoRetangular.inativos)
+		BotaoRetangular.exceto.concat(exceto);
+	else
+	{
+		if (exceto != null)
+			BotaoRetangular.exceto = exceto;
+		BotaoRetangular.inativos = true;
+		BotaoRetangular.setTimeout = false;
+		canvas.style.cursor = "default";
+	}
 }
 /**
  * Reativa os botões
  */
 BotaoRetangular.reativar = function()
 {
+	BotaoRetangular.setTimeout = false;
 	BotaoRetangular.exceto = new Array();
 	BotaoRetangular.inativos = false;
 }
@@ -135,7 +142,12 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
 		if (este.hovering && (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0)))
+		{
 			este.onclick(e);
+			canvas.dispatchEvent(new Event("mousemove"));
+			BotaoRetangular.desativarTodos();
+			setTimeout(function() {BotaoRetangular.reativar()}, 10);
+		}
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{

@@ -68,6 +68,8 @@ form
 }
 input[type=search]
 {
+    position: absolute;
+    top: 0;
     padding: 0.6vh;
     font-size: 1.9vh;
     width: 30vh;
@@ -76,6 +78,9 @@ input[type=search]
 }
 button[type=submit]
 {
+    position: absolute;
+    top: 0;
+    left: 30.4vh;
     height: 4.2vh;
     width: 10vh;
     font-size: 2.1vh;

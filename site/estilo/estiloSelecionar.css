@@ -1,15 +1,20 @@
 .select
 {
 	position: absolute;
-	top: 200px;
-	left: 125px;
-	width: 400px;
-	height: 65px;
+	top: 24vh;
+	left: 12.5vh;
+	width: 52vh;
+	height: 6.5vh;
+	padding: 0;
 	background-color: transparent;
-	border-radius: 10px;
+	border-radius: 1.3vh;
 	font-family: "Century Gothic";
-	font-size: 18pt;
+	font-size: 3.4vh;
 	z-index: 40;
+	border-width: 0.13vh;
+	border-image-width: 0.13vh;
+	background-size: 4vh;
+	box-sizing: border-box;
 }
 .select:hover
 {
@@ -18,26 +23,34 @@
 
 .opcaoSelect
 {
-	width: 400px;
-	height: 65px;
-	font-size: 16pt;
+	width: 52vh;
+	height: 6.5vh;
+	font-size: 3vh;
 }
-
+#canvasSelect
+{
+	position: absolute;
+	top: 24vh;
+	left: 12.5vh;
+	width: 52vh;
+	height: 6.5vh;
+	z-index: 3;
+}
 .btnCarregar
 {
 	position: absolute;
-	top: 390px;
-	left: 380px;
-	width: 200px;
-	height: 50px;
+	top: 60vh;
+	left: 45.5vh;
+	width: 26vh;
+	height: 6.5vh;
 	background-color: white;
-	border-radius: 50px;
-	font-size: 15pt;
+	border-radius: 6.5vh;
+	font-size: 2.8vh;
 	font-family: "Century Gothic";
 	color: black;
 	font-weight: bold;
 	visibility: hidden;
-	border: 2px solid black;
+	border: 0.26vh solid black;
 	z-index: 323;
 }
 
@@ -52,36 +65,39 @@
 #painelSelecionar
 {
 	position: relative;
-	top: 100px;
+	top: 10vh;
 	margin-left: auto;
 	margin-right: auto;
-	width: 900px;
-	height: 600px;
+	width: 117vh;
+	height: 78vh;
 	border-radius: 10%;
 	background: white;
 	font-family: "Century Gothic";
 }
 #txtSelecionar
 {
-	font-size: 24pt;
+	font-size: 4vh;
 	position: absolute;
-	left: 300px;
-	top: 80px;
+	left: 35vh;
+	top: 10vh;
+	padding: 0.13vh 0;
+	border-width: 0.26vh;
 }
 #newGame
 {
-	width: 200px;
-	height: 65px;
+	width: 26vh;
+	height: 8vh;
 	position: absolute;
-	top: 200px;
-	left: 600px;
-	border-radius: 10px;
+	top: 24vh;
+	left: 74vh;
+	border-radius: 1.3vh;
 	font-family: "Century Gothic";
 	font-weight: bold;
-	font-size: 17pt;
+	font-size: 3vh;
 	color: black;
 	background-color: white;
-	border: 2px solid black;
+	border: 0.26vh solid black;
+	padding: 0.13vh 0.8vh;
 }
 #newGame:hover
 {
@@ -117,12 +133,13 @@
 }
 #btnSair
 {
-	background: url('../imagens/sairSimulacao.png');
+	background: url('../imagens/sairSimulacao.png') no-repeat;
+	background-size: 100%;
 	position: absolute;
-	top: -32px;
-	right: -32px;
-	width: 64px;
-	height: 64px;
+	top: -4vh;
+	right: -4vh;
+	width: 8vh;
+	height: 8vh;
 	border-radius: 50%;	
 	transition: filter 0.5s;
 }
@@ -138,42 +155,41 @@
 }
 #painelAdicaoJogo
 {
-	width: 900px;
-	height: 200px;
+	width: 70%;
+	height: 30vh;
 	background-color: white;
 	position: absolute;
-	left: 50%;
-	margin-right: -450px;
-	top: -250px;
-	border-radius: 10px;
-	border: 2px solid black;
+	left: calc(50vw - 35%);
+	border-radius: 1.3vh;
+	border: .26vh solid black;
 }
 #painelAdicaoJogo h1
 {
-	font-size: 24pt;
+	font-size: 3.5vh;
 }
 #painelAdicaoJogo h2
 {
-	font-size: 18pt;
+	font-size: 3.2vh;
 }
 #painelAdicaoJogo input[type="text"]
 {
 	font-weight: normal;
 	font-family: "Century Gothic";
-	font-size: 16pt;
+	font-size: 2.8vh;
+	height: 3vh;
 }
 #criar
 {
 	position: absolute;
-	height: 50px;
-	width: 150px;
-	top: 120px;
-	left: 525px;
+	height: 6vh;
+	width: 18vh;
+	top: 15vh;
+	left: 36%;
 	font-family: "Century Gothic";
-	font-size: 17pt;
+	font-size: 2.4vh;
 	color: black;
-	border: 2px solid black;
-	border-radius: 10px;
+	border: 0.26vh solid black;
+	border-radius: 1.3vh;
 	background-color: white;
 	transition: color 0.4s;
 	transition: background-color 0.4s;

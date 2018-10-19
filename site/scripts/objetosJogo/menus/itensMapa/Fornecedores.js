@@ -91,7 +91,6 @@ function Fornecedores(mapa)
 		if (esteF.fornecedores >= qtdDeFornecedoresDemissao)
 		{
 			esteF.fornecedores -= qtdDeFornecedoresDemissao;
-			produzido -= 150 * qtdDeFornecedoresDemissao;
 			qtdDeFornecedoresDemissao = 1;
 			esteF.desativar();
 			telaAtual = 0;

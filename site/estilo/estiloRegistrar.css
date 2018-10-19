@@ -2,7 +2,7 @@ section#conteudo
 {
 	position: absolute;
 	z-index: 1;
-	top: 10vh;
+	top: 14vh;
 	left: 0;
 	right: 0;
 	margin-left: auto; 
@@ -10,44 +10,57 @@ section#conteudo
 	
 	background-color: black;
 	color: white;
-	width: 600px;
-	height: 600px;
+	width: 72vh;
+	height: 72vh;
 	margin: auto;
-	border-radius: 10px;
-	border: 2px solid black;
+	border-radius: 1.2vh;
+	border: 0.24vh solid black;
 	font-family: "Century Gothic";
-	font-size: 14pt;
+	font-size: 2.7vh;
 }
 label
 {
 	display: inline-block;
-	margin-bottom: 10px;
+	margin-bottom: 1.2vh;
 }
 input
 {
-	margin-top: 5px;
+	margin-top: 0.4vh;
+}
+input[type="radio"]
+{
+	border: 0px;
+    width: 2vh;
+    height: 2vh;
+	margin: 0.36vh 0.36vh 0vh 0.6vh;
 }
 input.texto
 {
-	width: 370px;
-	padding: 4px;
-	padding-left: 6px;
-	padding-right: 6px;
-	border-radius: 25px;
-	border: 2px solid black;
+	font-size: 2vh;
+	width: 42vh;
+	height: 2vh;
+	padding: 1vh;
+	padding-left: 2vh;
+	padding-right: 2vh;
+	border-radius: 3vh;
+	border: 0.24vh solid black;
 }
 section#conteudo h1
 {
-	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-top: 1.8vh;
+	margin-bottom: 1.8vh;
 	text-align: center;
 	font-weight: normal;
-	font-size: 24pt;
+	font-size: 4vh;
 	width: 100%;
 }
 hr
 {
 	margin-bottom: 0px;
+	height: 0.24vh;
+	background-color: white;
+	color: white;
+	border: none;
 }
 form
 {
@@ -56,11 +69,11 @@ form
 	margin: 0px;
 	box-sizing: border-box;
 	width: 100%;
-	height: 529px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
-	padding-top: 20px;
-	padding-left: 40px;
+	height: 63.3vh;
+	border-bottom-left-radius: 1.2vh;
+	border-bottom-right-radius: 1.2vh;
+	padding-top: 1.8vh;
+	padding-left: 4.8vh;
 }
 label
 {
@@ -69,22 +82,21 @@ label
 #botaoRegistrar
 {
 	background-color: #009129;
-	width: 170px;
-	height: 40px;
+	width: 20vh;
+	height: 5vh;
 	text-align: center;
 	text-decoration: none;
-	line-height: 40px;
-	font-size: 17pt;
-	border-radius: 16px;
+	line-height: 5vh;
+	font-size: 3vh;
+	border-radius: 2vh;
 	color: white;
-	border: 3px solid green;
+	border: .36vh solid green;
 	display: inline-block;
-	margin-top: 5px;
+	margin-top: 0.6vh;
 	margin: auto;
 	position: relative;
-	top: 35px;
-	left: 175px;
-	transition: 0.5s;
+	left: 21.2vh;
+	transition: transform 0.5s;
 }
 #botaoRegistrar:hover
 {
@@ -98,6 +110,6 @@ a
 p#corrija
 {
 	position: relative;
-	top: 30px;
+	top: 3.6vh;
 	font-style: italic;
 }

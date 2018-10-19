@@ -1,6 +1,7 @@
 ﻿section#conteudo
 {
     width: 100vh;
+    max-width: 97vw;
     height: 70vh;
     background: white;
     position: absolute;
@@ -42,7 +43,7 @@ ol#ranking
     counter-reset: item;
     position: absolute;
     top: 7.2vh;
-    left: 20.44vh;
+    left: 37vh;
     font-size: 2.7vh;
     padding-inline-start: 4.8vh;
     width: 25vh;

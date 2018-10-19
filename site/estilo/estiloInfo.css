@@ -2,53 +2,8 @@ body
 {
 	margin: 0px;
 	padding: 0px;
-	background-color: #4c98a5;
-	min-width: 1000px;
-}
-@media screen and (min-width: 1000px){
-	nav ul {
-		left: calc(100vw - 530px); 
-	}
-	nav ul li
-	{
-		bottom: 15px;
-	}
-	nav ul li:hover {
-		bottom: 25px;
-	}
-	header
-	{
-		height: 90px;
-	}
-	header h1
-	{
-		top: 15px;
-	}
-	#conteudo {
-		width: calc(100vw - 423px);
-	}
-}
-@media screen and (max-width: 1000px) {
-	header
-	{
-		height: 100px;
-	}
-	header h1
-	{
-		top: 20px;
-	}
-	nav ul {
-		left: calc(50vw - 236px);
-	}
-	nav ul li {
-		bottom: 5px;
-	}
-	nav ul li:hover {
-		bottom: 15px;
-	}
-	#conteudo {
-		width: 577px;
-	}
+	background-color: black;
+	min-width: 500px;
 }
 header 
 {
@@ -57,74 +12,113 @@ header
 	padding: 0px;
 	width: 100%;
 	background-color: black;
-	border-bottom: 2px solid white;
-	box-shadow: 0px 2px 2px black;
+	border-bottom: 0.3vh solid white;
+	box-shadow: 0px 0.3vh 0.3vh black;
 	color: white;
+	height: 12vh;
 }
 header h1
 {
-	transition: .3s;
 	position: relative;
 	margin: 0px;
 	font-family: "Century Gothic", "sans-serif";
-	font-size: 35pt;
+	font-size: 3vw;
 	display: inline-block;
-	left: 45px;
+	left: 4vw;
+	line-height: 12vh;
 }
 nav ul
 {
-	min-width: 461px;
+	min-width: 46vh;
+	min-height: 4.2vh;
+	max-height: 4.2vh;
 	display: inline-block;
-	position: absolute;
+	padding: 0px;
 }
 nav ul li
 {
 	display: inline-block;
-	height: 30px;
-	line-height: 30px;
+	height: 4vh;
+	line-height: 4vh;
 	text-align: center;
 	text-decoration: none;
 	font-family: "Century Gothic";
-	position: relative;
-	border: 2px solid white;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	margin-left: 1px;
-	margin-right: 1px;
+	font-size: 2.4vh;
+	position: absolute;
+	top: 7.8vh;
+	border: 0.2vh solid white;
+	border-top-left-radius: 1vh;
+	border-top-right-radius: 1vh;
+	margin-left: 0.1vh;
+	margin-right: 0.1vh;
 	color: white;
 	background-color: black;
-	transition: .3s;
+	transition: height .3s, top .3s;
 }
 nav ul li:hover
 {
 	background-color: #505050;
-	height: 40px;
+	height: 4.8vh;
+	top: 7vh;
 }
 nav ul li#home
 {
-	width: 80px;
+	right: calc(48vh + 1vw);
+	width: 9vh;
 }
 nav ul li#funcionalidades
 {
-	width: 155px;
+	right: calc(25vh + 1vw);
+	width: 22vh;
 }
 nav ul li#galeria
 {
-	width: 95px;
+	right: calc(13vh + 1vw);
+	width: 11vh;
 }
 nav ul li#ranking
 {
-	width: 95px;
+	right: 1vw;
+	width: 12vh;
+}
+footer
+{
+	background-color: black;
+	border-top: 0.3vh solid white;
+	min-width: 500px;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 12vh;
+	color: white;
+}
+footer div
+{
+	position: relative;
+	left: 2vh;
+	top: 2vh;
+	border: 0.3vh solid white;
+	border-radius: 50%;
+	width: 10vh;
+	height: 10vh;
+	background: url("../imagens/cotuca_transparente_logo.png") no-repeat;
+	background-size: 100%;
+}
+a
+{
+	text-decoration: none;
+	transition: .2s;
+	cursor: pointer;
 }
 div#menu .tituloMenu
 {
 	position: absolute;
-	font-size: 24pt;
+	font-size: 2.2vw;
 	font-family: "Century Gothic";
 	text-align: center;
 	font-weight: bold;
 	text-decoration: underline;
-	left: 75px;
+	left: 3vw;
 }
 div#menu .fotoPerfil
 {
@@ -133,24 +127,25 @@ div#menu .fotoPerfil
 	background: url('../imagens/a.png');
 	background-position: center;
 	background-size: 100%;
-	left: 75px;
+	top: 25vh;
+	left: 4.5vw;
 	border-radius: 50%;
-	width: 250px;
-	height: 250px;
+	width: 15vw;
+	height: 15vw;
 }
 div#menu .userData
 {
 	position: relative;
-	top: 250px;
+	top: 12vh;
 	font-family: "Century Gothic";
 	text-align: center;
 }
 .menuOpcoes
 {
 	background-color: rgb(192, 192, 192);
-	width: 400px;
-	height: 828px;
-	border-right: 2px solid black;
+	width: 24vw;
+	height: 92vh;
+	border-right: 0.1vw solid white;
 	box-sizing: border-box;
 }
 a
@@ -160,19 +155,17 @@ a
 }
 .opcao
 {
-	position: relative;
+	position: absolute;
+	width: 23.9vw;
 	background-color: white;
-	height: 65px;
+	height: 7.8vh;
 	color:black;
 	font-family: "Century Gothic";
-}
-#configuracoes h3, #classificacao h3, #manual h3, #simulacoes h3, #jogos h3
-{
-	line-height: 65px;
-	font-size: 15pt;
+	line-height: 7.8vh;
+	font-size: 1.3vw;
 	text-align: center;
 }
-#configuracoes:hover, #classificacao:hover, #manual:hover, #simulacoes:hover, #jogos:hover
+.opcao:hover
 {
 	background-color: black;
 	color: white;
@@ -182,23 +175,23 @@ a
 }
 #configuracoes
 {
-	top: 394px;
+	top: 65.7vh;
 }
 #classificacao
 {
-	top: 374px;
+	top: 73.5vh;
 }
 #manual
 {
-	top: 354px;
+	top: 81.1vh;
 }
 #simulacoes
 {
-	top: 334px;
+	top: 88.7vh;
 }
 #jogos
 {
-	top: 314px;
+	top: 96.5vh;
 }
 section#conteudo
 {
@@ -208,23 +201,4 @@ section#conteudo
 	left: 402px;
 	flex: 1;
 	text-align: center;
-}
-footer
-{
-	background-color: black;
-	border-top: 2px solid white;
-	min-width: 500px;
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-	height: 100px;
-	color: white;
-}
-footer img
-{
-	position: relative;
-	left: 20px;
-	top: 15px;
-	border: 2px solid white;
-	border-radius: 50%;
 }

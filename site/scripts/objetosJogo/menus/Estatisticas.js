@@ -20,14 +20,16 @@ function Estatisticas()
     var y;
     var escalaAtual = 0;
     var escalaTudo = 0;
+    var escalaGanho = 0;
+    var escalaCusto = 0;
     var escalaCG = 0;
     var ec = 0;
     var cus = 0;
     var ga = 0;
     var cg = 0;
     var passouMes = false;
-    var mesAtual = 1;
-    var mudandoMes = false;
+    var mesAtual = 0;
+    var vezesMes = 1;
     this.width = 700;
     this.height = 500;
     this.x = (canvas.width - this.width)/2;
@@ -37,7 +39,7 @@ function Estatisticas()
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
+        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
 
     this.btnDinheiro = new BotaoRetangular(este.x + 200, este.y + 150, 300, 50, { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 300, 50, "lightgrey", "gray", null, null,
     	"bold 18pt Century Gothic", "black", "Últimos 15 dias", false, false, false);
@@ -164,6 +166,8 @@ function Estatisticas()
             	escalaAtual = calcularEscala();
             	escalaTudo = calcularEscalaTudo();
             	escalaCG = calcularEscalaLucro();
+            	escalaGanho = calcularEscalaGanho();
+            	escalaCusto = calcularEscalaCusto();
             	desenharEixos();
             	switch(telaAtualE)
             	{
@@ -376,6 +380,30 @@ function Estatisticas()
                 aux = valoresTotais[i] + "";
         return aux.length - 1;
     }
+    function calcularEscalaGanho()
+    {
+    	var aux = 0;
+    	var aux2 = "";
+    	for (var i = 0; i < 12; i++)
+    	{
+    		if (valoresGanhos[i] > aux)
+    			aux = valoresGanhos[i];
+    	}
+    	aux2 = aux + "";
+    	return aux2.length - 1;
+    }
+    function calcularEscalaCusto()
+    {
+    	var aux = 0;
+    	var aux2 = "";
+    	for (var i = 0; i < 12; i++)
+    	{
+    		if (valoresCustos[i] > aux)
+    			aux = valoresCustos[i];
+    	}
+    	aux2 = aux + "";
+    	return aux2.length - 1;
+    }
     function calcularEscalaLucro()
     {
     	var aux = 0;
@@ -384,16 +412,6 @@ function Estatisticas()
     	{
     		if (valoresCG[i] > aux)
     			aux = valoresCG[i];
-    	}
-    	for (var i = 0; i < 12; i++)
-    	{
-    		if (valoresGanhos[i] > aux)
-    			aux = valoresGanhos[i];
-    	}
-    	for (var i = 0; i < 12; i++)
-    	{
-    		if (valoresCustos[i] > aux)
-    			aux = valoresCustos[i];
     	}
     	aux2 = aux + "";
     	return aux2.length - 1;
@@ -455,7 +473,6 @@ function Estatisticas()
     }
     this.adicionarValor = function (v) {
         if (!isNaN(v)) {
-        	mudandoMes = false;
             if (atual >= 15) {
                 for (var i = 0; i < 15; i++)
                     valores15[i] = valores15[i+1];
@@ -473,12 +490,13 @@ function Estatisticas()
             }
             else
                 vezes++;
-            if (mesAtual == 12 && !mudandoMes)
+            vezesMes++;
+            if (vezesMes == calendario.qtosDiasTemOMes[calendario.mes - 1])
             {
-        		for (var i = 0; i < 12; i++)
-        			meses[i] = meses[i+1];
-        		meses[11] = formatarData(calendario.mes, calendario.ano);
-        		mudandoMes = true;
+            	for (var i = 0; i < 12; i++)
+            		meses[i] = meses[i+1];
+            	meses[11] = calendario.mes;
+            	vezesMes = 1;
             }
         }
     }
@@ -494,7 +512,8 @@ function Estatisticas()
             if (valores15[i] != null)
             {
                 valorAtual = valores15[i]/Math.pow(10, escalaAtual);
-                Y = (y-(34*valorAtual));
+                Y = (valorAtual
+                	!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtuals)));
                 if (i == 0)
                     ctx.moveTo(x, Y);
                 ctx.lineTo(posicoes[i], Y);
@@ -516,7 +535,7 @@ function Estatisticas()
         {
             X += (i!=0?(620/valoresTotais.length):0);
             valorAtual = valoresTotais[i]/Math.pow(10, escalaTudo);
-            Y = (y-(34*valorAtual));
+            Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
             ctx.lineTo(X, Y);
             ctx.stroke();
         }
@@ -535,7 +554,7 @@ function Estatisticas()
             if (valoresEconomia[i] != null)
             {
                 valorAtual = valoresEconomia[i];
-                Y = (y-(34*valorAtual));
+                Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
                 if (i == 0)
                     ctx.moveTo(x, Y);
                 ctx.lineTo(posicoes12[i], Y);
@@ -557,7 +576,7 @@ function Estatisticas()
         	if (valoresCG[i] != null)
         	{
         		valor = valoresCG[i]/Math.pow(10, escalaCG);
-        		Y = (y-(34*valor));
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
         		if (i == 0)
         			ctx.moveTo(x, Y);
         		ctx.lineTo(posicoes12[i], Y);
@@ -578,8 +597,8 @@ function Estatisticas()
         {
         	if (valoresCustos[i] != null)
         	{
-        		valor = valoresCustos[i]/Math.pow(10, escalaCG);
-        		Y = (y-(34*valor));
+        		valor = valoresCustos[i]/Math.pow(10, escalaCusto);
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
         		if (i == 0)
        	 			ctx.moveTo(x, Y);
         		ctx.lineTo(posicoes12[i], Y);
@@ -600,8 +619,8 @@ function Estatisticas()
         {
         	if (valoresGanhos[i] != null)
         	{
-        		valor = valoresGanhos[i]/Math.pow(10, escalaCG);
-        		Y = (y-(34*valor));
+        		valor = valoresGanhos[i]/Math.pow(10, escalaGanho);
+        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
         		if (i == 0)
         			ctx.moveTo(x, Y);
         		ctx.lineTo(posicoes12[i], Y);

@@ -1,5 +1,4 @@
-var arquivoB;
-var arquivoI;
+var arquivo;
 var senhaAtual = "teste";
 
 $("#foto").on("mouseenter", function() {
@@ -10,13 +9,13 @@ $("#foto").on("mouseleave", function() {
 	$("#mudarImagem").css("visibility", "hidden");
 });
 $("#newImage").on("change", function () {
-	arquivoI = document.getElementById("newImage").files[0];
+	arquivo = document.getElementById("newImage").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;');
 		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 250px 250px;');
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat; background-size: 300px 300px;');
 	};
-	r.readAsDataURL(arquivoI);
+	r.readAsDataURL(arquivo);
 });
 $("#mudarImagem").on("click", function() {
 	$("#newImage").trigger("click");
@@ -29,13 +28,13 @@ $("#banner").on("mouseleave", function() {
 	$("#mudarBanner").css("visibility", "hidden");
 });
 $("#newBanner").on("change", function () {
-	arquivoB = document.getElementById("newBanner").files[0];
+	arquivo = document.getElementById("newBanner").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
 		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 200px 250px;');
 		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 400px 500px;');
 	};
-	r.readAsDataURL(arquivoB);
+	r.readAsDataURL(arquivo);
 });
 $("#mudarBanner").on("click", function() {
 	$("#newBanner").trigger("click");
@@ -65,13 +64,6 @@ $("#rightPage").on("click", function () {
 $("#leftPage").on("click", function () {
 	$("#conteudo").load("configurar.html");
 	setTimeout(mudarCorMenu, 5);
-	setTimeout(function() {
-		var r = new FileReader();
-		r.onload = function (e) {
-			$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat; background-size: 300px 300px;');
-		};
-		r.readAsDataURL(arquivoI);
-	}, 20);
 });
 $("#backColor").on("change", function(){
 	var cor = document.getElementById("backColor").value;
@@ -111,14 +103,14 @@ function mostrarSenha(id)
     }
 }
 
-function update(arq)
+function update()
 {
 	var ler = new FileReader();
 	ler.onload = function(e){ 
 		var uploadImagem = e.target.result;
 		//colocar uploadImagem no banco de dados
 	};
-	ler.readAsBinaryString(arq);
+	ler.readAsBinaryString(arquivo);
 }
 
 function Atualizar()

@@ -11,7 +11,7 @@
 	}
 	div#fundoJogo div#login input
 	{
-		width: 20.5vw;
+		width: calc(20.5vw - 1.2vh);
 		left: 0.5vw;
 		font-size: 1.21vw;
 		margin-left: 0px;
@@ -48,8 +48,8 @@
 	}
 	div#fundoJogo div#login input
 	{
-		width: calc(24.78vw);
-		left: 0.61vw;
+		width: calc(24.78vw - 1.2vh);
+		left: calc(0.61vw);
 		font-size: 1.48vw;
 	}
 	div#fundoJogo div#login h1
@@ -99,6 +99,10 @@ div#fundoJogo div#login input
 {
 	position: relative;
 	margin-top: 0.3vw;
+	padding: 0.7vh;
+	border-width: 0.24vh;
+	box-sizing: content-box;
+	border-radius: 2vh;
 }
 div#fundoJogo div#login div#botoes
 {

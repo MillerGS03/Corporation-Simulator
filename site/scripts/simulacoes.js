@@ -2,6 +2,24 @@ iniciarSelecionar();
 
 function iniciarSelecionar()
 {
+    $("#newSimu").on('click', function(){
+        $("#modalSimulacao").css('display', 'block');
+    });
+    $("#btnSair").on('click', function(){
+        $("#modalSimulacao").css('display', 'none');
+    });
+    $("#criar").on('click', function(){
+        validarCriacao();
+        testarOpcao();
+    });
+    $("#nomeSimulacao").on('keypress', function(e){
+        if (e.which == 13)
+        {
+            validarCriacao();
+            testarOpcao();
+            return false;
+        }
+    });
     $("#select").on("mousemove", criarEfeitoSelect);
     $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
@@ -69,8 +87,8 @@ function iniciarSelecionar()
     function addOptions()
     {
         var s = document.getElementById("select");
-        var numeroDeJogos = 3 //pegar do bd
-        for (var i = 1; i <= numeroDeJogos; i++)
+        var numeroDeSimulacoes = 3 //pegar do bd
+        for (var i = 1; i <= numeroDeSimulacoes; i++)
         {
             var o = document.createElement("option");
             o.text = "ola";
@@ -83,19 +101,42 @@ function iniciarSelecionar()
         var s = document.getElementById("select");
         if (s.selectedIndex > 0) {
             $("#btnCarregar").css("visibility", "visible");
-            $("#btnCarregar").on("click", carregarJogo);
+            $("#btnCarregar").on("click", carregarSimulacao);
         }
     }
 
-    function carregarJogo()
+    function carregarSimulacao()
     {
         $("#select").off("mousemove", criarEfeitoSelect);
         $("#select").off("change", testarOpcao);
         $("#select").off("mouseleave", apagarEfeitoSelect);
-        $("#btnCarregar").off("click", carregarJogo);
+        $("#btnCarregar").off("click", carregarSimulacao);
         ctxSimulacoes = null;
         canvasSimulacoes = null;
 
-        abrir("simulacao.html");
+        abrir("simulacoes.html");
+    }
+    function validarCriacao()
+    {
+        var nome = document.getElementById("nomeSimulacao");
+        if (nome.value.trim() == ""){
+            $("#txtNome").text('Nome da nova simulacao - Não pode estar vazio:');
+            $("#txtNome").css('color', 'darkred');
+        }
+        else if (nome.value.length <= 2){
+            $("#txtNome").text('Nome da nova Simulacao - Mínimo de 3 caracteres:');
+            $("#txtNome").css('color', 'darkred');
+        }
+        else
+            adicionarUmaOpcao(nome.value);
+    }
+    function adicionarUmaOpcao(txt)
+    {
+        $("#btnSair").trigger('click');
+        var s = document.getElementById("select");
+        var o = document.createElement("option");
+        o.text = txt;
+        s.add(o);
+        s.options[++numeroDeJogos].selected = true;
     }
 }

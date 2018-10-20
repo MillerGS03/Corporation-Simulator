@@ -185,14 +185,17 @@
 	width: 18vh;
 	top: 15vh;
 	left: 36%;
-	font-family: "Century Gothic";
-	font-size: 2.4vh;
-	color: black;
+	text-align: center;
+	line-height: 6vh;
 	border: 0.26vh solid black;
 	border-radius: 1.3vh;
 	background-color: white;
 	transition: color 0.4s;
 	transition: background-color 0.4s;
+	font-family: "Century Gothic";
+	font-size: 2.4vh;
+	color: black;
+	text-decoration: none;
 }
 #criar:hover
 {

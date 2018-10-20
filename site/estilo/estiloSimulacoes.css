@@ -2,7 +2,7 @@
 {
 	position: absolute;
 	top: 200px;
-	left: 300px;
+	left: 175px;
 	width: 400px;
 	height: 65px;
 	background-color: transparent;
@@ -26,17 +26,18 @@
 .btnCarregar
 {
 	position: absolute;
-	top: 390px;
-	left: 380px;
-	width: 200px;
-	height: 50px;
+	top: 50vh;
+	left: 37vh;
+	width: 26vh;
+	height: 6.5vh;
 	background-color: white;
-	border-radius: 50px;
-	font-size: 15pt;
+	border-radius: 6.5vh;
+	font-size: 2.8vh;
 	font-family: "Century Gothic";
-	color: green;
+	color: black;
 	font-weight: bold;
 	visibility: hidden;
+	border: 0.26vh solid black;
 	z-index: 323;
 }
 
@@ -44,8 +45,9 @@
 {
 	color: white;
 	background-color: green;
-	transform: scale(1.2, 1.2);
 	cursor: pointer;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
 }
 #painelSelecionar
 {
@@ -65,6 +67,128 @@
 {
 	font-size: 24pt;
 	position: absolute;
-	left: 300px;
+	left: 200px;
 	top: 80px;
+}
+#newSimu
+{
+	width: 26vh;
+	height: 8vh;
+	position: absolute;
+	top: 21vh;
+	left: 68vh;
+	border-radius: 1.3vh;
+	font-family: "Century Gothic";
+	font-weight: bold;
+	font-size: 3vh;
+	color: black;
+	background-color: white;
+	border: 0.26vh solid black;
+	padding: 0.13vh 0.8vh;
+}
+#newSimu:hover
+{
+	cursor: pointer;
+	color: white;
+	background-color: rgb(43, 106, 255);
+	transition: color 1s;
+	transition: background-color .5s;
+
+}
+.modal
+{
+ 	display:none;
+ 	position: fixed;
+  	z-index:100000;
+  	left: 0;
+  	top:0;
+  	height: 100%;
+  	width:100%;
+  	background-color: rgba(0,0,0,0.5);
+}
+#modalSimulacao-content
+{
+  	background-color:#f4f4f4;
+  	margin: 20% auto;
+  	width:70%;
+  	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+  	animation-name:modalopen;
+  	animation-duration:1s;
+  	position: absolute;
+  	left: 0px;
+  	top: 0px;
+}
+#btnSair
+{
+	background: url('../imagens/sairSimulacao.png') no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: -4vh;
+	right: -4vh;
+	width: 8vh;
+	height: 8vh;
+	border-radius: 50%;	
+	transition: filter 0.5s;
+}
+#btnSair:hover
+{
+	filter: brightness(150%);
+	transition: filter 0.5s;
+	cursor: pointer;
+}
+@keyframes modalopen{
+  from{ opacity: 0}
+  to {opacity: 1}
+}
+#painelAdicaoSimulacao
+{
+	width: 70%;
+	height: 30vh;
+	background-color: white;
+	position: absolute;
+	left: calc(50vw - 35%);
+	border-radius: 1.3vh;
+	border: .26vh solid black;
+}
+#painelAdicaoSimulacao h1
+{
+	font-size: 3.5vh;
+}
+#painelAdicaoSimulacao h2
+{
+	font-size: 3.2vh;
+}
+#painelAdicaoSimulacao input[type="text"]
+{
+	font-weight: normal;
+	font-family: "Century Gothic";
+	font-size: 2.8vh;
+	height: 3vh;
+}
+#criar
+{
+	position: absolute;
+	height: 6vh;
+	width: 18vh;
+	top: 15vh;
+	left: 37%;
+	text-align: center;
+	line-height: 6vh;
+	border: 0.26vh solid black;
+	border-radius: 1.3vh;
+	background-color: white;
+	transition: color 0.4s;
+	transition: background-color 0.4s;
+	font-family: "Century Gothic";
+	font-size: 2.4vh;
+	color: black;
+	text-decoration: none;
+}
+#criar:hover
+{
+	cursor: pointer;
+	background-color: rgb(43, 106, 255);
+	color: white;
+	transition: color 0.4s;
+	transition: background-color 0.4s;
 }

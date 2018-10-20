@@ -40,6 +40,9 @@ function iniciarSelecionar()
                 cornerRadius[side] = radius[side];
             }
         }
+        else if (typeof radius === "number")
+            for (var side in cornerRadius)
+                cornerRadius[side] = radius;
     
         contexto.beginPath();
         contexto.moveTo(x + cornerRadius.upperLeft, y);
@@ -69,18 +72,19 @@ function iniciarSelecionar()
         y = e.clientY - rect.top;
 
         var grdSelect = ctxSimulacoes.createRadialGradient(x, y, 50, x, y, 500);
+        
         grdSelect.addColorStop(0, "rgb(190, 190, 190)");
         grdSelect.addColorStop(1, "white");
 
         ctxSimulacoes.fillStyle = grdSelect;
 
-        roundRect(0, 0, canvasSimulacoes.width, canvasSimulacoes.height, {upperLeft: 10, upperRight:10, lowerLeft: 10, lowerRight:10},
+        roundRect(0, 0, canvasSimulacoes.width, canvasSimulacoes.height, 1.3 * window.innerWidth / 100,
                   true, false, ctxSimulacoes);
     }
     function apagarEfeitoSelect ()
     {
         ctxSimulacoes.fillStyle = "white";
-        roundRect(0, 0, canvasSimulacoes.width, canvasSimulacoes.height, {upperLeft: 10, upperRight:10, lowerLeft: 10, lowerRight:10},
+        roundRect(0, 0, canvasSimulacoes.width, canvasSimulacoes.height, 1.3 * window.innerWidth / 100,
             true, false, ctxSimulacoes);
     }
 

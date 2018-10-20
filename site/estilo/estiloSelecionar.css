@@ -198,8 +198,6 @@
 	border: 0.26vh solid black;
 	border-radius: 1.3vh;
 	background-color: white;
-	transition: color 0.4s;
-	transition: background-color 0.4s;
 	font-family: "Century Gothic";
 	font-size: 2.4vh;
 	color: black;
@@ -210,6 +208,5 @@
 	cursor: pointer;
 	background-color: rgb(43, 106, 255);
 	color: white;
-	transition: color 0.4s;
-	transition: background-color 0.4s;
+	transition: color 0.4s, background-color 0.4s;
 }

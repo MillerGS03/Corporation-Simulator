@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="../scripts/info.js"></script>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../estilo/estiloInfo.css">
-	<title>Corporation Simulator</title>
-</head>
-<body>
-	<header id="a">
-		<h1>Corporation Simulator</h1>
-		<nav>
-			<ul id="listaNavegacao">
-				<a href="../index.html" class="botaoNav"><li id="home">Home</li></a>
-				<a href="" class="botaoNav"><li id="funcionalidades">Funcionalidades</li></a>
-				<a href="" class="botaoNav"><li id="galeria">Galeria</li></a>
-				<a href="" class="botaoNav"><li id="ranking">Ranking</li></a>
-			</ul>
-		</nav>
-	</header>
-	<div class="menuOpcoes" id="menu">
-		<h1 class="tituloMenu">Menu de opções</h1><br><br><br><br><br>
-		<span class="fotoPerfil" id="perfil"></span>
-		<h2 class="userData" id="user"></h2>
-		<h3 class="userData" id="rank"></h3>
-		<div class="opcao" id="configuracoes" onclick="abrir('configurar.html');">Configurações</div>
-		<div class="opcao" id="classificacao" onclick="abrir('classificacao.html');">Classificação Mundial</div>
-		<div class="opcao" id="manual" onclick="abrir('manual1.html');">Manual</div>
-		<div class="opcao" id="simulacoes" onclick="abrir('simulacoes.html');">Simulações</div>
-		<div class="opcao" id="jogos" onclick="abrir('selecionar.html');">Jogos</div>
-	</div>
-	<section id="conteudo"></section>
-	<footer>
-		<div></div>
-	</footer>
-</body>
-</html>
+<link rel="stylesheet" type="text/css" href="estilo/estiloInfo.css">
+<div class="menuOpcoes" id="menu">
+	<h1 class="tituloMenu">Menu de opções</h1><br><br><br><br><br>
+	<span class="fotoPerfil" id="perfil"></span>
+	<h2 class="userData" id="user"></h2>
+	<h3 class="userData" id="rank"></h3>
+	<div class="opcao" id="configuracoes" onclick="abrirInfo('configurar.html');">Configurações</div>
+	<div class="opcao" id="classificacao" onclick="abrirInfo('classificacao.html');">Classificação Mundial</div>
+	<div class="opcao" id="manual" onclick="abrirInfo('manual1.html');">Manual</div>
+	<div class="opcao" id="simulacoes" onclick="abrirInfo('simulacoes.html');">Simulações</div>
+	<div class="opcao" id="jogos" onclick="abrirInfo('selecionar.html');">Jogos</div>
+</div>
+<section id="conteudoInfo"></section>
+<script type="text/javascript" src="scripts/info.js"></script>

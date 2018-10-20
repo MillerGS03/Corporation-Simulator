@@ -118,7 +118,7 @@ function iniciarSelecionar()
         ctxSimulacoes = null;
         canvasSimulacoes = null;
 
-        abrir("simulacao.html");
+        abrirInfo("simulacao.html");
     }
     function validarCriacao()
     {

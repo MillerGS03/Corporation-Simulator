@@ -109,7 +109,7 @@ function iniciarSelecionar()
         ctxSelect = null;
         canvasSelect = null;
 
-        abrir("jogo.html");
+        abrirInfo("jogo.html");
     }
     function validarCriacao()
     {

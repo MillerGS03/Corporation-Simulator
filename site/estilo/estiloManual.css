@@ -54,6 +54,6 @@
 	left: calc(5% + 2vh);
 	width: 8vh;
 	height: 8vh;
-	background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
+	background: url('../imagens/funcionalidades/setaEsquerda.png') no-repeat;
 	background-size: 100%;
 }

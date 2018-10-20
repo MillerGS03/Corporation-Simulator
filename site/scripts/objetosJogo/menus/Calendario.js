@@ -458,11 +458,6 @@ function Calendario()
     }
 }
 
-var imgIconeEntrega = new Image();
-var imgEntrega = new Image();
-imgIconeEntrega.src = "../imagens/menusBotoes/iconeEntrega.png";
-imgEntrega.src = "../imagens/menusBotoes/imagemEntrega.png";
-
 function EventoData(dia, mes, ano, tipo)
 {
     this.dia = dia;

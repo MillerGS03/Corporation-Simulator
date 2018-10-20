@@ -21,7 +21,7 @@ function verificarCampos()
 	if (!houveErro)
 	{
 		document.getElementById("corrija").textContent = "";
-		abrirIntroducao();
+		abrir("html/informacoes.html");
 	}
 	else
 		document.getElementById("corrija").textContent = "Corrija os itens em vermelho para continuar";

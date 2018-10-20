@@ -11,13 +11,13 @@ function colocarDados() {
 	acessarDados();
 	$("#user").text(username);
 	$("#rank").text(rank);
-	$("#conteudo").css("height", "900");
+	$("#conteudoInfo").css("height", "900");
 }
-function abrir(arq) 
+function abrirInfo(arq) 
 {
 	if (conteudoAberto == "jogo.html")
 		finalizarJogo();
-	$("#conteudo").empty();
-	$('#conteudo').load(arq);
+	$("#conteudoInfo").empty();
+	$('#conteudoInfo').load("html/" + arq);
 	conteudoAberto = arq;
 }

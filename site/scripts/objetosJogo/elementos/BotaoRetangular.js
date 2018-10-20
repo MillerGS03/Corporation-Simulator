@@ -1,6 +1,6 @@
 BotaoRetangular.exceto = new Array();
 BotaoRetangular.inativos = false;
-
+BotaoRetangular.cooldown = false;
 /**
  * Desativa todos os botões, exceto os que estão inclusos no argumento. Se o argumento for omitido, não haverá exceções.
  * @param {Array.<BotaoRetangular>} exceto Exceções aos botões desativados.
@@ -141,17 +141,17 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
-		if (este.hovering && (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0)))
+		if (!BotaoRetangular.cooldown && este.hovering && (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0)))
 		{
 			este.onclick(e);
 			canvas.dispatchEvent(new Event("mousemove"));
-			BotaoRetangular.desativarTodos();
-			setTimeout(function() {BotaoRetangular.reativar()}, 10);
+			BotaoRetangular.cooldown = true;
+			setTimeout(function() {BotaoRetangular.cooldown = false}, 10);
 		}
 	}
 	function testarHover(e) // Calcula se o mouse está dentro do botão e atualiza o estado de hover
 	{
-		if (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0))
+		if (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0) && !BotaoRetangular.cooldown)
 		{
 			var mudouHover = este.hovering; 
 

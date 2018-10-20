@@ -26,6 +26,11 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		setTimeout(function() {
 			BotaoRetangular.desativarTodos([este.btnConfirmar, este.btnCancelar]);
 			BotaoCircular.desativarTodos();
+			for (var i = 0; i < radioButtons.length; i++)
+			{
+				radioButtons[i].ativarInteracao();
+				BotaoCircular.exceto.push(radioButtons[i].botao);
+			}
 		}, 20);
 		/*
 		if (this.rbCredito != null && this.rbCredito.getChecked())
@@ -35,11 +40,6 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 			this.btnMais.ativarInteracao();
 			this.btnMenos.ativarInteracao();
 		}*/
-		for (var i = 0; i < radioButtons.length; i++)
-		{
-			radioButtons[i].ativarInteracao();
-			setTimeout(function() {BotaoCircular.exceto.push(radioButtons[i].botao) }, 20);
-		}
 	}
 	this.desativar = function()
 	{

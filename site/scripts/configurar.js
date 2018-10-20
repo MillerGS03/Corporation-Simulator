@@ -57,17 +57,16 @@ $("#exibir3").on("mouseup", function (){
 	mostrarSenha('confSenha');
 });
 $("#rightPage").on("click", function () {
-	$("#conteudo").load("configurar2.html");
+	abrirInfo("configurar2.html")
 	setTimeout(mudarCorConteudo, 5);
 });
 $("#leftPage").on("click", function () {
-	$("#conteudo").load("configurar.html");
+	abrirInfo("configurar.html");
 	setTimeout(mudarCorMenu, 5);
 });
 $("#backColor").on("change", function(){
 	var cor = document.getElementById("backColor").value;
-	$("body").css("background-color", cor);
-	$("#conteudo").css("background-color", cor);
+	$("#conteudoInfo").css("background-color", cor);
 })
 $("#backColorB").on("change", function(){
 	var cor = document.getElementById("backColorB").value;
@@ -237,7 +236,7 @@ function mudarCorConteudo()
   		const hex = x.toString(16)
   		return hex.length === 1 ? '0' + hex : hex
 	}).join('')
-	var rgb = $("#conteudo").css("background-color");
+	var rgb = $("#conteudoInfo").css("background-color");
 
 	rgb = rgb.substring(4, rgb.length-1).replace(/ /g, '').split(',');
 	var cor = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));

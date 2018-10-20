@@ -7,7 +7,7 @@ section#conteudo
     z-index: 1;
     
     position: absolute;    
-    top: 14vh;
+    top: calc(50% - 36vh);
     left: 0;
     right: 0;
     margin-left: auto;

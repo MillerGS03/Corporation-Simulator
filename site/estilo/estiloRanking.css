@@ -7,7 +7,7 @@
     position: absolute;
     z-index: 1;
   
-    top: 15vh;
+    top: calc(50% - 35vh);
     left: 0;
     right: 0;
     margin-left: auto;

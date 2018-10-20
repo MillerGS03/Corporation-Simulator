@@ -8,6 +8,6 @@ $("#addConta").on('click', function() {
 function abrirS(local)
 {
 	$("#modal-content").empty();
-	$("#modal-content").load("../html/paginasSimulacao/" + local);
+	$("#modal-content").load("html/paginasSimulacao/" + local);
 	$("#modal").css('display', 'block');
 }

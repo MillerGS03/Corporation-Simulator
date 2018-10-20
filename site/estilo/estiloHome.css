@@ -4,7 +4,7 @@
 		width: 22vw;
 		height: 27.4vw;
 		font-size: 1.3vw;
-		top: calc(50vh - 13.7vw);
+		top: calc(50% - 13.7vw);
 	}
 	h1#crie {
 		font-size: 6vw;
@@ -40,7 +40,7 @@
 		width: 27vw;
 		height: 33.6vw;
 		left: calc(50vw - 13.5vw);
-		top: calc(50vh - 16.8vw);
+		top: calc(50% - 16.8vw);
 		font-size: 1.59vw;
 	}
 	h1#crie {
@@ -152,7 +152,7 @@ div#fundoJogo h1#crie
 	display: inline-block;
 	position: absolute;
 	left: 8.2vw;
-	top: calc(50vh - 16vw);
+	top: calc(50% - 16vw);
 	font-family: "Century Gothic";
 	font-weight: 900;
 	color: #FBFBFB;

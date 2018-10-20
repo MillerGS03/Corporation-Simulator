@@ -1,107 +1,9 @@
-body
+#conteudo
 {
-	margin: 0px;
-	padding: 0px;
-	background-color: black;
-}
-header 
-{
-	margin: 0px;
-	padding: 0px;
 	width: 100%;
-	background-color: black;
-	border-bottom: 0.3vh solid white;
-	box-shadow: 0px 0.3vh 0.3vh black;
-	box-sizing: border-box;
-	color: white;
-	height: 12vh;
-}
-header h1
-{
-	position: relative;
-	margin: 0px;
-	font-family: "Century Gothic", "sans-serif";
-	font-size: 3vw;
-	display: inline-block;
-	left: 4vw;
-	line-height: 12vh;
-}
-nav ul
-{
-	min-width: 46vh;
-	min-height: 4.2vh;
-	max-height: 4.2vh;
-	display: inline-block;
-	padding: 0px;
-}
-nav ul li
-{
-	display: inline-block;
-	height: 4vh;
-	line-height: 4vh;
-	text-align: center;
-	text-decoration: none;
-	font-family: "Century Gothic";
-	font-size: 2.4vh;
+	height: 92vh;
+	z-index: 3;
 	position: absolute;
-	top: 7.8vh;
-	border: 0.2vh solid white;
-	border-top-left-radius: 1vh;
-	border-top-right-radius: 1vh;
-	margin-left: 0.1vh;
-	margin-right: 0.1vh;
-	color: white;
-	background-color: black;
-	transition: height .3s, top .3s;
-}
-nav ul li:hover
-{
-	background-color: #505050;
-	height: 4.8vh;
-	top: 7vh;
-}
-nav ul li#home
-{
-	right: calc(48vh + 1vw);
-	width: 9vh;
-}
-nav ul li#funcionalidades
-{
-	right: calc(25vh + 1vw);
-	width: 22vh;
-}
-nav ul li#galeria
-{
-	right: calc(13vh + 1vw);
-	width: 11vh;
-}
-nav ul li#ranking
-{
-	right: 1vw;
-	width: 12vh;
-}
-footer
-{
-	background-color: black;
-	border-top: 0.3vh solid white;
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-	height: 12vh;
-	color: white;
-	box-sizing: border-box;
-}
-footer div
-{
-	position: relative;
-	left: 2vh;
-	top: 2vh;
-	border: 0.3vh solid white;
-	border-radius: 50%;
-	width: 10vh;
-	height: 10vh;
-	background: url("../imagens/cotuca_transparente_logo.png") no-repeat;
-	background-size: 100%;
 }
 a
 {
@@ -126,7 +28,7 @@ div#menu .fotoPerfil
 	background: url('../imagens/a.png');
 	background-position: center;
 	background-size: 100%;
-	top: 25vh;
+	top: 13vh;
 	left: 4.5vw;
 	border-radius: 50%;
 	width: 15vw;
@@ -176,29 +78,29 @@ a
 }
 #configuracoes
 {
-	top: 65.3vh;
+	top: 53.3vh;
 }
 #classificacao
 {
-	top: 73.1vh;
+	top: 61.1vh;
 }
 #manual
 {
-	top: 80.7vh;
+	top: 68.7vh;
 }
 #simulacoes
 {
-	top: 88.3vh;
+	top: 76.3vh;
 }
 #jogos
 {
-	top: 96.1vh;
+	top: 84.1vh;
 }
-section#conteudo
+section#conteudoInfo
 {
 	background-color: #4c98a5;
 	position: absolute;
-	top: 12vh;
+	top: 0vh;
 	left: 24vw;
 	width: calc(100% - 24vw);
 	height: 92vh;

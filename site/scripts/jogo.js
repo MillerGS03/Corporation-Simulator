@@ -198,12 +198,14 @@ function desenharBordasCanvas()
 	ctx.lineWidth = 2;
 	ctx.fillStyle = "black";
 
+	ctx.beginPath();
 	ctx.moveTo(0, 0);
 	ctx.lineTo(canvas.width, 0);
 	ctx.lineTo(canvas.width, canvas.height);
 	ctx.lineTo(0, canvas.height);
 	ctx.lineTo(0, 0);
 	ctx.stroke();
+	ctx.closePath();
 
 	ctx.restore();
 }

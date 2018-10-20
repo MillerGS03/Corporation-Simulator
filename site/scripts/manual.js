@@ -1,4 +1,4 @@
-var atual = parseInt($("div:last").attr("id"));
+var atual = parseInt($(".painelManual").attr("id")[0]);
 
 $("#avancar").on("click", function(){
 	$("#conteudo").empty();

@@ -1,0 +1,7 @@
+canvas
+{
+    position: absolute;
+    top: calc((92vh - 700 * 1vw / 15) / 2);
+    left: calc((76vw - 1000 * 1vw / 15) / 2);
+    transform-origin: top left;
+}

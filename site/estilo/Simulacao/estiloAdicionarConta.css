@@ -1,86 +1,99 @@
 .frm
 {
 	position: absolute;
-	top: 130px;
-	left: 500px;
+	top: 13vh;
+	left: calc(50% - 18vh);
 	font-family: "Century Gothic";
 }
 .frm label
 {
 	position: absolute;
-	width: 500px;
-	font-size: 16pt;
+	width: 60vh;
+	font-size: 3vh;
 	text-align: justify;
 }
 .frm input[type="text"]
 {
 	font-family: "Century Gothic";
-	font-size: 12pt;
+	font-size: 3vh;
+	padding: 0.1vh 0;
+	border-width: 0.2vh;
+}
+.frm input[type="radio"]
+{
+	margin: 0.3vh 0.3vh 0vh 0.5vh;
+	border: 0px;
+	width: 2vh;
+	height: 2vh;
 }
 #painelConta h1
 {
-	position: absolute;
 	background: inherit;
-	top: 0;
-	left: 500px;
+	position: relative;
+	bottom: 2vh;
+	text-align: center;
 	font-weight: bold;
 	font-family: "Century Gothic";
-	font-size: 30pt;
+	font-size: 4.7vh;
 }
 #painelConta hr
 {
 	position: absolute;
-	top: 90px;
+	top: 8vh;
 }
 #nome
 {
 	position: absolute;
-	top: 0px;
+	top: 0vh;
 }
 #tipo
 {
 	position: absolute;
-	top: 60px;
+	top: 8.2vh;
 }
 #valor
 {
 	position: absolute;
-	top: 120px;
+	top: 16.4vh;
 }
 #intervaloTempo
 {
 	position: absolute;
-	top: 180px;
-	width: 800px;
+	top: 24.6vh;
+	width: 90vh;
 }
 #tTempo
 {
 	font-family: "Century Gothic";
-	font-size: 12pt;
+	font-size: 2.6vh;
+	border-width: 0.1vh;
+	height: 4vh;
 }
 #class
 {
 	position: absolute;
-	top: 240px;
-	width: 900px;
+	top: 32.8vh;
+	width: 100vh;
 }
 #class select
 {
 	font-family: "Century Gothic";
-	font-size: 12pt;
+	font-size: 2.6vh;
+	border-width: 0.1vh;
+	height: 4vh;
 }
 #adicionarConta
 {
 	position: absolute;
-	top: 330px;
-	width: 300px;
-	height: 50px;
+	top: 47vh;
+	width: 38vh;
+	height: 7vh;
 	background-color: white;
 	color: black;
-	border-radius: 30px;
-	border: 2px solid black;
+	border-radius: 4vh;
+	border: 0.2vh solid black;
 	transition: background-color 0.5s;
-	font-size: 16pt;
+	font-size: 2.6vh;
 	font-family: "Century Gothic";
 }
 #adicionarConta:hover

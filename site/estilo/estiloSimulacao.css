@@ -1,41 +1,53 @@
 #simulacao
 {
 	position: absolute;
-	width: 1200px;
-	height: 600px;
-	left: 200px;
-	top: 100px;
+	width: 96%;
+	height: 78vh;
+	left: 2%;
+	top: 7.2vh;
 	background: white;
 }
 #nomeSimulacao
 {
 	font-family: "Century Gothic";
-	font-size: 25pt;
+	font-size: 3.8vh;
 }
 
 #simulacao hr
 {
 	color: black;
-	size: 10px;
+	background-color: black;
+	height: 0.13vh;
 	width: 99%;
+	border: 0;
+	margin: 1vh;
 }
 #graficosSimulacao
 {
-	height: 350px;
+	height: 50vh;
 	background-color: green;
-	width: 1150px;
+	width: 96%;
 	position: absolute;
-	left: 25px;
-	top: 100px;
+	left: 2%;
+	top: 13vh;
 }
 
 .btn
 {
-	position: relative;
-	top: 400px;
-	width: 200px;
-	height: 50px;
+	position: absolute;
+	top: 69vh;
+	width: 16.91%;
+	height: 6.2vh;
+	font-size: 2vh;
+	box-sizing: border-box;
+	padding: 0.13vh 0.7vh;
 }
+#tabelas {left: 6vh;}
+#addConta {left: 31.25vh;}
+#removerConta {left: 56.5vh;}
+#atualizarConta {right: 31.25vh;}
+#previsao {right: 6vh;}
+
 .modal
 {
  	display:none;
@@ -56,19 +68,21 @@
   	animation-name:modalopen;
   	animation-duration:1s;
   	position: absolute;
-  	left: 450px;
-  	top: -230px;
+  	left: 20%;
+  	top: -20vh;
 }
 .btnSair
 {
-	background: url('../imagens/sairSimulacao.png');
+	background: url('../imagens/sairSimulacao.png') no-repeat;
+	background-size: 100%;
 	position: absolute;
-	top: -32px;
-	right: -32px;
-	width: 64px;
-	height: 64px;
+	top: -4vh;
+	right: -4vh;
+	width: 8vh;
+	height: 8vh;
 	border-radius: 50%;	
 	transition: filter 0.5s;
+	z-index: 2;
 }
 .btnSair:hover
 {
@@ -83,5 +97,5 @@
 #painelConta
 {
 	background-color: white;
-	height: 600px;
+	height: 66vh;
 }

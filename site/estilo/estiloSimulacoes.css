@@ -1,15 +1,20 @@
 .select
 {
 	position: absolute;
-	top: 200px;
-	left: 300px;
-	width: 400px;
-	height: 65px;
+	top: 24vh;
+	left: 12.5vh;
+	width: 60vh;
+	height: 6.5vh;
+	padding: 0;
 	background-color: transparent;
-	border-radius: 10px;
+	border-radius: 1.3vh;
 	font-family: "Century Gothic";
-	font-size: 18pt;
+	font-size: 3.4vh;
 	z-index: 40;
+	border-width: 0.13vh;
+	border-image-width: 0.13vh;
+	background-size: 4vh;
+	box-sizing: border-box;
 }
 .select:hover
 {
@@ -18,25 +23,25 @@
 
 .opcaoSelect
 {
-	width: 400px;
-	height: 65px;
-	font-size: 16pt;
+	width: 60vh;
+	height: 6.5vh;
+	font-size: 3vh;
 }
-
 .btnCarregar
 {
 	position: absolute;
-	top: 390px;
-	left: 380px;
-	width: 200px;
-	height: 50px;
+	top: 60vh;
+	left: 45.5vh;
+	width: 26vh;
+	height: 6.5vh;
 	background-color: white;
-	border-radius: 50px;
-	font-size: 15pt;
+	border-radius: 6.5vh;
+	font-size: 2.8vh;
 	font-family: "Century Gothic";
-	color: green;
+	color: black;
 	font-weight: bold;
 	visibility: hidden;
+	border: 0.26vh solid black;
 	z-index: 323;
 }
 
@@ -50,21 +55,31 @@
 #painelSelecionar
 {
 	position: relative;
-	top: 100px;
-	left: 0px;
-	right: 0px;
+	top: 7vh;
 	margin-left: auto;
 	margin-right: auto;
-	width: 900px;
-	height: 600px;
+	width: 117vh;
+	max-width: 100%;
+	height: 78vh;
 	border-radius: 10%;
 	background: white;
 	font-family: "Century Gothic";
 }
 #txtSelecionar
 {
-	font-size: 24pt;
+	font-size: 4vh;
 	position: absolute;
-	left: 300px;
-	top: 80px;
+	left: 35vh;
+	top: 10vh;
+	padding: 0.13vh 0;
+	border-width: 0.26vh;
+}
+#canvasSimulacoes
+{
+	position: absolute;
+	top: 24vh;
+	left: 12.5vh;
+	width: 60vh;
+	height: 6.5vh;
+	z-index: 3;
 }

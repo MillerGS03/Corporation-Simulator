@@ -39,11 +39,26 @@ var efetuacao;
 var xMouse;
 var yMouse;
 
+var fatorEscala = 1;
+
 iniciar();
 function iniciar()
 {
 	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
+
+	function redimensionarCanvas() 
+	{
+		fatorEscala = window.innerWidth / 1500;
+		if (92 * window.innerHeight / 100 < 700 * fatorEscala || 72 * window.innerWidth / 100 > 1000 * (92 * window.innerHeight / 70000))
+			fatorEscala = 92 * window.innerHeight / 70000;
+
+		$("#meuCanvas").css("left", "calc((76vw - 1000px * " + fatorEscala + ") / 2)")
+		$("#meuCanvas").css("top", "calc((92vh - 700px * " + fatorEscala + ") / 2)");
+		$("#meuCanvas").css("transform", "scale(" + fatorEscala + ")")
+	}
+	redimensionarCanvas();
+	window.addEventListener("resize", redimensionarCanvas);
 
 	barra = new BarraSuperior();
 	barra.dinheiro = 4000000;
@@ -83,8 +98,8 @@ function iniciar()
 		{
 			var rect = e.target.getBoundingClientRect();
 	
-			xMouse = e.clientX - rect.left;
-			yMouse = e.clientY - rect.top;
+			xMouse = (e.clientX - rect.left) / fatorEscala;
+			yMouse = (e.clientY - rect.top) / fatorEscala;
 		}
 	})); 
 
@@ -174,6 +189,23 @@ function atualizar()
 	estatisticas.desenhar();
 	if (efetuacao != null && efetuacao.ativo)
 		efetuacao.desenhar();
+	desenharBordasCanvas();
+}
+function desenharBordasCanvas()
+{
+	ctx.save();
+
+	ctx.lineWidth = 2;
+	ctx.fillStyle = "black";
+
+	ctx.moveTo(0, 0);
+	ctx.lineTo(canvas.width, 0);
+	ctx.lineTo(canvas.width, canvas.height);
+	ctx.lineTo(0, canvas.height);
+	ctx.lineTo(0, 0);
+	ctx.stroke();
+
+	ctx.restore();
 }
 function desenharFundo()
 {

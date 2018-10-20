@@ -65,10 +65,11 @@
 #painelSelecionar
 {
 	position: relative;
-	top: 10vh;
+	top: 7vh;
 	margin-left: auto;
 	margin-right: auto;
 	width: 117vh;
+	max-width: 100%;
 	height: 78vh;
 	border-radius: 10%;
 	background: white;
@@ -155,11 +156,11 @@
 }
 #painelAdicaoJogo
 {
-	width: 70%;
+	width: 70vh;
 	height: 30vh;
 	background-color: white;
 	position: absolute;
-	left: calc(50vw - 35%);
+	left: calc(50vw - 35vh);
 	border-radius: 1.3vh;
 	border: .26vh solid black;
 }
@@ -176,14 +177,21 @@
 	font-weight: normal;
 	font-family: "Century Gothic";
 	font-size: 2.8vh;
-	height: 3vh;
+	height: 3.4vh;
+	width: 40vh;
+	padding: 0.13vh 0;
+	border-width: 0.26vh;
+	box-sizing: border-box;
+	position: absolute;
+	top: 10vh;
+	left: 15vh;
 }
 #criar
 {
 	position: absolute;
 	height: 6vh;
 	width: 18vh;
-	top: 15vh;
+	top: 18vh;
 	left: 36%;
 	font-family: "Century Gothic";
 	font-size: 2.4vh;

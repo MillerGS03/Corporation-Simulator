@@ -3,7 +3,7 @@ var senhaAtual = "teste";
 
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
-	$("#mudarImagem").css("top", "200px");
+	//$("#mudarImagem").css("top", "200px");
 });
 $("#foto").on("mouseleave", function() {
 	$("#mudarImagem").css("visibility", "hidden");
@@ -12,8 +12,8 @@ $("#newImage").on("change", function () {
 	arquivo = document.getElementById("newImage").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 250px 250px;');
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
 	};
 	r.readAsDataURL(arquivo);
 });
@@ -22,7 +22,6 @@ $("#mudarImagem").on("click", function() {
 });
 $("#banner").on("mouseenter", function() {
 	$("#mudarBanner").css("visibility", "visible");
-	$("#mudarBanner").css("top", "170px");
 });
 $("#banner").on("mouseleave", function() {
 	$("#mudarBanner").css("visibility", "hidden");
@@ -31,8 +30,8 @@ $("#newBanner").on("change", function () {
 	arquivo = document.getElementById("newBanner").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 200px 250px;');
-		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 400px 500px;');
+		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100% 100%;');
+		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100% 100%;');
 	};
 	r.readAsDataURL(arquivo);
 });

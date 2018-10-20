@@ -1,47 +1,59 @@
 .painelManual
 {
 	position: absolute;
-	top: 0;
+	top: 5%;
+	left: 5%;
 	background-color: white;
 	font-family: "Century Gothic";
 	color: black;
-	width: 100%;
-	height: 100%;
+	width: 90%;
+	height: 90%;
 }
 #conteudo .painelManual h1
 {
 	text-align: center;
-	font-size: 28pt;
+	font-size: 5vh;
 }
 #conteudo .painelManual h2
 {
 	position: relative;
-	left: 40px;
+	left: 5.2vh;
 	text-align: justify;
-	font-size: 20pt;
+	font-size: 4vh;
 }
 #conteudo .painelManual p
 {
 	position: relative;
-	left: 25px;
+	left: 3.25vh;
 	text-align: justify;
-	font-size: 14pt;
+	font-size: 2.5vh;
 }
 #conteudo .painelManual hr
 {
-	color: lightgrey;
-	size: 6px;
+	color: lightgray;
+	background-color: lightgray;
 	width: 97%;
+	height: 0.3vh;
+	border: 0;
+	margin: 1vh;
 }
 #avancar
 {
 	position: absolute;
-	bottom: 80px;
-	right: 10px;
+	bottom: calc(5% + 2vh);
+	right: calc(5% + 2vh);
+	width: 8vh;
+	height: 8vh;
+	background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
+	background-size: 100%;
 }
 #retroceder
 {
 	position: absolute;
-	bottom: 80px;
-	left: 10px;
+	bottom: calc(5% + 2vh);
+	left: calc(5% + 2vh);
+	width: 8vh;
+	height: 8vh;
+	background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
+	background-size: 100%;
 }

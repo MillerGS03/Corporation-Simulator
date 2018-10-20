@@ -2,19 +2,18 @@ var numeroDeJogos;
 
 iniciarSelecionar();
 
-$("#newGame").on('click', function(){
-    $("#modalJogo").css('display', 'block');
-});
-$("#btnSair").on('click', function(){
-    $("#modalJogo").css('display', 'none');
-});
-$("#criar").on('click', function(){
-    validarCriacao();
-    return false;
-});
-
 function iniciarSelecionar()
 {
+    $("#newGame").on('click', function(){
+        $("#modalJogo").css('display', 'block');
+    });
+    $("#btnSair").on('click', function(){
+        $("#modalJogo").css('display', 'none');
+    });
+    $("#criar").on('click', function(){
+        validarCriacao();
+        testarOpcao();
+    });
     $("#select").on("mousemove", criarEfeitoSelect);
     $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
@@ -112,28 +111,27 @@ function iniciarSelecionar()
 
         abrir("jogo.html");
     }
-}
-function validarCriacao()
-{
-    var nome = document.getElementById("nomeJogo");
-    if (nome.value.trim() == ""){
-        $("#txtNome").text('Nome do novo jogo - Não pode estar vazio:');
-        $("#txtNome").css('color', 'darkred');
+    function validarCriacao()
+    {
+        var nome = document.getElementById("nomeJogo");
+        if (nome.value.trim() == ""){
+            $("#txtNome").text('Nome do novo jogo - Não pode estar vazio:');
+            $("#txtNome").css('color', 'darkred');
+        }
+        else if (nome.value.length <= 2){
+            $("#txtNome").text('Nome do novo jogo - Mínimo de 3 caracteres:');
+            $("#txtNome").css('color', 'darkred');
+        }
+        else
+            adicionarUmaOpcao(nome.value);
     }
-    else if (nome.value.length <= 2){
-        $("#txtNome").text('Nome do novo jogo - Mínimo de 3 caracteres:');
-        $("#txtNome").css('color', 'darkred');
+    function adicionarUmaOpcao(txt)
+    {
+        $("#btnSair").trigger('click');
+        var s = document.getElementById("select");
+        var o = document.createElement("option");
+        o.text = txt;
+        s.add(o);
+        s.options[++numeroDeJogos].selected = true;
     }
-    else
-        adicionarUmaOpcao(nome.value);
-}
-function adicionarUmaOpcao(txt)
-{
-    $("#btnSair").trigger('click');
-    var s = document.getElementById("select");
-    var o = document.createElement("option");
-    o.text = txt;
-    s.add(o);
-    s.options[++numeroDeJogos].selected = true;
-    testarOpcao();
 }

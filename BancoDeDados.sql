@@ -1,23 +1,30 @@
 create table Usuario (
-CodUsuario int primary key,
+CodUsuario int identity(1,1) primary key,
 Username varchar(30) not null,
-Senha varbinary(20) not null,
+Senha ntext not null,
 Nome varchar(50) not null,
 Sexo char not null,
-Biografia ntext not null,
+Biografia ntext,
 Email ntext not null,
-FotoPerfil varbinary,
-ImagemBanner varbinary,
-CorBanner varchar(7) not null,
-CorFuncdo varchar(7) not null,
+FotoPerfil varbinary(max),
+ImagemBanner varbinary(max),
+CorBanner varchar(7),
+CorFundo varchar(7),
 NumeroDeJogos int not null,
-NumeroDeSimulacoes int not null,
+NumeroDeSimulacoes int not null
 )
+insert into Usuario values('Scherer', '01010001', 'Felipe', 'M', 'sla', 'fsvicentin@hgta.com', 
+convert(varbinary, 'abcdefg'), convert(varbinary, 'abcdefg'), '#ffffff', '#fffff', 0, 0)
+insert into Usuario values('Miller', 'aaaaaaaa', 'GustaGOD', 'M', 'aaaaa', 'gustavinho@hgta.com', 
+convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
+insert into Usuario values('Felipe', 'bbbbb', 'Vinsssss', 'M', '435asd', 'afadfe@hgta.com', 
+convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
+select * from Usuario
 
 create table Jogo (
 CodEmpresa int primary key,
 CodUsuario int not null,
-constraint fkUsuarioEmpresa foreign key(CodUsuario) references Usuario(CodUsuario),
+constraint fkUsuarioJogo foreign key(CodUsuario) references Usuario(CodUsuario),
 XP int not null,
 Dias int not null,
 Data datetime not null,
@@ -57,3 +64,10 @@ CodUsuario int not null,
 constraint fkUsuarioAmigo foreign key(CodUsuario) references Usuario(CodUsuario),
 CodAmigo int not null
 )
+
+drop table Amizades
+drop table Notificacoes
+drop table Patrimonio
+drop table Simulacao
+drop table Jogo
+drop table Usuario

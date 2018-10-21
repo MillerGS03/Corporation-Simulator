@@ -1,40 +1,36 @@
-Banco de dados
-Jogo
- - Início do jogo para selecionar cenário
- - Menus dos botões (mapa, estatisticas, notificação, etc)
- - Eventos de acordo com a data
- - Itens construídos (armazém, etc)
-Simulação
- - Tabelas de despesas
- - Menu para adição de contas
-Configuração
-Manual
-Classificação Mundial e ranking
-Galeria
+Planejamento
 
-01/10 - 08/10:
- Configurações (F)
- Design do manual (F)
- Texto do manual (F e G)
- Banco de dados (G)
+19/10 - 26/10:
+- Atualizar o BD
+- Registro e login
+- Criação de simulações
+- Criação de jogos
+- Início do jogo (mesclado com manual)
+- Texto de contabilidade
+- Pensar nos eventos de acordo com data
 
-08/10 - 15/10:
- Classificação mundial e ranking (F e G)
- Início do jogo para selecionar cenário (F e G)
- Itens construídos (F e G)
- Menu para adição de contas (F)
- Menus dos botões (G)
+26/10 - 02/11:
+Simulações (F)
+- Conectar ao BD
+- Remoção, modificação e organização de contas
+- Gráficos
+- Tabelas
+- Previsões
+Jogo (G)
+- Armazém
+- Garagem e administração
+- RH
+- Operacional
+- Financeiro
 
-15/10 - 22/10:
- Itens construídos (F e G)
- Tabela de despesas (F e G)
+02/11 - 09/11:
+- Ranking
+- Eventos de acordo com data
+- Balanço e plano de contas no jogo
+- Manual
+- Galeria
 
-22/10 - 29/10:
- Itens construídos (F e G)
- Eventos de acordo com a data (F e G)
- Galeria (F)
-
-29/10 - 05/11:
- Eventos de acordo com a data (F e G)
- Bugs eventuais
- 
+09/11 - 13/11:
+- Bugs
+- Testes
+- Possíveis atrasos

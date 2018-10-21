@@ -24,7 +24,7 @@ function Comercio(aquele)
 	var pagamento = 0;
 	var economia = 0;
 	var total = 0;
-	var primeiraVez = true;
+	var primeiraVez = (this.franquias>0?false:true);
 
 	this.btnVoltar = new BotaoRetangular(this.x + 125, this.y + 125, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);

@@ -21,7 +21,9 @@ insert into Usuario values('Felipe', 'bbbbb', 'Vinsssss', 'M', '435asd', 'afadfe
 convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
 delete Usuario where codUsuario = 3
 select * from Usuario
+select * from Simulacao
 select * from Jogo
+update Jogo set Caixa = 123451 where CodJogo = 1
 delete from Jogo
 
 create table Jogo (
@@ -39,7 +41,7 @@ NumeroFornecedores int not null
 )
 
 create table Simulacao (
-CodSimulacao int primary key,
+CodSimulacao int identity(1,1) primary key,
 CodUsuario int not null,
 constraint fkUsuarioSimulacao foreign key(CodUsuario) references Usuario(CodUsuario),
 DataCriacao datetime not null,

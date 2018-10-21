@@ -85,8 +85,9 @@ function iniciarSelecionar()
         var primeiraOpcao = s.options[0]
         $("#select").empty();
         s.add(primeiraOpcao);
+        console.log(user)
         $.ajax({
-            url:'http://localhost:3000/jogos/' + cod
+            url:'http://localhost:3000/jogos/' + user.CodUsuario
         }).done(function(dados){
             $.each(dados, function(dado){
                 var o = document.createElement("option");
@@ -111,10 +112,12 @@ function iniciarSelecionar()
         $("#select").off("change", testarOpcao);
         $("#select").off("mouseleave", apagarEfeitoSelect);
         $("#btnCarregar").off("click", carregarJogo);
+        var nomeJogo = document.getElementById('select').options[document.getElementById('select').selectedIndex].value;
         ctxSelect = null;
         canvasSelect = null;
-
-        abrirInfo("jogo.html");
+        $.ajax({
+            url: 'http://localhost:3000/jogo/' + nomeJogo
+        }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
     }
     function validarCriacao()
     {

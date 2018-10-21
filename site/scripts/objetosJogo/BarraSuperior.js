@@ -4,12 +4,14 @@ function BarraSuperior() {
 	this.maxXP = 20;
 	this.dinheiro = 5000;
 	this.dia = 1;
+	this.xpTotal
 
 	var este = this;
 
 	this.ganharXP = function(xp)
 	{
 		this.xp += xp;
+		this.xpTotal += xp;
 		if (this.xp > this.maxXP)
 		{
 			var xpAdicional = this.xp - this.maxXP;

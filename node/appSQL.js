@@ -95,9 +95,9 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
 })
 
-rota.get('/getCodUsuario/:username', (requisicao, resposta) => {
+rota.get('/getUsuario/:username', (requisicao, resposta) => {
   const username = requisicao.params.username;
-  execSQL(`select CodUsuario from Usuario where Username='${username}'`, resposta);
+  execSQL(`select * from Usuario where Username='${username}'`, resposta);
 })
 
 rota.get('/jogos/:cod', (requisicao, resposta) => {
@@ -107,9 +107,36 @@ rota.get('/jogos/:cod', (requisicao, resposta) => {
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
-  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '01/01/2001', 5000, 0, 1, 0, 1)`, resposta);
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '1/1/2001', 5000, 0, 0, 0, 0)`, resposta);
 })
 
 rota.post('/jogo/:cod', (requisicao, resposta) => {
-  //
+  const codJogo = requisicao.params.cod;
+  console.log(requisicao.body)
+  //execSQL(`update Jogo where CodJogo=${codJogo}`, resposta)
+})
+
+rota.get('/jogo/:nome', (requisicao, resposta) => {
+  const nome = requisicao.params.nome;
+  execSQL(`select * from Jogo where Nome='${nome}'`, resposta);
+})
+
+rota.get('/simulacoes/:cod', (requisicao, resposta) => {
+  execSQL(`select * from Simulacao where CodUsuario = ${requisicao.params.cod}`, resposta);
+})
+rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
+  const cod = requisicao.params.cod;
+  const nome = requisicao.params.nome;
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10) {
+    dd = '0'+dd
+  } 
+  if(mm<10) {
+    mm = '0'+mm
+  } 
+  today = mm + '/' + dd + '/' + yyyy;
+  execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}')`, resposta);
 })

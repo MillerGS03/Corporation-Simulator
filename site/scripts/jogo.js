@@ -104,11 +104,22 @@ function iniciar()
 	})); 
 
 	calendario.adicionarEvento(25, 2, 1, 1);
+
+	carregarDados();
 }
 function finalizarJogo()
 {
 	$("#meuCanvas").off();
 	clearInterval(timerDias);
+	var atualizar = new Object();
+	atualizar.XP = barra.xpTotal;
+	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
+	atualizar.Caixa = barra.dinheiro;
+	//atualizar.ContaBancoMovimento = (pegar dinheiro depositado no banco)
+	atualizar.NumeroFranquias = mapa.numeroFranquias;
+	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
+	atualizar.NumeroIndustrias = mapa.NumeroIndustrias;
+	$.post('http://localhost:3000/jogo/' + jogo.CodJogo, atualizar);
 }
 function criarBotoes() 
 {
@@ -312,4 +323,18 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret√
     if (fill) {
         ctx.fill();
 	}
+}
+function carregarDados()
+{
+	barra.ganharXP(jogo.XP);
+	var aux = jogo.Data;
+	var ano = parseInt(aux.substring(0, 4)) - 2000;
+	var mes = parseInt(aux.substring(5, 7));
+	var dia = parseInt(aux.substring(8, 10));
+	calendario.dia = dia;
+	calendario.mes = mes;
+	calendario.ano = ano;
+	barra.dinheiro = jogo.Caixa;
+	//adicionar dinheiro que estava depositado no banco
+	mapa.setNumeros(jogo.NumeroFranquias, jogo.NumeroFornecedores, jogo.NumeroIndustrias);
 }

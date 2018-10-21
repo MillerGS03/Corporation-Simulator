@@ -64,10 +64,8 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const ImagemBanner = requisicao.body.ImagemBanner;
     const CorBanner = requisicao.body.CorBanner.substring(0, 7);
     const CorFundo = requisicao.body.CorFundo.substring(0, 7);
-    execSQL(`INSERT INTO usuario VALUES('${Username}','${Senha}', '${Nome}', '${Sexo}',
-                                        '${Biografia}', '${Email}', '${FotoPerfil}', '${ImagemBanner}', '${CorBanner}',
-                                        '${CorFundo}'`, resposta);
-    resposta.end(resposta.json({ mensagem: 'Incluído!'}));    
+    execSQL(`insert into Usuario values('${Username}', '${Senha}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
+    ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
 })
 
 rota.patch('/usuario/:id', (requisicao, resposta) =>{

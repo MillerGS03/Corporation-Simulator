@@ -27,30 +27,28 @@ function verificarCampos()
 
 	if (!houveErro)
 	{
+		//1234567
 		document.getElementById("corrija").textContent = "";
 		$.get('http://localhost:3000/getUsuario/' + username.value, function(resposta) {
+			console.log(resposta.length);
+			var usuario = new Object();
+			usuario.Username = username.value;
+			usuario.Senha = senha1.value;
+			usuario.Nome = nome.value;
+			usuario.Sexo = radiosSexo[0].checked?radiosSexo[0].value:radiosSexo[1].value;
+			usuario.Biografia = '';
+			usuario.Email = email.value;
+			usuario.FotoPerfil = 00000;
+			usuario.ImagemBanner = 0000;
+			usuario.CorBanner = '';
+			usuario.CorFundo = '';
 			if (resposta.length == 0)
 			{
-				$.post('http://localhost:3000/usuario/',
-				{
-					Username: username.value,
-					Senha: senha1.value,
-					Nome: nome.value,
-					Sexo: radiosSexo[0].checked?radiosSexo[0].value:radiosSexo[1].value,
-					Biografia: "null",
-					Email: email.value,
-					FotoPerfil: "null",
-					ImagemBanner: "null",
-					CorBanner: "null",
-					CorFundo: "null",
-				},
-				function(){
-					abrir("html/home.html");
-					alert("Registro efetuado. Faça login para continuar!");
-				});
+				console.log(usuario)
+				$.post('http://localhost:3000/usuario', usuario)
+				abrir("html/home.html");
+				alert("Registro efetuado. Faça login para continuar!");
 			}
-			else
-				alert("Nome de usuário já tomado!");
 		});
 	}
 	else

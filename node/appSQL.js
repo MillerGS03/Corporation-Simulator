@@ -92,3 +92,22 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
                                 WHERE CodUsuario=${CodUsuario}`, resposta);
     resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
 })
+
+rota.get('/getCodUsuario/:username', (requisicao, resposta) => {
+  const username = requisicao.params.username;
+  execSQL(`select CodUsuario from Usuario where Username='${username}'`, resposta);
+})
+
+rota.get('/jogos/:cod', (requisicao, resposta) => {
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.cod}`, resposta);
+})
+
+rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
+  const nome = requisicao.params.nome;
+  const cod = requisicao.params.cod;
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '01/01/2001', 5000, 0, 1, 0, 1)`, resposta);
+})
+
+rota.post('/jogo/:cod', (requisicao, resposta) => {
+  //
+})

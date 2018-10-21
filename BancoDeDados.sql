@@ -19,16 +19,20 @@ insert into Usuario values('Miller', 'aaaaaaaa', 'GustaGOD', 'M', 'aaaaa', 'gust
 convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
 insert into Usuario values('Felipe', 'bbbbb', 'Vinsssss', 'M', '435asd', 'afadfe@hgta.com', 
 convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
+delete Usuario where codUsuario = 3
 select * from Usuario
+select * from Jogo
+delete from Jogo
 
 create table Jogo (
-CodEmpresa int primary key,
+CodJogo int identity(1,1) primary key,
+Nome varchar(30),
 CodUsuario int not null,
 constraint fkUsuarioJogo foreign key(CodUsuario) references Usuario(CodUsuario),
 XP int not null,
-Dias int not null,
 Data datetime not null,
-CaixaBanco money not null,
+Caixa money not null,
+ContaBancoMovimento money not null,
 NumeroFranquias int not null,
 NumeroIndustrias int not null,
 NumeroFornecedores int not null
@@ -64,6 +68,7 @@ CodUsuario int not null,
 constraint fkUsuarioAmigo foreign key(CodUsuario) references Usuario(CodUsuario),
 CodAmigo int not null
 )
+select * from Amizades
 
 drop table Amizades
 drop table Notificacoes

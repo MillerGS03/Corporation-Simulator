@@ -82,13 +82,18 @@ function iniciarSelecionar()
     function addOptions()
     {
         var s = document.getElementById("select");
-        numeroDeJogos = 3 //pegar do bd
-        for (var i = 1; i <= numeroDeJogos; i++)
-        {
-            var o = document.createElement("option");
-            o.text = "ola";
-            s.add(o);
-        }
+        var primeiraOpcao = s.options[0]
+        $("#select").empty();
+        s.add(primeiraOpcao);
+        $.ajax({
+            url:'http://localhost:3000/jogos/' + cod
+        }).done(function(dados){
+            $.each(dados, function(dado){
+                var o = document.createElement("option");
+                o.text = dados[dado].Nome;
+                s.add(o);
+            })
+        })
     }
 
     function testarOpcao()
@@ -122,16 +127,18 @@ function iniciarSelecionar()
             $("#txtNome").text('Nome do novo jogo - Mínimo de 3 caracteres:');
             $("#txtNome").css('color', 'darkred');
         }
+        else if (nome.value.length > 30){
+            $("#txtNome").text('Nome do novo jogo - Maximo de 30 caracteres:');
+            $("#txtNome").css('color', 'darkred');
+        }
         else
             adicionarUmaOpcao(nome.value);
     }
     function adicionarUmaOpcao(txt)
     {
+        document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        var s = document.getElementById("select");
-        var o = document.createElement("option");
-        o.text = txt;
-        s.add(o);
-        s.options[++numeroDeJogos].selected = true;
+        $.post('http://localhost:3000/addJogo/' + cod + '/' + txt);
+        setTimeout(addOptions, 10);
     }
 }

@@ -1,11 +1,17 @@
 var username;
 var rank;
 var conteudoAberto = null;
+var cod;
 
 function acessarDados() 
 {
-	username = "Vinschers";
+	username = "Scherer";
 	rank = "# " + 45;
+	$.ajax({
+		url: 'http://localhost:3000/getCodUsuario/' + username
+	}).done(function(dados){
+		cod = dados[0].CodUsuario;
+	})
 }
 function colocarDados() {
 	acessarDados();
@@ -21,3 +27,5 @@ function abrirInfo(arq)
 	$('#conteudoInfo').load("html/" + arq);
 	conteudoAberto = arq;
 }
+setTimeout(acessarDados, 10);
+abrirInfo('configurar.html');

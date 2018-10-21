@@ -1,16 +1,15 @@
 var username;
-var rank;
 var conteudoAberto = null;
-var cod;
+var user;
+var jogo;
 
 function acessarDados() 
 {
 	username = "Scherer";
-	rank = "# " + 45;
 	$.ajax({
-		url: 'http://localhost:3000/getCodUsuario/' + username
+		url: 'http://localhost:3000/getUsuario/' + username
 	}).done(function(dados){
-		cod = dados[0].CodUsuario;
+		user = dados[0];
 	})
 }
 function colocarDados() {

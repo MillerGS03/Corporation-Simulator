@@ -9,7 +9,7 @@ function Fornecedores(mapa)
 	var f = 5;
 	var custo = 2;
 	var telaAtual = -1;
-	var primeiraVez = true;
+	var primeiraVez = (this.fornecedores>0?false:true);
 	var qtdDeFornecedoresCompra = 1;
 	var qtdDeFornecedoresDemissao = 1;
 

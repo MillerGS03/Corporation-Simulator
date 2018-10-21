@@ -268,4 +268,18 @@ function Mapa()
         var ganhoComercio = este.comercio.ganhoTotal();
         return ganhoComercio;
     };
+    this.numeroFranquias = function() {
+        return este.comercio.franquias;
+    }
+    this.numeroFornecedores = function() {
+        return este.fornecedores.fornecedores;
+    }
+    this.numeroIndustrias = function() {
+        return este.industria.industrias;
+    }
+    this.setNumeros = function(fr, fo, i){
+        este.comercio.franquias = fr;
+        este.fornecedores.fornecedores = fo;
+        este.industria.industrias = i;
+    }
 }

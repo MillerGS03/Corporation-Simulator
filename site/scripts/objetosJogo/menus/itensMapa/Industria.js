@@ -2,7 +2,6 @@ function Industria(aquele)
 {
 	var esteI = this;
 	var telaAtualI = -1;
-	var primeiraVez = true;
 	var fat = 5;
 	var qtdDeIndustriasConstrucao = 1;
 	var qtdDeIndustriasDemolicao = 1;
@@ -11,6 +10,7 @@ function Industria(aquele)
 	this.industrias = 0;
 	this.mp = 0;
 	this.custo = 10/(fat==0?1:fat);
+	var primeiraVez = (this.industrias>0?false:true);
 
 	this.btnVoltar = new BotaoRetangular(esteI.x + 120, esteI.y + 130, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);

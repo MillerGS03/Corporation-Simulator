@@ -9,20 +9,21 @@ Email ntext not null,
 FotoPerfil varbinary(max),
 ImagemBanner varbinary(max),
 CorBanner varchar(7),
-CorFundo varchar(7),
-NumeroDeJogos int not null,
-NumeroDeSimulacoes int not null
+CorFundo varchar(7)
 )
 insert into Usuario values('Scherer', '01010001', 'Felipe', 'M', 'sla', 'fsvicentin@hgta.com', 
-convert(varbinary, 'abcdefg'), convert(varbinary, 'abcdefg'), '#ffffff', '#fffff', 0, 0)
+convert(varbinary, 'abcdefg'), convert(varbinary, 'abcdefg'), '#ffffff', '#fffff')
 insert into Usuario values('Miller', 'aaaaaaaa', 'GustaGOD', 'M', 'aaaaa', 'gustavinho@hgta.com', 
-convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
+convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521')
 insert into Usuario values('Felipe', 'bbbbb', 'Vinsssss', 'M', '435asd', 'afadfe@hgta.com', 
-convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521', 0, 0)
+convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521')
 delete Usuario where codUsuario = 3
 select * from Usuario
+select * from Simulacao
 select * from Jogo
+update Jogo set Caixa = 123451 where CodJogo = 1
 delete from Jogo
+delete from Simulacao
 
 create table Jogo (
 CodJogo int identity(1,1) primary key,
@@ -31,15 +32,15 @@ CodUsuario int not null,
 constraint fkUsuarioJogo foreign key(CodUsuario) references Usuario(CodUsuario),
 XP int not null,
 Data datetime not null,
-Caixa money not null,
-ContaBancoMovimento money not null,
+Caixa int not null,
+ContaBancoMovimento int not null,
 NumeroFranquias int not null,
 NumeroIndustrias int not null,
 NumeroFornecedores int not null
 )
 
 create table Simulacao (
-CodSimulacao int primary key,
+CodSimulacao int identity(1,1) primary key,
 CodUsuario int not null,
 constraint fkUsuarioSimulacao foreign key(CodUsuario) references Usuario(CodUsuario),
 DataCriacao datetime not null,

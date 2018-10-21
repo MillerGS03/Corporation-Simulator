@@ -14,6 +14,14 @@ function iniciarSelecionar()
         validarCriacao();
         testarOpcao();
     });
+    $("#nomeJogo").on('keypress', function(e) {
+        if (e.which == 13)
+            {
+                validarCriacao();
+                testarOpcao();
+                return false;
+            }
+    });
     $("#select").on("mousemove", criarEfeitoSelect);
     $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
@@ -86,7 +94,7 @@ function iniciarSelecionar()
         $("#select").empty();
         s.add(primeiraOpcao);
         $.ajax({
-            url:'http://localhost:3000/jogos/' + cod
+            url:'http://localhost:3000/jogos/' + user.CodUsuario
         }).done(function(dados){
             $.each(dados, function(dado){
                 var o = document.createElement("option");
@@ -111,10 +119,12 @@ function iniciarSelecionar()
         $("#select").off("change", testarOpcao);
         $("#select").off("mouseleave", apagarEfeitoSelect);
         $("#btnCarregar").off("click", carregarJogo);
+        var nomeJogo = document.getElementById('select').options[document.getElementById('select').selectedIndex].value;
         ctxSelect = null;
         canvasSelect = null;
-
-        abrirInfo("jogo.html");
+        $.ajax({
+            url: 'http://localhost:3000/jogo/' + nomeJogo
+        }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
     }
     function validarCriacao()
     {
@@ -138,7 +148,7 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://localhost:3000/addJogo/' + cod + '/' + txt);
+        $.post('http://localhost:3000/addJogo/' + user.CodUsuario + '/' + txt);
         setTimeout(addOptions, 10);
     }
 }

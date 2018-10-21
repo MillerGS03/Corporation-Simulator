@@ -50,14 +50,14 @@ function Construcao()
         if (jaTem)
             alert("Você já tem esse item!");
         else 
-            fazerCompra(item.nome, item.preco, true, true, 4, function() {
-                construcao.abrirFechar();
-                itensConstruidos.push(item);
-                for (var i = 0; i < itensConstruidos.length; i++)
-                    itensConstruidos[i].passarItens(itensConstruidos);
-                itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
-                desativarBotoes();
-            })
+        {
+            construcao.abrirFechar();
+            itensConstruidos.push(item);
+            for (var i = 0; i < itensConstruidos.length; i++)
+                itensConstruidos[i].passarItens(itensConstruidos);
+            itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
+            desativarBotoes();
+        }
     }
     this.desenhar = function() {
 

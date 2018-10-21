@@ -106,12 +106,14 @@ function ItemConstruido(informacoes, isPrimeiro)
         $("#meuCanvas").off("mousemove", funcaoPosicionamento);
         $("#meuCanvas").off("click", pararDeSeguirMouse);
 
-        if (!este.posicaoValida || !tocando)
-            itens.pop();
-        else
+        itens.pop();
+        if (este.posicaoValida && tocando)
         {
-            botoes.push(este.botao);
-            barra.dinheiro -= este.preco;
+            fazerCompra(este.nome, este.preco, false, true, 3, function() {
+                itens.push(este);
+                botoes.push(este.botao);
+                ativarBotoes();
+            })
         }
         testandoPosicionamento = false;
         ativarBotoes();

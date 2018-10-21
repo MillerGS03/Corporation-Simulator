@@ -1,27 +1,56 @@
 function verificarCampos()
 {
+	var nome = document.getElementsByName('nome')[0];
+	var email = document.getElementsByName('email')[0];
+	var radiosSexo = document.getElementsByName('sexo');
+	var username = document.getElementsByName('username')[0];
+	var senha1 = document.getElementsByName('senha')[0];
+	var senha2 = document.getElementsByName('confSenha')[0];
+
 	var houveErro = false;
 
-	if (!testarTamanho(document.getElementsByName('nome')[0], 3, "Nome", "Mínimo de 3 caracteres"))
+	if (!testarTamanho(nome, 3, "Nome", "Mínimo de 3 caracteres"))
 		houveErro = true;
-	if (!testarFormato(document.getElementsByName('email')[0],
+	if (!testarFormato(email,
 				 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 				 "Email",
 				 "Formato Inválido"))
 		houveErro = true;
-	if (!testarRadioSelecionado(document.getElementsByName('sexo'), "Sexo", "Selecione uma opção"))
+	if (!testarRadioSelecionado(radiosSexo, "Sexo", "Selecione uma opção"))
 		houveErro = true;
-	if (!testarTamanho(document.getElementsByName('username')[0], 7, "Username", "Mínimo de 7 caracteres"))
+	if (!testarTamanho(username, 7, "Username", "Mínimo de 7 caracteres"))
 		houveErro = true;
-	if (!testarTamanho(document.getElementsByName('senha')[0], 7, "Senha", "Mínimo de 7 caracteres"))
+	if (!testarTamanho(senha1, 7, "Senha", "Mínimo de 7 caracteres"))
 		houveErro = true;
-	if (!testarIgualdade(document.getElementsByName('confSenha')[0], document.getElementsByName('senha')[0], "Confirmar senha", "Senhas diferentes"))
+	if (!testarIgualdade(senha2, senha1, "Confirmar senha", "Senhas diferentes"))
 		houveErro = true;
 
 	if (!houveErro)
 	{
 		document.getElementById("corrija").textContent = "";
-		abrir("html/informacoes.html");
+		$.get('http://localhost:3000/getCodUsuario/' + username.value, function(resposta) {
+			alert(resposta.length);
+			if (resposta.length == 0)
+			{
+				$.post('http://localhost:3000/usuario/',
+				{
+					Username: username.value,
+					Senha: senha1.value,
+					Nome: nome.value,
+					Sexo: radiosSexo[0].checked?radiosSexo[0].value:radiosSexo[1].value,
+					Biografia: null,
+					Email: email.value,
+					FotoPerfil: null,
+					ImagemBanner: null,
+					CorBanner: null,
+					CorFundo: null,
+				},
+				function(){
+					abrir("html/home.html");
+					alert("Registro efetuado. Faça login para continuar!");
+				});
+			}
+		});
 	}
 	else
 		document.getElementById("corrija").textContent = "Corrija os itens em vermelho para continuar";

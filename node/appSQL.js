@@ -54,7 +54,6 @@ rota.delete('/usuario/:id', (requisicao, resposta) =>{
 })
 
 rota.post('/usuario', (requisicao, resposta) =>{
-    const CodUsuario = parseInt(requisicao.params.id);
     const Username = requisicao.body.Username.substring(0, 30);
     const Senha = requisicao.body.Senha;
     const Nome = requisicao.body.Nome.substring(0, 50);
@@ -65,11 +64,9 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const ImagemBanner = requisicao.body.ImagemBanner;
     const CorBanner = requisicao.body.CorBanner.substring(0, 7);
     const CorFundo = requisicao.body.CorFundo.substring(0, 7);
-    const NumeroDeJogos = requisicao.body.NumeroDeJogos;
-    const NumeroDeSimulacoes = requisicao.body.NumeroDeSimulacoes;
-    execSQL(`INSERT INTO usuario VALUES(${CodUsuario},'${Username}','${Senha}', '${Nome}', '${Sexo}',
+    execSQL(`INSERT INTO usuario VALUES('${Username}','${Senha}', '${Nome}', '${Sexo}',
                                         '${Biografia}', '${Email}', '${FotoPerfil}', '${ImagemBanner}', '${CorBanner}',
-                                        '${CorFundo}', '${NumeroDeJogos}, '${NumeroDeSimulacoes}')`, resposta);
+                                        '${CorFundo}'`, resposta);
     resposta.end(resposta.json({ mensagem: 'Incluído!'}));    
 })
 
@@ -85,12 +82,10 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const ImagemBanner = requisicao.body.ImagemBanner;
     const CorBanner = requisicao.body.CorBanner.substring(0, 7);
     const CorFundo = requisicao.body.CorFundo.substring(0, 7);
-    const NumeroDeJogos = requisicao.body.NumeroDeJogos;
-    const NumeroDeSimulacoes = requisicao.body.NumeroDeSimulacoes;
     execSQL(`UPDATE usuario SET CodUsuario='${CodUsuario}', Username='${Username}', Senha='${Senha}',
                                 Nome='${Nome}', Sexo='${Sexo}', Biografia='${Biografia}', Email='${Email}',
                                 FotoPerfil='${FotoPerfil}', ImagemBanner='${ImagemBanner}', CorBanner='${CorBanner}',
-                                CorFundo='${CorFundo}', NumeroDeJogos='${NumeroDeJogos}', NumeroDeSimulacoes='${NumeroDeSimulacoes}'
+                                CorFundo='${CorFundo}'
                                 WHERE CodUsuario=${CodUsuario}`, resposta);
     resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
 })

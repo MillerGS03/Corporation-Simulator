@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();         
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({dest: "./uploads"});
 const porta = 3000; //porta padrão
 const sql = require('mssql');
 const conexaoStr = "Server=regulus.cotuca.unicamp.br;Database=PR118178;User Id=PR118178;Password=MillerScherer1;";
@@ -39,7 +41,7 @@ function execSQL(sql, resposta) {
 
 //o simbolo ? indica que id na rota abaixo é opcional
 rota.get('/usuario/:id?', (requisicao, resposta) => {
-	let filtro = '';
+  let filtro = '';
 	if (requisicao.params.id) 
 		filtro = ' WHERE CodUsuario=' + parseInt(requisicao.params.id);
 	execSQL('SELECT * from usuario' + filtro, resposta);

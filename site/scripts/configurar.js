@@ -4,7 +4,6 @@ var senhaAtual = "teste";
 
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
-	$("#mudarImagem").css("top", "200px");
 });
 $("#foto").on("mouseleave", function() {
 	$("#mudarImagem").css("visibility", "hidden");
@@ -13,9 +12,8 @@ $("#newImage").on("change", function () {
 	arquivoI = document.getElementById("newImage").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 15vw 15vw;');
-		// mandar aqui a imagem para o banco de dados
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
 	};
 	r.readAsDataURL(arquivoI);
 });
@@ -24,7 +22,6 @@ $("#mudarImagem").on("click", function() {
 });
 $("#banner").on("mouseenter", function() {
 	$("#mudarBanner").css("visibility", "visible");
-	$("#mudarBanner").css("top", "170px");
 });
 $("#banner").on("mouseleave", function() {
 	$("#mudarBanner").css("visibility", "hidden");
@@ -33,12 +30,11 @@ $("#newBanner").on("change", function () {
 	arquivoB = document.getElementById("newBanner").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 200px 250px;');
-		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 400px 500px;');
-		// mandar aqui a imagem para o banco de dados
+		$("#banner").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100% 100%;');
+		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100% 100%;');
 	};
 	r.readAsDataURL(arquivoB);
-	update();
+	atualizar();
 });
 $("#mudarBanner").on("click", function() {
 	$("#newBanner").trigger("click");
@@ -62,23 +58,22 @@ $("#exibir3").on("mouseup", function (){
 	mostrarSenha('confSenha');
 });
 $("#rightPage").on("click", function () {
-	$("#conteudo").load("configurar2.html");
+	abrirInfo("configurar2.html");
 	setTimeout(mudarCorConteudo, 5);
 });
 $("#leftPage").on("click", function () {
-	$("#conteudo").load("configurar.html");
+	abrirInfo("configurar.html");
 	setTimeout(mudarCorMenu, 5);
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 300px 300px;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 250px 250px;');
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
 	};
 	r.readAsDataURL(arquivoI);
 });
 $("#backColor").on("change", function(){
 	var cor = document.getElementById("backColor").value;
-	$("body").css("background-color", cor);
-	$("#conteudo").css("background-color", cor);
+	$("#conteudoInfo").css("background-color", cor);
 })
 $("#backColorB").on("change", function(){
 	var cor = document.getElementById("backColorB").value;
@@ -112,7 +107,7 @@ function mostrarSenha(id)
         x.type = "password";
     }
 }
-function Atualizar()
+function atualizar()
 {
 	var username = document.getElementsByName("username")[0].value;
 	var nome = document.getElementsByName("nome")[0].value;
@@ -145,7 +140,7 @@ function verificarCampos()
 	if (!houveErro)
 	{
 		document.getElementById("corrija").textContent = "";
-		Atualizar();
+		atualizar();
 		alert('Informações atualizadas com sucesso!');
 	}
 	else
@@ -237,7 +232,7 @@ function mudarCorConteudo()
   		const hex = x.toString(16)
   		return hex.length === 1 ? '0' + hex : hex
 	}).join('')
-	var rgb = $("#conteudo").css("background-color");
+	var rgb = $("#conteudoInfo").css("background-color");
 
 	rgb = rgb.substring(4, rgb.length-1).replace(/ /g, '').split(',');
 	var cor = rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]));
@@ -262,7 +257,7 @@ function carregarFoto()
 function carregarBanner()
 {
 	var img = $('#menu').css('background');
-	$("#banner").attr('style', 'background: '+img+';background-size: 200px 250px;');
+	$("#banner").attr('style', 'background: '+img+';background-size: 100% 100%;');
 }
 setTimeout(mudarCorMenu, 5);
 carregarFoto();

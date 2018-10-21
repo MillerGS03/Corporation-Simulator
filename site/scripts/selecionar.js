@@ -14,6 +14,14 @@ function iniciarSelecionar()
         validarCriacao();
         testarOpcao();
     });
+    $("#nomeJogo").on('keypress', function(e) {
+        if (e.which == 13)
+            {
+                validarCriacao();
+                testarOpcao();
+                return false;
+            }
+    });
     $("#select").on("mousemove", criarEfeitoSelect);
     $("#select").on("change", testarOpcao);
     $("#select").on("mouseleave", apagarEfeitoSelect);
@@ -85,7 +93,6 @@ function iniciarSelecionar()
         var primeiraOpcao = s.options[0]
         $("#select").empty();
         s.add(primeiraOpcao);
-        console.log(user)
         $.ajax({
             url:'http://localhost:3000/jogos/' + user.CodUsuario
         }).done(function(dados){
@@ -141,7 +148,7 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://localhost:3000/addJogo/' + cod + '/' + txt);
+        $.post('http://localhost:3000/addJogo/' + user.CodUsuario + '/' + txt);
         setTimeout(addOptions, 10);
     }
 }

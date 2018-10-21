@@ -107,13 +107,20 @@ rota.get('/jogos/:cod', (requisicao, resposta) => {
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
-  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '1/1/2001', 5000, 0, 0, 0, 0)`, resposta);
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '1/1/2001', 20000, 0, 0, 0, 0)`, resposta);
 })
 
 rota.post('/jogo/:cod', (requisicao, resposta) => {
   const codJogo = requisicao.params.cod;
-  console.log(requisicao.body)
-  //execSQL(`update Jogo where CodJogo=${codJogo}`, resposta)
+  const a = requisicao.body;
+  const xp = parseInt(a.XP);
+  const caixa = parseInt(a.Caixa);
+  const nF = parseInt(a.NumeroFranquias);
+  const nFo = parseInt(a.NumeroFornecedores);
+  const nI = parseInt(a.NumeroIndustrias);
+  execSQL(`update Jogo set XP=${xp}, Data='${a.Data}', Caixa=${caixa}, 
+  NumeroFranquias=${nF}, NumeroFornecedores=${nFo},
+  NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
 })
 
 rota.get('/jogo/:nome', (requisicao, resposta) => {

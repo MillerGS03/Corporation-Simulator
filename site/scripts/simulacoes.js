@@ -91,13 +91,18 @@ function iniciarSelecionar()
     function addOptions()
     {
         var s = document.getElementById("select");
-        var numeroDeSimulacoes = 3 //pegar do bd
-        for (var i = 1; i <= numeroDeSimulacoes; i++)
-        {
-            var o = document.createElement("option");
-            o.text = "ola";
-            s.add(o);
-        }
+        var primeiraOpcao = s.options[0]
+        $("#select").empty();
+        s.add(primeiraOpcao);
+        $.ajax({
+            url:'http://localhost:3000/simulacoes/' + user.CodUsuario
+        }).done(function(dados){
+            $.each(dados, function(dado){
+                var o = document.createElement("option");
+                o.text = dados[dado].Nome;
+                s.add(o);
+            })
+        })
     }
 
     function testarOpcao()
@@ -136,11 +141,9 @@ function iniciarSelecionar()
     }
     function adicionarUmaOpcao(txt)
     {
+        document.getElementById("nomeSimulacao").value = "";
         $("#btnSair").trigger('click');
-        var s = document.getElementById("select");
-        var o = document.createElement("option");
-        o.text = txt;
-        s.add(o);
-        s.options[++numeroDeJogos].selected = true;
+        $.post('http://localhost:3000/addSimulacao/' + user.CodUsuario + '/' + txt);
+        setTimeout(addOptions, 10);
     }
 }

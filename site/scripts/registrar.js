@@ -28,8 +28,7 @@ function verificarCampos()
 	if (!houveErro)
 	{
 		document.getElementById("corrija").textContent = "";
-		$.get('http://localhost:3000/getCodUsuario/' + username.value, function(resposta) {
-			alert(resposta.length);
+		$.get('http://localhost:3000/getUsuario/' + username.value, function(resposta) {
 			if (resposta.length == 0)
 			{
 				$.post('http://localhost:3000/usuario/',
@@ -38,18 +37,20 @@ function verificarCampos()
 					Senha: senha1.value,
 					Nome: nome.value,
 					Sexo: radiosSexo[0].checked?radiosSexo[0].value:radiosSexo[1].value,
-					Biografia: null,
+					Biografia: "null",
 					Email: email.value,
-					FotoPerfil: null,
-					ImagemBanner: null,
-					CorBanner: null,
-					CorFundo: null,
+					FotoPerfil: "null",
+					ImagemBanner: "null",
+					CorBanner: "null",
+					CorFundo: "null",
 				},
 				function(){
 					abrir("html/home.html");
 					alert("Registro efetuado. Faça login para continuar!");
 				});
 			}
+			else
+				alert("Nome de usuário já tomado!");
 		});
 	}
 	else

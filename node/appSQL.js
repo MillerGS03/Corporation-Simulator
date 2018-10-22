@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({dest: "./uploads"});
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 const porta = 3000; //porta padrão
 const sql = require('mssql');
 const conexaoStr = "Server=regulus.cotuca.unicamp.br;Database=PR118178;User Id=PR118178;Password=MillerScherer1;";
@@ -46,6 +48,13 @@ rota.get('/usuario/:id?', (requisicao, resposta) => {
 		filtro = ' WHERE CodUsuario=' + parseInt(requisicao.params.id);
 	execSQL('SELECT * from usuario' + filtro, resposta);
 })
+rota.post('/autenticar', (requisicao, resposta) => {
+  const SenhaDigitada = requisicao.body.SenhaDigitada;
+  const Hash = requisicao.body.Hash;
+  bcrypt.compare(SenhaDigitada, Hash, function(err, res) {
+    resposta.json(res);
+});
+})
 
 // testar no POSTMAN
 rota.delete('/usuario/:id', (requisicao, resposta) =>{
@@ -64,8 +73,10 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const ImagemBanner = requisicao.body.ImagemBanner;
     const CorBanner = requisicao.body.CorBanner.substring(0, 7);
     const CorFundo = requisicao.body.CorFundo.substring(0, 7);
-    execSQL(`insert into Usuario values('${Username}', '${Senha}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
-    ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
+    bcrypt.hash(Senha, saltRounds, (err, hash) => {
+      execSQL(`insert into Usuario values('${Username}', '${hash}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
+              ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
+    });
 })
 
 rota.patch('/usuario/:id', (requisicao, resposta) =>{

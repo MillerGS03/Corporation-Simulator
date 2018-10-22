@@ -1,19 +1,20 @@
 <link rel="stylesheet" type="text/css" href="estilo/estiloHome.css">
+<script src="scripts/home.js"></script>
 
 <div id="login">
 	<h1>Login</h1>
 
 	<label>
 		&nbsp;&nbsp;&nbsp;Username <br>
-		<input type="text" name="" placeholder="Insira seu nome de usuário" maxlength="30">
+		<input type="text" name="" placeholder="Insira seu nome de usuário" maxlength="30" id="username">
 	</label>
 	<br>
 	<label>
 		&nbsp;&nbsp;&nbsp;Senha <br>
-		<input type="password" name="" placeholder="Insira sua senha">
+		<input type="password" name="" placeholder="Insira sua senha" id="senha">
 	</label>
 	<div id="botoes">
-		<a onclick="abrir('html/Informacoes.html')" class="botaoLogin" id="botaoEntrar">Entrar</a>
+		<a onclick="logar()" class="botaoLogin" id="botaoEntrar">Entrar</a>
 		<br>
 		<span>ou</span>
 		<br>

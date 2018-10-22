@@ -1,10 +1,10 @@
 Planejamento
 
 19/10 - 26/10:
-- Atualizar o BD
-- Registro e login
-- Criação de simulações
-- Criação de jogos
+X Atualizar o BD
+X Registro e login 
+X Criação de simulações
+X Criação de jogos
 - Início do jogo (mesclado com manual)
 - Texto de contabilidade
 - Pensar nos eventos de acordo com data

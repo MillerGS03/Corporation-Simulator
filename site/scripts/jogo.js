@@ -192,7 +192,7 @@ function atualizar()
 {
 	desenharFundo();
 	barra.desenhar();
-	for (var i = 0; i < 5; i++)
+	for (var i = 0; i < botoes.length; i++)
 		if (botoes != null && botoes[i] != null)
 			botoes[i].desenhar();
 	for (var i = 0; i < itensConstruidos.length; i++)
@@ -377,4 +377,5 @@ function carregarDados()
 			botoes.push(itensConstruidos[i].botao)
 		}
 	})
+	setTimeout(ativarBotoes, 30);
 }

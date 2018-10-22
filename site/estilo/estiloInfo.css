@@ -76,6 +76,30 @@ a
 	cursor:pointer;
 	transition: background-color 0.2s ease-out;
 }
+.active
+{
+	position: absolute;
+	width: 23.9vw;
+	height: 7.8vh;
+	font-family: "Century Gothic";
+	font-size: 1.4vw;
+	line-height: 7.8vh;
+	vertical-align: middle;
+	text-align: center;
+	background-color: rgb(36, 36, 165);
+	color: white;
+	font-weight: bold;
+	cursor:pointer;
+	transition: background-color 0.2s ease-out;
+}
+.active:hover
+{
+	background-color: rgb(36, 36, 165);
+	color: white;
+	font-weight: bold;
+	cursor:pointer;
+	transition: background-color 0.2s ease-out;
+}
 #configuracoes
 {
 	top: 53.3vh;

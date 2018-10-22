@@ -112,6 +112,11 @@ function ItemConstruido(informacoes, isPrimeiro)
             fazerCompra(este.nome, este.preco, false, true, 3, function() {
                 itens.push(este);
                 botoes.push(este.botao);
+                var novoItem = new Object();
+                novoItem.ItemConstruido = este.nome;
+                novoItem.X = este.x;
+                novoItem.Y = este.y;
+                $.post('http://localhost:3000/construir/' + jogo.CodJogo, novoItem);
                 ativarBotoes();
             })
         }

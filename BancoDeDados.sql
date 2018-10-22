@@ -11,17 +11,11 @@ ImagemBanner varbinary(max),
 CorBanner varchar(7),
 CorFundo varchar(7)
 )
-insert into Usuario values('Scherer', '01010001', 'Felipe', 'M', 'sla', 'fsvicentin@hgta.com', 
-convert(varbinary, 'abcdefg'), convert(varbinary, 'abcdefg'), '#ffffff', '#fffff')
-insert into Usuario values('Miller', 'aaaaaaaa', 'GustaGOD', 'M', 'aaaaa', 'gustavinho@hgta.com', 
-convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521')
-insert into Usuario values('Felipe', 'bbbbb', 'Vinsssss', 'M', '435asd', 'afadfe@hgta.com', 
-convert(varbinary, '12e'), convert(varbinary, '23425425ds'), '#ffff23', '#243521')
-delete Usuario where codUsuario = 3
+delete from Usuario
 select * from Usuario
 select * from Simulacao
 select * from Jogo
-update Jogo set Caixa = 123451 where CodJogo = 1
+update Jogo set XP = 100 where CodJogo = 1
 delete from Jogo
 delete from Simulacao
 
@@ -31,6 +25,7 @@ Nome varchar(30),
 CodUsuario int not null,
 constraint fkUsuarioJogo foreign key(CodUsuario) references Usuario(CodUsuario),
 XP int not null,
+Nivel int not null,
 Data datetime not null,
 Caixa int not null,
 ContaBancoMovimento int not null,
@@ -38,6 +33,17 @@ NumeroFranquias int not null,
 NumeroIndustrias int not null,
 NumeroFornecedores int not null
 )
+create table ConstrucaoJogo(
+CodConstrucao int identity(1,1) primary key,
+CodJogo int not null,
+constraint fkConstrucaoJogo foreign key(CodJogo) references Jogo(CodJogo),
+ItemConstruido varchar(50) not null,
+X int not null,
+Y int not null
+)
+select * from ConstrucaoJogo
+delete from ConstrucaoJogo
+drop table ConstrucaoJogo
 
 create table Simulacao (
 CodSimulacao int identity(1,1) primary key,

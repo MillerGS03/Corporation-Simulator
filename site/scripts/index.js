@@ -1,5 +1,6 @@
 var arquivoAberto = "";
 var fatorTamanho = 1;
+var user;
 
 function testarAncora()
 {

@@ -1,4 +1,6 @@
-﻿/**
+﻿//import { setTimeout } from "timers";
+
+/**
  * Variável contendo o elemento canvas;
  * @type {HTMLCanvasElement}
  */
@@ -65,7 +67,6 @@ function iniciar()
 	barra.onNivelMudou = function() {
 		construcao.setNivel(barra.nivel);
 	}
-
 	painelNotificacoes = new PainelNotificacoes();
 
 	mapa = new Mapa();
@@ -76,43 +77,46 @@ function iniciar()
 	rua = new Rua();
 	rua.iniciarMovimentacao(true);
 
-	criarBotoes();
-	ativarBotoes();
-	atualizar();
-
-	contador = 0;
-	timerDias = setInterval(function() {
-		contador++;
-		if (contador % 10 == 0)
-		{
-			passarDia();
-			atualizar();
-			barra.ganharXP(1);
-		}
-		if (contador % 200 == 0)
-			painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", calendario.dia, calendario.mes, calendario.ano);
-	}, 50);
-
-	$("#meuCanvas").on("mousemove", (function(e){
-		if (e.bubbles)
-		{
-			var rect = e.target.getBoundingClientRect();
-	
-			xMouse = (e.clientX - rect.left) / fatorEscala;
-			yMouse = (e.clientY - rect.top) / fatorEscala;
-		}
-	})); 
-
-	calendario.adicionarEvento(25, 2, 1, 1);
-
 	carregarDados();
+
+	setTimeout(function(){
+		criarBotoes();
+		ativarBotoes();
+		atualizar();
+	
+		contador = 0;
+		timerDias = setInterval(function() {
+			contador++;
+			if (contador % 10 == 0)
+			{
+				passarDia();
+				atualizar();
+				barra.ganharXP(1);
+			}
+			if (contador % 200 == 0)
+				painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", calendario.dia, calendario.mes, calendario.ano);
+		}, 50);
+	
+		$("#meuCanvas").on("mousemove", (function(e){
+			if (e.bubbles)
+			{
+				var rect = e.target.getBoundingClientRect();
+		
+				xMouse = (e.clientX - rect.left) / fatorEscala;
+				yMouse = (e.clientY - rect.top) / fatorEscala;
+			}
+		})); 
+	
+		calendario.adicionarEvento(25, 2, 1, 1);
+	}, 10)
 }
 function finalizarJogo()
 {
 	$("#meuCanvas").off();
 	clearInterval(timerDias);
 	var atualizar = new Object();
-	atualizar.XP = parseInt(barra.xpTotal());
+	atualizar.XP = parseInt(barra.xp);
+	atualizar.Nivel = parseInt(barra.nivel);
 	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
 	atualizar.Caixa = parseInt(barra.dinheiro);
 	//atualizar.ContaBancoMovimento = (pegar dinheiro depositado no banco)
@@ -123,9 +127,6 @@ function finalizarJogo()
 }
 function criarBotoes() 
 {
-	botoes = new Array();
-	itensConstruidos = new Array();
-
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
 		"bold 13pt Century Gothic", "#232323", "Estatísticas", true, false, false);
@@ -192,7 +193,11 @@ function atualizar()
 	desenharFundo();
 	barra.desenhar();
 	for (var i = 0; i < 5; i++)
-		botoes[i].desenhar();
+		if (botoes != null && botoes[i] != null)
+			botoes[i].desenhar();
+	for (var i = 0; i < itensConstruidos.length; i++)
+		if (itensConstruidos[i].menuVisivel)
+			itensConstruidos[i].menu.desenhar();
 	painelNotificacoes.desenhar();
 	mapa.desenhar();
 	calendario.desenhar();
@@ -233,9 +238,6 @@ function desenharFundo()
 
 	for (var i = 0; i < itensConstruidos.length; i++)
 		itensConstruidos[i].desenhar();
-	for (var i = 0; i < itensConstruidos.length; i++)
-		if (itensConstruidos[i].menuVisivel)
-			itensConstruidos[i].menu.desenhar();
 }
 function passarDia()
 {
@@ -326,7 +328,8 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
 }
 function carregarDados()
 {
-	barra.ganharXP(jogo.XP);
+	itensConstruidos = new Array();
+	botoes = new Array();
 	var aux = jogo.Data;
 	var ano = parseInt(aux.substring(0, 4)) - 2000;
 	var mes = parseInt(aux.substring(5, 7));
@@ -335,6 +338,43 @@ function carregarDados()
 	calendario.mes = mes;
 	calendario.ano = ano;
 	barra.dinheiro = parseInt(jogo.Caixa);
+	barra.nivel = parseInt(jogo.Nivel);
+	barra.ganharXP(jogo.XP);
 	//adicionar dinheiro que estava depositado no banco
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
+	$.ajax({
+		url: 'http://localhost:3000/construcao/' + jogo.CodJogo
+	}).done(function(dados){
+		for (var i = 0; i < dados.length; i++)
+		{
+			switch(dados[i].ItemConstruido)
+			{
+				case 'Armazém':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.armazem, false);
+				break;
+	
+				case 'Garagem':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.garagem, false);
+				break;
+	
+				case 'Operacional':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.operacional, false);
+				break;
+	
+				case 'R. Humanos':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.recursosHumanos, false);
+				break;
+	
+				case 'Marketing':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.marketing, false);
+				break;
+			}
+			itensConstruidos[i].setX(dados[i].X);
+			itensConstruidos[i].setY(dados[i].Y);
+			itensConstruidos[i].passarItens(itensConstruidos);
+		}
+		for(var i = 0; i < itensConstruidos.length; i++){
+			botoes.push(itensConstruidos[i].botao)
+		}
+	})
 }

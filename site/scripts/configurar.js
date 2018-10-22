@@ -34,7 +34,7 @@ $("#newBanner").on("change", function () {
 		$("#menu").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100% 100%;');
 	};
 	r.readAsDataURL(arquivoB);
-	atualizar();
+	atualizarConfigs();
 });
 $("#mudarBanner").on("click", function() {
 	$("#newBanner").trigger("click");
@@ -107,7 +107,7 @@ function mostrarSenha(id)
         x.type = "password";
     }
 }
-function atualizar()
+function atualizarConfigs()
 {
 	var username = document.getElementsByName("username")[0].value;
 	var nome = document.getElementsByName("nome")[0].value;
@@ -140,7 +140,7 @@ function verificarCampos()
 	if (!houveErro)
 	{
 		document.getElementById("corrija").textContent = "";
-		atualizar();
+		atualizarConfigs();
 		alert('Informações atualizadas com sucesso!');
 	}
 	else

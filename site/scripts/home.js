@@ -10,7 +10,10 @@ function logar() {
                 var hash = resposta[0].Senha;
                 $.post('http://localhost:3000/autenticar/', {SenhaDigitada: senha, Hash: hash}, function(res) {
                     if (res)
+                    {
                         abrir("html/informacoes.html");
+                        user = resposta[0];
+                    }
                     else
                         alert("Senha inválida!");
                 })

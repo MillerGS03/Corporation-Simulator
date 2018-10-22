@@ -111,18 +111,19 @@ rota.get('/jogos/:cod', (requisicao, resposta) => {
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
-  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '1/1/2001', 20000, 0, 0, 0, 0)`, resposta);
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, 1, '1/1/2001', 20000, 0, 0, 0, 0)`, resposta);
 })
 
 rota.post('/jogo/:cod', (requisicao, resposta) => {
   const codJogo = requisicao.params.cod;
   const a = requisicao.body;
   const xp = parseInt(a.XP);
+  const lvl = parseInt(a.Nivel);
   const caixa = parseInt(a.Caixa);
   const nF = parseInt(a.NumeroFranquias);
   const nFo = parseInt(a.NumeroFornecedores);
   const nI = parseInt(a.NumeroIndustrias);
-  execSQL(`update Jogo set XP=${xp}, Data='${a.Data}', Caixa=${caixa}, 
+  execSQL(`update Jogo set XP=${xp}, Nivel=${lvl}, Data='${a.Data}', Caixa=${caixa}, 
   NumeroFranquias=${nF}, NumeroFornecedores=${nFo},
   NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
 })
@@ -150,4 +151,15 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   } 
   today = mm + '/' + dd + '/' + yyyy;
   execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}')`, resposta);
+})
+rota.post('/construir/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  const Nome = requisicao.body.ItemConstruido;
+  const X = requisicao.body.X;
+  const Y = requisicao.body.Y;
+  execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y})`, resposta);
+})
+rota.get('/construcao/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  execSQL(`select * from ConstrucaoJogo where CodJogo = ${codJogo}`, resposta)
 })

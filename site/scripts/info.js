@@ -1,17 +1,7 @@
 var username;
 var conteudoAberto = null;
-var user;
 var jogo;
 
-function acessarDados() 
-{
-	username = "Scherer";
-	$.ajax({
-		url: 'http://localhost:3000/getUsuario/' + username
-	}).done(function(dados){
-		user = dados[0];
-	})
-}
 function colocarDados() {
 	acessarDados();
 	$("#user").text(username);
@@ -26,5 +16,4 @@ function abrirInfo(arq)
 	$('#conteudoInfo').load("html/" + arq);
 	conteudoAberto = arq;
 }
-setTimeout(acessarDados, 10);
 abrirInfo('configurar.html');

@@ -56,6 +56,11 @@ function Construcao()
             for (var i = 0; i < itensConstruidos.length; i++)
                 itensConstruidos[i].passarItens(itensConstruidos);
             itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
+            var novoItem = new Object();
+            novoItem.ItemConstruido = item.nome;
+            novoItem.X = item.x;
+            novoItem.Y = item.y;
+            $.post('http://localhost:3000/construir/' + jogo.CodJogo, novoItem);
             desativarBotoes();
         }
     }

@@ -94,7 +94,7 @@ function iniciarSelecionar()
         $("#select").empty();
         s.add(primeiraOpcao);
         $.ajax({
-            url:'http://localhost:3000/jogos/' + user.CodUsuario
+            url:'http://' + local + ':3000/jogos/' + user.CodUsuario
         }).done(function(dados){
             $.each(dados, function(dado){
                 var o = document.createElement("option");
@@ -123,7 +123,7 @@ function iniciarSelecionar()
         ctxSelect = null;
         canvasSelect = null;
         $.ajax({
-            url: 'http://localhost:3000/jogo/' + nomeJogo
+            url: 'http://' + local + ':3000/jogo/' + nomeJogo
         }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
     }
     function validarCriacao()
@@ -148,7 +148,7 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://localhost:3000/addJogo/' + user.CodUsuario + '/' + txt);
+        $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt);
         setTimeout(addOptions, 10);
     }
 }

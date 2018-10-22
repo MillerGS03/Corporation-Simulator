@@ -123,7 +123,7 @@ function finalizarJogo()
 	atualizar.NumeroFranquias = mapa.numeroFranquias;
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
-	$.post('http://localhost:3000/jogo/' + jogo.CodJogo, atualizar);
+	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
 }
 function criarBotoes() 
 {
@@ -343,7 +343,7 @@ function carregarDados()
 	//adicionar dinheiro que estava depositado no banco
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
-		url: 'http://localhost:3000/construcao/' + jogo.CodJogo
+		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
 	}).done(function(dados){
 		for (var i = 0; i < dados.length; i++)
 		{
@@ -377,5 +377,8 @@ function carregarDados()
 			botoes.push(itensConstruidos[i].botao)
 		}
 	})
-	setTimeout(ativarBotoes, 30);
+	setTimeout(ativarBotoes, 50);
+	setTimeout(ativarBotoes, 500);
+	setTimeout(ativarBotoes, 1000);
+	setTimeout(ativarBotoes, 2000);	
 }

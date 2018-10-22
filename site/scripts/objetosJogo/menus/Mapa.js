@@ -218,6 +218,7 @@ function Mapa()
         este.banco.desativar();
         este.comercio.desativar();
         este.fornecedores.desativar();
+        este.industria.desativar();
         switch (lugarAberto)
         {
             case 0:

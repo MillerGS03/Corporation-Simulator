@@ -4,11 +4,11 @@ function logar() {
 
     if (username && senha)
     {
-        $.get('http://localhost:3000/getUsuario/' + username, function(resposta) {
+        $.get('http://' + local + ':3000/getUsuario/' + username, function(resposta) {
             if (resposta.length > 0)
             {
                 var hash = resposta[0].Senha;
-                $.post('http://localhost:3000/autenticar/', {SenhaDigitada: senha, Hash: hash}, function(res) {
+                $.post('http://' + local + ':3000/autenticar/', {SenhaDigitada: senha, Hash: hash}, function(res) {
                     if (res)
                     {
                         abrir("html/informacoes.html");

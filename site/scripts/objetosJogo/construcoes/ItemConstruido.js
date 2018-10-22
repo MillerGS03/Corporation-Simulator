@@ -116,7 +116,7 @@ function ItemConstruido(informacoes, isPrimeiro)
                 novoItem.ItemConstruido = este.nome;
                 novoItem.X = este.x;
                 novoItem.Y = este.y;
-                $.post('http://localhost:3000/construir/' + jogo.CodJogo, novoItem);
+                $.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
                 ativarBotoes();
             })
         }

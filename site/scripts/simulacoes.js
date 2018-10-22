@@ -95,7 +95,7 @@ function iniciarSelecionar()
         $("#select").empty();
         s.add(primeiraOpcao);
         $.ajax({
-            url:'http://localhost:3000/simulacoes/' + user.CodUsuario
+            url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario
         }).done(function(dados){
             $.each(dados, function(dado){
                 var o = document.createElement("option");
@@ -143,7 +143,7 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeSimulacao").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://localhost:3000/addSimulacao/' + user.CodUsuario + '/' + txt);
+        $.post('http://' + local + ':3000/addSimulacao/' + user.CodUsuario + '/' + txt);
         setTimeout(addOptions, 10);
     }
 }

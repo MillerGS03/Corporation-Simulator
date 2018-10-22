@@ -1,3 +1,4 @@
+const local = 'localhost';
 var arquivoAberto = "";
 var fatorTamanho = 1;
 var user;

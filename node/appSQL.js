@@ -58,7 +58,7 @@ rota.post('/autenticar', (requisicao, resposta) => {
 
 // testar no POSTMAN
 rota.delete('/usuario/:id', (requisicao, resposta) =>{
-	execSQL('DELETE usuario WHERE CodUsuario=' + parseInt(requisicao.params.id), resposta);
+	execSQL('DELETE from usuario WHERE CodUsuario=' + parseInt(requisicao.params.id), resposta);
   resposta.end(resposta.json({ mensagem: 'Deletado!'}));
 })
 
@@ -104,8 +104,17 @@ rota.get('/getUsuario/:username', (requisicao, resposta) => {
   execSQL(`select * from Usuario where Username='${username}'`, resposta);
 })
 
-rota.get('/jogos/:cod', (requisicao, resposta) => {
-  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.cod}`, resposta);
+rota.get('/jogos/:codUsuario', (requisicao, resposta) => {
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario}`, resposta);
+})
+rota.get('/jogos/:codUsuario/:nome', (requisicao, resposta) => {
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome = ${requisicao.params.nome}`, resposta);
+})
+rota.delete('/construcoesJogo/:codUsuario/:nome'), (requisicao, resposta) =>{
+}
+rota.delete('/jogos/:codUsuario/:nome', (requisicao, resposta) =>{
+  execSQL(`Delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
+	execSQL(`DELETE from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}'`, resposta);
 })
 
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
@@ -126,11 +135,6 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
   execSQL(`update Jogo set XP=${xp}, Nivel=${lvl}, Data='${a.Data}', Caixa=${caixa}, 
   NumeroFranquias=${nF}, NumeroFornecedores=${nFo},
   NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
-})
-
-rota.get('/jogo/:nome', (requisicao, resposta) => {
-  const nome = requisicao.params.nome;
-  execSQL(`select * from Jogo where Nome='${nome}'`, resposta);
 })
 
 rota.get('/simulacoes/:cod', (requisicao, resposta) => {

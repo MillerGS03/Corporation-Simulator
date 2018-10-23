@@ -40,7 +40,7 @@
 {
 	position: absolute;
 	top: 60vh;
-	left: 45.5vh;
+	left: 20%;
 	width: 26vh;
 	height: 6.5vh;
 	background-color: white;
@@ -62,6 +62,33 @@
 	transition: color 0.5s;
 	transition: background-color 0.5s;
 }
+
+.btnRemover
+{
+	position: absolute;
+	top: 60vh;
+	right: 20%;
+	width: 26vh;
+	height: 6.5vh;
+	background-color: white;
+	border-radius: 6.5vh;
+	font-size: 2.8vh;
+	font-family: "Century Gothic";
+	color: black;
+	font-weight: bold;
+	visibility: hidden;
+	border: 0.26vh solid black;
+	z-index: 323;
+}
+.btnRemover:hover
+{
+	color: white;
+	background-color: rgb(134, 4, 4);
+	cursor: pointer;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+}
+
 #painelSelecionar
 {
 	position: relative;

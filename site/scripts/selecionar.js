@@ -90,7 +90,7 @@ function iniciarSelecionar()
     function addOptions()
     {
         var s = document.getElementById("select");
-        var primeiraOpcao = s.options[0]
+        var primeiraOpcao = s.options[0];
         $("#select").empty();
         s.add(primeiraOpcao);
         $.ajax({
@@ -110,6 +110,8 @@ function iniciarSelecionar()
         if (s != null && s.selectedIndex > 0) {
             $("#btnCarregar").css("visibility", "visible");
             $("#btnCarregar").on("click", carregarJogo);
+            $("#btnRemover").css("visibility", "visible");
+            $("#btnRemover").on("click", removerOpcao);
         }
     }
 
@@ -123,7 +125,7 @@ function iniciarSelecionar()
         ctxSelect = null;
         canvasSelect = null;
         $.ajax({
-            url: 'http://' + local + ':3000/jogo/' + nomeJogo
+            url: 'http://' + local + ':3000/jogos/' + user.CodUsuario + "/" + nomeJogo
         }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
     }
     function validarCriacao()
@@ -149,6 +151,22 @@ function iniciarSelecionar()
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
         $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt);
-        setTimeout(addOptions, 10);
+        setTimeout(function() {
+            addOptions();
+            $.ajax({
+                url: 'http://' + local + ':3000/jogos/' + user.CodUsuario + "/" + txt
+            }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
+        }, 10);
+
+    }
+    function removerOpcao()
+    {
+        var select = document.getElementById('select');
+        var nomeJogo = select.options[select.selectedIndex].value;
+        $.ajax({
+            url: 'http://' + local + ':3000/jogos/' + `${user.CodUsuario}/${nomeJogo}`,
+            type: 'DELETE',
+        });
+        abrirInfo("selecionar.html");
     }
 }

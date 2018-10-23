@@ -92,6 +92,7 @@ function iniciar()
 				passarDia();
 				atualizar();
 				barra.ganharXP(1);
+				console.log(botoes);
 			}
 			if (contador % 200 == 0)
 				painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", calendario.dia, calendario.mes, calendario.ano);

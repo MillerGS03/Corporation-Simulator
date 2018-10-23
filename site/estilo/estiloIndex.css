@@ -128,6 +128,21 @@ div#fundoJogo div#cortina
 a
 {
 	text-decoration: none;
-	transition: .2s;
+	transition: 0;
 	cursor: pointer;
+}
+#logout
+{
+	position: absolute;
+	right: 3vh;
+	top: 3vh;
+	font-size: 2.2vh;
+	font-family: "Century Gothic";
+	transition: font-size .4s, color .4s;
+	visibility: hidden;
+}
+#logout:hover
+{
+	font-size: 2.3vh;
+	color: white;
 }

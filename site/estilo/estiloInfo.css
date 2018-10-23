@@ -8,7 +8,7 @@
 a
 {
 	text-decoration: none;
-	transition: .2s;
+	transition: 0;
 	cursor: pointer;
 }
 div#menu .tituloMenu

@@ -149,7 +149,6 @@ function Estatisticas()
     		mesAtual = m;
     	}
     };
-    ativarTela();
     this.desenhar = function() {
 
         if (this.aberto)
@@ -195,10 +194,20 @@ function Estatisticas()
         if (this.aberto)
         {
             desativarBotoes();
+            this.btnCustosGanhos.ativarInteracao();
+            this.btnDinheiro.ativarInteracao();
+            this.btnDinheiroTudo.ativarInteracao();
+            this.btnEconomia.ativarInteracao();
+            this.btnVoltar.ativarInteracao();
             this.btnFechar.ativarInteracao();
         }
         else
         {
+            this.btnCustosGanhos.desativarInteracao();
+            this.btnDinheiro.desativarInteracao();
+            this.btnDinheiroTudo.desativarInteracao();
+            this.btnEconomia.desativarInteracao();
+            this.btnVoltar.desativarInteracao();
             this.btnFechar.desativarInteracao();
             this.btnFechar.hovering = false;
             ativarBotoes();

@@ -11,6 +11,8 @@ function logar() {
                 $.post('http://' + local + ':3000/autenticar/', {SenhaDigitada: senha, Hash: hash}, function(res) {
                     if (res)
                     {
+                        setCookie("CodUsuario", resposta[0].CodUsuario, 30);
+                        $("#logout").css("visibility", "visible");
                         abrir("html/informacoes.html");
                         user = resposta[0];
                     }

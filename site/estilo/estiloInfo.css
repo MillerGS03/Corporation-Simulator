@@ -67,38 +67,23 @@ a
 	vertical-align: middle;
 	text-align: center;
 	font-weight: bold;
+	cursor:pointer;
+	transition: background-color 0.2s ease-out;
 }
 .opcao:hover
 {
-	background-color: black;
-	color: white;
-	font-weight: bold;
-	cursor:pointer;
-	transition: background-color 0.2s ease-out;
+	background-color: #cccccc;
+	color: #222222;
 }
 .active
 {
-	position: absolute;
-	width: 23.9vw;
-	height: 7.8vh;
-	font-family: "Century Gothic";
-	font-size: 1.4vw;
-	line-height: 7.8vh;
-	vertical-align: middle;
-	text-align: center;
-	background-color: rgb(36, 36, 165);
+	background-color: #3d8591;
 	color: white;
-	font-weight: bold;
-	cursor:pointer;
-	transition: background-color 0.2s ease-out;
 }
 .active:hover
 {
-	background-color: rgb(36, 36, 165);
-	color: white;
-	font-weight: bold;
-	cursor:pointer;
-	transition: background-color 0.2s ease-out;
+	background-color: #2c6c77;
+	color:white;
 }
 #configuracoes
 {

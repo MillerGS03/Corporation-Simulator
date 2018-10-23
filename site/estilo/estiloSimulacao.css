@@ -42,11 +42,11 @@
 	box-sizing: border-box;
 	padding: 0.13vh 0.7vh;
 }
-#tabelas {left: 6vh;}
-#addConta {left: 31.25vh;}
-#removerConta {left: 56.5vh;}
-#atualizarConta {right: 31.25vh;}
-#previsao {right: 6vh;}
+#tabelas {left: 6.5%;}
+#addConta {left: 24.1%;}
+#removerConta {left: calc(50% - 8.455%);}
+#atualizarConta {right: 24.1%;}
+#previsao {right: 6.5%;}
 
 .modal
 {

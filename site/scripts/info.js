@@ -20,41 +20,16 @@ function abrirInfo(arq)
 	$("#manual").removeClass('active');
 	$("#simulacoes").removeClass('active');
 	$("#jogos").removeClass('active');
-	$("#configuracoes").addClass('opcao');
-	$("#classificacao").addClass('opcao');
-	$("#manual").addClass('opcao');
-	$("#simulacoes").addClass('opcao');
-	$("#jogos").addClass('opcao');
-	switch(arq)
-	{
-		case 'configurar.html':
-			$("#configuracoes").addClass('active');
-			$("#configuracoes").removeClass('opcao');
-		break;
-		case 'classificacao.html':
-			$("#classificacao").addClass('active');
-			$("#classificacao").removeClass('opcao');
-		break;
-		case 'manual1.html':
-			$("#manual").addClass('active');
-			$("#manual").removeClass('opcao');
-		break;
-		case 'simulacoes.html':
-			$("#simulacoes").addClass('active');
-			$("#simulacoes").removeClass('opcao');
-		break;
-		case 'simulacao.html':
-			$("#simulacoes").addClass('active');
-			$("#simulacoes").removeClass('opcao');
-		break;
-		case 'selecionar.html':
-			$("#jogos").addClass('active');
-			$("#jogos").removeClass('opcao');
-		break;
-		case 'jogo.html':
-			$("#jogos").addClass('active');
-			$("#jogos").removeClass('opcao');
-		break;
-	}
+
+	if (arq.includes("configurar"))
+		$("#configuracoes").addClass('active');
+	else if (arq.includes("classificacao"))
+		$("#classificacao").addClass('active');
+	else if (arq.includes("manual"))
+		$("#manual").addClass('active');
+	else if (arq.includes("simulac"))
+		$("#simulacoes").addClass('active');
+	else
+		$("#jogos").addClass('active');
 }
 abrirInfo('configurar.html');

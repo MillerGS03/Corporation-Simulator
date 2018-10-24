@@ -97,11 +97,10 @@ function iniciarSelecionar()
         $.ajax({
             url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario
         }).done(function(dados){
-            $.each(dados, function(dado){
-                var o = document.createElement("option");
-                o.text = dados[dado].Nome;
-                s.add(o);
-            })
+            simulacao = dados[0];
+            var o = document.createElement("option");
+            o.text = simulacao.Nome;
+            s.add(o);
         })
     }
 
@@ -116,13 +115,17 @@ function iniciarSelecionar()
 
     function carregarSimulacao()
     {
+        $.ajax({
+            url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario
+        }).done(function(dados){
+            simulacao = dados[0];
+        })
         $("#select").off("mousemove", criarEfeitoSelect);
         $("#select").off("change", testarOpcao);
         $("#select").off("mouseleave", apagarEfeitoSelect);
         $("#btnCarregar").off("click", carregarSimulacao);
         ctxSimulacoes = null;
         canvasSimulacoes = null;
-
         abrirInfo("simulacao.html");
     }
     function validarCriacao()

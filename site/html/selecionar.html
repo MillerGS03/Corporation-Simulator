@@ -6,10 +6,8 @@
     <select class="select" id="select">
         <option selected disabled class="opcaoSelect">Selecione aqui o seu jogo</option>
     </select>
-    <!--<form action="" method="post"> -->
 		<input type="submit" id="btnCarregar" class="btnCarregar" value="Carregar!">
 		<input type="submit" id="btnRemover" class="btnRemover" value="Remover jogo">
-    <!--</form>-->
     <button id="newGame">Criar novo jogo</button>
     <div id="modalJogo" class="modal">
 		<div id="modalJogo-content">
@@ -17,7 +15,7 @@
 				<span id="btnSair"></span>
 				<form class="frm">
 					<h2 id="txtNome">Nome do novo jogo:</h2>
-					<input type="text" id="nomeJogo">
+					<input type="text" id="nomeJogo" maxlength="30">
 					<div id="criar"><a>Criar!</a></div>
 				</form>
 			</div>

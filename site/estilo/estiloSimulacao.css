@@ -96,6 +96,10 @@
 }
 #painelConta
 {
+	position: absolute;
 	background-color: white;
-	height: 66vh;
+	height: 70vh;
+	width: 130vh;
+	top: -10vh;
+	left: 15vh;
 }

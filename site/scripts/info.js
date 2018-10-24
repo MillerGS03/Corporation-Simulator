@@ -1,6 +1,7 @@
 var username;
 var conteudoAberto = null;
 var jogo;
+var simulacao;
 
 function colocarDados() {
 	acessarDados();

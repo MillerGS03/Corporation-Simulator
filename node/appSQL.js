@@ -175,10 +175,10 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const Nome = c.Nome;
   const Valor = parseInt(c.Valor);
   const Class = c.Classificacao;
-  execSQL(`insert into Patrimonio values(${cod}, ${Intervalo}, '${Nome}', ${Valor}, ${Class})`, resposta);
+  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class})`, resposta);
 })
-rota.get('/getClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
-  execSQL(`select CodClassificacao from Classificacao where Nome = '${requisicacao.params.nome}' and CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
+rota.get('/getClassificacoes/:codSimulacao', (requisicao, resposta) => {
+  execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
 })
 rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;

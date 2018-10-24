@@ -11,13 +11,6 @@ ImagemBanner varbinary(max),
 CorBanner varchar(7),
 CorFundo varchar(7)
 )
-delete from Usuario
-select * from Usuario
-select * from Simulacao
-select * from Jogo
-update Jogo set XP = 100 where CodJogo = 1
-delete from Jogo
-delete from Simulacao
 
 create table Jogo (
 CodJogo int identity(1,1) primary key,
@@ -41,25 +34,31 @@ ItemConstruido varchar(50) not null,
 X int not null,
 Y int not null
 )
-select * from ConstrucaoJogo
-delete from ConstrucaoJogo
-drop table ConstrucaoJogo
 
 create table Simulacao (
 CodSimulacao int identity(1,1) primary key,
 CodUsuario int not null,
 constraint fkUsuarioSimulacao foreign key(CodUsuario) references Usuario(CodUsuario),
 DataCriacao datetime not null,
-Nome varchar(25) not null
+Nome varchar(30) not null
 )
 
 create table Patrimonio (
-CodPatrimonio int not null,
+CodPatrimonio int identity(1,1) primary key,
 CodSimulacao int not null,
 constraint fkSimulacaoPatrimonio foreign key(CodSimulacao) references Simulacao(CodSimulacao),
+IntervaloDeTempo int not null,
 Nome varchar(30) not null,
 Valor money not null,
-Classificacao varchar(25) not null,
+CodClassificacao int not null,
+constraint fkClassificacaoPatrimonio foreign key(CodClassificacao) references Classificacao(CodClassificacao)
+)
+
+create table Classificacao (
+CodClassificacao int identity(1,1) primary key,
+Nome varchar(35) not null,
+CodSimulacao int not null,
+constraint fkSimulacaoClassificacao foreign key(CodSimulacao) references Simulacao(CodSimulacao)
 )
 
 create table Notificacoes(
@@ -75,11 +74,12 @@ CodUsuario int not null,
 constraint fkUsuarioAmigo foreign key(CodUsuario) references Usuario(CodUsuario),
 CodAmigo int not null
 )
-select * from Amizades
 
 drop table Amizades
 drop table Notificacoes
+drop table Classificacao
 drop table Patrimonio
 drop table Simulacao
+drop table ConstrucaoJogo
 drop table Jogo
 drop table Usuario

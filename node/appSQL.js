@@ -37,11 +37,10 @@ function execSQL(sql, resposta) {
 	global.conexao.request()
 				  .query(sql)
 				  .then(resultado => resposta.json(resultado.recordset))
-          //.then(resultado => console.log(resultado.recordset))
 				  .catch(erro => resposta.json(erro));
 }
 
-//o simbolo ? indica que id na rota abaixo é opcional
+//rotas para registro/login de usuario
 rota.get('/usuario/:id?', (requisicao, resposta) => {
   let filtro = '';
 	if (requisicao.params.id) 
@@ -55,13 +54,10 @@ rota.post('/autenticar', (requisicao, resposta) => {
     resposta.json(res);
 });
 })
-
-// testar no POSTMAN
 rota.delete('/usuario/:id', (requisicao, resposta) =>{
 	execSQL('DELETE from usuario WHERE CodUsuario=' + parseInt(requisicao.params.id), resposta);
   resposta.end(resposta.json({ mensagem: 'Deletado!'}));
 })
-
 rota.post('/usuario', (requisicao, resposta) =>{
     const Username = requisicao.body.Username.substring(0, 30);
     const Senha = requisicao.body.Senha;
@@ -78,7 +74,6 @@ rota.post('/usuario', (requisicao, resposta) =>{
               ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
     });
 })
-
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const CodUsuario = parseInt(requisicao.params.id);
     const Username = requisicao.body.Username.substring(0, 30);
@@ -98,17 +93,19 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
                                 WHERE CodUsuario=${CodUsuario}`, resposta);
     resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
 })
-
+// devolve usuario com base no seu username
 rota.get('/getUsuario/:username', (requisicao, resposta) => {
   const username = requisicao.params.username;
   execSQL(`select * from Usuario where Username='${username}'`, resposta);
 })
 
+
+//rotas para selecao/carregamento/delecao de jogo
 rota.get('/jogos/:codUsuario', (requisicao, resposta) => {
-  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario}`, resposta);
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} order by XP`, resposta);
 })
 rota.get('/jogos/:codUsuario/:nome', (requisicao, resposta) => {
-  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome = ${requisicao.params.nome}`, resposta);
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} and Nome = '${requisicao.params.nome}'`, resposta);
 })
 rota.delete('/construcoesJogo/:codUsuario/:nome'), (requisicao, resposta) =>{
 }
@@ -116,13 +113,24 @@ rota.delete('/jogos/:codUsuario/:nome', (requisicao, resposta) =>{
   execSQL(`Delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
 	execSQL(`DELETE from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}'`, resposta);
 })
-
+// devolve jogo que o usuario escolheu
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
   execSQL(`insert into Jogo values('${nome}', ${cod}, 0, 1, '1/1/2001', 20000, 0, 0, 0, 0)`, resposta);
 })
-
+rota.post('/construir/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  const Nome = requisicao.body.ItemConstruido;
+  const X = requisicao.body.X;
+  const Y = requisicao.body.Y;
+  execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y})`, resposta);
+})
+rota.get('/construcao/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  execSQL(`select * from ConstrucaoJogo where CodJogo = ${codJogo}`, resposta)
+})
+//salva o jogo quando o usuario sai
 rota.post('/jogo/:cod', (requisicao, resposta) => {
   const codJogo = requisicao.params.cod;
   const a = requisicao.body;
@@ -137,9 +145,13 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
   NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
 })
 
+
+//rotas das simulacoes
+//devolve simulacao a partir do codigo do usuario
 rota.get('/simulacoes/:cod', (requisicao, resposta) => {
   execSQL(`select * from Simulacao where CodUsuario = ${requisicao.params.cod}`, resposta);
 })
+//adiciona simulacao
 rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   const cod = requisicao.params.cod;
   const nome = requisicao.params.nome;
@@ -156,14 +168,19 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   today = mm + '/' + dd + '/' + yyyy;
   execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}')`, resposta);
 })
-rota.post('/construir/:codJogo', (requisicao, resposta) => {
-  const codJogo = requisicao.params.codJogo;
-  const Nome = requisicao.body.ItemConstruido;
-  const X = requisicao.body.X;
-  const Y = requisicao.body.Y;
-  execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y})`, resposta);
+rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
+  const cod = requisicao.params.codSimulacao;
+  const c = requisicao.body;
+  const Intervalo = c.Intervalo;
+  const Nome = c.Nome;
+  const Valor = parseInt(c.Valor);
+  const Class = c.Classificacao;
+  execSQL(`insert into Patrimonio values(${cod}, ${Intervalo}, '${Nome}', ${Valor}, ${Class})`, resposta);
 })
-rota.get('/construcao/:codJogo', (requisicao, resposta) => {
-  const codJogo = requisicao.params.codJogo;
-  execSQL(`select * from ConstrucaoJogo where CodJogo = ${codJogo}`, resposta)
+rota.get('/getClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
+  execSQL(`select CodClassificacao from Classificacao where Nome = '${requisicacao.params.nome}' and CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
+})
+rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
+  const cod = requisicao.params.codSimulacao;
+  execSQL(`select * from Patrimonio where CodSimulacao = ${cod}`, resposta)
 })

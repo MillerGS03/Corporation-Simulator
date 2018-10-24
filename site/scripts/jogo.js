@@ -1,6 +1,4 @@
-﻿//import { setTimeout } from "timers";
-
-/**
+﻿/**
  * Variável contendo o elemento canvas;
  * @type {HTMLCanvasElement}
  */
@@ -25,6 +23,8 @@ var btnCalendario;
 var btnNotificacoes;
 var painelNotificacoes;
 var mapa;
+var menuJogo;
+var tutorial;
 /**
  * Calendário
  * @type {Calendario}
@@ -33,7 +33,10 @@ var calendario;
 var construcao;
 var estatisticas;
 var rua;
+
 var timerDias = null;
+var timerDesenhar = null;
+
 var contador = 0;
 var itensConstruidos;
 var efetuacao;
@@ -74,6 +77,13 @@ function iniciar()
 	estatisticas = new Estatisticas();
 	construcao = new Construcao();
 
+	tutorial = new Tutorial();
+	menuJogo = new MenuJogo();
+	window.addEventListener("keydown", function(e) {
+		if (e.keyCode == 27)
+			menuJogo.abrirFechar();
+	})
+
 	rua = new Rua();
 	rua.iniciarMovimentacao(true);
 
@@ -82,21 +92,14 @@ function iniciar()
 	setTimeout(function(){
 		criarBotoes();
 		ativarBotoes();
-		atualizar();
 	
 		contador = 0;
-		timerDias = setInterval(function() {
-			contador++;
-			if (contador % 10 == 0)
-			{
-				passarDia();
-				atualizar();
-				barra.ganharXP(1);
-				console.log(botoes);
-			}
-			if (contador % 200 == 0)
-				painelNotificacoes.adicionarNotificacao("bla", "olá, babaca", calendario.dia, calendario.mes, calendario.ano);
-		}, 50);
+
+		if (calendario.dia < 3 && calendario.mes == 1 && calendario.ano == 1)
+			tutorial.abrirFechar();
+
+		timerDesenhar = setInterval(atualizar, 1000 / 60); // 30 FPS
+		timerDias = setInterval(intervaloDias, 50);
 	
 		$("#meuCanvas").on("mousemove", (function(e){
 			if (e.bubbles)
@@ -109,22 +112,38 @@ function iniciar()
 		})); 
 	
 		calendario.adicionarEvento(25, 2, 1, 1);
-	}, 10)
+	}, 10);
 }
-function finalizarJogo()
+function intervaloDias()
 {
-	$("#meuCanvas").off();
-	clearInterval(timerDias);
+	contador++;
+	if (contador % 10 == 0)
+	{
+		passarDia();
+		barra.ganharXP(1);
+	}
+	if (contador % 200 == 0)
+		painelNotificacoes.adicionarNotificacao("bla", "Hello, mi amigo", calendario.dia, calendario.mes, calendario.ano);
+}
+function salvar()
+{
 	var atualizar = new Object();
 	atualizar.XP = parseInt(barra.xp);
 	atualizar.Nivel = parseInt(barra.nivel);
 	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
 	atualizar.Caixa = parseInt(barra.dinheiro);
-	//atualizar.ContaBancoMovimento = (pegar dinheiro depositado no banco)
+	atualizar.ContaBancoMovimento = mapa.banco.saldo;
 	atualizar.NumeroFranquias = mapa.numeroFranquias;
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
 	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
+}
+function finalizarJogo()
+{
+	$("#meuCanvas").off();
+	clearInterval(timerDias);
+	clearInterval(timerDesenhar);
+	salvar();
 }
 function criarBotoes() 
 {
@@ -204,8 +223,10 @@ function atualizar()
 	calendario.desenhar();
 	construcao.desenhar();
 	estatisticas.desenhar();
+	tutorial.desenhar();
 	if (efetuacao != null && efetuacao.ativo)
 		efetuacao.desenhar();
+	menuJogo.desenhar();
 	desenharBordasCanvas();
 }
 function desenharBordasCanvas()
@@ -333,15 +354,16 @@ function carregarDados()
 	botoes = new Array();
 	var aux = jogo.Data;
 	var ano = parseInt(aux.substring(0, 4)) - 2000;
-	var mes = parseInt(aux.substring(5, 7));
-	var dia = parseInt(aux.substring(8, 10));
+	var mes = parseInt(aux.substring(8, 10));
+	var dia = parseInt(aux.substring(5, 7));
 	calendario.dia = dia;
 	calendario.mes = mes;
 	calendario.ano = ano;
 	barra.dinheiro = parseInt(jogo.Caixa);
 	barra.nivel = parseInt(jogo.Nivel);
 	barra.ganharXP(jogo.XP);
-	//adicionar dinheiro que estava depositado no banco
+	mapa.banco.saldo = jogo.ContaBancoMovimento;
+	passarDia();
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
 		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
@@ -378,8 +400,10 @@ function carregarDados()
 			botoes.push(itensConstruidos[i].botao)
 		}
 	})
-	setTimeout(ativarBotoes, 50);
-	setTimeout(ativarBotoes, 500);
-	setTimeout(ativarBotoes, 1000);
-	setTimeout(ativarBotoes, 2000);	
+	if (!(calendario.dia < 3 && calendario.mes == 1 && calendario.ano == 1))
+	{
+		setTimeout(ativarBotoes, 50);
+		setTimeout(ativarBotoes, 500);
+	}
+	atualizar();
 }

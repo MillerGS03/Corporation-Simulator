@@ -39,10 +39,16 @@ function Rua()
 			forcarParada = false;
 			for (var i = 0; i < this.carros.length; i++)
 				this.carros[i].parado = false;
-			intervalo = setInterval(this.moverCarros, 10, autoUpdate);
+			intervalo = setInterval(this.moverCarros, 10, false);
 	}
 	this.pararMovimentacao = function() {
 		forcarParada = true;
+	}
+	this.pausar = function() {
+		clearInterval(intervalo);
+	}
+	this.despausar = function() {
+		intervalo = setInterval(this.moverCarros, 10, false);
 	}
 	this.onMovimentacaoParou = function() {} // Evento do fim da movimentação de todos os carros após forçação de parada
 	this.entregar = function() {
@@ -89,7 +95,10 @@ function Rua()
 						break;
 					}
 				if (este.todosOsCarrosParados)
+				{
+					clearInterval(intervalo);
 					este.onMovimentacaoParou();
+				}
 			}
 		}
 	}

@@ -150,6 +150,5 @@ function Construcao()
 
             ativarBotoes();
         }
-        atualizar();
     }
 }

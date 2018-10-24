@@ -212,7 +212,6 @@ function Estatisticas()
             this.btnFechar.hovering = false;
             ativarBotoes();
         }
-        atualizar();
     }
     function desenharJanela()
     {

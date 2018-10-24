@@ -20,8 +20,11 @@ function redirecionarUsuario()
 {
 	if (getCookie("CodUsuario") != "")
 		$.get('http://' + local + ':3000/usuario/' + getCookie("CodUsuario"), function(resposta) {
-			user = resposta[0];
-            abrir(getCookie("PaginaIndex"));
+            user = resposta[0];
+            if (getCookie("PaginaIndex") != "")
+                abrir(getCookie("PaginaIndex"));
+            else
+                abrir("html/home.html");
             $("#logout").css("visibility", "visible");
 		});
 	else
@@ -30,7 +33,7 @@ function redirecionarUsuario()
 function logout()
 {
     setCookie("CodUsuario", "");
-    setCookie("PaginaIndex=html/home.html");
+    document.cookie = "PaginaIndex=" + "html/home.html";
     $("#logout").css("visibility", "hidden");
     user = null;
     redirecionarUsuario();

@@ -454,7 +454,6 @@ function Calendario()
             ativarBotoes();
             $("#meuCanvas").off("click", testarClick);
         }
-        atualizar();
     }
 }
 

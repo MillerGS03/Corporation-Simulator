@@ -107,8 +107,6 @@ rota.get('/jogos/:codUsuario', (requisicao, resposta) => {
 rota.get('/jogos/:codUsuario/:nome', (requisicao, resposta) => {
   execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} and Nome = '${requisicao.params.nome}'`, resposta);
 })
-rota.delete('/construcoesJogo/:codUsuario/:nome'), (requisicao, resposta) =>{
-}
 rota.delete('/jogos/:codUsuario/:nome', (requisicao, resposta) =>{
   execSQL(`Delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
 	execSQL(`DELETE from Jogo where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}'`, resposta);

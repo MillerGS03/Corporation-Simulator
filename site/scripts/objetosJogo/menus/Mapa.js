@@ -90,7 +90,6 @@ function Mapa()
 
             ativarBotoes();
         }
-        atualizar();
     }
     function desenharJanela()
     {

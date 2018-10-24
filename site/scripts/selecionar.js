@@ -131,20 +131,27 @@ function iniciarSelecionar()
     function validarCriacao()
     {
         var nome = document.getElementById("nomeJogo");
-        if (nome.value.trim() == ""){
-            $("#txtNome").text('Nome do novo jogo - Não pode estar vazio:');
-            $("#txtNome").css('color', 'darkred');
-        }
-        else if (nome.value.length <= 2){
-            $("#txtNome").text('Nome do novo jogo - Mínimo de 3 caracteres:');
-            $("#txtNome").css('color', 'darkred');
-        }
-        else if (nome.value.length > 30){
-            $("#txtNome").text('Nome do novo jogo - Maximo de 30 caracteres:');
-            $("#txtNome").css('color', 'darkred');
-        }
-        else
-            adicionarUmaOpcao(nome.value);
+
+        $.get('http://' + local + `:3000/jogos/${user.CodUsuario}/${nome.value}`, function(resposta) {
+            if (resposta.length > 0) {
+                $("#txtNome").text('Nome do novo jogo - Nome já existente!:');
+                $("#txtNome").css('color', 'darkred');
+            }
+            else if (nome.value.trim() == ""){
+                $("#txtNome").text('Nome do novo jogo - Não pode estar vazio:');
+                $("#txtNome").css('color', 'darkred');
+            }
+            else if (nome.value.length <= 2){
+                $("#txtNome").text('Nome do novo jogo - Mínimo de 3 caracteres:');
+                $("#txtNome").css('color', 'darkred');
+            }
+            else if (nome.value.length > 30){
+                $("#txtNome").text('Nome do novo jogo - Maximo de 30 caracteres:');
+                $("#txtNome").css('color', 'darkred');
+            }
+            else
+                adicionarUmaOpcao(nome.value);
+        })
     }
     function adicionarUmaOpcao(txt)
     {
@@ -167,6 +174,8 @@ function iniciarSelecionar()
             url: 'http://' + local + ':3000/jogos/' + `${user.CodUsuario}/${nomeJogo}`,
             type: 'DELETE',
         });
-        abrirInfo("selecionar.html");
+        setTimeout(function() {
+            abrirInfo("selecionar.html");
+        }, 10);
     }
 }

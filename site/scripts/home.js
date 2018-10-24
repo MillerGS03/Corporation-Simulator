@@ -27,3 +27,13 @@ function logar() {
     else
         alert("Digite o nome de usuário e a senha!");
 }
+$("#senha").on('keypress', function(e){
+    var code = e.keyCode || e.which;
+    if (code == 13)
+        logar();
+})
+$("#username").on('keypress', function(e){
+    var code = e.keyCode || e.which;
+    if (code == 13)
+        logar();
+})

@@ -105,9 +105,7 @@ function colocarDadosConfig()
 		$('input[value=M]').prop('checked', true);
 	else
 		$('input[value=F]').prop('checked', true);
-	$("input[name=sexo]").val(user.Nome);
-	$("input[name=username]").val(user.Username);
-	
+	$("input[name=sexo]").val(user.Nome);	
 }
 
 function mostrarSenha(id)
@@ -122,7 +120,6 @@ function mostrarSenha(id)
 function atualizarConfigs()
 {
 	var atualizar = new Object();
-	atualizar.Username = $("input[name=username]").val();
 	atualizar.Nome = $("input[name=nome]").val();
 	atualizar.Email = $("input[name=email]").val();
 	atualizar.Sexo = $("input[name=sexo]").val();
@@ -142,8 +139,6 @@ function verificarCampos()
 	if ($("#senhaAntiga").val().trim() != "" && !testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
 		houveErro = true;
 	if (!testarRadioSelecionado(document.getElementsByName('sexo'), "Sexo", "Selecione uma opção"))
-		houveErro = true;
-	if (!testarTamanho(document.getElementsByName('username')[0], 7, "Username", "Mínimo de 7 caracteres"))
 		houveErro = true;
 	if ($("input[name=senha]").val().trim() != "" && !testarTamanho(document.getElementsByName('senha')[0], 7, "Senha", "Mínimo de 7 caracteres"))
 		houveErro = true;

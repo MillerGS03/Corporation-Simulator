@@ -76,7 +76,6 @@ rota.post('/usuario', (requisicao, resposta) =>{
 })
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const CodUsuario = parseInt(requisicao.params.id);
-    const Username = requisicao.body.Username;
     const Senha = requisicao.body.Senha;
     const Nome = requisicao.body.Nome;
     const Sexo = requisicao.body.Sexo;
@@ -86,7 +85,7 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const ImagemBanner = requisicao.body.ImagemBanner;
     const CorBanner = requisicao.body.CorBanner.substring(0, 7);
     const CorFundo = requisicao.body.CorFundo.substring(0, 7);
-    execSQL(`UPDATE usuario SET CodUsuario='${CodUsuario}', Username='${Username}', Senha='${Senha}',
+    execSQL(`UPDATE usuario SET CodUsuario='${CodUsuario}', Senha='${Senha}',
                                 Nome='${Nome}', Sexo='${Sexo}', Biografia='${Biografia}', Email='${Email}',
                                 FotoPerfil='${FotoPerfil}', ImagemBanner='${ImagemBanner}', CorBanner='${CorBanner}',
                                 CorFundo='${CorFundo}'

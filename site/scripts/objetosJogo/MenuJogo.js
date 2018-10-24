@@ -8,18 +8,21 @@ function MenuJogo()
     var este = this;
 
     this.aberto = false;
-    this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
-                                         { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, true, false);
-    this.btnFechar.onclick = function() {este.abrirFechar()};
+    this.btnDespausar = new BotaoRetangular(this.x , this.y + 80, this.width, 50, 14, this.width, 50,
+                                         "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Despausar", false, true, false);
+    this.btnDespausar.onclick = function() {este.abrirFechar()};
+    this.btnSalvar = new BotaoRetangular(this.x , this.y + 130, this.width, 50, 14, this.width, 50,
+        "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Despausar", false, true, false);
+    this.btnSalvar.onclick = function() {salvar()};
 
     this.abrirFechar = function() 
     {
         this.aberto = !this.aberto;
         if (this.aberto)
         {
-            this.btnFechar.ativarInteracao();
-            BotaoRetangular.desativarTodos([this.btnFechar]);
+            this.btnDespausar.ativarInteracao();
+            this.btnSalvar.ativarInteracao();
+            BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar]);
             BotaoCircular.desativarTodos();
 
             clearInterval(timerDias);
@@ -30,8 +33,8 @@ function MenuJogo()
             BotaoRetangular.reativar();
             BotaoCircular.reativar();
 
-            this.btnFechar.desativarInteracao();
-            this.btnFechar.hovering = false;
+            this.btnDespausar.desativarInteracao();
+            this.btnDespausar.hovering = false;
             timerDias = setInterval(intervaloDias, 50);
             rua.despausar();
         }
@@ -64,6 +67,7 @@ function MenuJogo()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Menu", este.x + este.width/2, este.y + 10, este.width - 5);
 
-        este.btnFechar.desenhar();
+        este.btnDespausar.desenhar();
+        este.btnSalvar.desenhar();
     }
 }

@@ -44,6 +44,8 @@ var efetuacao;
 var xMouse;
 var yMouse;
 
+var carregado = false;
+
 var fatorEscala = 1;
 
 iniciar();
@@ -79,7 +81,7 @@ function iniciar()
 
 	tutorial = new Tutorial();
 	menuJogo = new MenuJogo();
-	window.addEventListener("keydown", function(e) {
+	$(document).on("keydown", function(e) {
 		if (e.keyCode == 27)
 			menuJogo.abrirFechar();
 	})
@@ -97,9 +99,9 @@ function iniciar()
 
 		if (calendario.dia < 3 && calendario.mes == 1 && calendario.ano == 1)
 			tutorial.abrirFechar();
-
-		timerDesenhar = setInterval(atualizar, 1000 / 60); // 30 FPS
-		timerDias = setInterval(intervaloDias, 50);
+		else
+			timerDias = setInterval(intervaloDias, 50);
+		timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
 	
 		$("#meuCanvas").on("mousemove", (function(e){
 			if (e.bubbles)
@@ -128,7 +130,7 @@ function intervaloDias()
 function salvar()
 {
 	var atualizar = new Object();
-	atualizar.XP = parseInt(barra.xp);
+	atualizar.XP = barra.getXPTotal();
 	atualizar.Nivel = parseInt(barra.nivel);
 	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
 	atualizar.Caixa = parseInt(barra.dinheiro);
@@ -141,6 +143,8 @@ function salvar()
 function finalizarJogo()
 {
 	$("#meuCanvas").off();
+	$(document).off();
+	rua.pausar();
 	clearInterval(timerDias);
 	clearInterval(timerDesenhar);
 	salvar();
@@ -210,24 +214,27 @@ function desativarBotoes()
 }
 function atualizar()
 {
-	desenharFundo();
-	barra.desenhar();
-	for (var i = 0; i < botoes.length; i++)
-		if (botoes != null && botoes[i] != null)
-			botoes[i].desenhar();
-	for (var i = 0; i < itensConstruidos.length; i++)
-		if (itensConstruidos[i].menuVisivel)
-			itensConstruidos[i].menu.desenhar();
-	painelNotificacoes.desenhar();
-	mapa.desenhar();
-	calendario.desenhar();
-	construcao.desenhar();
-	estatisticas.desenhar();
-	tutorial.desenhar();
-	if (efetuacao != null && efetuacao.ativo)
-		efetuacao.desenhar();
-	menuJogo.desenhar();
-	desenharBordasCanvas();
+	if (carregado)
+	{
+		desenharFundo();
+		barra.desenhar();
+		for (var i = 0; i < botoes.length; i++)
+			if (botoes != null && botoes[i] != null)
+				botoes[i].desenhar();
+		for (var i = 0; i < itensConstruidos.length; i++)
+			if (itensConstruidos[i].menuVisivel)
+				itensConstruidos[i].menu.desenhar();
+		painelNotificacoes.desenhar();
+		mapa.desenhar();
+		calendario.desenhar();
+		construcao.desenhar();
+		estatisticas.desenhar();
+		tutorial.desenhar();
+		if (efetuacao != null && efetuacao.ativo)
+			efetuacao.desenhar();
+		menuJogo.desenhar();
+		desenharBordasCanvas();
+	}
 }
 function desenharBordasCanvas()
 {
@@ -359,11 +366,10 @@ function carregarDados()
 	calendario.dia = dia;
 	calendario.mes = mes;
 	calendario.ano = ano;
+	barra.atualizarDia(dia);
 	barra.dinheiro = parseInt(jogo.Caixa);
-	barra.nivel = parseInt(jogo.Nivel);
-	barra.ganharXP(jogo.XP);
+	barra.ganharXP(jogo.XP, false);
 	mapa.banco.saldo = jogo.ContaBancoMovimento;
-	passarDia();
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
 		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
@@ -405,5 +411,5 @@ function carregarDados()
 		setTimeout(ativarBotoes, 50);
 		setTimeout(ativarBotoes, 500);
 	}
-	atualizar();
+	carregado = true;
 }

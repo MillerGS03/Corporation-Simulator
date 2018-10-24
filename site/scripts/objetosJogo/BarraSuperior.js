@@ -8,16 +8,17 @@ function BarraSuperior() {
 
 	var este = this;
 
-	this.ganharXP = function(xp)
+	this.ganharXP = function(xp, ignorarXPTotal)
 	{
 		this.xp += xp;
-		xpTotal += xp;
+		if (!ignorarXPTotal)
+			xpTotal += xp;
 		if (this.xp > this.maxXP)
 		{
 			var xpAdicional = this.xp - this.maxXP;
 			uparNivel();
 			this.xp = 0;
-			this.ganharXP(xpAdicional);
+			this.ganharXP(xpAdicional, true);
 		}
 	}
 	function uparNivel()
@@ -100,5 +101,5 @@ function BarraSuperior() {
 		this.dia = dia;
 	}
 	this.onNivelMudou = function() {};
-	this.xpTotal = function() {return xpTotal;}
+	this.getXPTotal = function() {return xpTotal;}
 }

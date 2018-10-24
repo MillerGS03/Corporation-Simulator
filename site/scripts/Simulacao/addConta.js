@@ -1,21 +1,57 @@
-var classificacoes = new Array('saneamento', 'educacao', 'energia', 'lazer', 'combustivel', 'alimentacao', 'impostos');
+var classificacoes;
 var erro;
 $("#sairModal").on('click', function(){
-		$("#modal").css('display', 'none');
-	})
+	$("#modal").css('display', 'none');
+})
+$('#addClass').on('click', function(){
+	$('#txtClass').css('display', 'block');
+	$('#btnClass').css('display', 'block');
+});
+$('#btnClass').on('click', function(){
+	var classif = $('#txtClass').val();
+	var s = document.getElementById("classificacoes");
+	var cod;
+	$.post('http://' + local + ':3000/addClassificacao/' + simulacao.CodSimulacao + '/' + classif)
+	setTimeout(function(){
+		$('#txtClass').text('');
+		$('#txtClass').css('display', 'none');
+		$('#btnClass').css('display', 'none');
+		addOptions();
+		setTimeout(function(){
+			for (var i = 0; i <= classificacoes.length; i++)
+				if (s.options[i].text == classif)
+					s.options[i].selected = 'selected';
+		}, 20)
+	}, 10)
+});
+$('#removeClass').on('click', function(){
+	var cod = simulacao.CodSimulacao;
+	var classif = $("#classificacoes option:selected").val();
+	$.ajax({
+		url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
+		type: 'DELETE'
+	}).done(addOptions());
+});
 
 addOptions();
 
 function addOptions()
 {
-	var s = document.getElementById("classificacoes");
-	var numeroDeClassificacoes = 3 //pegar do bd
-    for (var i = 0; i < numeroDeClassificacoes; i++)
-    {
-        var o = document.createElement("option");
-        o.text = classificacoes[i];
-        s.add(o);
-    }
+	$.ajax({
+		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+	}).done(function(dados){
+		classificacoes = dados;
+		var s = document.getElementById("classificacoes");
+		var primeiraOpcao = s.options[0];
+		$("#classificacoes").empty();
+		s.add(primeiraOpcao);
+		for (var i = 0; i < classificacoes.length; i++)
+		{
+			var o = document.createElement("option");
+			o.text = classificacoes[i].Nome;
+			s.add(o);
+		}
+	});
 }
 
 $("#adicionarConta").on('click', function() {
@@ -38,19 +74,34 @@ function validarFormulario()
 
 function adicionar()
 {
-	var nome = document.getElementById('nomeConta').value;
+	var conta = new Object();
+	conta.Nome = document.getElementById('nomeConta').value;
 	var valor = document.getElementById('valorConta').value;
 	if (document.getElementById('perda').checked)
 		valor = -valor;
+	conta.Valor = valor;
 	var intervalo;												//em segundos
 	var tipoTempo = $("#tTempo option:selected").text();
 	if (tipoTempo == 'Dia(s)')
-		intervalo = parseInt($("#nTempo").text()) * 86400;
+		intervalo = $("#nTempo").val() + 'D';
 	else if (tipoTempo == 'Mes(es)')
-		intervalo = parseInt($("#nTempo").text()) * 2592000;
+		intervalo = $("#nTempo").val() + 'M';
 	else
-		intervalo = parseInt($("#nTempo").text()) * 31536000;
+		intervalo = $("#nTempo").val() + 'A';
+	conta.Intervalo = intervalo;
 	var classificacao = $("#classificacoes option:selected").text();
+	var cod;
+	for (var i = 0; i < classificacoes.length; i++)
+	{
+		if (classificacoes[i].Nome == classificacao)
+		{
+			cod = classificacoes[i].CodClassificacao;
+			break;
+		}
+	}
+	conta.Classificacao = cod;
+	$.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, conta);
+	$("#sairModal").trigger('click');
 }
 
 function testarNome()
@@ -73,8 +124,9 @@ function testarTipo()
 }
 function testarValor()
 {
+	var val = parseInt($('#valorConta').val());
 	var v = document.getElementById('valorConta');
-	if (isNaN(parseInt(v.value)) || parseInt(v.value) <= 0){
+	if (isNaN(val) || val <= 0){
 		v.parentElement.style.color = "darkred";
 		v.parentElement.firstElementChild.textContent = "Valor - Insira um número positivo válido:";
 		erro = true;
@@ -82,8 +134,9 @@ function testarValor()
 }
 function testarTempo()
 {
+	var tempo = parseInt($('#nTempo').val());
 	var t = document.getElementById('nTempo');
-	if (isNaN(parseInt(t.value)) || parseInt(t.value) <= 0){
+	if (isNaN(tempo) || tempo <= 0){
 		t.parentElement.style.color = "darkred";
 		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
 		erro = true;
@@ -94,7 +147,7 @@ function testarClassificacao()
 	var c = document.getElementById('classificacoes');
 	if (c.selectedIndex <= 0){
 		c.parentElement.style.color = "darkred";
-		c.parentElement.firstElementChild.textContent = "Classificacao - Selecione pelo menos uma classificacao:";
+		c.parentElement.firstElementChild.textContent = "Classificação - Selecione pelo menos uma classificação:";
 		erro = true;
 	}
 }

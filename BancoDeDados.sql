@@ -47,7 +47,7 @@ create table Patrimonio (
 CodPatrimonio int identity(1,1) primary key,
 CodSimulacao int not null,
 constraint fkSimulacaoPatrimonio foreign key(CodSimulacao) references Simulacao(CodSimulacao),
-IntervaloDeTempo int not null,
+IntervaloDeTempo varchar(10) not null,
 Nome varchar(30) not null,
 Valor money not null,
 CodClassificacao int not null,
@@ -61,7 +61,7 @@ CodSimulacao int not null,
 constraint fkSimulacaoClassificacao foreign key(CodSimulacao) references Simulacao(CodSimulacao)
 )
 
-create table Notificacoes(
+create table Notificacao(
 CodNotificacao int primary key,
 CodUsuario int not null,
 constraint fkNotificacaoUsuario foreign key(CodUsuario) references Usuario(CodUsuario),
@@ -69,14 +69,41 @@ Titulo varchar(20) not null,
 Descricao ntext not null
 )
 
-create table Amizades(
+create table Amizade(
 CodUsuario int not null,
 constraint fkUsuarioAmigo foreign key(CodUsuario) references Usuario(CodUsuario),
 CodAmigo int not null
 )
 
-drop table Amizades
-drop table Notificacoes
+--insert into Amizade values()
+--insert into Notificacao values()
+insert into Classificacao values('teste', 1)
+--insert into Patrimonio values()
+--insert into Simulacao values()
+--insert into ConstrucaoJogo values()
+--insert into Jogo values()
+--insert into Usuario values()
+
+select * from Amizade
+select * from Notificacao
+select * from Classificacao
+select * from Patrimonio
+select * from Simulacao
+select * from ConstrucaoJogo
+select * from Jogo
+select * from Usuario
+
+delete from Amizade
+delete from Notificacao
+delete from Classificacao
+delete from Patrimonio
+delete from Simulacao
+delete from ConstrucaoJogo
+delete from Jogo
+delete from Usuario
+
+drop table Amizade
+drop table Notificacao
 drop table Classificacao
 drop table Patrimonio
 drop table Simulacao

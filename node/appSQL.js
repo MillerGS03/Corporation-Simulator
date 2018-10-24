@@ -76,9 +76,9 @@ rota.post('/usuario', (requisicao, resposta) =>{
 })
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const CodUsuario = parseInt(requisicao.params.id);
-    const Username = requisicao.body.Username.substring(0, 30);
+    const Username = requisicao.body.Username;
     const Senha = requisicao.body.Senha;
-    const Nome = requisicao.body.Nome.substring(0, 50);
+    const Nome = requisicao.body.Nome;
     const Sexo = requisicao.body.Sexo;
     const Biografia = requisicao.body.Biografia;
     const Email = requisicao.body.Email;
@@ -173,12 +173,19 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const Nome = c.Nome;
   const Valor = parseInt(c.Valor);
   const Class = c.Classificacao;
-  execSQL(`insert into Patrimonio values(${cod}, ${Intervalo}, '${Nome}', ${Valor}, ${Class})`, resposta);
+  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class})`, resposta);
 })
-rota.get('/getClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
-  execSQL(`select CodClassificacao from Classificacao where Nome = '${requisicacao.params.nome}' and CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
+rota.get('/getClassificacoes/:codSimulacao', (requisicao, resposta) => {
+  execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
 })
 rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;
   execSQL(`select * from Patrimonio where CodSimulacao = ${cod}`, resposta)
+})
+rota.post('/addClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
+  execSQL(`insert into Classificacao values('${requisicao.params.nome}', ${parseInt(requisicao.params.codSimulacao)})`, resposta);
+})
+rota.delete('/classificacoes/:codSimulacao/:nome', (requisiscao, resposta) => {
+  execSQL(`delete Classificacao from Classificacao where CodSimulacao = ${parseInt(requisicao.params.codSimulacao)} and
+  Nome='${requisicao.params.nome}'`, resposta);
 })

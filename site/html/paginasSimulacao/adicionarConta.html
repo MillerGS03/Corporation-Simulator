@@ -7,7 +7,7 @@
 	<form class="frm" action="">
 		<label id="nome">
 			<span>Nome da Conta:</span><br>
-			<input type="text" id="nomeConta">
+			<input type="text" id="nomeConta" maxlength="30">
 		</label>
 		<label id="tipo"> 											<!-- ganho ou perda -->
 			<span>Tipo:</span><br>
@@ -26,6 +26,10 @@
 			<select id="classificacoes">
 				<option selected disabled>Classificacoes disponiveis</option>
 			</select>
+			<input type="button" id="addClass" value="Adicionar uma Classificação">
+			<input type="button" id="removeClass" value="Remover Classificação">
+			<input type="text" id="txtClass" placeholder="Digite o nome" maxlength="35">
+			<input type="button" value='+' id="btnClass">
 		</label>
 		<input type="button" id="adicionarConta" value="Adicionar conta">
 	</form>

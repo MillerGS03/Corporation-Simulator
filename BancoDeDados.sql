@@ -93,6 +93,15 @@ select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
 
+delete from Amizade
+delete from Notificacao
+delete from Classificacao
+delete from Patrimonio
+delete from Simulacao
+delete from ConstrucaoJogo
+delete from Jogo
+delete from Usuario
+
 drop table Amizade
 drop table Notificacao
 drop table Classificacao

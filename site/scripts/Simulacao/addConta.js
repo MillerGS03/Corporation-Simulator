@@ -1,8 +1,35 @@
 var classificacoes;
 var erro;
 $("#sairModal").on('click', function(){
-		$("#modal").css('display', 'none');
-	})
+	$("#modal").css('display', 'none');
+})
+$('#addClass').on('click', function(){
+	$('#txtClass').css('display', 'block');
+	$('#btnClass').css('display', 'block');
+});
+$('#btnClass').on('click', function(){
+	var classif = $('#txtClass').val();
+	var s = document.getElementById("classificacoes");
+	var cod;
+	$.post('http://' + local + ':3000/addClassificacao/' + simulacao.CodSimulacao + '/' + classif);
+	$('#txtClass').css('display', 'none');
+	$('#btnClass').css('display', 'none');
+	addOptions();
+	for (var i = 0; i < classificacoes.length; i++)
+	{
+		if (s.options[i].text == classif)
+			cod = i;
+	}
+	s.options[cod].selected = 'selected';
+});
+$('#removeClass').on('click', function(){
+	var cod = simulacao.CodSimulacao;
+	var classif = $("#classificacoes option:selected").val();
+	$.ajax({
+		url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
+		type: 'DELETE'
+	}).done(addOptions());
+});
 
 addOptions();
 

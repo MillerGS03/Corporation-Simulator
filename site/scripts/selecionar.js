@@ -126,7 +126,7 @@ function iniciarSelecionar()
         canvasSelect = null;
         $.ajax({
             url: 'http://' + local + ':3000/jogos/' + user.CodUsuario + "/" + nomeJogo
-        }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
+        }).done(function(dados){jogo = dados[0];abrirInfo('jogo.html');})
     }
     function validarCriacao()
     {

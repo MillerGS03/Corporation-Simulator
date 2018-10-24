@@ -184,3 +184,10 @@ rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;
   execSQL(`select * from Patrimonio where CodSimulacao = ${cod}`, resposta)
 })
+rota.post('/addClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
+  execSQL(`insert into Classificacao values('${requisicao.params.nome}', ${parseInt(requisicao.params.codSimulacao)})`, resposta);
+})
+rota.delete('/classificacoes/:codSimulacao/:nome', (requisiscao, resposta) => {
+  execSQL(`delete Classificacao from Classificacao where CodSimulacao = ${parseInt(requisicao.params.codSimulacao)} and
+  Nome='${requisicao.params.nome}'`, resposta);
+})

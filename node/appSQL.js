@@ -76,9 +76,9 @@ rota.post('/usuario', (requisicao, resposta) =>{
 })
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const CodUsuario = parseInt(requisicao.params.id);
-    const Username = requisicao.body.Username.substring(0, 30);
+    const Username = requisicao.body.Username;
     const Senha = requisicao.body.Senha;
-    const Nome = requisicao.body.Nome.substring(0, 50);
+    const Nome = requisicao.body.Nome;
     const Sexo = requisicao.body.Sexo;
     const Biografia = requisicao.body.Biografia;
     const Email = requisicao.body.Email;

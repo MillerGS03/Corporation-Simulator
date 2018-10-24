@@ -12,8 +12,8 @@ $("#newImage").on("change", function () {
 	arquivoI = document.getElementById("newImage").files[0];
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 28vh 28vh;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 15vw 15vw;');
 	};
 	r.readAsDataURL(arquivoI);
 });
@@ -66,8 +66,8 @@ $("#leftPage").on("click", function () {
 	setTimeout(mudarCorMenu, 5);
 	var r = new FileReader();
 	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 100%;');
+		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 28vh 28vh;');
+		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 15vw 15vw;');
 	};
 	r.readAsDataURL(arquivoI);
 });
@@ -97,6 +97,18 @@ $("#retirarBanner").on("click", function() {
 	mudarCorMenu();
 });
 
+function colocarDadosConfig()
+{
+	$("input[name=nome]").val(user.Nome);
+	$("input[name=email]").val(user.Email);
+	if (user.Sexo == 'M')
+		$('input[value=M]').prop('checked', true);
+	else
+		$('input[value=F]').prop('checked', true);
+	$("input[name=sexo]").val(user.Nome);
+	$("input[name=username]").val(user.Username);
+	
+}
 
 function mostrarSenha(id)
 {
@@ -109,13 +121,13 @@ function mostrarSenha(id)
 }
 function atualizarConfigs()
 {
-	var username = document.getElementsByName("username")[0].value;
-	var nome = document.getElementsByName("nome")[0].value;
-	var email = document.getElementsByName("email")[0].value;
-	var sexo = document.getElementsByName("sexo")[0].value;
-	var senha = document.getElementsByName("senhaNova")[0].value;
-	//alert(username + nome + email + sexo + senha);
-	//inserir no banco de dados
+	var atualizar = new Object();
+	atualizar.Username = $("input[name=username]").val();
+	atualizar.Nome = $("input[name=nome]").val();
+	atualizar.Email = $("input[name=email]").val();
+	atualizar.Sexo = $("input[name=sexo]").val();
+	atualizar.Senha = $("input[name=senha]").val();
+	console.log(atualizar)
 }
 function verificarCampos()
 {
@@ -124,18 +136,18 @@ function verificarCampos()
 		houveErro = true;
 	if (!testarFormato(document.getElementsByName('email')[0],
 				 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-				 "Email",
+				 "E-mail",
 				 "Formato Inválido"))
 		houveErro = true;
-	if (!testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
+	if ($("#senhaAntiga").val().trim() != "" && !testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
 		houveErro = true;
 	if (!testarRadioSelecionado(document.getElementsByName('sexo'), "Sexo", "Selecione uma opção"))
 		houveErro = true;
 	if (!testarTamanho(document.getElementsByName('username')[0], 7, "Username", "Mínimo de 7 caracteres"))
 		houveErro = true;
-	if (!testarTamanho(document.getElementsByName('senha')[0], 7, "Senha", "Mínimo de 7 caracteres"))
+	if ($("input[name=senha]").val().trim() != "" && !testarTamanho(document.getElementsByName('senha')[0], 7, "Senha", "Mínimo de 7 caracteres"))
 		houveErro = true;
-	if (!testarIgualdade(document.getElementsByName('confSenha')[0], document.getElementsByName('senha')[0], "Confirmar senha", "Senhas diferentes"))
+	if ($("input[name=confSenha]").val().trim() != "" && !testarIgualdade(document.getElementsByName('confSenha')[0], document.getElementsByName('senha')[0], "Confirmar senha", "Senhas diferentes"))
 		houveErro = true;
 	if (!houveErro)
 	{
@@ -262,3 +274,4 @@ function carregarBanner()
 setTimeout(mudarCorMenu, 5);
 carregarFoto();
 carregarBanner();
+colocarDadosConfig();

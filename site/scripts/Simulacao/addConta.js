@@ -11,16 +11,18 @@ $('#btnClass').on('click', function(){
 	var classif = $('#txtClass').val();
 	var s = document.getElementById("classificacoes");
 	var cod;
-	$.post('http://' + local + ':3000/addClassificacao/' + simulacao.CodSimulacao + '/' + classif);
-	$('#txtClass').css('display', 'none');
-	$('#btnClass').css('display', 'none');
-	addOptions();
-	for (var i = 0; i < classificacoes.length; i++)
-	{
-		if (s.options[i].text == classif)
-			cod = i;
-	}
-	s.options[cod].selected = 'selected';
+	$.post('http://' + local + ':3000/addClassificacao/' + simulacao.CodSimulacao + '/' + classif)
+	setTimeout(function(){
+		$('#txtClass').text('');
+		$('#txtClass').css('display', 'none');
+		$('#btnClass').css('display', 'none');
+		addOptions();
+		setTimeout(function(){
+			for (var i = 0; i <= classificacoes.length; i++)
+				if (s.options[i].text == classif)
+					s.options[i].selected = 'selected';
+		}, 20)
+	}, 10)
 });
 $('#removeClass').on('click', function(){
 	var cod = simulacao.CodSimulacao;

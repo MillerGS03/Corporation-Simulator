@@ -1,0 +1,78 @@
+h1
+{
+    position: relative;
+    bottom: 2vh;
+    font-size: 6vh;
+    font-family: "Century Gothic";
+}
+.select
+{
+    position: relative;
+    top: -2vh;
+    left: 5vh;
+    width: 75vh;
+    height: 5vh;
+    font-size: 4vh;
+    font-family: "Century Gothic";
+}
+#btnExcluirConta
+{
+    position: relative;
+    top: 35vh;
+    right: 40vh;
+    width: 20vh;
+    height: 7vh;
+    text-align: center;
+    color: black;
+    background-color: white;
+    border: 0.2vh solid black;
+    border-radius: 2vh;
+    font-family: "Century Gothic";
+    font-size: 4vh;
+}
+#btnExcluirConta:hover
+{
+    cursor: pointer;
+    background-color: lightgrey;
+    transition: background-color 0.5s;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+#valor
+{
+    position: absolute;
+    top: 30vh;
+    left: 35vh;
+    width: 300vh;
+    height: 5vh;
+    display: none;
+    text-align: left;
+    font-family: "Century Gothic";
+    font-size: 7vh;
+    font-weight: bold;
+}
+.modal
+{
+ 	display:none;
+ 	position: fixed;
+  	z-index:1;
+  	left: 0;
+  	top:0;
+  	height: 100%;
+  	width:100%;
+  	background-color: rgba(0,0,0,0.5);
+}
+#modal-content
+{
+  	background-color:#f4f4f4;
+  	margin: 20% auto;
+  	width:70%;
+  	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+  	animation-name:modalopen;
+  	animation-duration:1s;
+  	position: absolute;
+  	left: 20%;
+  	top: -20vh;
+}

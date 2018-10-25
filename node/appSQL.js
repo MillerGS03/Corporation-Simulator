@@ -188,3 +188,6 @@ rota.delete('/classificacoes/:codSimulacao/:nome', (requisiscao, resposta) => {
   execSQL(`delete Classificacao from Classificacao where CodSimulacao = ${parseInt(requisicao.params.codSimulacao)} and
   Nome='${requisicao.params.nome}'`, resposta);
 })
+rota.delete('/excluirConta/:cod', (requisicao, resposta) => {
+  execSQL(`delete Patrimonio from Patrimonio where CodPatrimonio = ${parseInt(requisicao.params.cod)}`, resposta);
+})

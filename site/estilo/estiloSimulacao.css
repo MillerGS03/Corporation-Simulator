@@ -71,6 +71,18 @@
   	left: 20%;
   	top: -20vh;
 }
+#modalConfirma-content
+{
+  	background-color: lightgray;
+  	margin: 20% auto;
+  	width:40%;
+  	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+  	animation-name:modalopen;
+  	animation-duration:1s;
+  	position: absolute;
+  	left: 40%;
+  	top: -15vh;
+}
 .btnSair
 {
 	background: url('../imagens/sairSimulacao.png') no-repeat;
@@ -102,4 +114,60 @@
 	width: 130vh;
 	top: -10vh;
 	left: 15vh;
+}
+
+#txtConfirma
+{
+	position: relative;
+	font-size: 5vh;
+	font-family: "Century Gothic";
+	color: black;
+}
+#btnSim
+{
+	position: relative;
+	bottom: 4vh;
+	right: 5vh;
+	width: 20vh;
+	height: 5vh;
+	border: 0.3vh solid black;
+	border-radius: 5vh;
+	color: black;
+	font-size: 3vh;
+	background-color: white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+	font-weight: bold;
+}
+#btnSim:hover
+{
+	cursor:pointer;
+	background-color: green;
+	color:white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+}
+#btnCancelar
+{
+	position: relative;
+	bottom: 4vh;
+	left: 5vh;
+	width: 20vh;
+	height: 5vh;
+	border: 0.3vh solid black;
+	border-radius: 5vh;
+	color: black;
+	font-size: 3vh;
+	background-color: white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+	font-weight: bold;
+}
+#btnCancelar:hover
+{
+	cursor:pointer;
+	background-color: darkred;
+	color:white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
 }

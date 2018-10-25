@@ -23,6 +23,9 @@ $('#btnClass').on('click', function(){
 					s.options[i].selected = 'selected';
 		}, 20)
 	}, 10)
+	$.ajax({
+		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+	}).done(function(dados) {classificacoes = dados});
 });
 $('#removeClass').on('click', function(){
 	var cod = simulacao.CodSimulacao;
@@ -101,6 +104,9 @@ function adicionar()
 	}
 	conta.Classificacao = cod;
 	$.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, conta);
+	$.ajax({
+		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
+	}).done(function(dados){contas = dados;})
 	$("#sairModal").trigger('click');
 }
 

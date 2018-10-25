@@ -127,19 +127,6 @@ function intervaloDias()
 	if (contador % 200 == 0)
 		painelNotificacoes.adicionarNotificacao("bla", "Hello, mi amigo", calendario.dia, calendario.mes, calendario.ano);
 }
-function salvar()
-{
-	var atualizar = new Object();
-	atualizar.XP = barra.getXPTotal();
-	atualizar.Nivel = parseInt(barra.nivel);
-	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
-	atualizar.Caixa = parseInt(barra.dinheiro);
-	atualizar.ContaBancoMovimento = mapa.banco.saldo;
-	atualizar.NumeroFranquias = mapa.numeroFranquias;
-	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
-	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
-	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
-}
 function finalizarJogo()
 {
 	$("#meuCanvas").off();
@@ -360,9 +347,9 @@ function carregarDados()
 	itensConstruidos = new Array();
 	botoes = new Array();
 	var aux = jogo.Data;
-	var ano = parseInt(aux.substring(0, 4)) - 2000;
-	var mes = parseInt(aux.substring(8, 10));
-	var dia = parseInt(aux.substring(5, 7));
+	var ano = parseInt(aux.substring(6));
+	var mes = parseInt(aux.substring(3, 5));
+	var dia = parseInt(aux.substring(0, 2));
 	calendario.dia = dia;
 	calendario.mes = mes;
 	calendario.ano = ano;
@@ -412,4 +399,16 @@ function carregarDados()
 		setTimeout(ativarBotoes, 500);
 	}
 	carregado = true;
+}
+function salvar()
+{
+	var atualizar = new Object();
+	atualizar.XP = barra.getXPTotal();
+	atualizar.Data = formatarData(calendario.dia, calendario.mes, calendario.ano);
+	atualizar.Caixa = barra.dinheiro;
+	atualizar.ContaBancoMovimento = mapa.banco.saldo;
+	atualizar.NumeroFranquias = mapa.numeroFranquias;
+	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
+	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
+	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
 }

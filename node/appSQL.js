@@ -114,7 +114,7 @@ rota.delete('/jogos/:codUsuario/:nome', (requisicao, resposta) =>{
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
-  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, 1, '1/1/2001', 20000, 0, 0, 0, 0)`, resposta);
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '01/01/01', 20000, 0, 0, 0, 0)`, resposta);
 })
 rota.post('/construir/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;
@@ -132,14 +132,12 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
   const codJogo = requisicao.params.cod;
   const a = requisicao.body;
   const xp = a.XP;
-  const lvl = parseInt(a.Nivel);
-  const caixa = parseInt(a.Caixa);
-  const nF = parseInt(a.NumeroFranquias);
-  const nFo = parseInt(a.NumeroFornecedores);
-  const nI = parseInt(a.NumeroIndustrias);
-  execSQL(`update Jogo set XP=${xp}, Nivel=${lvl}, Data='${a.Data}', Caixa=${caixa}, 
-  NumeroFranquias=${nF}, NumeroFornecedores=${nFo},
-  NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
+  const caixa = a.Caixa;
+  const nF = a.NumeroFranquias;
+  const nFo = a.NumeroFornecedores;
+  const nI = a.NumeroIndustrias;
+  execSQL(`update Jogo set XP=${xp}, Data='${a.Data}', Caixa=${caixa},
+  NumeroFranquias=${nF}, NumeroFornecedores=${nFo}, NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
 })
 
 

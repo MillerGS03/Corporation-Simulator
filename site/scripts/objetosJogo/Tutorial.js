@@ -32,7 +32,9 @@ function Tutorial()
 
             this.btnFechar.desativarInteracao();
             this.btnFechar.hovering = false;
-            timerDias = setInterval(intervaloDias, 50);
+
+            if (!timerDias)
+                timerDias = setInterval(intervaloDias, 50);
             rua.despausar();
         }
     }

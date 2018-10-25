@@ -157,14 +157,14 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt);
+        $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt, function() {
+        });
         setTimeout(function() {
             addOptions();
             $.ajax({
                 url: 'http://' + local + ':3000/jogos/' + user.CodUsuario + "/" + txt
             }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
         }, 10);
-
     }
     function removerOpcao()
     {

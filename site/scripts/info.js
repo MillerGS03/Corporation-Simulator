@@ -15,7 +15,7 @@ function abrirInfo(arq)
 	if (conteudoAberto == "jogo.html")
 	{
 		finalizarJogo();
-		tempoEsperaFinalizar = 20;
+		tempoEsperaFinalizar = 30;
 	}
 	setTimeout(function() {
 		$("#conteudoInfo").empty();

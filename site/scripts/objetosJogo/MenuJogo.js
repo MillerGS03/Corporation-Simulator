@@ -1,19 +1,22 @@
 function MenuJogo()
 {
     this.width = 320;
-    this.height = 400;
+    this.height = 380;
     this.x = (canvas.width - this.width)/2;
-    this.y = (canvas.height - this.height - 60)/2 + 60;
+    this.y = (canvas.height - this.height - 60)/2 + 120;
 
     var este = this;
 
     this.aberto = false;
-    this.btnDespausar = new BotaoRetangular(this.x , this.y + 80, this.width, 50, 14, this.width, 50,
+    this.btnDespausar = new BotaoRetangular(this.x , this.y + this.height - 170, this.width, 50, 0, this.width, 50,
                                          "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Despausar", false, true, false);
     this.btnDespausar.onclick = function() {este.abrirFechar()};
-    this.btnSalvar = new BotaoRetangular(this.x , this.y + 130, this.width, 50, 14, this.width, 50,
-        "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Despausar", false, true, false);
+    this.btnSalvar = new BotaoRetangular(this.x , this.y + this.height - 120, this.width, 50, 0, this.width, 50,
+        "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Salvar", false, true, false);
     this.btnSalvar.onclick = function() {salvar()};
+    this.btnSalvarFechar = new BotaoRetangular(this.x , this.y + this.height - 70, this.width, 50, 0, this.width, 50,
+        "#c3c3c3", "#d3d3d3", null, null, "bold 20pt Century Gothic", "black", "Salvar e fechar", false, true, false);
+    this.btnSalvarFechar.onclick = function() {abrirInfo("selecionar.html")};
 
     this.abrirFechar = function() 
     {
@@ -22,7 +25,8 @@ function MenuJogo()
         {
             this.btnDespausar.ativarInteracao();
             this.btnSalvar.ativarInteracao();
-            BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar]);
+            this.btnSalvarFechar.ativarInteracao();
+            BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar, this.btnSalvarFechar]);
             BotaoCircular.desativarTodos();
 
             clearInterval(timerDias);
@@ -33,9 +37,13 @@ function MenuJogo()
             BotaoRetangular.reativar();
             BotaoCircular.reativar();
 
+            this.btnSalvarFechar.desativarInteracao();
+            this.btnSalvar.desativarInteracao();
             this.btnDespausar.desativarInteracao();
             this.btnDespausar.hovering = false;
-            timerDias = setInterval(intervaloDias, 50);
+
+            if (!timerDias)
+                timerDias = setInterval(intervaloDias, 50);
             rua.despausar();
         }
     }
@@ -47,6 +55,8 @@ function MenuJogo()
             ctx.save();
 
             desenharJanela();
+            desenharBotoes();
+            desenharJogoPausado();
 
             ctx.restore();
         }
@@ -66,8 +76,27 @@ function MenuJogo()
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Menu", este.x + este.width/2, este.y + 10, este.width - 5);
-
+    }
+    function desenharBotoes()
+    {
         este.btnDespausar.desenhar();
         este.btnSalvar.desenhar();
+        este.btnSalvarFechar.desenhar();
+    }
+    function desenharJogoPausado()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 50pt Century Gothic";
+
+        ctx.fillText("Jogo Pausado", canvas.width/2, 150);
+        ctx.fillStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.strokeText("Jogo Pausado", canvas.width/2, 150);
+
+        ctx.restore();
     }
 }

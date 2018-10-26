@@ -67,8 +67,8 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const Email = requisicao.body.Email;
     const FotoPerfil = requisicao.body.FotoPerfil;
     const ImagemBanner = requisicao.body.ImagemBanner;
-    const CorBanner = requisicao.body.CorBanner.substring(0, 7);
-    const CorFundo = requisicao.body.CorFundo.substring(0, 7);
+    const CorBanner = requisicao.body.CorBanner;
+    const CorFundo = requisicao.body.CorFundo;
     bcrypt.hash(Senha, saltRounds, (err, hash) => {
       execSQL(`insert into Usuario values('${Username}', '${hash}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
               ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
@@ -83,14 +83,18 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const Email = requisicao.body.Email;
     const FotoPerfil = requisicao.body.FotoPerfil;
     const ImagemBanner = requisicao.body.ImagemBanner;
-    const CorBanner = requisicao.body.CorBanner.substring(0, 7);
-    const CorFundo = requisicao.body.CorFundo.substring(0, 7);
+    const CorBanner = requisicao.body.CorBanner;
+    const CorFundo = requisicao.body.CorFundo;
     execSQL(`UPDATE usuario SET CodUsuario='${CodUsuario}', Senha='${Senha}',
                                 Nome='${Nome}', Sexo='${Sexo}', Biografia='${Biografia}', Email='${Email}',
                                 FotoPerfil='${FotoPerfil}', ImagemBanner='${ImagemBanner}', CorBanner='${CorBanner}',
                                 CorFundo='${CorFundo}'
                                 WHERE CodUsuario=${CodUsuario}`, resposta);
     resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
+})
+rota.patch('/usuario/corFundo/:cod', (requisicao, resposta) => {
+  const cor = requisicao.body.Cor;
+  execSQL(`update Usuario set CorFundo = '${cor}' where CodUsuario = ${requisicao.params.cod}`, resposta);
 })
 // devolve usuario com base no seu username
 rota.get('/getUsuario/:username', (requisicao, resposta) => {

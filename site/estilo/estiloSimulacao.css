@@ -48,17 +48,6 @@
 #atualizarConta {right: 24.1%;}
 #previsao {right: 6.5%;}
 
-.modal
-{
- 	display:none;
- 	position: fixed;
-  	z-index:1;
-  	left: 0;
-  	top:0;
-  	height: 100%;
-  	width:100%;
-  	background-color: rgba(0,0,0,0.5);
-}
 #modal-content
 {
   	background-color:#f4f4f4;
@@ -71,41 +60,6 @@
   	left: 20%;
   	top: -20vh;
 }
-#modalConfirma-content
-{
-  	background-color: lightgray;
-  	margin: 20% auto;
-  	width:40%;
-  	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
-  	animation-name:modalopen;
-  	animation-duration:1s;
-  	position: absolute;
-  	left: 40%;
-  	top: -15vh;
-}
-.btnSair
-{
-	background: url('../imagens/sairSimulacao.png') no-repeat;
-	background-size: 100%;
-	position: absolute;
-	top: -4vh;
-	right: -4vh;
-	width: 8vh;
-	height: 8vh;
-	border-radius: 50%;	
-	transition: filter 0.5s;
-	z-index: 2;
-}
-.btnSair:hover
-{
-	filter: brightness(150%);
-	transition: filter 0.5s;
-	cursor: pointer;
-}
-@keyframes modalopen{
-  from{ opacity: 0}
-  to {opacity: 1}
-}
 #painelConta
 {
 	position: absolute;
@@ -114,60 +68,4 @@
 	width: 130vh;
 	top: -10vh;
 	left: 15vh;
-}
-
-#txtConfirma
-{
-	position: relative;
-	font-size: 5vh;
-	font-family: "Century Gothic";
-	color: black;
-}
-#btnSim
-{
-	position: relative;
-	bottom: 4vh;
-	right: 5vh;
-	width: 20vh;
-	height: 5vh;
-	border: 0.3vh solid black;
-	border-radius: 5vh;
-	color: black;
-	font-size: 3vh;
-	background-color: white;
-	transition: color 0.5s;
-	transition: background-color 0.5s;
-	font-weight: bold;
-}
-#btnSim:hover
-{
-	cursor:pointer;
-	background-color: green;
-	color:white;
-	transition: color 0.5s;
-	transition: background-color 0.5s;
-}
-#btnCancelar
-{
-	position: relative;
-	bottom: 4vh;
-	left: 5vh;
-	width: 20vh;
-	height: 5vh;
-	border: 0.3vh solid black;
-	border-radius: 5vh;
-	color: black;
-	font-size: 3vh;
-	background-color: white;
-	transition: color 0.5s;
-	transition: background-color 0.5s;
-	font-weight: bold;
-}
-#btnCancelar:hover
-{
-	cursor:pointer;
-	background-color: darkred;
-	color:white;
-	transition: color 0.5s;
-	transition: background-color 0.5s;
 }

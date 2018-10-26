@@ -1,6 +1,6 @@
 var arquivoI;
 var arquivoB;
-var senhaAtual = "teste";
+var senhaAtual = user.Senha;
 
 $("#foto").on("mouseenter", function() {
 	$("#mudarImagem").css("visibility", "visible");
@@ -64,16 +64,24 @@ $("#rightPage").on("click", function () {
 $("#leftPage").on("click", function () {
 	abrirInfo("configurar.html");
 	setTimeout(mudarCorMenu, 5);
-	var r = new FileReader();
-	r.onload = function (e) {
-		$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 28vh 28vh;');
-		$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 15vw 15vw;');
-	};
-	r.readAsDataURL(arquivoI);
+	if (arquivoI != null)
+	{
+		var r = new FileReader();
+		r.onload = function (e) {
+			$("#foto").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 28vh 28vh;');
+			$("#perfil").attr('style', 'background: url('+e.target.result+') no-repeat;background-size: 15vw 15vw;');
+		};
+		r.readAsDataURL(arquivoI);
+	}
 });
 $("#backColor").on("change", function(){
 	var cor = document.getElementById("backColor").value;
 	$("#conteudoInfo").css("background-color", cor);
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/corFundo/' + user.CodUsuario,
+		type: 'PATCH',
+		data: {Cor: cor}
+	});
 })
 $("#backColorB").on("change", function(){
 	var cor = document.getElementById("backColorB").value;
@@ -99,13 +107,21 @@ $("#retirarBanner").on("click", function() {
 
 function colocarDadosConfig()
 {
-	$("input[name=nome]").val(user.Nome);
-	$("input[name=email]").val(user.Email);
-	if (user.Sexo == 'M')
-		$('input[value=M]').prop('checked', true);
-	else
-		$('input[value=F]').prop('checked', true);
-	$("input[name=sexo]").val(user.Nome);	
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/' + user.CodUsuario
+	}).done(function(dados){
+		user = dados[0];
+		$("input[name=nome]").val(user.Nome);
+		$("input[name=email]").val(user.Email);
+		if (user.Sexo == 'M')
+			$('input[value=M]').prop('checked', true);
+		else
+			$('input[value=F]').prop('checked', true);
+		$("#menu").css("background-color", user.CorBanner);
+		$("#conteudoInfo").css("background-color", user.CorFundo);
+		$('.opcao.active').css('background-color', user.CorFundo);
+		$('.opcao.active').css('color', 'white');
+	})
 }
 
 function mostrarSenha(id)
@@ -122,9 +138,42 @@ function atualizarConfigs()
 	var atualizar = new Object();
 	atualizar.Nome = $("input[name=nome]").val();
 	atualizar.Email = $("input[name=email]").val();
-	atualizar.Sexo = $("input[name=sexo]").val();
-	atualizar.Senha = $("input[name=senha]").val();
-	console.log(atualizar)
+	if (document.getElementById('M').checked)
+		atualizar.Sexo = 'M';
+	else
+		atualizar.Sexo = 'F';
+	atualizar.Senha = $("#senhaNova").val();
+	atualizar.Biografia = $('#bio').val();
+	atualizar.CorBanner = $("#banner").css('background-color');
+	atualizar.CorFundo = $("#conteudoInfo").css("background-color");
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/' + user.CodUsuario,
+		type: 'PATCH',
+		data: atualizar
+	})
+	setTimeout(function() {
+		$.ajax({
+			url: 'http://' + local + ':3000/getUsuario/' + user.Username
+		}).done(function(dados){
+			user = dados[0];
+			$("#senhaAntiga").val("");
+			$("#senhaNova").val("");
+			$("#confSenha").val("");
+		});
+	}, 30);
+
+}
+function AtualizarioBio()
+{
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/' + user.CodUsuario + '/' + $('#bio').val(),
+		type: patch
+	})
+	setTimeout(function() {
+		$.ajax({
+			url: 'http://' + local + ':3000/getUsuario' + user.Username
+		}).done(function(dados){user = dados[0]; console.log(user)});
+	}, 30);
 }
 function verificarCampos()
 {
@@ -136,11 +185,11 @@ function verificarCampos()
 				 "E-mail",
 				 "Formato Inválido"))
 		houveErro = true;
-	if ($("#senhaAntiga").val().trim() != "" && !testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
+	if ($("#senhaAntiga").val().trim() != "" && testarSenhaAntiga(document.getElementById('senhaAntiga'), "Senha Atual", "Senha incorreta"))
 		houveErro = true;
 	if (!testarRadioSelecionado(document.getElementsByName('sexo'), "Sexo", "Selecione uma opção"))
 		houveErro = true;
-	if ($("input[name=senha]").val().trim() != "" && !testarTamanho(document.getElementsByName('senha')[0], 7, "Senha", "Mínimo de 7 caracteres"))
+	if ($("input[name=senha]").val().trim() != "" && !testarTamanho(document.getElementsByName('senha')[0], 7, "Nova Senha:", "Mínimo de 7 caracteres"))
 		houveErro = true;
 	if ($("input[name=confSenha]").val().trim() != "" && !testarIgualdade(document.getElementsByName('confSenha')[0], document.getElementsByName('senha')[0], "Confirmar senha", "Senhas diferentes"))
 		houveErro = true;
@@ -148,7 +197,6 @@ function verificarCampos()
 	{
 		document.getElementById("corrija").textContent = "";
 		atualizarConfigs();
-		alert('Informações atualizadas com sucesso!');
 	}
 	else
 	{
@@ -222,15 +270,17 @@ function testarIgualdade(campoConfirme, campoRelativo, titulo, mensagemErro)
 }
 function testarSenhaAntiga(campo, titulo, msgErro)
 {
-	var senhaCerta = true;
-	if (campo.value != senhaAtual)
-		senhaCerta = false;
-	if (!senhaCerta)
-	{
-		campo.parentElement.style.color = "darkred";
-		campo.parentElement.firstElementChild.textContent = titulo + " - " + msgErro;
-	}
-	return senhaCerta;
+	var senhaCerta = false;
+	var senha = $("#senhaAntiga").val();
+	var hash = user.Senha;
+	$.post('http://' + local + ':3000/autenticar/', {SenhaDigitada: senha, Hash: hash}, function(res) {
+		if (!res)
+		{
+			campo.parentElement.style.color = "darkred";
+			campo.parentElement.firstElementChild.textContent = titulo + " - " + msgErro;
+		}
+		return !res;
+	});
 }
 
 function mudarCorConteudo()

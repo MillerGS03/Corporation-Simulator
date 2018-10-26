@@ -87,6 +87,11 @@ $("#backColorB").on("change", function(){
 	var cor = document.getElementById("backColorB").value;
 	$("#menu").css("background-color", cor);
 	$("#banner").css("background-color", cor);
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/corBanner/' + user.CodUsuario,
+		type: 'PATCH',
+		data: {Cor: cor}
+	});
 })
 $("#retirarBanner").on("click", function() {
 	const rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
@@ -119,8 +124,9 @@ function colocarDadosConfig()
 			$('input[value=F]').prop('checked', true);
 		$("#menu").css("background-color", user.CorBanner);
 		$("#conteudoInfo").css("background-color", user.CorFundo);
-		$('.opcao.active').css('background-color', user.CorFundo);
-		$('.opcao.active').css('color', 'white');
+		$("#banner").css("background-color", user.CorBanner);
+		$("#foto").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 28vh 28vh;');
+			$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
 	})
 }
 
@@ -309,7 +315,7 @@ function mudarCorMenu()
 }
 function carregarFoto()
 {
-	$("#foto").css('background', $('#perfil').css('background'));
+	$("#foto").css('background', user.FotoPerfil);
 }
 function carregarBanner()
 {

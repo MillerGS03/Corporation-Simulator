@@ -157,25 +157,28 @@ function iniciarSelecionar()
     {
         document.getElementById("nomeJogo").value = "";
         $("#btnSair").trigger('click');
-        $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt, function() {
-        });
+        $.post('http://' + local + ':3000/addJogo/' + user.CodUsuario + '/' + txt);
         setTimeout(function() {
             addOptions();
             $.ajax({
                 url: 'http://' + local + ':3000/jogos/' + user.CodUsuario + "/" + txt
             }).done(function(dados){jogo = dados[0]; abrirInfo("jogo.html");})
         }, 10);
+
     }
     function removerOpcao()
     {
-        var select = document.getElementById('select');
-        var nomeJogo = select.options[select.selectedIndex].value;
-        $.ajax({
-            url: 'http://' + local + ':3000/jogos/' + `${user.CodUsuario}/${nomeJogo}`,
-            type: 'DELETE',
+        confirme('Excluir esse jogo', function(){
+            //Guilty Crown - Episódio 
+            var select = document.getElementById('select');
+            var nomeJogo = select.options[select.selectedIndex].value;
+            $.ajax({
+                url: 'http://' + local + ':3000/jogos/' + `${user.CodUsuario}/${nomeJogo}`,
+                type: 'DELETE',
+            });
+            setTimeout(function() {
+                abrirInfo("selecionar.html");
+            }, 10);
         });
-        setTimeout(function() {
-            abrirInfo("selecionar.html");
-        }, 10);
     }
 }

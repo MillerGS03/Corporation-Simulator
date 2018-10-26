@@ -96,6 +96,10 @@ rota.patch('/usuario/corFundo/:cod', (requisicao, resposta) => {
   const cor = requisicao.body.Cor;
   execSQL(`update Usuario set CorFundo = '${cor}' where CodUsuario = ${requisicao.params.cod}`, resposta);
 })
+rota.patch('/usuario/corBanner/:cod', (requisicao, resposta) => {
+  const cor = requisicao.body.Cor;
+  execSQL(`update Usuario set CorBanner = '${cor}' where CodUsuario = ${requisicao.params.cod}`, resposta);
+})
 // devolve usuario com base no seu username
 rota.get('/getUsuario/:username', (requisicao, resposta) => {
   const username = requisicao.params.username;

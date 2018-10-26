@@ -21,29 +21,29 @@
     	<form id="personalInfo">
     		<label><span>Nome: </span><br><input type="text" name="nome"></label><br>
     		<label><span>E-mail: </span><br><input type="email" name="email"></label><br>
-    		<label><span>Sexo: </span><br><input type="radio" name="sexo" value="M">Masculino<input type="radio" name="sexo" value="F">Feminino</label><br>
+    		<label><span>Sexo: </span><br><input type="radio" name="sexo" value="M" id='M'>Masculino<input type="radio" name="sexo" value="F" id='F'>Feminino</label><br>
     		<h3>Mudar senha:</h3>
                 <label><span>Senha atual: </span> <br>
                 <input type="password" id="senhaAntiga">
-                <label id="exibir1" class="exibir" onclick="Exibir1();">Exibir</label>
+                <label id="exibir1" class="exibir">Exibir</label>
                 </label>
                 <br>
 
                 <label><span>Nova Senha: </span><br>
                 <input type="password" name="senha" id="senhaNova">
-                <label id="exibir2" class="exibir" onclick="Exibir2();">Exibir</label>
+                <label id="exibir2" class="exibir">Exibir</label>
                 </label>
                 <br>
 
                 <label><span>Confirmar senha: </span><br>
                 <input type="password" name="confSenha" id="confSenha">
-                <label id="exibir3" class="exibir" onclick="Exibir3();">Exibir</label>
+                <label id="exibir3" class="exibir">Exibir</label>
                 </label>
 
     		<input type="button" onclick="verificarCampos();" name="Confirmar" value="Atualizar Informações" id="confirm">
     		<p id="corrija"></p>
     	</form>
-        <h2 id="alterarBackB">Alterar cor de fundo:</h2>
+        <h2 id="alterarBackB">Alterar cor do banner:</h2>
         <form class="frmAlterB">
             <input type="color" id="backColorB" value="">
         </form>

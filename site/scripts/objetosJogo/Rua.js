@@ -45,10 +45,13 @@ function Rua()
 		forcarParada = true;
 	}
 	this.pausar = function() {
-		clearInterval(intervalo);
+		if (intervalo)
+			clearInterval(intervalo);
+		intervalo = null;
 	}
 	this.despausar = function() {
-		intervalo = setInterval(this.moverCarros, 10, false);
+		if (!intervalo)
+			intervalo = setInterval(this.moverCarros, 10, false);
 	}
 	this.onMovimentacaoParou = function() {} // Evento do fim da movimentação de todos os carros após forçação de parada
 	this.entregar = function() {

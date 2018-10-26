@@ -114,7 +114,7 @@ rota.delete('/jogos/:codUsuario/:nome', (requisicao, resposta) =>{
 rota.post('/addJogo/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   const cod = requisicao.params.cod;
-  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '01/01/01', 20000, 0, 0, 0, 0)`, resposta);
+  execSQL(`insert into Jogo values('${nome}', ${cod}, 0, '01/01/01', -1, 0, 0, 0, 0)`, resposta);
 })
 rota.post('/construir/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;

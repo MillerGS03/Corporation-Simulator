@@ -13,8 +13,8 @@ function logar() {
                     {
                         setCookie("CodUsuario", resposta[0].CodUsuario, 30);
                         $("#logout").css("visibility", "visible");
-                        abrir("html/informacoes.html");
                         user = resposta[0];
+                        abrir("html/informacoes.html");
                     }
                     else
                         alert("Senha inválida!");

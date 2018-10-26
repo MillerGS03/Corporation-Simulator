@@ -68,7 +68,6 @@ function iniciar()
 	window.addEventListener("resize", redimensionarCanvas);
 
 	barra = new BarraSuperior();
-	barra.dinheiro = 4000000;
 	barra.onNivelMudou = function() {
 		construcao.setNivel(barra.nivel);
 	}
@@ -94,27 +93,19 @@ function iniciar()
 	setTimeout(function(){
 		criarBotoes();
 		ativarBotoes();
-	
-		contador = 0;
-
-		if (calendario.dia < 3 && calendario.mes == 1 && calendario.ano == 1)
-			tutorial.abrirFechar();
-		else
-			timerDias = setInterval(intervaloDias, 50);
 		timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
-	
-		$("#meuCanvas").on("mousemove", (function(e){
-			if (e.bubbles)
-			{
-				var rect = e.target.getBoundingClientRect();
-		
-				xMouse = (e.clientX - rect.left) / fatorEscala;
-				yMouse = (e.clientY - rect.top) / fatorEscala;
-			}
-		})); 
-	
-		calendario.adicionarEvento(25, 2, 1, 1);
 	}, 10);
+	$("#meuCanvas").on("mousemove", (function(e){
+		if (e.bubbles)
+		{
+			var rect = e.target.getBoundingClientRect();
+	
+			xMouse = (e.clientX - rect.left) / fatorEscala;
+			yMouse = (e.clientY - rect.top) / fatorEscala;
+		}
+	})); 
+
+	calendario.adicionarEvento(25, 2, 1, 1);
 }
 function intervaloDias()
 {
@@ -354,7 +345,6 @@ function carregarDados()
 	calendario.mes = mes;
 	calendario.ano = ano;
 	barra.atualizarDia(dia);
-	barra.dinheiro = parseInt(jogo.Caixa);
 	barra.ganharXP(jogo.XP, false);
 	mapa.banco.saldo = jogo.ContaBancoMovimento;
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
@@ -397,6 +387,18 @@ function carregarDados()
 	{
 		setTimeout(ativarBotoes, 50);
 		setTimeout(ativarBotoes, 500);
+	}
+	contador = 0;
+
+	if (jogo.Caixa == -1)
+	{
+		barra.dinheiro = 20000;
+		tutorial.abrirFechar();
+	}
+	else
+	{
+		barra.dinheiro = jogo.Caixa;
+		timerDias = setInterval(intervaloDias, 50);
 	}
 	carregado = true;
 }

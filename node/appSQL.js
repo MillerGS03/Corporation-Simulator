@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();         
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({dest: "./uploads"});
 const bcrypt = require('bcryptjs');
@@ -15,8 +15,8 @@ sql.connect(conexaoStr)
    .catch(erro => console.log(erro));
 
 // configurando o body parser para pegar POSTS mais tarde   
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 //acrescentando informacoes de cabecalho para suportar o CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -79,18 +79,11 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const Senha = requisicao.body.Senha;
     const Nome = requisicao.body.Nome;
     const Sexo = requisicao.body.Sexo;
-    const Biografia = requisicao.body.Biografia;
     const Email = requisicao.body.Email;
-    const FotoPerfil = requisicao.body.FotoPerfil;
-    const ImagemBanner = requisicao.body.ImagemBanner;
-    const CorBanner = requisicao.body.CorBanner;
-    const CorFundo = requisicao.body.CorFundo;
-    execSQL(`UPDATE usuario SET CodUsuario='${CodUsuario}', Senha='${Senha}',
-                                Nome='${Nome}', Sexo='${Sexo}', Biografia='${Biografia}', Email='${Email}',
-                                FotoPerfil='${FotoPerfil}', ImagemBanner='${ImagemBanner}', CorBanner='${CorBanner}',
-                                CorFundo='${CorFundo}'
-                                WHERE CodUsuario=${CodUsuario}`, resposta);
-    resposta.end(resposta.json({ mensagem: 'Alterado!'}));  
+    bcrypt.hash(Senha, saltRounds, (err, hash) => {
+      execSQL(`UPDATE usuario SET Senha='${hash}', Nome='${Nome}', Sexo='${Sexo}',
+              Email='${Email}' WHERE CodUsuario=${CodUsuario}`, resposta);
+    });
 })
 rota.patch('/usuario/corFundo/:cod', (requisicao, resposta) => {
   const cor = requisicao.body.Cor;
@@ -99,6 +92,21 @@ rota.patch('/usuario/corFundo/:cod', (requisicao, resposta) => {
 rota.patch('/usuario/corBanner/:cod', (requisicao, resposta) => {
   const cor = requisicao.body.Cor;
   execSQL(`update Usuario set CorBanner = '${cor}' where CodUsuario = ${requisicao.params.cod}`, resposta);
+})
+rota.patch('/usuario/bio/:cod/:bio', (requisicao, resposta) => {
+  const cod = requisicao.params.cod;
+  const bio = requisicao.params.bio;
+  execSQL(`update Usuario set Biografia = '${bio}' where CodUsuario = ${cod}`, resposta);
+})
+rota.patch('/usuario/mudarFoto/:cod', (requisicao, resposta) =>{
+  const cod = requisicao.params.cod;
+  const foto = requisicao.body.foto;
+  execSQL(`update Usuario set FotoPerfil = '${foto}' where CodUsuario = ${cod}`, resposta);
+})
+rota.patch('/usuario/mudarBanner/:cod', (requisicao, resposta) =>{
+  const cod = requisicao.params.cod;
+  const banner = requisicao.body.banner;
+  execSQL(`update Usuario set ImagemBanner = '${banner}' where CodUsuario = ${cod}`, resposta);
 })
 // devolve usuario com base no seu username
 rota.get('/getUsuario/:username', (requisicao, resposta) => {

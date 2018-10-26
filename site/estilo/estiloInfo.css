@@ -79,23 +79,24 @@ a
 }
 #configuracoes
 {
-	top: 53.3vh;
+	top: 57.7vh;
 }
 #classificacao
 {
-	top: 61.1vh;
+	top: 65.5vh;
 }
 #manual
 {
-	top: 68.7vh;
+	top: 73.1vh;
 }
 #simulacoes
 {
-	top: 76.3vh;
+	top: 80.7vh;
 }
 #jogos
 {
-	top: 84.1vh;
+	/* top: 84.1vh; */
+	top: 88.5vh;
 }
 section#conteudoInfo
 {

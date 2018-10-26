@@ -6,11 +6,14 @@ Nome varchar(50) not null,
 Sexo char not null,
 Biografia ntext,
 Email ntext not null,
-FotoPerfil varbinary(max),
-ImagemBanner varbinary(max),
+FotoPerfil varchar(max),
+ImagemBanner varchar(max),
 CorBanner varchar(7),
 CorFundo varchar(7)
 )
+
+alter table Usuario
+alter column ImagemBanner varchar(max)
 
 create table Jogo (
 CodJogo int identity(1,1) primary key,

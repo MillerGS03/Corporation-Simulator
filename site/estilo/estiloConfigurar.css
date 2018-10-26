@@ -293,7 +293,7 @@ p#corrija
 input[type="color"]
 {
 	position: absolute;
-	top: 10vh;
+	top: 4vh;
 	width: 20vh;
 	height: 4vh;
 	border-width: 0.1vh;

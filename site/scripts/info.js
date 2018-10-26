@@ -73,7 +73,7 @@ function confirma(txt, funcao)
 	'<button id="btnSim">Sim</button>'+
 	'<button id="btnCancelar">Cancelar</button>'+
 	'</div></div>'
-	$("#painelConta").append(str)
+	$("#conteudo").append(str)
 	$("#modalConfirma").css('display', 'block');
 	$("#sairModalConfirma").on('click', function(){
 		$("#modalConfirma").css('display', 'none');

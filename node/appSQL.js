@@ -171,6 +171,10 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   today = mm + '/' + dd + '/' + yyyy;
   execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}')`, resposta);
 })
+rota.delete('/simulacoes/:codUsuario/:nome', (requisicao, resposta) =>{
+  execSQL(`Delete from Patrimonio where CodSimulacao in (select CodSimulacao from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
+	execSQL(`DELETE from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}'`, resposta);
+})
 rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;
   const c = requisicao.body;

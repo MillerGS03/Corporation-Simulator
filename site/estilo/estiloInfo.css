@@ -114,6 +114,7 @@ section#conteudoInfo
 #txtConfirma
 {
 	position: relative;
+	text-align: center;
 	font-size: 5vh;
 	font-family: "Century Gothic";
 	color: black;
@@ -121,8 +122,8 @@ section#conteudoInfo
 #btnSim
 {
 	position: relative;
-	bottom: 4vh;
-	right: 5vh;
+	bottom: 4.25vh;
+	left: 17.5vh;
 	width: 20vh;
 	height: 5vh;
 	border: 0.3vh solid black;
@@ -145,8 +146,8 @@ section#conteudoInfo
 #btnCancelar
 {
 	position: relative;
-	bottom: 4vh;
-	left: 5vh;
+	bottom: 4.25vh;
+	left: 22.5vh;
 	width: 20vh;
 	height: 5vh;
 	border: 0.3vh solid black;

@@ -110,6 +110,8 @@ function iniciarSelecionar()
         if (s.selectedIndex > 0) {
             $("#btnCarregar").css("visibility", "visible");
             $("#btnCarregar").on("click", carregarSimulacao);
+            $("#btnRemover").css("visibility", "visible");
+            $("#btnRemover").on("click", removerOpcao);
         }
     }
 
@@ -147,6 +149,20 @@ function iniciarSelecionar()
         document.getElementById("nomeSimulacao").value = "";
         $("#btnSair").trigger('click');
         $.post('http://' + local + ':3000/addSimulacao/' + user.CodUsuario + '/' + txt);
-        setTimeout(addOptions, 10);
+        setTimeout(addOptions, 20);
+    }
+    function removerOpcao()
+    {
+        confirma('Excluir essa simulação', function(){
+            var select = document.getElementById('select');
+            var nomeSimulacao = select.options[select.selectedIndex].value;
+            $.ajax({
+                url: 'http://' + local + ':3000/simulacoes/' + `${user.CodUsuario}/${nomeSimulacao}`,
+                type: 'DELETE',
+            });
+            setTimeout(function() {
+                abrirInfo("simulacoes.html");
+            }, 10);
+        });
     }
 }

@@ -306,3 +306,8 @@ function carregarBanner()
 carregarFoto();
 carregarBanner();
 colocarDadosConfig();
+setTimeout(function() {
+	carregarFoto();
+	carregarBanner();
+	colocarDadosConfig();
+}, 100)

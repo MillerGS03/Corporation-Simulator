@@ -6,7 +6,6 @@ var simulacao;
 function colocarDados() {
 	$("#user").text(user.Username);
 	$("#rank").text(user.Rank);
-	$("#conteudoInfo").css("height", "900");
 	$("head").append('<style type="text/css">' +
 	'.active'+
 		'{'+

@@ -45,7 +45,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.text = txt;
 	this.textOnlyOnHover = txtOnlyOnHover;
 	this.hovering = false;
-	this.autoUpdate = autoUpdate;
+	this.autoUpdate = false;
 	this.changeCursor = changeCursor;
 
 	this.stroke = true;

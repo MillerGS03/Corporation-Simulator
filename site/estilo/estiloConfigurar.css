@@ -265,6 +265,7 @@ p#corrija
 {
 	position: absolute;
 	top: 10vh;
+	width: 100%;
 	text-align: center;
 	font-family: "Century Gothic";
 	font-size: 3vh;
@@ -278,7 +279,7 @@ p#corrija
 #alterarBackB
 {
 	position: absolute;
-	top: 85vh;
+	top: 86.5%;
 	left: 6%;
 	font-family: "Century Gothic";
 	font-size: 2.8vh;
@@ -286,7 +287,7 @@ p#corrija
 .frmAlterB
 {
 	position: absolute;
-	top: 82.2vh;
+	top: 82.5%;
 	left: 8vh;
 }
 input[type="color"]
@@ -302,7 +303,7 @@ input[type="color"]
 #retirarBanner
 {
 	position: absolute;
-	top: 83vh;
+	top: 85%;
 	left: 6%;
 	font-size: 2vh;
 	width: 28vh;

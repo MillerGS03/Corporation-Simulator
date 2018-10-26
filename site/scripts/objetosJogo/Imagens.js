@@ -25,6 +25,13 @@ imgBtnMapaHover.src = "imagens/botoes/btnMapaHover.png";
 imgBtnCalendarioHover.src = "imagens/botoes/btnCalendarioHover.png";
 
 //--------------------------------------------------------------------------
+// MenuJogo.js
+var imgBtnSomMudo = new Image();
+var imgBtnSomAtivo = new Image();
+imgBtnSomMudo.src = "imagens/menusBotoes/somMudo.png";
+imgBtnSomAtivo.src = "imagens/menusBotoes/somAtivo.png";
+//--------------------------------------------------------------------------
+
 // BarraSuperior.js
 var imgDinheiro = new Image();
 var imgNivel = new Image();

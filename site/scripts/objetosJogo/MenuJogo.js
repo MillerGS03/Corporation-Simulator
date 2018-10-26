@@ -9,27 +9,22 @@ function MenuJogo()
 
     this.aberto = false;
 
+    configurarBotoes();
     this.abrirFechar = function() 
     {
         this.aberto = !this.aberto;
         if (this.aberto)
         {
             this.ativar();
-            BotaoCircular.desativarTodos();
+            BotaoCircular.desativarTodos([this.btnMutarDesmutar]);
+            BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar, this.btnSalvarFechar, this.btnAbrirTutorial]);
+            for (var i = 0; i < this.botoesNivelSom.length; i++)
+                BotaoRetangular.exceto.push(this.botoesNivelSom[i]);
 
             if (!tutorial.aberto)
-            {
                 clearInterval(timerDias);
-                BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar, this.btnSalvarFechar, this.btnAbrirTutorial]);
-            }
             else
-            {
                 tutorial.desativar();
-                BotaoRetangular.exceto.push(this.btnDespausar);
-                BotaoRetangular.exceto.push(this.btnSalvar);
-                BotaoRetangular.exceto.push(this.btnSalvarFechar);
-                BotaoRetangular.exceto.push(this.btnAbrirTutorial);
-            }
 
             rua.pausar();
         }
@@ -67,6 +62,11 @@ function MenuJogo()
         this.btnSalvar.ativarInteracao();
         this.btnSalvarFechar.ativarInteracao();
         this.btnDespausar.ativarInteracao();
+        this.btnMutarDesmutar.ativarInteracao();
+
+        for (var i = 0; i < this.botoesNivelSom.length; i++)
+            this.botoesNivelSom[i].ativarInteracao();
+
         if (!tutorial.aberto)
             this.btnAbrirTutorial.ativarInteracao();
     }
@@ -74,10 +74,17 @@ function MenuJogo()
         this.btnSalvar.desativarInteracao();
         this.btnSalvarFechar.desativarInteracao();
         this.btnDespausar.desativarInteracao();
+        this.btnMutarDesmutar.desativarInteracao();
+
+        for (var i = 0; i < this.botoesNivelSom.length; i++)
+            this.botoesNivelSom[i].desativarInteracao();
+
         this.btnAbrirTutorial.desativarInteracao();
     }
     function desenharJanela()
     {
+        ctx.save();
+
         ctx.fillStyle = "#333333";
         ctx.globalAlpha = 0.4;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -91,12 +98,17 @@ function MenuJogo()
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Menu", este.x + este.width/2, este.y + 10, este.width - 5);
+
+        ctx.restore();
     }
     function desenharBotoes()
     {
         este.btnDespausar.desenhar();
         este.btnSalvar.desenhar();
         este.btnSalvarFechar.desenhar();
+        este.btnMutarDesmutar.desenhar();
+        for (var i = 0; i < este.botoesNivelSom.length; i++)
+            este.botoesNivelSom[i].desenhar();
         if (!tutorial.aberto)
             este.btnAbrirTutorial.desenhar();
     }
@@ -122,7 +134,23 @@ function MenuJogo()
                 tutorial.abrirFechar();
         };
 
-        este.btnMutarDesmutar;
+        este.btnMutarDesmutar = new BotaoCircular(este.x + 52, este.y + 90, 26, 26,
+                                "#c3c3c3", "#dadada", imgBtnSomAtivo, imgBtnSomAtivo,
+                                "", "", "", false, false, false);
+        este.btnMutarDesmutar.onclick = function() {
+            var botao = este.btnMutarDesmutar;
+            botao.backgroundImage = botao.backgroundImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
+            botao.backgroundHoverImage = botao.backgroundHoverImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
+        }
+
+        este.botoesNivelSom = new Array();
+        for (var i = 0; i < 6; i++)
+        {
+            este.botoesNivelSom[i] = new BotaoRetangular(este.x + 87 + i* 34, este.y + 83, 30, 14, 0, 30, 14,
+                                     "#a3a3a3", "#c3c3c3", null, null, "", "", "", false, false, false);
+            este.botoesNivelSom[i].nivel = i;
+            este.botoesNivelSom[i].onclick = function() {};
+        }
     }
     function desenharJogoPausado()
     {

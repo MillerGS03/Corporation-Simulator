@@ -323,6 +323,7 @@ function carregarBanner()
 	$("#banner").attr('style', 'background: '+img+';background-size: 100% 100%;');
 }
 setTimeout(mudarCorMenu, 5);
+setTimeout(mudarCorMenu, 100);
 carregarFoto();
 carregarBanner();
 colocarDadosConfig();

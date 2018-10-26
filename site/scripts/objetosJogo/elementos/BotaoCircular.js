@@ -36,7 +36,7 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.text = txt;
 	this.textOnlyOnHover = txtOnlyOnHover;
 	this.hovering = false;
-	this.autoUpdate = autoUpdate;
+	this.autoUpdate = false;
 	this.changeCursor = changeCursor;
 
 	this.ativo = false;

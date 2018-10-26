@@ -36,9 +36,11 @@ div#menu .fotoPerfil
 }
 div#menu .userData
 {
-	position: relative;
-	top: 32vh;
-	font-size: 4vh;
+	position: absolute;
+	top: 39vh;
+	left: 0;
+	width: 24vw;
+	font-size: 2.7vw;
 	font-family: "Century Gothic";
 	text-align: center;
 }

@@ -42,7 +42,6 @@ function verificarCampos()
 				usuario.ImagemBanner = 0000;
 				usuario.CorBanner = '';
 				usuario.CorFundo = '';
-				console.log(usuario)
 				$.post('http://' + local + ':3000/usuario', usuario)
 				abrir("html/home.html");
 				alert("Registro efetuado. Faça login para continuar!");

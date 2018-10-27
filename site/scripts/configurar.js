@@ -111,6 +111,27 @@ $("#backColor").on("change", function(){
 		type: 'PATCH',
 		data: {Cor: cor}
 	});
+	$("style").remove();
+	setTimeout(function() {
+		$("head").append('<style type="text/css">' +
+		'.active'+
+			'{'+
+				'position: absolute;'+
+				'width: 23.9vw;'+
+				'height: 7.8vh;'+
+				'font-family: "Century Gothic";'+
+				'font-size: 1.4vw;'+
+				'line-height: 7.8vh;'+
+				'vertical-align: middle;'+
+				'text-align: center;'+
+				'font-weight: bold;'+
+				'cursor:pointer;'+
+				'transition: background-color 0.2s ease-out;'+
+				'z-index: 3;'+
+				'background-color:' + cor + ';'+
+			'}'+
+		'</style>');
+	}, 20)
 })
 $("#backColorB").on("change", function(){
 	var cor = document.getElementById("backColorB").value;
@@ -147,19 +168,18 @@ function colocarDadosConfig()
 			$('input[value=M]').prop('checked', true);
 		else
 			$('input[value=F]').prop('checked', true);
-		$("#menu").css("background-color", user.CorBanner);
 		if (user.ImagemBanner == '')
 		{
 			$("#banner").css("background", user.CorBanner);
+			$("#menu").css("background", user.CorBanner);
 		}
 		else
-		{
-			$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
+		{	$("#banner").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 100%;');
 			$("#menu").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 57.75vh;');
 		}
+		$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
 		$("#conteudoInfo").css("background", user.CorFundo);
 		$("#foto").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 28vh 28vh;');
-		$("#banner").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 100%;');
 		$("#backColorB").attr("value", user.CorBanner);
 	})
 }
@@ -318,8 +338,3 @@ function carregarBanner()
 carregarFoto();
 carregarBanner();
 colocarDadosConfig();
-setTimeout(function() {
-	carregarFoto();
-	carregarBanner();
-	colocarDadosConfig();
-}, 100)

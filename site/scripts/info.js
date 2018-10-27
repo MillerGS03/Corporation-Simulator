@@ -24,9 +24,6 @@ function colocarDados() {
 			'background-color:' + user.CorFundo + ';'+
 		'}'+
 	'</style>');
-	//var newStyleElement = $("head").children(':last');
-	//newStyleElement.html(
-	//);
 }
 function abrirInfo(arq) 
 {

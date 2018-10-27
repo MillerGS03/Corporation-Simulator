@@ -52,7 +52,7 @@ rota.post('/autenticar', (requisicao, resposta) => {
   const Hash = requisicao.body.Hash;
   bcrypt.compare(SenhaDigitada, Hash, function(err, res) {
     resposta.json(res);
-});
+  });
 })
 rota.delete('/usuario/:id', (requisicao, resposta) =>{
 	execSQL('DELETE from usuario WHERE CodUsuario=' + parseInt(requisicao.params.id), resposta);
@@ -65,13 +65,13 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const Sexo = requisicao.body.Sexo;
     const Biografia = requisicao.body.Biografia;
     const Email = requisicao.body.Email;
-    const FotoPerfil = requisicao.body.FotoPerfil;
-    const ImagemBanner = requisicao.body.ImagemBanner;
-    const CorBanner = requisicao.body.CorBanner;
-    const CorFundo = requisicao.body.CorFundo;
+    const FotoPerfil = '';
+    const ImagemBanner = '';
+    const CorBanner = '';
+    const CorFundo = '';
     bcrypt.hash(Senha, saltRounds, (err, hash) => {
       execSQL(`insert into Usuario values('${Username}', '${hash}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
-              ${FotoPerfil}, ${ImagemBanner}, '${CorBanner}', '${CorFundo}')`, resposta);
+              '${FotoPerfil}', '${ImagemBanner}', '${CorBanner}', '${CorFundo}')`, resposta);
     });
 })
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
@@ -80,10 +80,16 @@ rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const Nome = requisicao.body.Nome;
     const Sexo = requisicao.body.Sexo;
     const Email = requisicao.body.Email;
-    bcrypt.hash(Senha, saltRounds, (err, hash) => {
+    if (Senha != '')
+    {
+      bcrypt.hash(Senha, saltRounds, (err, hash) => {
       execSQL(`UPDATE usuario SET Senha='${hash}', Nome='${Nome}', Sexo='${Sexo}',
               Email='${Email}' WHERE CodUsuario=${CodUsuario}`, resposta);
-    });
+      });
+    }
+    else
+      execSQL(`UPDATE usuario SET Nome='${Nome}', Sexo='${Sexo}',
+              Email='${Email}' WHERE CodUsuario=${CodUsuario}`, resposta);
 })
 rota.patch('/usuario/corFundo/:cod', (requisicao, resposta) => {
   const cor = requisicao.body.Cor;

@@ -48,7 +48,6 @@ $("#newBanner").on("change", function () {
 		})
 	};
 	r.readAsDataURL(arquivoB);
-	atualizarConfigs();
 });
 $("#mudarBanner").on("click", function() {
 	$("#newBanner").trigger("click");
@@ -127,6 +126,13 @@ $("#retirarBanner").on("click", function() {
 	$("#banner").attr('style', 'background: ' + user.CorBanner + ';');
 	$("#menu").attr('style', 'background: ' + user.CorBanner + ';');
 	$("#backColorB").attr("value", user.CorBanner);
+	var banner = new Object();
+	banner.banner = '';
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/mudarBanner/' + user.CodUsuario,
+		type: 'patch',
+		data: banner
+	})
 });
 
 function colocarDadosConfig()
@@ -142,13 +148,19 @@ function colocarDadosConfig()
 		else
 			$('input[value=F]').prop('checked', true);
 		$("#menu").css("background-color", user.CorBanner);
-		$("#conteudoInfo").css("background-color", user.CorFundo);
-		$("#banner").css("background-color", user.CorBanner);
+		if (user.ImagemBanner == '')
+		{
+			$("#banner").css("background", user.CorBanner);
+		}
+		else
+		{
+			$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
+			$("#menu").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 57.75vh;');
+		}
+		$("#conteudoInfo").css("background", user.CorFundo);
 		$("#foto").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 28vh 28vh;');
-		$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
 		$("#banner").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 100%;');
-		$("#menu").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 57.75vh;');
-	  	$("#backColorB").attr("value", user.CorBanner);
+		$("#backColorB").attr("value", user.CorBanner);
 	})
 }
 

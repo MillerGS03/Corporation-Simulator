@@ -110,7 +110,7 @@ div#fundoJogo
 	position: absolute;
 	top: 12vh;
 	width: 100%;
-	height: 92vh;
+	height: 96vh;
 	background: url('../imagens/empresa.png') no-repeat;
 	background-size: 255vh;
 	background-position: center 0px;
@@ -118,7 +118,7 @@ div#fundoJogo
 div#fundoJogo div#cortina
 {
 	width: 100%;
-	height: 92vh;
+	height: 96vh;
 	background-color: black;
 	opacity: .6;
 	position: absolute;

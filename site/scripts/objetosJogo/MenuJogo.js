@@ -81,6 +81,27 @@ function MenuJogo()
 
         this.btnAbrirTutorial.desativarInteracao();
     }
+
+    /**
+     * Controla a altura do som em geral.
+     * @param {number} altura Altura do som. Vai de 0 a 5
+     */
+    this.setAlturaSom = function(altura) {
+        musica.volume = (altura + 1)/6
+        for (var i = 0; i < this.botoesNivelSom.length; i++)
+        {
+            if (i <= altura)
+            {
+                this.botoesNivelSom[i].backgroundColor = "#cecece";
+                this.botoesNivelSom[i].backgroundHoverColor = "#e5e5e5";
+            }
+            else
+            {
+                this.botoesNivelSom[i].backgroundColor = "#838383";
+                this.botoesNivelSom[i].backgroundHoverColor = "#a3a3a3";
+            }
+        }
+    }
     function desenharJanela()
     {
         ctx.save();
@@ -141,15 +162,24 @@ function MenuJogo()
             var botao = este.btnMutarDesmutar;
             botao.backgroundImage = botao.backgroundImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
             botao.backgroundHoverImage = botao.backgroundHoverImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
+            musica.muted = botao.backgroundImage == imgBtnSomMudo;
         }
 
         este.botoesNivelSom = new Array();
         for (var i = 0; i < 6; i++)
         {
-            este.botoesNivelSom[i] = new BotaoRetangular(este.x + 87 + i* 34, este.y + 83, 30, 14, 0, 30, 14,
-                                     "#a3a3a3", "#c3c3c3", null, null, "", "", "", false, false, false);
-            este.botoesNivelSom[i].nivel = i;
-            este.botoesNivelSom[i].onclick = function() {};
+            este.botoesNivelSom.push(new BotaoRetangular(este.x + 87 + i* 34, este.y + 83, 30, 14, 0, 30, 14,
+                                     "#838383", "#a3a3a3", null, null, "", "", "", false, false, false));
+            var botao = este.botoesNivelSom[i];
+            botao.altura = i;
+            botao.onclick = function() {
+                for (var x = 0; x < este.botoesNivelSom.length; x++)
+                    if (este.botoesNivelSom[x].hovering)
+                    {
+                        este.setAlturaSom(x);
+                        break;
+                    }
+            };
         }
     }
     function desenharJogoPausado()

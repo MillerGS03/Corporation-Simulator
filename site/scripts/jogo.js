@@ -48,20 +48,26 @@ var carregado = false;
 
 var fatorEscala = 1;
 
+// Sons:
+var musicas = ["musicas/airtone_-_backwaters.ogg"];
+var musica = document.createElement("audio");
+
 iniciar();
 function iniciar()
 {
+	tocarMusica();
+
 	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
 	function redimensionarCanvas() 
 	{
 		fatorEscala = window.innerWidth / 1500;
-		if (92 * window.innerHeight / 100 < 700 * fatorEscala || 72 * window.innerWidth / 100 > 1000 * (92 * window.innerHeight / 70000))
-			fatorEscala = 92 * window.innerHeight / 70000;
+		if (96 * window.innerHeight / 100 < 700 * fatorEscala || 72 * window.innerWidth / 100 > 1000 * (96 * window.innerHeight / 70000))
+			fatorEscala = 96 * window.innerHeight / 70000;
 
 		$("#meuCanvas").css("left", "calc((76vw - 1000px * " + fatorEscala + ") / 2)")
-		$("#meuCanvas").css("top", "calc((92vh - 700px * " + fatorEscala + ") / 2)");
+		$("#meuCanvas").css("top", "calc((96vh - 700px * " + fatorEscala + ") / 2)");
 		$("#meuCanvas").css("transform", "scale(" + fatorEscala + ")")
 	}
 	redimensionarCanvas();
@@ -126,6 +132,7 @@ function finalizarJogo()
 	clearInterval(timerDias);
 	clearInterval(timerDesenhar);
 	salvar();
+	musica.pause();
 }
 function criarBotoes() 
 {
@@ -346,7 +353,8 @@ function carregarDados()
 	calendario.ano = ano;
 	barra.atualizarDia(dia);
 	barra.ganharXP(jogo.XP, false);
-	mapa.banco.saldo = jogo.ContaBancoMovimento;
+	mapa.banco.saldo = jogo.ContaBancoMovimento; // @TODO Resolver informações do banco
+	menuJogo.setAlturaSom(5); // @TODO Puxar do banco de dados
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
 		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
@@ -413,4 +421,24 @@ function salvar()
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
 	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
+}
+function tocarMusica()
+{
+	var novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
+	while (novaMusica == musica.src && musicas.length > 1)
+		novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
+
+	musica.src = novaMusica;
+	musica.load();
+	musica.play();
+	musica.onloadeddata = function() {
+		setTimeout(tocarMusica, (musica.duration + 1) * 1000);
+	}
+}
+function tocarSom(caminho)
+{
+	var audio = document.createElement("audio");
+	audio.src = caminho;
+	audio.load();
+	audio.play();
 }

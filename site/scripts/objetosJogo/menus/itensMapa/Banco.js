@@ -456,7 +456,7 @@ function Banco(x, y)
         esteB.btnGerarExtrato = new BotaoRetangular(xTela + widthTela / 2 - 125, yTela + 130, 250, 45, 
                                                     {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                     250, 45, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
-                                                    "Gerar extrato", false, false, false);
+                                                    "Gerar extrato", false, false, false, "sons/papel.ogg");
         esteB.btnGerarExtrato.onclick = function() {esteB.extrato.aberto = true; esteB.ativar()};
     }
     this.ativar = function()

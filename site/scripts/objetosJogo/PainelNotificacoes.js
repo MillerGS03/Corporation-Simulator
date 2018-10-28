@@ -79,6 +79,7 @@ function PainelNotificacoes()
     this.adicionarNotificacao = function(titulo, mensagem, dia, mes, ano)
     {
         notificacoes.splice(0, 0, new Notificacao(notificacoes.length, titulo, mensagem, dia, mes, ano));
+        tocarSom("sons/notificacao.ogg");
         atualizarIndicesNotificacoes();
         if (this.aberto)
             for (var i = 0; i < notificacoes.length && i < 6; i++)

@@ -8,7 +8,8 @@ BotaoRetangular.cooldown = false;
 BotaoRetangular.desativarTodos = function(exceto)
 {
 	if (BotaoRetangular.inativos)
-		BotaoRetangular.exceto.concat(exceto);
+		for (var i = 0; i < exceto.length; i++)
+			BotaoRetangular.exceto.push(exceto[i]);
 	else
 	{
 		if (exceto != null)
@@ -27,7 +28,7 @@ BotaoRetangular.reativar = function()
 	BotaoRetangular.exceto = new Array();
 	BotaoRetangular.inativos = false;
 }
-function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
+function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom)
 {
 	this.x = x;
 	this.y = y;
@@ -47,6 +48,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.hovering = false;
 	this.autoUpdate = false;
 	this.changeCursor = changeCursor;
+	this.som = caminhoSom;
 
 	this.stroke = true;
 
@@ -143,6 +145,10 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	{
 		if (!BotaoRetangular.cooldown && este.hovering && (!BotaoRetangular.inativos || BotaoRetangular.exceto.includes(este, 0)))
 		{
+			if (este.som)
+				tocarSom(este.som);
+			else
+				tocarSom("sons/click.ogg");
 			este.onclick(e);
 			canvas.dispatchEvent(new Event("mousemove"));
 			BotaoRetangular.cooldown = true;

@@ -31,7 +31,25 @@ var imgBtnSomAtivo = new Image();
 imgBtnSomMudo.src = "imagens/menusBotoes/somMudo.png";
 imgBtnSomAtivo.src = "imagens/menusBotoes/somAtivo.png";
 //--------------------------------------------------------------------------
+// Tutorial.js
+var imgTutCalendario = new Image();
+var imgTutConstrucao = new Image();
+var imgTutEstatisticas = new Image();
+var imgTutMapa = new Image();
+var imgPaginaAnterior = new Image();
+var imgPaginaAnteriorHover = new Image();
+var imgPaginaPosterior = new Image();
+var imgPaginaPosteriorHover = new Image();
+imgTutCalendario.src = "imagens/tutorial/calendario.png";
+imgTutConstrucao.src = "imagens/tutorial/construcao.png";
+imgTutEstatisticas.src = "imagens/tutorial/estatisticas.png";
+imgTutMapa.src = "imagens/tutorial/mapa.png";
+imgPaginaAnterior.src = "imagens/funcionalidades/setaEsquerdaMenor.png";
+imgPaginaAnteriorHover.src = "imagens/funcionalidades/setaEsquerda.png";
+imgPaginaPosterior.src = "imagens/funcionalidades/setaDireitaMenor.png";
+imgPaginaPosteriorHover.src = "imagens/funcionalidades/setaDireita.png";
 
+//--------------------------------------------------------------------------
 // BarraSuperior.js
 var imgDinheiro = new Image();
 var imgNivel = new Image();
@@ -58,12 +76,8 @@ imgAnterior.src = "imagens/menusBotoes/anterior.png";
 imgPosterior.src = "imagens/menusBotoes/posterior.png";
 //--------------------------------------------------------------------------
 // Estatisticas.js
-var imgProx = new Image();
-var imgAnt = new Image();
 var imgIconeEntrega = new Image();
 var imgEntrega = new Image();
-imgProx.src = 'imagens/funcionalidades/setaDireita.png';
-imgAnt.src = 'imagens/funcionalidades/setaEsquerda.png';
 imgIconeEntrega.src = "imagens/menusBotoes/iconeEntrega.png";
 imgEntrega.src = "imagens/menusBotoes/imagemEntrega.png";
 //--------------------------------------------------------------------------

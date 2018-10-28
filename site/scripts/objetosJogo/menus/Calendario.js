@@ -305,7 +305,7 @@ function Calendario()
 
         if (diaAtual > 0 && diaAtual <= este.qtosDiasTemOMes[mesExibido - 1])
         {
-            if (diaAtual == diaSelecionado || xMouse > xQuadrado && xMouse < xQuadrado + tamanhoDias && yMouse > yQuadrado && yMouse < yQuadrado + tamanhoDias)
+            if (diaAtual == diaSelecionado || (!BotaoRetangular.inativos) && xMouse > xQuadrado && xMouse < xQuadrado + tamanhoDias && yMouse > yQuadrado && yMouse < yQuadrado + tamanhoDias)
                 ctx.fillStyle = "#aaaaaa";
             else 
                 ctx.fillStyle = "silver";

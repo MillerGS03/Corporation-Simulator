@@ -123,7 +123,7 @@ rota.get('/getUsuario/:username', (requisicao, resposta) => {
 
 //rotas para selecao/carregamento/delecao de jogo
 rota.get('/jogos/:codUsuario', (requisicao, resposta) => {
-  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} order by XP`, resposta);
+  execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} order by XP desc`, resposta);
 })
 rota.get('/jogos/:codUsuario/:nome', (requisicao, resposta) => {
   execSQL(`select * from Jogo where CodUsuario = ${requisicao.params.codUsuario} and Nome = '${requisicao.params.nome}'`, resposta);

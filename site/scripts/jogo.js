@@ -22,6 +22,10 @@ var btnMapa;
 var btnCalendario;
 var btnNotificacoes;
 var painelNotificacoes;
+/**
+ * Mapa contendo lugares externos à empresa
+ * @type {Mapa}
+ */
 var mapa;
 var menuJogo;
 var tutorial;
@@ -46,11 +50,43 @@ var yMouse;
 
 var carregado = false;
 
+var qtasConstrucoesInicialmente = 0;
+
 var fatorEscala = 1;
 
 // Sons:
-var musicas = ["musicas/airtone_-_backwaters.ogg"];
+var musicas = ["musicas/airtone_-_backwaters.ogg", "musicas/rewob_-_A_White_Dream.ogg"];
 var musica = document.createElement("audio");
+var timeoutMusica;
+
+function tocarMusica()
+{
+	var novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
+	while (novaMusica == musica.src && musicas.length > 1)
+		novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
+
+	if (!musica.canPlayType("audio/ogg"))
+		novaMusica.replace("ogg", "mp3");
+	musica.src = novaMusica;
+	musica.load();
+	musica.play();
+	musica.onloadeddata = function() {
+		timeoutMusica = setTimeout(tocarMusica, (musica.duration + 1) * 1000);
+	}
+}
+function tocarSom(caminho)
+{
+	if (!menuJogo.isMudo())
+	{
+		var audio = document.createElement("audio");
+		if (!audio.canPlayType("audio/ogg"))
+			caminho.replace("ogg", "mp3");
+		audio.src = caminho;
+		audio.volume = menuJogo.getAlturaSom();
+		audio.load();
+		audio.play();
+	}
+}
 
 iniciar();
 function iniciar()
@@ -124,16 +160,6 @@ function intervaloDias()
 	if (contador % 200 == 0)
 		painelNotificacoes.adicionarNotificacao("bla", "Hello, mi amigo", calendario.dia, calendario.mes, calendario.ano);
 }
-function finalizarJogo()
-{
-	$("#meuCanvas").off();
-	$(document).off();
-	rua.pausar();
-	clearInterval(timerDias);
-	clearInterval(timerDesenhar);
-	salvar();
-	musica.pause();
-}
 function criarBotoes() 
 {
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
@@ -144,7 +170,7 @@ function criarBotoes()
 		"bold 13pt Century Gothic", "#232323", "Construção", true, false, false);
 	btnMapa = new BotaoCircular(60, 330, 40, 48,
 		"#347b87", "#4c98a5", imgBtnMapa, imgBtnMapaHover,
-		"bold 14pt Century Gothic", "#232323", "Mapa", true, false, false);
+		"bold 14pt Century Gothic", "#232323", "Mapa", true, false, false, "sons/papel.ogg");
 	btnCalendario = new BotaoCircular(60, 430, 40, 48,
 		"#347b87", "#4c98a5", imgBtnCalendario, imgBtnCalendarioHover,
 		"bold 13pt Century Gothic", "#232323", "Calendário", true, false, false);
@@ -359,6 +385,7 @@ function carregarDados()
 	$.ajax({
 		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
 	}).done(function(dados){
+		qtasConstrucoesInicialmente = dados.length;
 		for (var i = 0; i < dados.length; i++)
 		{
 			switch(dados[i].ItemConstruido)
@@ -408,6 +435,7 @@ function carregarDados()
 		barra.dinheiro = jogo.Caixa;
 		timerDias = setInterval(intervaloDias, 50);
 	}
+	mapa.desativar();
 	carregado = true;
 }
 function salvar()
@@ -421,24 +449,25 @@ function salvar()
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
 	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
-}
-function tocarMusica()
-{
-	var novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
-	while (novaMusica == musica.src && musicas.length > 1)
-		novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
-
-	musica.src = novaMusica;
-	musica.load();
-	musica.play();
-	musica.onloadeddata = function() {
-		setTimeout(tocarMusica, (musica.duration + 1) * 1000);
+	for (var i = qtasConstrucoesInicialmente; i < itensConstruidos.length; i++)
+	{
+		var novoItem = new Object();
+		novoItem.ItemConstruido = itensConstruidos[i].nome;
+		novoItem.X = itensConstruidos[i].x;
+		novoItem.Y = itensConstruidos[i].y;
+		$.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
 	}
 }
-function tocarSom(caminho)
+function finalizarJogo()
 {
-	var audio = document.createElement("audio");
-	audio.src = caminho;
-	audio.load();
-	audio.play();
+	$("#meuCanvas").off();
+	$(document).off();
+	rua.pausar();
+	clearInterval(timerDias);
+	clearInterval(timerDesenhar);
+	salvar();
+	musica.pause();
+	
+	if (timeoutMusica)
+		clearTimeout(timeoutMusica);
 }

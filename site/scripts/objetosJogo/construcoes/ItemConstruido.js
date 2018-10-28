@@ -1,10 +1,10 @@
-// Informaçõe estáticas
-ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100};
-ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130};
-ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140};
-ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130};
-ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 100, height: 100};
-ItemConstruido.caminho = {nome: "", preco: ItemAVender.caminho.preco, imagem: null, width: 20, height: 20};
+// Informações estáticas
+ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100, infoMenu: MenuItemConstruido.armazem};
+ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130, infoMenu: MenuItemConstruido.garagem};
+ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140, infoMenu: MenuItemConstruido.operacional};
+ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130, infoMenu: MenuItemConstruido.recursosHumanos};
+ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 100, height: 100, infoMenu: MenuItemConstruido.marketing};
+ItemConstruido.financeiro = {nome: "Financeiro", preco: ItemAVender.financeiro.preco, imagem: null, width: 100, height: 100, infoMenu: MenuItemConstruido.financeiro};
 
 function ItemConstruido(informacoes, isPrimeiro) 
 {
@@ -26,18 +26,18 @@ function ItemConstruido(informacoes, isPrimeiro)
                                      this.imagem, this.imagem, "bold 14pt Century Gothic", "Black", this.nome, true, false, false);
     this.botao.onclick = function() { abrirMenu(); };
 
-    this.menu = new MenuItemConstruido(xMenu, yMenu, ["Vender", "Upgrade"], this.nome);
+    this.menu = new MenuItemConstruido(xMenu, yMenu, informacoes.infoMenu);
 
     function abrirMenu()
     {
         este.menuVisivel = true; 
-        este.menu.x = xMouse; 
-        este.menu.y = yMouse;
+        este.menu.setX(xMouse);
+        este.menu.setY(yMouse);
         for (var i = 0; i < itens.length; i++)
             itens[i].botao.adicionarTesteHover (
                 function()
                 {
-                    var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + 200 && yMouse > este.menu.y && yMouse < este.menu.y + 300;
+                    var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + este.menu.width && yMouse > este.menu.y && yMouse < este.menu.y + este.menu.height;
                     return !estaDentro;
                 }
             );
@@ -52,7 +52,7 @@ function ItemConstruido(informacoes, isPrimeiro)
     }
     function testarClick()
     {
-        var estaDentro = xMouse >= este.menu.x && xMouse < este.menu.x + 200 && yMouse >= este.menu.y && yMouse < este.menu.y + 300;
+        var estaDentro = xMouse >= este.menu.x && xMouse < este.menu.x + este.menu.width && yMouse >= este.menu.y && yMouse < este.menu.y + este.menu.height;
         if (!estaDentro)
             fecharMenu();
     }
@@ -112,11 +112,7 @@ function ItemConstruido(informacoes, isPrimeiro)
             fazerCompra(este.nome, este.preco, false, true, 3, function() {
                 itens.push(este);
                 botoes.push(este.botao);
-                var novoItem = new Object();
-                novoItem.ItemConstruido = este.nome;
-                novoItem.X = este.x;
-                novoItem.Y = este.y;
-                $.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
+                tocarSom("sons/construcao.ogg");
                 ativarBotoes();
             })
         }

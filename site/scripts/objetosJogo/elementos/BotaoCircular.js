@@ -8,10 +8,17 @@ BotaoCircular.cooldown = false;
  */
 BotaoCircular.desativarTodos = function(exceto)
 {
-	if (exceto != null)
-		BotaoCircular.exceto = exceto;
-	BotaoCircular.inativos = true;
-	canvas.style.cursor = "default";
+	if (BotaoCircular.inativos)
+		for (var i = 0; i < exceto.length; i++)
+			BotaoCircular.exceto.push(exceto[i]);
+	else
+	{
+		if (exceto != null)
+			BotaoCircular.exceto = exceto;
+		BotaoCircular.inativos = true;
+		BotaoCircular.setTimeout = false;
+		canvas.style.cursor = "default";
+	}
 }
 /**
  * Reativa os botões
@@ -21,7 +28,7 @@ BotaoCircular.reativar = function()
 	BotaoCircular.exceto = new Array();
 	BotaoCircular.inativos = false;
 }
-function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor)
+function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom)
 {
 	this.x = x;
 	this.y = y;
@@ -38,6 +45,7 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	this.hovering = false;
 	this.autoUpdate = false;
 	this.changeCursor = changeCursor;
+	this.som = caminhoSom;
 
 	this.ativo = false;
 
@@ -130,6 +138,10 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 	{
 		if (!BotaoCircular.cooldown && este.hovering && (!BotaoCircular.inativos || BotaoCircular.exceto.includes(este, 0)))
 		{
+			if (este.som)
+				tocarSom(este.som);
+			else
+				tocarSom("sons/click.ogg");
 			este.onclick(e);
 			canvas.dispatchEvent(new Event("mousemove"));
 			BotaoCircular.cooldown = true;

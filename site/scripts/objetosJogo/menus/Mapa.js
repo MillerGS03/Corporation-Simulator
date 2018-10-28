@@ -62,34 +62,38 @@ function Mapa()
             ctx.restore();
         }
     } 
-    this.abrirFechar = function() {
+    this.abrirFechar = function() 
+    {
         this.aberto = !this.aberto;
         if (this.aberto)
-        {
-            desativarBotoes();
-            this.btnFechar.ativarInteracao();
+            this.ativar();
+        else
+            this.desativar();
+    }
+    this.ativar = function() 
+    {
+        desativarBotoes();
 
-            if (lugarAberto != -1)
-            {
-                este.btnVoltar.ativarInteracao();
-                abrirLugar();
-            }
-            else
-                ativarMapa();
+        this.btnFechar.ativarInteracao();
+
+        if (lugarAberto != -1)
+        {
+            este.btnVoltar.ativarInteracao();
+            abrirLugar();
         }
         else
-        {
-            this.btnFechar.desativarInteracao();
-            this.btnFechar.hovering = false;
-                
-            if (lugarAberto == -1)
-                desativarMapa();
-            else
-                fecharLugar();
-            este.btnVoltar.desativarInteracao();
+            ativarMapa();
+    }
+    this.desativar = function() 
+    {
+        this.btnFechar.desativarInteracao();
+        this.btnFechar.hovering = false;
+            
+        desativarMapa();
+        fecharLugar();
+        este.btnVoltar.desativarInteracao();
 
-            ativarBotoes();
-        }
+        ativarBotoes();
     }
     function desenharJanela()
     {

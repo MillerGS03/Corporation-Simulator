@@ -6,6 +6,9 @@ function MenuJogo()
     this.y = (canvas.height - this.height - 60)/2 + 105;
 
     var este = this;
+    var volumeGeral = 1;
+    var isMudo = false;
+    var isComMusica = true;
 
     this.aberto = false;
 
@@ -16,8 +19,8 @@ function MenuJogo()
         if (this.aberto)
         {
             this.ativar();
-            BotaoCircular.desativarTodos([this.btnMutarDesmutar]);
-            BotaoRetangular.desativarTodos([this.btnDespausar, this.btnSalvar, this.btnSalvarFechar, this.btnAbrirTutorial]);
+            BotaoCircular.desativarTodos([este.btnMutarDesmutar]);
+            BotaoRetangular.desativarTodos([este.btnDespausar, este.btnSalvar, este.btnSalvarFechar, este.btnAbrirTutorial, este.btnTirarColocarMusica]);
             for (var i = 0; i < this.botoesNivelSom.length; i++)
                 BotaoRetangular.exceto.push(this.botoesNivelSom[i]);
 
@@ -63,6 +66,7 @@ function MenuJogo()
         this.btnSalvarFechar.ativarInteracao();
         this.btnDespausar.ativarInteracao();
         this.btnMutarDesmutar.ativarInteracao();
+        this.btnTirarColocarMusica.ativarInteracao();
 
         for (var i = 0; i < this.botoesNivelSom.length; i++)
             this.botoesNivelSom[i].ativarInteracao();
@@ -75,6 +79,7 @@ function MenuJogo()
         this.btnSalvarFechar.desativarInteracao();
         this.btnDespausar.desativarInteracao();
         this.btnMutarDesmutar.desativarInteracao();
+        this.btnTirarColocarMusica.desativarInteracao();
 
         for (var i = 0; i < this.botoesNivelSom.length; i++)
             this.botoesNivelSom[i].desativarInteracao();
@@ -82,12 +87,19 @@ function MenuJogo()
         this.btnAbrirTutorial.desativarInteracao();
     }
 
+    this.isMudo = function() {
+        return isMudo;
+    }
+    this.getAlturaSom = function() {
+        return volumeGeral;
+    }
     /**
      * Controla a altura do som em geral.
      * @param {number} altura Altura do som. Vai de 0 a 5
      */
     this.setAlturaSom = function(altura) {
-        musica.volume = (altura + 1)/6
+        volumeGeral = (altura + 1)/6;
+        musica.volume = volumeGeral;
         for (var i = 0; i < this.botoesNivelSom.length; i++)
         {
             if (i <= altura)
@@ -128,6 +140,8 @@ function MenuJogo()
         este.btnSalvar.desenhar();
         este.btnSalvarFechar.desenhar();
         este.btnMutarDesmutar.desenhar();
+        este.btnTirarColocarMusica.desenhar();
+
         for (var i = 0; i < este.botoesNivelSom.length; i++)
             este.botoesNivelSom[i].desenhar();
         if (!tutorial.aberto)
@@ -141,7 +155,7 @@ function MenuJogo()
 
         este.btnSalvar = new BotaoRetangular(este.x + 1, este.y + este.height - 190, este.width - 2, 50, 0, este.width - 2, 50,
                                                 "#c3c3c3", "#dadada", null, null, "bold 20pt Century Gothic", "black", "Salvar", false, true, false);
-        este.btnSalvar.onclick = function() {salvar()};
+        este.btnSalvar.onclick = function() {salvar(); alert("Jogo salvo com sucesso!")};
         
         este.btnSalvarFechar = new BotaoRetangular(este.x + 1, este.y + este.height - 140, este.width - 2, 50, 0, este.width - 2, 50,
                                                 "#c3c3c3", "#dadada", null, null, "bold 20pt Century Gothic", "black", "Salvar e fechar", false, true, false);
@@ -162,7 +176,8 @@ function MenuJogo()
             var botao = este.btnMutarDesmutar;
             botao.backgroundImage = botao.backgroundImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
             botao.backgroundHoverImage = botao.backgroundHoverImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
-            musica.muted = botao.backgroundImage == imgBtnSomMudo;
+            isMudo = botao.backgroundImage == imgBtnSomMudo;
+            musica.muted = isMudo || !isComMusica;
         }
 
         este.botoesNivelSom = new Array();
@@ -180,6 +195,14 @@ function MenuJogo()
                         break;
                     }
             };
+        }
+
+        este.btnTirarColocarMusica = new BotaoRetangular(este.x + este.width/2 - 85, este.y + 115, 170, 30, 0, 170, 30,
+            "#c3c3c3", "#dadada", null, null, "bold 16pt Century Gothic", "black", "Tirar música", false, true, false);
+        este.btnTirarColocarMusica.onclick = function() {
+            isComMusica = !isComMusica;
+            este.btnTirarColocarMusica.text = isComMusica?"Tirar música":"Colocar música";
+            musica.muted = isMudo || !isComMusica;
         }
     }
     function desenharJogoPausado()

@@ -71,8 +71,12 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const CorFundo = '#4c98a5';
     bcrypt.hash(Senha, saltRounds, (err, hash) => {
       execSQL(`insert into Usuario values('${Username}', '${hash}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}', 
-              '${FotoPerfil}', '', '${CorBanner}', '${CorFundo}')`, resposta);
+              '${CorBanner}', '${CorFundo}')`, resposta);
     });
+    execSQL(`insert into UsuarioFoto values((select CodUsuario from Usuario where Username = '${Username}'), '${FotoPerfil}', '')`, resposta);
+})
+rota.get('/usuarioFoto/:codUsuario', (requisicao, resposta) => {
+  execSQL(`select * from UsuarioFoto where CodUsuario = ${requisicao.params.codUsuario}`, resposta);
 })
 rota.patch('/usuario/:id', (requisicao, resposta) =>{
     const CodUsuario = parseInt(requisicao.params.id);
@@ -107,12 +111,12 @@ rota.patch('/usuario/bio/:cod/:bio', (requisicao, resposta) => {
 rota.patch('/usuario/mudarFoto/:cod', (requisicao, resposta) =>{
   const cod = requisicao.params.cod;
   const foto = requisicao.body.foto;
-  execSQL(`update Usuario set FotoPerfil = '${foto}' where CodUsuario = ${cod}`, resposta);
+  execSQL(`update UsuarioFoto set FotoPerfil = '${foto}' where CodUsuario = ${cod}`, resposta);
 })
 rota.patch('/usuario/mudarBanner/:cod', (requisicao, resposta) =>{
   const cod = requisicao.params.cod;
   const banner = requisicao.body.banner;
-  execSQL(`update Usuario set ImagemBanner = '${banner}' where CodUsuario = ${cod}`, resposta);
+  execSQL(`update UsuarioFoto set ImagemBanner = '${banner}' where CodUsuario = ${cod}`, resposta);
 })
 // devolve usuario com base no seu username
 rota.get('/getUsuario/:username', (requisicao, resposta) => {
@@ -168,6 +172,9 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
 rota.get('/simulacoes/:cod', (requisicao, resposta) => {
   execSQL(`select * from Simulacao where CodUsuario = ${requisicao.params.cod}`, resposta);
 })
+rota.get('/simulacoes/:cod/:nome', (requisicao, resposta) => {
+  execSQL(`select * from Simulacao where CodUsuario = ${requisicao.params.cod} and Nome = '${requisicao.params.nome}'`, resposta);
+})
 //adiciona simulacao
 rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   const cod = requisicao.params.cod;
@@ -214,4 +221,15 @@ rota.delete('/classificacoes/:codSimulacao/:nome', (requisiscao, resposta) => {
 })
 rota.delete('/excluirConta/:cod', (requisicao, resposta) => {
   execSQL(`delete Patrimonio from Patrimonio where CodPatrimonio = ${parseInt(requisicao.params.cod)}`, resposta);
+})
+rota.get('/contas/:codSimulacao/:nome', (requisicao, resposta) => {
+  execSQL(`select * from Patrimonio where CodSimulacao = ${requisicao.params.codSimulacao} and Nome = '${requisicao.params.nome}'`, resposta);
+})
+rota.patch('/contas/:codPatrimonio', (requisicao, resposta) => {
+  const conta = requisicao.body;
+  const nome = conta.Nome;
+  const valor = conta.Valor;
+  const classificacao = conta.Classificacao;
+  const intervalo = conta.Intervalo;
+  execSQL(`update Patrimonio set Nome = '${nome}', Valor = ${valor}, CodClassificacao = ${classificacao}, IntervaloDeTempo = '${intervalo}' where CodPatrimonio = ${requisicao.params.codPatrimonio}`, resposta);
 })

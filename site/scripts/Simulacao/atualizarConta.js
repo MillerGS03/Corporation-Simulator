@@ -1,7 +1,43 @@
-var classificacoes;
-var erro;
-$("#sairModal").on('click', function(){
-	$("#modal").css('display', 'none');
+var conta;
+$("#sairModal").on('click', function() {
+    $("#modal").css('display', 'none');
+});
+$("#s").on('change', function(){
+	var nomeConta = document.getElementById('s').options[document.getElementById('s').selectedIndex].value;
+    $.ajax({
+		url: 'http://' + local + ':3000/contas/' + simulacao.CodSimulacao + '/' + nomeConta
+	}).done(function(dados){
+		conta = dados[0];
+		$('#nomeConta').val(conta.Nome);
+		if (conta.Valor < 0)
+			$("#perda").prop("checked", true)
+		else
+			$("#ganho").prop("checked", true)
+		$("#valorConta").val(Math.abs(conta.Valor));
+		var intervalo = conta.IntervaloDeTempo.charAt(conta.IntervaloDeTempo.length - 1)
+		switch (intervalo)
+		{
+			case 'D':
+				$("#tTempo").prop('selectedIndex', 0);
+			break;
+
+			case 'M':
+				$("#tTempo").prop('selectedIndex', 1);
+			break;
+
+			case 'A':
+				$("#tTempo").prop('selectedIndex', 2);
+			break;
+		}
+		$("#nTempo").val(conta.IntervaloDeTempo.substring(0, conta.IntervaloDeTempo.length - 1))
+		$.ajax({
+			url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+		}).done(function(dados){
+			for(var i = 1; i < dados.length; i++)
+				if (conta.CodClassificacao == dados[i-1].CodClassificacao)
+					$("#classificacoes").prop('selectedIndex', i);
+		})
+	})
 })
 $('#addClass').on('click', function(){
 	$('#txtClass').css('display', 'block');
@@ -21,23 +57,37 @@ $('#btnClass').on('click', function(){
 				if (s.options[i].text == classif)
 					s.options[i].selected = 'selected';
 		}, 20)
-	}, 10)
+	}, 100)
 	$.ajax({
 		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
 	}).done(function(dados) {classificacoes = dados});
 });
 $('#removeClass').on('click', function(){
-	var cod = simulacao.CodSimulacao;
-	var classif = $("#classificacoes option:selected").val();
-	$.ajax({
-		url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
-		type: 'DELETE'
-	}).done(addOptions());
+    var cod = simulacao.CodSimulacao;
+    var classif = $("#classificacoes option:selected").val();
+    confirma('eo', function(){
+        $.ajax({
+            url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
+            type: 'DELETE'
+        }).done(addOptionsC());
+    })
 });
 
-addOptions();
 
 function addOptions()
+{
+    var s = document.getElementById('s');
+    var p = s.options[0];
+    $("#s").empty();
+    s.add(p)
+    for (var i = 0; i < contas.length; i++)
+    {
+        var o = document.createElement('option');
+        o.text = contas[i].Nome;
+        s.add(o);
+    }
+}
+function addOptionsC()
 {
 	$.ajax({
 		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
@@ -56,7 +106,10 @@ function addOptions()
 	});
 }
 
-$("#adicionarConta").on('click', function() {
+addOptions();
+addOptionsC();
+
+$("#atualizarContaA").on('click', function() {
 	validarFormulario();
 });
 
@@ -71,17 +124,17 @@ function validarFormulario()
 	if (erro)
 		return false;
 	else
-		adicionar();
+		atualizarConta();
 }
 
-function adicionar()
+function atualizarConta()
 {
-	var conta = new Object();
-	conta.Nome = document.getElementById('nomeConta').value;
+	var contaA = new Object();
+	contaA.Nome = document.getElementById('nomeConta').value;
 	var valor = document.getElementById('valorConta').value;
 	if (document.getElementById('perda').checked)
 		valor = -valor;
-	conta.Valor = valor;
+	contaA.Valor = valor;
 	var intervalo;												//em segundos
 	var tipoTempo = $("#tTempo option:selected").text();
 	if (tipoTempo == 'Dia(s)')
@@ -90,7 +143,7 @@ function adicionar()
 		intervalo = $("#nTempo").val() + 'M';
 	else
 		intervalo = $("#nTempo").val() + 'A';
-	conta.Intervalo = intervalo;
+	contaA.Intervalo = intervalo;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;
 	for (var i = 0; i < classificacoes.length; i++)
@@ -101,12 +154,22 @@ function adicionar()
 			break;
 		}
 	}
-	conta.Classificacao = cod;
-	$.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, conta);
+	contaA.Classificacao = cod;
 	$.ajax({
-		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-	}).done(function(dados){contas = dados;})
-	$("#sairModal").trigger('click');
+		url: 'http://' + local + ':3000/contas/' + conta.CodPatrimonio,
+		type: 'patch',
+		data: contaA
+	})
+	setTimeout(function(){
+		$.ajax({
+			url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
+		}).done(function(dados){
+			contas = dados;
+			$("#classificacoes").empty();
+			$('#s').empty();
+			$("#sairModal").trigger('click');
+		})
+	}, 100)
 }
 
 function testarNome()

@@ -7,6 +7,9 @@ $("#addConta").on('click', function() {
 $("#removerConta").on('click', function() {
 	abrirS('removeConta.html');
 });
+$("#atualizarConta").on('click', function(){
+	abrirS('atualizarConta.html');
+})
 $.ajax({
 	url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
 }).done(function(dados){contas = dados;})

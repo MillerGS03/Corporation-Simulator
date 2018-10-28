@@ -1,0 +1,220 @@
+#painelConta h1
+{
+	background: inherit;
+	position: relative;
+	bottom: 2vh;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 4.7vh;
+}
+#painelConta hr
+{
+	position: absolute;
+	top: 8vh;
+}
+#painelConta h2
+{
+    background: inherit;
+    position: absolute;
+    top: 8vh;
+    left: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+}
+#s
+{
+    position: absolute;
+    top: 17vh;
+    left: 2vh;
+    height: 6vh;
+    width: 60vh;
+    text-align: justify;
+    font-size: 2vh;
+    font-family: 'Century Gothic';
+    color: 'black';
+}
+.frm
+{
+	position: absolute;
+	top: 13vh;
+	left: calc(50% - 18vh);
+	font-family: "Century Gothic";
+}
+.frm label
+{
+	position: absolute;
+	width: 63vh;
+	font-size: 3vh;
+	text-align: justify;
+}
+.frm input[type="text"]
+{
+	font-family: "Century Gothic";
+	font-size: 3vh;
+	padding: 0.1vh 0;
+	border-width: 0.2vh;
+}
+.frm input[type="radio"]
+{
+	margin: 0.3vh 0.3vh 0vh 0.5vh;
+	border: 0px;
+	width: 2vh;
+	height: 2vh;
+}
+#nome
+{
+	position: absolute;
+    top: 3vh;
+    left: 20vh;
+}
+#tipo
+{
+	position: absolute;
+    top: 13vh;
+    left: 20vh;
+}
+#valor
+{
+	position: absolute;
+    top: 12vh;
+    right: -20vh;
+}
+#intervaloTempo
+{
+	position: absolute;
+    top: 22vh;
+    left: -43vh;
+	width: 90vh;
+}
+#tTempo
+{
+	font-family: "Century Gothic";
+	font-size: 2.6vh;
+	border-width: 0.1vh;
+	height: 4vh;
+}
+#class
+{
+	position: absolute;
+    top: 20vh;
+    left: 20vh;
+	width: 100vh;
+}
+#class select
+{
+	font-family: "Century Gothic";
+	font-size: 2.6vh;
+	border-width: 0.1vh;
+	height: 4vh;
+}
+#addClass
+{
+	position: absolute;
+	top: 9vh;
+	left: 20vh;
+	width: 20vh;
+	height: 5.5vh;
+	background-color: white;
+	white-space: normal;
+	color: black;
+	border-radius: 4vh;
+	border: 0.2vh solid black;
+	transition: background-color 0.5s;
+	text-align: center;
+	font-size: 2vh;
+	font-weight: bold;
+	font-family: "Century Gothic";
+}
+#addClass:hover
+{
+	background-color: rgb(43, 106, 255);
+	color: white;
+	transition: color 0.3s;
+	transition: background-color 0.5s;
+	cursor: pointer;
+}
+
+#removeClass
+{
+	position: absolute;
+	top: 9vh;
+	left: -5vh;
+	width: 20vh;
+	height: 5.5vh;
+	background-color: white;
+	white-space: normal;
+	color: black;
+	border-radius: 4vh;
+	border: 0.2vh solid black;
+	transition: background-color 0.5s;
+	text-align: center;
+	font-size: 2vh;
+	font-weight: bold;
+	font-family: "Century Gothic";
+}
+#removeClass:hover
+{
+	background-color: rgb(134, 4, 4);
+	color: white;
+	transition: color 0.3s;
+	transition: background-color 0.5s;
+	cursor: pointer;
+}
+
+#txtClass
+{
+    display: none;
+    position: absolute;
+    top: 4vh;
+    left: 36vh;
+	font-size: 2vh;
+}
+
+#btnClass
+{
+	display: none;
+	position: absolute;
+	top: 4vh;
+	left: 58vh;
+	width: 3vh;
+	height: 3vh;
+	background-color: white;
+	white-space: normal;
+	color: black;
+	border-radius: 4vh;
+	border: 0.2vh solid black;
+	transition: background-color 0.5s;
+	text-align: right;
+	font-size: 2vh;
+	font-weight: bold;
+	font-family: "Century Gothic";
+}
+#btnClass:hover
+{
+	background-color: lightgray;
+	transition: background-color 0.5s;
+	cursor: pointer;
+}
+#atualizarContaA
+{
+	position: absolute;
+    top: 47vh;
+    left: 40vh;
+	width: 38vh;
+	height: 7vh;
+	background-color: white;
+	color: black;
+	border-radius: 4vh;
+	border: 0.2vh solid black;
+	transition: background-color 0.5s;
+	font-size: 2.6vh;
+	font-family: "Century Gothic";
+}
+#atualizarContaA:hover
+{
+	background-color: lightgrey;
+	transition: background-color 0.5s;
+	cursor: pointer;
+}

@@ -258,3 +258,8 @@ rota.patch('/contas/:codPatrimonio', (requisicao, resposta) => {
   const intervalo = conta.Intervalo;
   execSQL(`update Patrimonio set Nome = '${nome}', Valor = ${valor}, CodClassificacao = ${classificacao}, IntervaloDeTempo = '${intervalo}' where CodPatrimonio = ${requisicao.params.codPatrimonio}`, resposta);
 })
+rota.patch('/simulacao/:cod/saldo/:saldo', (requisicao, resposta) => {
+  const cod = requisicao.params.cod;
+  const saldo = requisicao.params.saldo
+  execSQL(`update Simulacao set Saldo = ${saldo} where CodSimulacao = ${cod}`, resposta);
+})

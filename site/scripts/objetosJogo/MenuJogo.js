@@ -7,7 +7,6 @@ function MenuJogo()
 
     var este = this;
     var volumeGeral = 1;
-    var isMudo = false;
     var isComMusica = true;
 
     this.aberto = false;
@@ -18,7 +17,6 @@ function MenuJogo()
         this.aberto = !this.aberto;
         if (this.aberto)
         {
-            console.log("oi");
             this.ativar();
 
             if (!tutorial.aberto)
@@ -88,20 +86,31 @@ function MenuJogo()
 
         this.btnAbrirTutorial.desativarInteracao();
     }
-
-    this.isMudo = function() {
-        return isMudo;
-    }
     this.getAlturaSom = function() {
         return volumeGeral;
     }
+    this.isComMusica = function() {
+        return isComMusica;
+    }
+    this.setIsComMusica = function(estaComMusica) {
+        isComMusica = estaComMusica;
+        este.btnTirarColocarMusica.text = isComMusica?"Tirar música":"Colocar música";
+        musica.muted = volumeGeral == 0 || !isComMusica;
+    }
     /**
      * Controla a altura do som em geral.
-     * @param {number} altura Altura do som. Vai de 0 a 5
+     * @param {number} altura Altura do som. Vai de -1 (mudo) a 5
      */
     this.setAlturaSom = function(altura) {
         volumeGeral = (altura + 1)/6;
         musica.volume = volumeGeral;
+
+        var botao = este.btnMutarDesmutar;
+        botao.backgroundImage = volumeGeral == 0?imgBtnSomMudo:imgBtnSomAtivo;
+        botao.backgroundHoverImage = volumeGeral == 0?imgBtnSomMudo:imgBtnSomAtivo;
+        musica.muted = volumeGeral == 0 || !isComMusica;
+
+
         for (var i = 0; i < this.botoesNivelSom.length; i++)
         {
             if (i <= altura)
@@ -175,11 +184,7 @@ function MenuJogo()
                                 "#c3c3c3", "#dadada", imgBtnSomAtivo, imgBtnSomAtivo,
                                 "", "", "", false, false, false);
         este.btnMutarDesmutar.onclick = function() {
-            var botao = este.btnMutarDesmutar;
-            botao.backgroundImage = botao.backgroundImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
-            botao.backgroundHoverImage = botao.backgroundHoverImage == imgBtnSomAtivo?imgBtnSomMudo:imgBtnSomAtivo;
-            isMudo = botao.backgroundImage == imgBtnSomMudo;
-            musica.muted = isMudo || !isComMusica;
+            este.setAlturaSom(-1);
         }
 
         este.botoesNivelSom = new Array();
@@ -202,9 +207,7 @@ function MenuJogo()
         este.btnTirarColocarMusica = new BotaoRetangular(este.x + este.width/2 - 85, este.y + 115, 170, 30, 0, 170, 30,
             "#c3c3c3", "#dadada", null, null, "bold 16pt Century Gothic", "black", "Tirar música", false, true, false);
         este.btnTirarColocarMusica.onclick = function() {
-            isComMusica = !isComMusica;
-            este.btnTirarColocarMusica.text = isComMusica?"Tirar música":"Colocar música";
-            musica.muted = isMudo || !isComMusica;
+            este.setIsComMusica(!isComMusica);
         }
     }
     function desenharJogoPausado()

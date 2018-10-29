@@ -76,8 +76,9 @@ function tocarMusica()
 	while (novaMusica == musica.src && musicas.length > 1)
 		novaMusica = musicas[Math.floor(Math.random() * musicas.length)];
 
-	if (!musica.canPlayType("audio/ogg"))
-		novaMusica.replace("ogg", "mp3");
+	if (musica.canPlayType("audio/mp3"))
+		novaMusica = novaMusica.replace("ogg", "mp3");
+	
 	musica.src = novaMusica;
 	musica.load();
 	musica.play();
@@ -87,11 +88,11 @@ function tocarMusica()
 }
 function tocarSom(caminho)
 {
-	if (!menuJogo.isMudo())
+	if (menuJogo.getAlturaSom() != 0)
 	{
 		var audio = document.createElement("audio");
-		if (!audio.canPlayType("audio/ogg"))
-			caminho.replace("ogg", "mp3");
+		if (audio.canPlayType("audio/mp3"))
+			caminho = caminho.replace("ogg", "mp3");
 		audio.src = caminho;
 		audio.volume = menuJogo.getAlturaSom();
 		audio.load();
@@ -424,7 +425,8 @@ function carregarDados()
 	barra.atualizarDia(dia);
 	barra.ganharXP(jogo.XP, false);
 	mapa.banco.saldo = jogo.ContaBancoMovimento; // @TODO Resolver informações do banco
-	menuJogo.setAlturaSom(5); // @TODO Puxar do banco de dados
+	menuJogo.setAlturaSom(user.VolumeJogos); // @TODO Puxar do banco de dados
+	menuJogo.setIsComMusica(user.ComMusicaNosJogos);
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
 		url: 'http://' + local + ':3000/construcao/' + jogo.CodJogo
@@ -509,6 +511,24 @@ function salvar()
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
 	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
+
+	atualizar = new Object();
+	atualizar.VolumeJogos = menuJogo.getAlturaSom() * 6 - 1;
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/mudarVolumeJogos/' + user.CodUsuario,
+		type: 'patch',
+		data: atualizar
+	})
+	user.VolumeJogos = menuJogo.getAlturaSom() * 6 - 1;
+
+	atualizar = new Object();
+	atualizar.ComMusicaNosJogos = menuJogo.isComMusica()?1:0;
+	$.ajax({
+		url: 'http://' + local + ':3000/usuario/mudarComMusicaNosJogos/' + user.CodUsuario,
+		type: 'patch',
+		data: atualizar
+	})
+	user.ComMusicaNosJogos = menuJogo.isComMusica()?1:0;
 
 	for (var i = 0; i < qtasConstrucoesInicialmente; i++)
 	{

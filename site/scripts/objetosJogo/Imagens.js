@@ -143,3 +143,6 @@ imgGaragem.src = "imagens/construcoes/garagem.png";
 imgOperacional.src = "imagens/construcoes/operacional.png";
 imgRecursosHumanos.src = "imagens/construcoes/recursosHumanos.png";
 //--------------------------------------------------------------------------
+// Armazem.js
+var imgMercadoria = new Image();
+imgMercadoria.src = "imagens/construcoes/mercadorias.png";

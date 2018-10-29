@@ -137,7 +137,7 @@ function PainelNotificacoes()
         }
         this.btnFechar = new BotaoRetangular(este.x + 10, este.y + yNotificacao + (this.height - 35)/2, 35, 35, 5, 35, 35, "#232323", "#535353", null, null,
                                              "bold 18pt Century Gothic", "red", "X", false, false, false);
-        this.btnFechar.onclick = function() {console.log("oi");fecharNotificacao(esteIndice)};
+        this.btnFechar.onclick = function() {fecharNotificacao(esteIndice)};
 
         this.desenhar = function()
         {

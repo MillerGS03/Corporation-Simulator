@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="estilo.css" />
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Executor de comandos do SQL Server</h1>
+    <p>Utilize quando não tiver acesso a ferramentas como SQL Server Management Studio</p>
+    <form method="POST" action="http://localhost:3000/executarSQL">
+        <label>Comando:</label>
+        <textarea name="comando" id="comando" placeholder="Digite aqui seu comando SQL"></textarea>
+        <input type="submit" value="Executar comando">
+    </form>
+</body>
+</html>

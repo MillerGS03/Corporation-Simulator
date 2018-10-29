@@ -34,6 +34,10 @@ var tutorial;
  * @type {Calendario}
  */
 var calendario;
+/**
+ * Menu de construção
+ * @type {Construcao}
+ */
 var construcao;
 var estatisticas;
 var rua;
@@ -51,6 +55,13 @@ var yMouse;
 var carregado = false;
 
 var qtasConstrucoesInicialmente = 0;
+/**
+ * 0 - Nada sendo construído
+ * 1 - Algo sendo construído
+ * 2 - Algo sendo reposicionado
+ */
+var statusConstruindo = 0;
+var nomeItemEmConstrucao = null;
 
 var fatorEscala = 1;
 
@@ -233,18 +244,51 @@ function atualizar()
 			if (botoes != null && botoes[i] != null)
 				botoes[i].desenhar();
 		for (var i = 0; i < itensConstruidos.length; i++)
-			if (itensConstruidos[i].menuVisivel)
+		{
+			if (itensConstruidos[i].menu.aberto || itensConstruidos[i].menu.janela.aberto)
+			{
 				itensConstruidos[i].menu.desenhar();
+				break;
+			}
+		}
 		painelNotificacoes.desenhar();
 		mapa.desenhar();
 		calendario.desenhar();
 		construcao.desenhar();
 		estatisticas.desenhar();
+
+		desenharStatusConstrucao();
+
 		tutorial.desenhar();
 		if (efetuacao != null && efetuacao.ativo)
 			efetuacao.desenhar();
 		menuJogo.desenhar();
 		desenharBordasCanvas();
+	}
+}
+function desenharStatusConstrucao()
+{
+	if (statusConstruindo != 0)
+	{
+		ctx.save();
+
+		ctx.textAlign = "center";
+		ctx.textBaseline = "top";
+		ctx.fillStyle = "black";
+		ctx.strokeStyle = "white";
+		ctx.lineWidth = 1;
+		ctx.font = "bold 44pt Century Gothic";
+
+		ctx.fillText((statusConstruindo == 1?"Construindo: ":"Reposicionando:") + nomeItemEmConstrucao,
+					  canvas.width/2, 67, canvas.width - 20);
+		ctx.strokeText((statusConstruindo == 1?"Construindo: ":"Reposicionando:") + nomeItemEmConstrucao,
+					  canvas.width/2, 67, canvas.width - 20);
+
+		ctx.font = "bold 20pt Century Gothic";
+		ctx.fillText("Posicione onde achar adequado", canvas.width/2, 122);
+		ctx.strokeText("Posicione onde achar adequado", canvas.width/2, 122);
+
+		ctx.restore();
 	}
 }
 function desenharBordasCanvas()
@@ -388,28 +432,30 @@ function carregarDados()
 		qtasConstrucoesInicialmente = dados.length;
 		for (var i = 0; i < dados.length; i++)
 		{
+			var isPrimeiro = i == 0;
 			switch(dados[i].ItemConstruido)
 			{
 				case 'Armazém':
-					itensConstruidos[i] = new ItemConstruido(ItemConstruido.armazem, false);
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.armazem, isPrimeiro);
 				break;
 	
 				case 'Garagem':
-					itensConstruidos[i] = new ItemConstruido(ItemConstruido.garagem, false);
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.garagem, isPrimeiro);
 				break;
 	
 				case 'Operacional':
-					itensConstruidos[i] = new ItemConstruido(ItemConstruido.operacional, false);
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.operacional, isPrimeiro);
 				break;
 	
 				case 'R. Humanos':
-					itensConstruidos[i] = new ItemConstruido(ItemConstruido.recursosHumanos, false);
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.recursosHumanos, isPrimeiro);
 				break;
 	
 				case 'Marketing':
-					itensConstruidos[i] = new ItemConstruido(ItemConstruido.marketing, false);
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.marketing, isPrimeiro);
 				break;
 			}
+			itensConstruidos[i].sustentador = dados[i].Sustentador;
 			itensConstruidos[i].setX(dados[i].X);
 			itensConstruidos[i].setY(dados[i].Y);
 			itensConstruidos[i].passarItens(itensConstruidos);
@@ -427,16 +473,30 @@ function carregarDados()
 
 	if (jogo.Caixa == -1)
 	{
-		barra.dinheiro = 20000;
+		barra.dinheiro = 80000;
 		tutorial.abrirFechar();
 	}
 	else
 	{
 		barra.dinheiro = jogo.Caixa;
-		timerDias = setInterval(intervaloDias, 50);
+		if (!timerDias)
+			timerDias = setInterval(intervaloDias, 50);
 	}
 	mapa.desativar();
 	carregado = true;
+}
+function pausar()
+{
+	if (timerDias)
+		clearInterval(timerDias);
+	timerDias = null;
+	rua.pausar();
+}
+function despausar()
+{
+	if (!timerDias)
+		timerDias = setInterval(intervaloDias, 50);
+	rua.despausar();
 }
 function salvar()
 {
@@ -449,14 +509,35 @@ function salvar()
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
 	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
+
+	for (var i = 0; i < qtasConstrucoesInicialmente; i++)
+	{
+		atualizar = new Object();
+		atualizar.CodJogo = jogo.CodJogo;
+		atualizar.ItemConstruido = itensConstruidos[i].nome;
+		atualizar.X = itensConstruidos[i].x;
+		atualizar.Y = itensConstruidos[i].y;
+		atualizar.Sustentador = itensConstruidos[i].sustentador;
+
+		$.ajax({
+			url: 'http://' + local + ':3000/construcao',
+			type: 'patch',
+			data: atualizar
+		})
+	}
 	for (var i = qtasConstrucoesInicialmente; i < itensConstruidos.length; i++)
 	{
-		var novoItem = new Object();
-		novoItem.ItemConstruido = itensConstruidos[i].nome;
-		novoItem.X = itensConstruidos[i].x;
-		novoItem.Y = itensConstruidos[i].y;
-		$.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
+		if (itensConstruidos[i].jaComprado)
+		{
+			var novoItem = new Object();
+			novoItem.ItemConstruido = itensConstruidos[i].nome;
+			novoItem.X = itensConstruidos[i].getX();
+			novoItem.Y = itensConstruidos[i].getY();
+			novoItem.Sustentador = itensConstruidos[i].sustentador;
+			$.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
+		}
 	}
+	qtasConstrucoesInicialmente = itensConstruidos.length;
 }
 function finalizarJogo()
 {

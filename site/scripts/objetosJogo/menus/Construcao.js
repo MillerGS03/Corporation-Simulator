@@ -21,9 +21,8 @@ function Construcao()
 
     configurarItens();
 
-    function testarPosicionamento()
+    this.testarPosicionamento = function(itemAtual)
     {
-        var itemAtual = itensConstruidos[itensConstruidos.length - 1];
         itemAtual.posicaoValida = false;
         if (itemAtual.x + itemAtual.width < rua.x - 1 && itemAtual.x > 1 && itemAtual.y > 62 && itemAtual.y + itemAtual.height < canvas.height - 1)
         {
@@ -55,7 +54,7 @@ function Construcao()
             itensConstruidos.push(item);
             for (var i = 0; i < itensConstruidos.length; i++)
                 itensConstruidos[i].passarItens(itensConstruidos);
-            itensConstruidos[itensConstruidos.length - 1].seguirMouse(testarPosicionamento);
+            itensConstruidos[itensConstruidos.length - 1].seguirMouse(function() {este.testarPosicionamento(itensConstruidos[itensConstruidos.length - 1])});
             desativarBotoes();
         }
     }
@@ -106,16 +105,16 @@ function Construcao()
     {
         este.itens = new Array();
         
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.armazem, este.itens.length));
         este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.garagem, este.itens.length));
+        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.armazem, este.itens.length));
         este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.operacional, este.itens.length));
         este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.recursosHumanos, este.itens.length));
 
         este.itens[0].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.armazem, itensConstruidos.length == 0), 0);
+            comprar(new ItemConstruido(ItemConstruido.garagem, itensConstruidos.length == 0), 0);
         }
         este.itens[1].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.garagem, itensConstruidos.length == 0), 1);
+            comprar(new ItemConstruido(ItemConstruido.armazem, itensConstruidos.length == 0), 1);
         }
         este.itens[2].botaoComprar.onclick = function() {
             comprar(new ItemConstruido(ItemConstruido.operacional, itensConstruidos.length == 0), 2);

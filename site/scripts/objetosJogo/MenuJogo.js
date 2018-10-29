@@ -18,18 +18,11 @@ function MenuJogo()
         this.aberto = !this.aberto;
         if (this.aberto)
         {
+            console.log("oi");
             this.ativar();
-            BotaoCircular.desativarTodos([este.btnMutarDesmutar]);
-            BotaoRetangular.desativarTodos([este.btnDespausar, este.btnSalvar, este.btnSalvarFechar, este.btnAbrirTutorial, este.btnTirarColocarMusica]);
-            for (var i = 0; i < this.botoesNivelSom.length; i++)
-                BotaoRetangular.exceto.push(this.botoesNivelSom[i]);
 
             if (!tutorial.aberto)
-                clearInterval(timerDias);
-            else
-                tutorial.desativar();
-
-            rua.pausar();
+                pausar();
         }
         else
         {
@@ -37,12 +30,7 @@ function MenuJogo()
             this.btnDespausar.hovering = false;
 
             if (!tutorial.aberto)
-            {
-                timerDias = setInterval(intervaloDias, 50);
-                BotaoRetangular.reativar();
-                BotaoCircular.reativar();
-                rua.despausar();
-            }
+                despausar();
             else
                 tutorial.ativar();
         }
@@ -61,7 +49,17 @@ function MenuJogo()
             ctx.restore();
         }
     }
-    this.ativar = function() {
+    this.ativar = function() 
+    {
+        BotaoCircular.reativar();
+        BotaoRetangular.reativar();
+
+        BotaoCircular.desativarTodos([este.btnMutarDesmutar]);
+        BotaoRetangular.desativarTodos([este.btnDespausar, este.btnSalvar, este.btnSalvarFechar, este.btnAbrirTutorial, este.btnTirarColocarMusica]);
+        
+        for (var i = 0; i < this.botoesNivelSom.length; i++)
+            BotaoRetangular.exceto.push(this.botoesNivelSom[i]);
+
         this.btnSalvar.ativarInteracao();
         this.btnSalvarFechar.ativarInteracao();
         this.btnDespausar.ativarInteracao();
@@ -74,7 +72,11 @@ function MenuJogo()
         if (!tutorial.aberto)
             this.btnAbrirTutorial.ativarInteracao();
     }
-    this.desativar = function() {
+    this.desativar = function() 
+    {
+        BotaoRetangular.reativar();
+        BotaoCircular.reativar();
+
         this.btnSalvar.desativarInteracao();
         this.btnSalvarFechar.desativarInteracao();
         this.btnDespausar.desativarInteracao();

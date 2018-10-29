@@ -17,21 +17,14 @@ function Tutorial()
         if (this.aberto)
         {
             this.ativar();
-            BotaoRetangular.desativarTodos([this.btnFechar, this.btnNaoTutorial, this.btnSimTutorial]);
-            BotaoCircular.desativarTodos([this.btnPaginaAnterior, this.btnPaginaPosterior, this.btnConstrucaoAnterior, this.btnConstrucaoPosterior]);
 
-            clearInterval(timerDias);
-            rua.pausar();
+            pausar();
         }
         else
         {
-            BotaoRetangular.reativar();
-            BotaoCircular.reativar();
-
             this.desativar();
 
-            timerDias = setInterval(intervaloDias, 50);
-            rua.despausar();
+            despausar();
         }
     }
 
@@ -67,7 +60,7 @@ function Tutorial()
 
         ctx.textAlign = "left";
         ctx.font = "bold 18pt Century Gothic";
-        ctx.fillText("Você acaba de abrir uma empresa com um capital de $20000.", este.x + 50, este.y + 220, este.width - 50);
+        ctx.fillText(`Você acaba de abrir uma empresa com um capital de ${formatarDinheiro(barra.dinheiro)}.`, este.x + 50, este.y + 220, este.width - 50);
         if (user.Nome.length + jogo.Nome.length > 35)
         {
             ctx.fillText(`Agora, ${user.Nome}, você é o CEO da empresa`, este.x + 20, este.y + 250, este.width - 20);
@@ -289,6 +282,12 @@ function Tutorial()
     }
     this.ativar = function() 
     {
+        BotaoCircular.reativar();
+        BotaoRetangular.reativar();
+
+        BotaoRetangular.desativarTodos([this.btnFechar, this.btnNaoTutorial, this.btnSimTutorial]);
+        BotaoCircular.desativarTodos([this.btnPaginaAnterior, this.btnPaginaPosterior, this.btnConstrucaoAnterior, this.btnConstrucaoPosterior]);
+
         if (isPrimeiraVez)
             ativarBemVindo();
         else
@@ -312,6 +311,9 @@ function Tutorial()
     }
     this.desativar = function() 
     {
+        BotaoCircular.reativar();
+        BotaoRetangular.reativar();
+
         this.btnSimTutorial.desativarInteracao();
         this.btnNaoTutorial.desativarInteracao();
         this.btnConstrucaoAnterior.desativarInteracao();

@@ -19,8 +19,9 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 	this.ativo = false;
 	this.ativar = function() 
 	{
-		this.ativo = true;
+		pausar();
 
+		this.ativo = true;
 		this.btnConfirmar.ativarInteracao();
 		this.btnCancelar.ativarInteracao();
 		setTimeout(function() {
@@ -43,6 +44,8 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 	}
 	this.desativar = function()
 	{
+		despausar();
+
 		this.ativo = false;
 		this.btnConfirmar.desativarInteracao();
 		this.btnCancelar.desativarInteracao();

@@ -120,6 +120,9 @@ rota.get('/getUsuario/:username', (requisicao, resposta) => {
   execSQL(`select * from Usuario where Username='${username}'`, resposta);
 })
 
+rota.post('/executarSQL', (requisicao, resposta) => {
+  execSQL(requisicao.body.comando, resposta);
+})
 
 //rotas para selecao/carregamento/delecao de jogo
 rota.get('/jogos/:codUsuario', (requisicao, resposta) => {
@@ -143,7 +146,17 @@ rota.post('/construir/:codJogo', (requisicao, resposta) => {
   const Nome = requisicao.body.ItemConstruido;
   const X = requisicao.body.X;
   const Y = requisicao.body.Y;
-  execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y})`, resposta);
+  const Sustentador = requisicao.body.Sustentador?"'" + requisicao.body.Sustentador + "'":"null";
+  execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y}, ${Sustentador})`, resposta);
+})
+rota.patch('/construcao', (requisicao, resposta) =>{
+  const CodJogo = requisicao.body.CodJogo;
+  const ItemConstruido = requisicao.body.ItemConstruido;
+  const X = requisicao.body.X;
+  const Y = requisicao.body.Y;
+  const Sustentador = requisicao.body.Sustentador?"'" + requisicao.body.Sustentador + "'":"null";
+  execSQL(`update ConstrucaoJogo set X=${X}, Y=${Y}, Sustentador=${Sustentador} 
+           where CodJogo=${CodJogo} and ItemConstruido='${ItemConstruido}'`, resposta);
 })
 rota.get('/construcao/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;

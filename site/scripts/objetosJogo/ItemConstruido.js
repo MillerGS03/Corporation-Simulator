@@ -22,53 +22,89 @@ function ItemConstruido(informacoes, isPrimeiro)
     this.imagem = informacoes.imagem;
     this.preco = informacoes.preco;
 
+    this.sustentador = null;
+
     this.botao = new BotaoRetangular(this.x, this.y, this.width, this.height, null, this.width, this.height, "Silver", "#cbcbcb",
                                      this.imagem, this.imagem, "bold 14pt Century Gothic", "Black", this.nome, true, false, false);
     this.botao.onclick = function() { abrirMenu(); };
 
-    this.menu = new MenuItemConstruido(xMenu, yMenu, informacoes.infoMenu);
+    this.menu = new MenuItemConstruido(xMenu, yMenu, this,informacoes.infoMenu);
 
     function abrirMenu()
     {
-        este.menuVisivel = true; 
-        este.menu.setX(xMouse);
-        este.menu.setY(yMouse);
         for (var i = 0; i < itens.length; i++)
+        {
+            itens[i].botao.removerTestesHover();
             itens[i].botao.adicionarTesteHover (
                 function()
                 {
                     var estaDentro = xMouse > este.menu.x && xMouse < este.menu.x + este.menu.width && yMouse > este.menu.y && yMouse < este.menu.y + este.menu.height;
-                    return !estaDentro;
+                    return !estaDentro || !este.menu.aberto;
                 }
             );
+        }
+        este.menu.setX(xMouse);
+        este.menu.setY(yMouse);
+        este.menu.ativar();
         $("#meuCanvas").on("click", testarClick);
     }
     function fecharMenu()
     {
-        este.menuVisivel = false;
-        for (var i = 0; i < itens.length; i++)
-            itens[i].botao.removerTestesHover();
+        este.menu.desativar();
         $("#meuCanvas").off("click", testarClick);
     }
     function testarClick()
     {
-        var estaDentro = xMouse >= este.menu.x && xMouse < este.menu.x + este.menu.width && yMouse >= este.menu.y && yMouse < este.menu.y + este.menu.height;
-        if (!estaDentro)
-            fecharMenu();
+        var estaDentroDoMenu = este.menu.aberto && xMouse >= este.menu.x && xMouse < este.menu.x + este.menu.width && yMouse >= este.menu.y && yMouse < este.menu.y + este.menu.height;
+        if (!estaDentroDoMenu)
+        {
+            if (xMouse < este.x || xMouse > este.x + este.width || yMouse < este.y || yMouse > este.y + este.height)
+                fecharMenu();
+            else
+            {
+                este.menu.setX(xMouse);
+                este.menu.setY(yMouse);
+            }
+        }
     }
-    
-    this.menuVisivel = false;
 
-    var testandoPosicionamento = false;
+    var reposicionando = false;
+    var ultimoX = 0;
+    var ultimoY = 0;
+
+    this.getX = function()
+    {
+        if (reposicionando && this.testandoPosicionamento)
+            return ultimoX;
+        else
+            return this.x;
+    }
+    this.getY = function()
+    {
+        if (reposicionando && this.testandoPosicionamento)
+            return ultimoY;
+        else
+            return this.y;
+    }
+    this.jaComprado = true;
+    this.testandoPosicionamento = false;
     this.posicaoValida = false;
 
     var funcaoPosicionamento = null;
+
+    this.sustentaQuem = function() {
+        var sustentando = new Array();
+        for (var i = 0; i < itensConstruidos.length; i++)
+            if (itensConstruidos[i].sustentador == this.nome)
+                sustentando.push(itensConstruidos[i]);
+        return sustentando;
+    }
 
     this.desenhar = function()
     {
         ctx.save();
  
-        if (testandoPosicionamento)
+        if (this.testandoPosicionamento)
         {
             if (this.posicaoValida && tocando)
                 this.botao.backgroundColor = "Green";
@@ -87,9 +123,25 @@ function ItemConstruido(informacoes, isPrimeiro)
     {
         itens = itensConstruidos;
     }
-    this.seguirMouse = function(funcPos)
+    this.seguirMouse = function(funcPos, reposicionar)
     {
+        pausar();
+
+        statusConstruindo = reposicionar?2:1;
+        nomeItemEmConstrucao = this.nome;
+
+        desativarBotoes();
+        este.menu.desativar();
+
         funcaoPosicionamento = funcPos;
+        if (reposicionando = reposicionar)
+        {
+            ultimoX = este.x;
+            ultimoY = este.y;
+            this.jaComprado = true;
+        }
+        else
+            this.jaComprado = false;
 
         mover();
         $("#meuCanvas").on("mousemove", mover);
@@ -97,30 +149,59 @@ function ItemConstruido(informacoes, isPrimeiro)
         if (funcaoPosicionamento != null)
         {
             $("#meuCanvas").on("mousemove", funcaoPosicionamento);
-            testandoPosicionamento = true;
+            this.testandoPosicionamento = true;
         }
     }
     function pararDeSeguirMouse()
     {
+        despausar();
+
+        statusConstruindo = 0;
+
         $("#meuCanvas").off("mousemove", mover);
         $("#meuCanvas").off("mousemove", funcaoPosicionamento);
         $("#meuCanvas").off("click", pararDeSeguirMouse);
 
-        itens.pop();
+        var novoX = este.x;
+        var novoY = este.y;
+
+        if (!reposicionando)
+            itens.pop();
+        else
+        {
+            este.setX(ultimoX);
+            este.setY(ultimoY);
+        }
+
         if (este.posicaoValida && tocando)
         {
-            fazerCompra(este.nome, este.preco, false, true, 3, function() {
-                itens.push(este);
-                botoes.push(este.botao);
+            var stringAdicional = reposicionando?"Reposicionar ":"";
+
+            fazerCompra(stringAdicional + este.nome, reposicionando?este.preco/20:este.preco, false, true, 3, function() 
+            {
                 tocarSom("sons/construcao.ogg");
-                ativarBotoes();
+                este.sustentador = novoSustentador;
+                if (reposicionando)
+                {
+                    este.setX(novoX);
+                    este.setY(novoY);
+                }
+                else
+                {
+                    itens.push(este);
+                    botoes.push(este.botao);
+                    este.jaComprado = true;
+                    ativarBotoes();
+                }
             })
         }
-        testandoPosicionamento = false;
+        este.testandoPosicionamento = false;
         ativarBotoes();
     }
 
     var tocando = false;
+
+    var novoSustentador = null;
     function mover()
     {
         if (isPrimeiro)
@@ -128,6 +209,7 @@ function ItemConstruido(informacoes, isPrimeiro)
             este.setX(rua.x - este.width - 2);
             este.setY(yMouse);
             tocando = true;
+            novoSustentador = null;
         }
         else
         {
@@ -137,30 +219,34 @@ function ItemConstruido(informacoes, isPrimeiro)
             coordenadaMaisProxima.y = -1;
 
             // Aqui, a coordenada mais próxima deve ser encontrada.
-            for (var i = 0; i < itens.length - 1; i++)
+            for (var i = 0; i < itens.length; i++)
             {
-                var distX = distanciaX(itens[i]);
-                if (distX <= coordenadaMaisProxima.distancia && distX > 0)
+                if (itens[i] != este)
                 {
-                    coordenadaMaisProxima.distancia = distX;
-                    if (xMouse < itens[i].x)
-                        coordenadaMaisProxima.x = itens[i].x - este.width - 1;
-                    else
-                        coordenadaMaisProxima.x = itens[i].x + itens[i].width + 1;
-                    coordenadaMaisProxima.y = -1;
-                }
-                var distY = distanciaY(itens[i]);
-                if (distY < coordenadaMaisProxima.distancia && distY > 0)
-                {
-                    coordenadaMaisProxima.distancia = distY;
-                    if (yMouse < itens[i].y)
-                        coordenadaMaisProxima.y = itens[i].y - este.height - 1;
-                    else
-                        coordenadaMaisProxima.y = itens[i].y + itens[i].height + 1;
-                    coordenadaMaisProxima.x = -1;
+                    var distX = distanciaX(itens[i]);
+                    if (distX <= coordenadaMaisProxima.distancia && distX > 0)
+                    {
+                        novoSustentador = itens[i].nome;
+                        coordenadaMaisProxima.distancia = distX;
+                        if (xMouse < itens[i].x)
+                            coordenadaMaisProxima.x = itens[i].x - este.width - 1;
+                        else
+                            coordenadaMaisProxima.x = itens[i].x + itens[i].width + 1;
+                        coordenadaMaisProxima.y = -1;
+                    }
+                    var distY = distanciaY(itens[i]);
+                    if (distY < coordenadaMaisProxima.distancia && distY > 0)
+                    {
+                        novoSustentador = itens[i].nome;
+                        coordenadaMaisProxima.distancia = distY;
+                        if (yMouse < itens[i].y)
+                            coordenadaMaisProxima.y = itens[i].y - este.height - 1;
+                        else
+                            coordenadaMaisProxima.y = itens[i].y + itens[i].height + 1;
+                        coordenadaMaisProxima.x = -1;
+                    }
                 }
             }
-
             tocando = false;
             if (coordenadaMaisProxima.x >= 0)
             {

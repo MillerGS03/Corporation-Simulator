@@ -24,6 +24,10 @@ imgBtnConstrucaoHover.src = "imagens/botoes/btnConstrucaoHover.png"
 imgBtnMapaHover.src = "imagens/botoes/btnMapaHover.png";
 imgBtnCalendarioHover.src = "imagens/botoes/btnCalendarioHover.png";
 
+// Imagem para mostrar quando o usuário estiver construindo alguma coisa
+var imgConstruindo = new Image();
+imgConstruindo.src = "imagens/construcoes/construindo.png";
+
 //--------------------------------------------------------------------------
 // MenuJogo.js
 var imgBtnSomMudo = new Image();

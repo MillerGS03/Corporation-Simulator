@@ -24,7 +24,6 @@ BotaoRetangular.desativarTodos = function(exceto)
  */
 BotaoRetangular.reativar = function()
 {
-	BotaoRetangular.setTimeout = false;
 	BotaoRetangular.exceto = new Array();
 	BotaoRetangular.inativos = false;
 }

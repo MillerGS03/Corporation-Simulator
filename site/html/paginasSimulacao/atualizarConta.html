@@ -1,0 +1,40 @@
+<script src="scripts/Simulacao/atualizarConta.js"></script>
+<link rel="stylesheet" type="text/css" href="estilo/Simulacao/estiloAtualizarConta.css">
+<div id="painelConta">
+    <span class="btnSair" id="sairModal"></span>
+	<h1>Atualizar Conta</h1>
+    <hr>
+    <h2>Selecione a conta a ser modificada:</h2>
+    <select id="s">
+        <option>Selecione aqui a conta</option>
+    </select>
+    <form class="frm" action="">
+		<label id="nome">
+			<span>Nome da Conta:</span><br>
+			<input type="text" id="nomeConta" maxlength="30">
+		</label>
+		<label id="tipo">
+			<span>Tipo:</span><br>
+			<input type="radio" name="tipoConta" id="ganho">Ganho     <input type="radio" name="tipoConta" id="perda">Perda
+		</label>
+		<label id="valor">
+			<span>Valor:</span><br>
+			<input type="text" id="valorConta">
+		</label>
+		<label id="intervaloTempo">
+			<span>Intervalo de tempo:</span><br>
+			<input type="text" id="nTempo"><select id="tTempo"><option>Dia(s)</option><option>Mes(es)</option><option>Ano(s)</option></select>
+		</label>
+		<label id="class">
+			<span>Classificação:</span><br>
+			<select id="classificacoes">
+				<option selected disabled>Classificações disponiveis</option>
+			</select>
+			<input type="button" id="addClass" value="Adicionar uma Classificação">
+			<input type="button" id="removeClass" value="Remover Classificação">
+			<input type="text" id="txtClass" placeholder="Digite o nome" maxlength="35">
+			<input type="button" value='+' id="btnClass">
+		</label>
+		<input type="button" id="atualizarContaA" value="Atualizar conta">
+	</form>
+</div>

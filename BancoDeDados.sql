@@ -13,7 +13,18 @@ CorFundo varchar(7)
 )
 
 alter table Usuario
-alter column ImagemBanner varchar(max)
+drop column FotoPerfil
+
+select * from UsuarioFoto
+select * from Usuario
+
+
+create table UsuarioFoto(
+CodUsuario int not null,
+constraint fkUsuarioFoto foreign key(CodUsuario) references Usuario(CodUsuario),
+FotoPerfil varchar(max),
+ImagemBanner varchar(max)
+)
 
 create table Jogo (
 CodJogo int identity(1,1) primary key,
@@ -95,6 +106,12 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
+insert into UsuarioFoto values(3, '', '')
+insert into UsuarioFoto values(4, '', '')
+insert into UsuarioFoto values(9, '', '')
+insert into UsuarioFoto values(12, '', '')
+insert into UsuarioFoto values(13, '', '')
+
 
 delete from Amizade
 delete from Notificacao
@@ -103,6 +120,7 @@ delete from Patrimonio
 delete from Simulacao
 delete from ConstrucaoJogo
 delete from Jogo
+delete from UsuarioFoto
 delete from Usuario
 
 drop table Amizade

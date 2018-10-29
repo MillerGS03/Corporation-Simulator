@@ -20,7 +20,7 @@ $("#newImage").on("change", function () {
 			url: 'http://' + local + ':3000/usuario/mudarFoto/' + user.CodUsuario,
 			type: 'patch',
 			data: img
-		})
+		}).done()
 	};
 	r.readAsDataURL(arquivoI);
 });
@@ -168,19 +168,27 @@ function colocarDadosConfig()
 			$('input[value=M]').prop('checked', true);
 		else
 			$('input[value=F]').prop('checked', true);
-		if (user.ImagemBanner == '')
-		{
-			$("#banner").css("background", user.CorBanner);
-			$("#menu").css("background", user.CorBanner);
-		}
-		else
-		{	$("#banner").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 100%;');
-			$("#menu").attr('style', 'background: url('+user.ImagemBanner+') no-repeat;background-size: 100% 57.75vh;');
-		}
-		$("#perfil").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
 		$("#conteudoInfo").css("background", user.CorFundo);
-		$("#foto").attr('style', 'background: url('+user.FotoPerfil+') no-repeat;background-size: 28vh 28vh;');
 		$("#backColorB").attr("value", user.CorBanner);
+	})
+	$.ajax({
+		url: 'http://' + local + ':3000/usuarioFoto/' + user.CodUsuario
+	}).done(function(dados){
+		if (dados[0] != null)
+		{
+			var userFotos = dados[0];
+			$("#perfil").attr('style', 'background: url('+userFotos.FotoPerfil+') no-repeat;background-size: 15vw 15vw;');
+			$("#foto").attr('style', 'background: url("'+userFotos.FotoPerfil+'") no-repeat;background-size: 28vh 28vh;');
+			if (userFotos.ImagemBanner == '')
+			{
+				$("#banner").css("background", user.CorBanner);
+				$("#menu").css("background", user.CorBanner);
+			}
+			else
+			{	$("#banner").attr('style', 'background: url('+userFotos.ImagemBanner+') no-repeat;background-size: 100% 100%;');
+				$("#menu").attr('style', 'background: url('+userFotos.ImagemBanner+') no-repeat;background-size: 100% 57.75vh;');
+			}
+		}
 	})
 }
 

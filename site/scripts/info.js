@@ -69,7 +69,7 @@ function confirma(txt, funcao)
 	'<button id="btnSim">Sim</button>'+
 	'<button id="btnCancelar">Cancelar</button>'+
 	'</div></div>'
-	$("#conteudo").append(str)
+	$("#conteudoInfo").append(str)
 	$("#modalConfirma").css('display', 'block');
 	$("#sairModalConfirma").on('click', function(){
 		$("#modalConfirma").css('display', 'none');
@@ -77,9 +77,11 @@ function confirma(txt, funcao)
 	$("#btnSim").on('click', function(){
 		funcao();
 		$("#modalConfirma").css('display', 'none');
+		$("#modalConfirma").remove();
 	})
 	$("#btnCancelar").on('click', function(){
 		$("#modalConfirma").css('display', 'none');
+		$("#modalConfirma").remove();
 	});
 }
 colocarDados();

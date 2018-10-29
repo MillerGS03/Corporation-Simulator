@@ -97,10 +97,14 @@ function iniciarSelecionar()
         $.ajax({
             url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario
         }).done(function(dados){
-            simulacao = dados[0];
-            var o = document.createElement("option");
-            o.text = simulacao.Nome;
-            s.add(o);
+            if (dados + '' != '')
+            {
+                $.each(dados, function(i, v){
+                    var o = document.createElement("option");
+                    o.text = v.Nome;
+                    s.add(o);
+                })
+            }
         })
     }
 
@@ -109,26 +113,28 @@ function iniciarSelecionar()
         var s = document.getElementById("select");
         if (s.selectedIndex > 0) {
             $("#btnCarregar").css("visibility", "visible");
-            $("#btnCarregar").on("click", carregarSimulacao);
+            $("#btnCarregar").on("click", function(){
+                carregarSimulacao(s.options[s.selectedIndex].value)
+            });
             $("#btnRemover").css("visibility", "visible");
             $("#btnRemover").on("click", removerOpcao);
         }
     }
 
-    function carregarSimulacao()
+    function carregarSimulacao(txt)
     {
         $.ajax({
-            url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario
+            url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + txt
         }).done(function(dados){
             simulacao = dados[0];
+            $("#select").off("mousemove");
+            $("#select").off("change");
+            $("#select").off("mouseleave");
+            $("#btnCarregar").off("click");
+            ctxSimulacoes = null;
+            canvasSimulacoes = null;
+            abrirInfo("simulacao.html");
         })
-        $("#select").off("mousemove", criarEfeitoSelect);
-        $("#select").off("change", testarOpcao);
-        $("#select").off("mouseleave", apagarEfeitoSelect);
-        $("#btnCarregar").off("click", carregarSimulacao);
-        ctxSimulacoes = null;
-        canvasSimulacoes = null;
-        abrirInfo("simulacao.html");
     }
     function validarCriacao()
     {
@@ -149,20 +155,21 @@ function iniciarSelecionar()
         document.getElementById("nomeSimulacao").value = "";
         $("#btnSair").trigger('click');
         $.post('http://' + local + ':3000/addSimulacao/' + user.CodUsuario + '/' + txt);
-        setTimeout(addOptions, 20);
+        setTimeout(function(){
+            carregarSimulacao(txt)
+        }, 20);
     }
     function removerOpcao()
     {
+        var nomeSimulacao =document.getElementById('select').options[document.getElementById('select').selectedIndex].value;
         confirma('Excluir essa simulação', function(){
-            var select = document.getElementById('select');
-            var nomeSimulacao = select.options[select.selectedIndex].value;
             $.ajax({
                 url: 'http://' + local + ':3000/simulacoes/' + `${user.CodUsuario}/${nomeSimulacao}`,
                 type: 'DELETE',
             });
             setTimeout(function() {
-                abrirInfo("simulacoes.html");
-            }, 10);
+                addOptions();
+            }, 100);
         });
     }
 }

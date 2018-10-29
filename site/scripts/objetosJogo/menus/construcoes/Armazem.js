@@ -81,8 +81,16 @@ function Armazem()
         ctx.closePath();
         ctx.stroke();
 
-        ctx.drawImage(imgIconeFornecedores, este.x + 20, este.y + 80);
-        ctx.drawImage(imgMercadoria, este.x + este.width - 84, este.y + 80);
+        ctx.drawImage(imgIconeFornecedores, este.x + 20, este.y + 75);
+        ctx.drawImage(imgMercadoria, este.x + este.width - 84, este.y + 75);
+
+        ctx.fillStyle = "black";
+        ctx.textBaseline = "top";
+        ctx.font = "bold 24pt Century Gothic";
+        ctx.textAlign = "middle";
+
+        ctx.fillText("Matéria-prima", este.x + este.width / 4 + 30, este.y + 75);
+        ctx.fillText("Mercadorias", este.x + 3 * este.width/4 - 30, este.y + 75);
 
         ctx.restore();
     }

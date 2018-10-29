@@ -36,17 +36,18 @@
 {
 	position: absolute;
 	top: 69vh;
-	width: 16.91%;
+	width: 14.1%;
 	height: 6.2vh;
 	font-size: 2vh;
 	box-sizing: border-box;
 	padding: 0.13vh 0.7vh;
 }
-#tabelas {left: 6.5%;}
-#addConta {left: 24.1%;}
-#removerConta {left: calc(50% - 8.455%);}
-#atualizarConta {right: 24.1%;}
-#previsao {right: 6.5%;}
+#addSub {left: 6.5%;}
+#tabelas {left: 21.3%;}
+#addConta {left: 36.1%;}
+#removerConta {left: 50.9%;}
+#atualizarConta {left: 65.7%;}
+#previsao {left: 80.5%;}
 
 #modal-content
 {

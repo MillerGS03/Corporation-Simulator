@@ -1,6 +1,9 @@
 var contas;
 $("#nomeSimulacao").text(simulacao.Nome);
 
+$("#addSub").on('click', function(){
+	abrirS('addSubValor.html');
+})
 $("#addConta").on('click', function() {
 	abrirS('adicionarConta.html');
 });

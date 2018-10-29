@@ -1,0 +1,85 @@
+#painelConta h1
+{
+	background: inherit;
+	position: relative;
+	bottom: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 4.7vh;
+}
+#painelConta hr
+{
+	position: absolute;
+	top: 8vh;
+}
+#painelConta h2
+{
+	background: inherit;
+	position: relative;
+	bottom: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+}
+#frmTipo
+{
+	position: relative;
+	bottom: 2vh;
+	font-family: "Century Gothic";
+	font-size: 3vh;
+}
+input[type='text']
+{
+	display: none;
+	position: relative;
+	left: 45vh;
+	width: 35vh;
+	height: 3vh;
+	bottom: 2vh;
+	font-family: "Century Gothic";
+	font-size: 3vh;
+}
+input[type='radio']
+{
+	width: 20vh;
+	z-index: 10;
+}
+#txtAdd
+{
+	position: relative;
+	left: -10vh;
+	z-index: 1;
+}
+#txtAdd:hover {cursor: default;}
+#txtSub
+{
+	position: relative;
+	left: -10vh;
+	z-index: 1;
+}
+#txtSub:hover {cursor: default;}
+#fim
+{
+	display: none;
+	position: absolute;
+	top: 25vh;
+	left: 50vh;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+	color: black;
+	font-weight: bold;
+	border: 0.3vh solid black;
+	border-radius: 2vh;
+	width: 25vh;
+	height: 5vh;
+	background: white;
+	transition: background 0.5s;
+}
+#fim:hover
+{
+	background: lightgray;
+	cursor: pointer;
+	transition: background 0.5s;
+}

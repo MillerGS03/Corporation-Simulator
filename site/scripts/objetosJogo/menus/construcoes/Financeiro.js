@@ -51,7 +51,7 @@ function Financeiro()
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
        
-        ctx.fillStyle = "White";
+        ctx.fillStyle = "silver";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";

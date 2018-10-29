@@ -1,10 +1,9 @@
 function Armazem()
 {
-    this.width = 900;
-    this.height = 620;
+    this.width = 800;
+    this.height = 600;
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
-
     
     var este = this;
 
@@ -37,6 +36,7 @@ function Armazem()
             ctx.save();
 
             desenharJanela();
+            desenharLayout();
 
             ctx.restore();
         }
@@ -51,7 +51,7 @@ function Armazem()
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
        
-        ctx.fillStyle = "White";
+        ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";
@@ -59,6 +59,31 @@ function Armazem()
 
         este.btnFechar.desenhar();
 
+        ctx.fillStyle = "silver";
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
+    }
+    function desenharLayout()
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.moveTo(este.x, este.y + 3 * este.height/5 - 1);
+        ctx.lineTo(este.x + este.width, este.y + 3 * este.height/5 - 1);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + este.width/2 - 1, este.y + 60);
+        ctx.lineTo(este.x + este.width/2 - 1, este.y + 3 * este.height/5 - 1);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.drawImage(imgIconeFornecedores, este.x + 20, este.y + 80);
+        ctx.drawImage(imgMercadoria, este.x + este.width - 84, este.y + 80);
+
+        ctx.restore();
     }
 }

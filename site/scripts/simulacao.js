@@ -1,4 +1,5 @@
 var contas;
+var classificacoes;
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -13,9 +14,15 @@ $("#removerConta").on('click', function() {
 $("#atualizarConta").on('click', function(){
 	abrirS('atualizarConta.html');
 })
+$("#tabelas").on('click', function(){
+	abrirS('tabelas.html');
+})
 $.ajax({
 	url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
 }).done(function(dados){contas = dados;})
+$.ajax({
+	url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+}).done(function(dados) {classificacoes = dados});
 
 function abrirS(l)
 {

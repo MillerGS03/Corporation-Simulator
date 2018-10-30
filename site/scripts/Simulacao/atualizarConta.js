@@ -1,3 +1,4 @@
+$("#painelConta").css('height', '70vh')
 var conta;
 $("#sairModal").on('click', function() {
     $("#modal").css('display', 'none');

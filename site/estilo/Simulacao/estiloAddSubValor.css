@@ -63,8 +63,7 @@ input[type='radio']
 #fim
 {
 	display: none;
-	position: absolute;
-	top: 25vh;
+	position: relative;
 	left: 50vh;
 	font-family: "Century Gothic";
 	font-size: 3.5vh;

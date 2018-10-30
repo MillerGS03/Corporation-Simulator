@@ -1,0 +1,24 @@
+<script src="scripts/Simulacao/tabelas.js"></script>
+<link rel="stylesheet" type="text/css" href="estilo/Simulacao/estiloTabelas.css">
+<div id="painelConta">
+	<span class="btnSair" id="sairModal"></span>
+	<h1>Visualizar Contas</h1>
+    <hr>
+    <h2>Selecione a ordem de classificação:</h2>
+    <select id="sel">
+        <option selected disabled value="0">Selecione aqui</option>
+        <option value="Nome">Nome</option>
+        <option value="Valor">Valor</option>
+        <option value="IntervaloDeTempo">Intervalor de Tempo</option>
+        <option value="CodClassificacao">Classificação</option>
+    </select>
+    <form>
+        <table id="tabelaTipo" border="0">
+            <tr>
+                <td><h3 id="forma">Forma de ordenação:</h3></td>
+                <td><input type="radio" value="asc" name="tipo">Ascendente</td>
+                <td><input type="radio" value="desc" name="tipo">Descendente</td>
+            </tr>
+        </table>
+    </form>
+</div>

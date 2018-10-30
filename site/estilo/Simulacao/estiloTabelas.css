@@ -1,0 +1,77 @@
+#painelConta h1
+{
+	background: inherit;
+	position: relative;
+	bottom: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 4.7vh;
+}
+#painelConta hr
+{
+	position: absolute;
+	top: 8vh;
+}
+#painelConta h2
+{
+    background: inherit;
+	position: relative;
+	bottom: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+}
+#sel
+{
+    width: 40vh;
+    height: 5vh;
+    font-family: 'Century Gothic';
+    font-size: 3vh;
+    position:relative;
+    bottom: 2vh;
+}
+.par
+{
+    background: #fffddd;
+}
+.impar
+{
+    background: #ededed;
+}
+.tabelaContas
+{
+    position: relative;
+    left: 30vh;
+    width: 100%;
+}
+.tabela
+{
+    font-family: 'Century Gothic';
+    font-size: 2.5vh;
+    color: black;
+    text-align: center;
+    border: 0.2vh solid black;
+    border-collapse: collapse;
+}
+.tabela td
+{
+    border: 0.1vh solid black;
+}
+#forma
+{
+    position: relative;    
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 2.75vh;
+}
+#tabelaTipo
+{
+    position:relative;
+    bottom: 2vh;
+    left: 30vh;
+    font-family: "Century Gothic";
+    font-size: 2vh;
+    text-align: justify;
+}

@@ -65,8 +65,8 @@
 {
 	position: absolute;
 	background-color: white;
-	height: 70vh;
 	width: 130vh;
 	top: -10vh;
 	left: 15vh;
+	height: auto;
 }

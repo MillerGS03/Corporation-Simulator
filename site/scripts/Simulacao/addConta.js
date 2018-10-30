@@ -1,4 +1,4 @@
-var classificacoes;
+$("#painelConta").css('height', '70vh')
 var erro;
 $("#sairModal").on('click', function(){
 	$("#modal").css('display', 'none');

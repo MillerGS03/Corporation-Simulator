@@ -1,19 +1,24 @@
+$(".graficosSimulacao").css('display', 'none')
 var contas;
 var classificacoes;
-var saldo = new Array();
 var dataCriacao = new Date(simulacao.DataCriacao);
 var mesAtual = dataCriacao.getMonth()+1;
 var diaAtual = dataCriacao.getDate();
 var anoAtual = (dataCriacao.getFullYear() + '');
 anoAtual = anoAtual.substring(2);
-var X = 1;
-var pontos = new Array();
+var chartConta;
+var chartSaldo;
+var chartClass;
+var pontosSaldo = new Array();
+var pontosConta = new Array();
+var pontosClass = new Array();
+
+
 var aux = new Object();
 aux.label = formatarData(mesAtual, anoAtual);
 aux.y = simulacao.Saldo;
-aux.x = X++;
-pontos.push(aux);
-function atualizarPontos()
+pontosSaldo.push(aux);
+function atualizarData()
 {
 	if (new Date().getMonth()+1 != mesAtual)
 	{
@@ -23,19 +28,61 @@ function atualizarPontos()
 			anoAtual = new Date().getFullYear() + '';
 			anoAtual = anoAtual.substring(2);
 		}
+		return true;
+	}
+	else
+		return false;
+}
+function atualizarPontosSaldo()
+{
+	if (atualizarData())
+	{
 		aux = new Object();
 		aux.label = formatarData(mesAtual, anoAtual);
 		aux.y = simulacao.Saldo;
-		a.x = X++;
-		pontos.push(aux)
+		pontosSaldo.push(aux)
 	}
 	else
-	{
-		pontos[pontos.length-1].y = simulacao.Saldo;
-	}
-	criarGrafico();
+		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
+	if (chartSaldo != null)
+		chartSaldo.render();
 }
-setInterval(atualizarPontos, 10000)
+function atualizarPontosConta()
+{
+	var total = 0;
+	for (var i = 0; i < contas.length; i++)
+		total += Math.abs(contas[i].Valor);
+	for (var i = 0; i < contas.length; i++)
+	{
+		aux = new Object();
+		aux.label = contas[i].Nome;
+		aux.y = Math.abs(contas[i].Valor)/total * 100;
+		aux.y = aux.y.toFixed(3);
+		pontosConta[i] = aux;
+	}
+	if (chartConta != null)
+		chartConta.render();
+}
+function atualizarPontosClass()
+{
+	for (var i = 0; i < classificacoes.length; i++)
+	{
+		aux = new Object();
+		aux.label = classificacoes[i].Nome;
+		aux.y = 0;
+		for (var k = 0; k < contas.length; k++)
+			if (contas[k].CodClassificacao == classificacoes[i].CodClassificacao)
+				aux.y += contas[k].Valor;
+		if (aux.y < 0)
+			aux.color = 'darkred';
+		else
+			aux.color = 'green';
+		pontosClass[i] = aux;
+	}
+	if (chartClass != null)
+		chartClass.render();
+}
+setInterval(atualizarPontosSaldo, 1000)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -89,20 +136,56 @@ function confirma(txt, funcao)
 	});
 }
 
-function criarGrafico()
+function criarGraficoSaldo()
 {
-	var chart = new CanvasJS.Chart("saldo", {
-		title:{
-			text: "Saldo"              
-		},
+	chartSaldo = new CanvasJS.Chart("saldo", {
+		animationEnabled: true,
+		zoomEnabled: true,
+		title:{text: "Saldo"},
 		data:
 		[{
-			// Change type to "doughnut", "line", "splineArea", etc.
 			type: "line",
-			dataPoints: pontos
+			dataPoints: pontosSaldo
 		}]
 	});
-	chart.render();
+	chartSaldo.render();
+}
+function criarGraficoConta()
+{
+	chartConta = new CanvasJS.Chart("contas", {
+		animationEnabled: true,
+		theme: "light2", // "light1", "light2", "dark1", "dark2"
+		culture: 'es',
+		title: {text: "Contas"},
+		data: [{
+			type: "pie",
+			startAngle: 25,
+			toolTipContent: "<b>{label}</b>: {y}%",
+			showInLegend: "true",
+			legendText: "{label}",
+			indexLabelFontSize: 16,
+			indexLabel: "{label} - {y}%",
+			indexLabelPlacement: "outside",
+			dataPoints: pontosConta
+		}]
+	});
+	chartConta.render();
+}
+function criarGraficoClass()
+{
+	chartClass = new CanvasJS.Chart("classif", {
+		animationEnabled: true,
+		culture: 'es',
+		title:{text: "Classificações"},
+		data:
+		[{
+			type: "column",
+			indexLabel: "{y}",
+			indexLabelPlacement: "outside",
+			dataPoints: pontosClass
+		}]
+	});
+	chartClass.render();
 }
 function formatarData(dia, mes, ano)
 {
@@ -111,4 +194,11 @@ function formatarData(dia, mes, ano)
 		data += "/" + (ano < 10?"0" + ano:ano);
 	return data;
 }
-criarGrafico();
+setTimeout(function(){
+	atualizarPontosSaldo();
+	criarGraficoSaldo();
+	atualizarPontosConta();
+	criarGraficoConta();
+	atualizarPontosClass();
+	criarGraficoClass();
+}, 100)

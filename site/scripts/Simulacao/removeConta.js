@@ -21,6 +21,8 @@ $("#btnExcluirConta").on('click', function(){
             setTimeout(function() {
                 $.ajax({url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao}).done(function(dados) {
                     contas = dados;
+                    atualizarPontosConta();
+                    atualizarPontosClass();
                     $("#valor").css('display', 'none');
                     document.getElementById('selectContas').options[0].selected = 'selected';
                     setTimeout(function() {

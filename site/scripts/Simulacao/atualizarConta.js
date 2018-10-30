@@ -169,6 +169,8 @@ function atualizarConta()
 			$("#classificacoes").empty();
 			$('#s').empty();
 			$("#sairModal").trigger('click');
+			atualizarPontosConta();
+			atualizarPontosClass();
 		})
 	}, 100)
 }

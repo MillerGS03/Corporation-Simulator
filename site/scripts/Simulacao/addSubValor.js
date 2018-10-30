@@ -27,7 +27,7 @@ $("#txtAdd").on('click', function(){
 })
 function colocarSaldo()
 {
-    $("#saldo").text('Saldo atual: ' + simulacao.Saldo)
+    $("#saldoAtual").text('Saldo atual: ' + simulacao.Saldo)
 }
 colocarSaldo();
 
@@ -52,7 +52,7 @@ $("#fim").on('click', function(){
     $("#sairModal").trigger('click');
     $.get('http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + simulacao.Nome, function(dados) {
         simulacao = dados[0];
-        colocarSaldo();
+        atualizarPontosSaldo();
     })
     return false;
 })

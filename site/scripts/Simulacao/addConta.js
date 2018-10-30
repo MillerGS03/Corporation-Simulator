@@ -107,6 +107,8 @@ function adicionar()
 		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
 	}).done(function(dados){contas = dados;})
 	$("#sairModal").trigger('click');
+	atualizarPontosConta();
+	atualizarPontosClass();
 }
 
 function testarNome()

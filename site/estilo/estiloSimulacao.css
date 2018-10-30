@@ -68,5 +68,6 @@
 	width: 130vh;
 	top: -10vh;
 	left: 15vh;
+	max-width: 96%;
 	height: auto;
 }

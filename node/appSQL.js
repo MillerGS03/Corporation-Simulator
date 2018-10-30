@@ -264,7 +264,7 @@ rota.patch('/simulacao/:cod/saldo/:saldo', (requisicao, resposta) => {
   execSQL(`update Simulacao set Saldo = ${saldo} where CodSimulacao = ${cod}`, resposta);
 })
 rota.get('/simulacao/:codS/contas/:ordem/:tipo', (requisicao, resposta) => {
-  if (requisicao.params.ordem != 'Nome')
+  if (requisicao.params.ordem != 'Valor')
     execSQL(`select * from Patrimonio where CodSimulacao = ${requisicao.params.codS} order by ${requisicao.params.ordem} ${requisicao.params.tipo}`, resposta);
   else
     execSQL(`select * from Patrimonio where CodSimulacao = ${requisicao.params.codS} order by Nome ${requisicao.params.tipo}`, resposta);

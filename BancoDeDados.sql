@@ -131,3 +131,5 @@ drop table Simulacao
 drop table ConstrucaoJogo
 drop table Jogo
 drop table Usuario
+
+delete from Patrimonio where CodSimulacao = 8

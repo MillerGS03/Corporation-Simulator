@@ -117,6 +117,13 @@ function testarNome()
 		nome.parentElement.firstElementChild.textContent = "Nome da Conta - Mínimo de 4 caracteres:";
 		erro = true;
 	}
+	for (var i = 0; i < contas.length; i++)
+		if (contas[i].Nome == nome)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			nome.parentElement.firstElementChild.textContent = "Nome da Conta - Nome já existe:";
+		}
 }
 function testarTipo()
 {
@@ -145,6 +152,24 @@ function testarTempo()
 		t.parentElement.style.color = "darkred";
 		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
 		erro = true;
+	}
+	if ($("#tTempo").val() == 'D' && tempo > 31)
+	{
+		erro = true;
+		t.parentElement.style.color = "darkred";
+		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+	}
+	if ($("#tTempo").val() == 'M' && tempo > 12)
+	{
+		erro = true;
+		t.parentElement.style.color = "darkred";
+		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+	}
+	if ($("#tTempo").val() == 'M' && tempo > 100)
+	{
+		erro = true;
+		t.parentElement.style.color = "darkred";
+		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
 	}
 }
 function testarClassificacao()

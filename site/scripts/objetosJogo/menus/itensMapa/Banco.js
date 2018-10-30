@@ -618,7 +618,6 @@ function Banco(x, y)
         this.lancamentos = new Array();
         var _this = this;
 
-        //"gray", "#a3a33", null, null, "bold 18pt Century Gothic", "white", "X",
         this.btnFechar = new BotaoRetangular(this.x + this.width - 45, this.y + 10, 35, 35,
                                              {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 },
                                              35, 35, "gray", "#a3a3a3", null, null, "bold 18pt Century Gothic",

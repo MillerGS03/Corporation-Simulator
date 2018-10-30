@@ -145,4 +145,6 @@ imgRecursosHumanos.src = "imagens/construcoes/recursosHumanos.png";
 //--------------------------------------------------------------------------
 // Armazem.js
 var imgMercadoria = new Image();
+var imgFundoArmazem = new Image();
 imgMercadoria.src = "imagens/construcoes/mercadorias.png";
+imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";

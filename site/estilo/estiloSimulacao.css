@@ -22,10 +22,10 @@
 	border: 0;
 	margin: 1vh;
 }
-#graficosSimulacao
+.graficosSimulacao
 {
 	height: 50vh;
-	background-color: green;
+	background-color: white;
 	width: 96%;
 	position: absolute;
 	left: 2%;

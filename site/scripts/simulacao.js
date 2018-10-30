@@ -1,5 +1,41 @@
 var contas;
 var classificacoes;
+var saldo = new Array();
+var dataCriacao = new Date(simulacao.DataCriacao);
+var mesAtual = dataCriacao.getMonth()+1;
+var diaAtual = dataCriacao.getDate();
+var anoAtual = (dataCriacao.getFullYear() + '');
+anoAtual = anoAtual.substring(2);
+var X = 1;
+var pontos = new Array();
+var aux = new Object();
+aux.label = formatarData(mesAtual, anoAtual);
+aux.y = simulacao.Saldo;
+aux.x = X++;
+pontos.push(aux);
+function atualizarPontos()
+{
+	if (new Date().getMonth()+1 != mesAtual)
+	{
+		mesAtual = new Date().getMonth() + 1;
+		if (new Date().getFullYear() != anoAtual)
+		{
+			anoAtual = new Date().getFullYear() + '';
+			anoAtual = anoAtual.substring(2);
+		}
+		aux = new Object();
+		aux.label = formatarData(mesAtual, anoAtual);
+		aux.y = simulacao.Saldo;
+		a.x = X++;
+		pontos.push(aux)
+	}
+	else
+	{
+		pontos[pontos.length-1].y = simulacao.Saldo;
+	}
+	criarGrafico();
+}
+setInterval(atualizarPontos, 10000)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -52,3 +88,27 @@ function confirma(txt, funcao)
 		$("#modalConfirma").css('display', 'none');
 	});
 }
+
+function criarGrafico()
+{
+	var chart = new CanvasJS.Chart("saldo", {
+		title:{
+			text: "Saldo"              
+		},
+		data:
+		[{
+			// Change type to "doughnut", "line", "splineArea", etc.
+			type: "line",
+			dataPoints: pontos
+		}]
+	});
+	chart.render();
+}
+function formatarData(dia, mes, ano)
+{
+	var data = (dia < 10?"0" + dia:dia) + "/" + (mes < 10?"0" + mes:mes);
+	if (ano != null)
+		data += "/" + (ano < 10?"0" + ano:ano);
+	return data;
+}
+criarGrafico();

@@ -84,13 +84,24 @@ function adicionar()
 	conta.Valor = valor;
 	var intervalo;												//em segundos
 	var tipoTempo = $("#tTempo option:selected").text();
+	var hoje = new Date();
 	if (tipoTempo == 'Dia(s)')
+	{
+		hoje.setDate(hoje.getDate() + parseInt($("#nTempo").val()));
 		intervalo = $("#nTempo").val() + 'D';
+	}
 	else if (tipoTempo == 'Mes(es)')
+	{
+		hoje.setMonth(hoje.getMonth() + parseInt($("#nTempo").val()));
 		intervalo = $("#nTempo").val() + 'M';
+	}
 	else
+	{
+		hoje.setFullYear(hoje.getFullYear() + parseInt($("#nTempo").val()));
 		intervalo = $("#nTempo").val() + 'A';
+	}
 	conta.Intervalo = intervalo;
+	conta.DiaPerdaGanho = hoje;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;
 	for (var i = 0; i < classificacoes.length; i++)

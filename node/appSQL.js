@@ -206,7 +206,7 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   const nome = requisicao.params.nome;
   var today = new Date();
   var dd = today.getDate();
-  var mm = today.getMonth()+1; //January is 0!
+  var mm = today.getMonth()+1;
   var yyyy = today.getFullYear();
   if(dd<10) {
     dd = '0'+dd
@@ -215,7 +215,7 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
     mm = '0'+mm
   } 
   today = mm + '/' + dd + '/' + yyyy;
-  execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}')`, resposta);
+  execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}', 0)`, resposta);
 })
 rota.delete('/simulacoes/:codUsuario/:nome', (requisicao, resposta) =>{
   execSQL(`Delete from Patrimonio where CodSimulacao in (select CodSimulacao from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
@@ -228,7 +228,18 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const Nome = c.Nome;
   const Valor = parseInt(c.Valor);
   const Class = c.Classificacao;
-  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class})`, resposta);
+  var today = new Date(c.DiaPerdaGanho);
+  var dd = today.getDate();
+  var mm = today.getMonth()+1;
+  var yyyy = today.getFullYear();
+  if(dd<10) {
+    dd = '0'+dd
+  } 
+  if(mm<10) {
+    mm = '0'+mm
+  } 
+  today = mm + '/' + dd + '/' + yyyy;
+  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class}, '${today}')`, resposta);
 })
 rota.get('/getClassificacoes/:codSimulacao', (requisicao, resposta) => {
   execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
@@ -256,7 +267,8 @@ rota.patch('/contas/:codPatrimonio', (requisicao, resposta) => {
   const valor = conta.Valor;
   const classificacao = conta.Classificacao;
   const intervalo = conta.Intervalo;
-  execSQL(`update Patrimonio set Nome = '${nome}', Valor = ${valor}, CodClassificacao = ${classificacao}, IntervaloDeTempo = '${intervalo}' where CodPatrimonio = ${requisicao.params.codPatrimonio}`, resposta);
+  const dia = conta.DiaPerdaGanho;
+  execSQL(`update Patrimonio set Nome = '${nome}', Valor = ${valor}, CodClassificacao = ${classificacao}, IntervaloDeTempo = '${intervalo}', DiaPerdaGanho = '${dia}' where CodPatrimonio = ${requisicao.params.codPatrimonio}`, resposta);
 })
 rota.patch('/simulacao/:cod/saldo/:saldo', (requisicao, resposta) => {
   const cod = requisicao.params.cod;

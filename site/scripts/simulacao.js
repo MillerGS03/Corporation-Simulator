@@ -1,11 +1,18 @@
-$(".graficosSimulacao").css('display', 'none')
+//("#saldo").css('display', 'none')
+$("#contas").css('display', 'none')
+$("#classif").css('display', 'none')
 var contas;
 var classificacoes;
-var dataCriacao = new Date(simulacao.DataCriacao);
-var mesAtual = dataCriacao.getMonth()+1;
-var diaAtual = dataCriacao.getDate();
-var anoAtual = (dataCriacao.getFullYear() + '');
-anoAtual = anoAtual.substring(2);
+$.ajax({
+	url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
+}).done(function(dados){contas = dados;})
+$.ajax({
+	url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+}).done(function(dados) {classificacoes = dados});
+var diaAtual = simulacao.DataCriacao + '';
+diaAtual = diaAtual.substring(0, diaAtual.length-1);
+diaAtual = new Date(diaAtual);
+var hoje = new Date();
 var chartConta;
 var chartSaldo;
 var chartClass;
@@ -14,33 +21,35 @@ var pontosConta = new Array();
 var pontosClass = new Array();
 
 
-var aux = new Object();
-aux.label = formatarData(mesAtual, anoAtual);
-aux.y = simulacao.Saldo;
-pontosSaldo.push(aux);
 function atualizarData()
 {
-	if (new Date().getMonth()+1 != mesAtual)
+	hoje = new Date();
+	if (hoje.getDate() != diaAtual.getDate())
 	{
-		mesAtual = new Date().getMonth() + 1;
-		if (new Date().getFullYear() != anoAtual)
-		{
-			anoAtual = new Date().getFullYear() + '';
-			anoAtual = anoAtual.substring(2);
-		}
-		return true;
+		var diff = hoje.getDate() - diaAtual.getDate(); 
+		diaAtual = hoje;
+		return diff;
 	}
 	else
-		return false;
+		return 0;
 }
 function atualizarPontosSaldo()
 {
-	if (atualizarData())
+	var diff = atualizarData();
+	if (diff > 0)
 	{
-		aux = new Object();
-		aux.label = formatarData(mesAtual, anoAtual);
-		aux.y = simulacao.Saldo;
-		pontosSaldo.push(aux)
+		for (var i = 0; i <= diff; i++)
+		{
+			var x = simulacao.DataCriacao + '';
+			x = x.substring(0, x.length-1);
+			var atual = new Date(x);
+			atual.setDate(atual.getDate() + i);
+			simulacao.Saldo += verificarPerdaGanho(atual);
+			aux = new Object();
+			aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
+			aux.y = simulacao.Saldo;
+			pontosSaldo.push(aux)
+		}
 	}
 	else
 		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
@@ -82,7 +91,7 @@ function atualizarPontosClass()
 	if (chartClass != null)
 		chartClass.render();
 }
-setInterval(atualizarPontosSaldo, 1000)
+setInterval(atualizarPontosSaldo, 10000)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -100,12 +109,6 @@ $("#atualizarConta").on('click', function(){
 $("#tabelas").on('click', function(){
 	abrirS('tabelas.html');
 })
-$.ajax({
-	url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-}).done(function(dados){contas = dados;})
-$.ajax({
-	url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
-}).done(function(dados) {classificacoes = dados});
 
 function abrirS(l)
 {
@@ -141,10 +144,13 @@ function criarGraficoSaldo()
 	chartSaldo = new CanvasJS.Chart("saldo", {
 		animationEnabled: true,
 		zoomEnabled: true,
-		title:{text: "Saldo"},
+		axisX: {title: "Dias"},
+		axisY: {title: "Saldo", prefix: '$'},
+		title: {text: "Saldo: " + simulacao.Saldo},
 		data:
 		[{
 			type: "line",
+			color: $("#conteudoInfo").css("background-color"),
 			dataPoints: pontosSaldo
 		}]
 	});
@@ -201,4 +207,34 @@ setTimeout(function(){
 	criarGraficoConta();
 	atualizarPontosClass();
 	criarGraficoClass();
-}, 100)
+}, 200)
+function verificarPerdaGanho(dia)
+{
+	var total = 0;
+	for (var i = 0; i < contas.length; i++)
+	{
+		var dS = contas[i].DiaPerdaGanho + '';
+		dS = dS.substring(0, dS.length-1);
+		var d = new Date(dS);
+		if (d.getDate() == dia.getDate() &&
+		d.getMonth() == dia.getMonth() &&
+		d.getFullYear() == dia.getFullYear())
+		{
+			var novo = new Date(dS);
+			if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'D')
+				novo.setDate(novo.getDate() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+			else if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'M')
+				novo.setMonth(novo.getMonth() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+			else
+				novo.setFullYear(novo.getFullYear() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+			contas[i].DiaPerdaGanho = novo;
+			total += contas[i].Valor;
+			$.ajax({
+				url: 'http://' + local + ':3000/contas/' + contas[i].CodPatrimonio,
+				type: 'patch',
+				data: contas[i]
+			})
+		}
+	}
+	return total;
+}

@@ -106,12 +106,7 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
-insert into UsuarioFoto values(3, '', '')
-insert into UsuarioFoto values(4, '', '')
-insert into UsuarioFoto values(9, '', '')
-insert into UsuarioFoto values(12, '', '')
-insert into UsuarioFoto values(13, '', '')
-
+update Patrimonio set DiaPerdaGanho = '30/10/2018' where CodPatrimonio = 33
 
 delete from Amizade
 delete from Notificacao

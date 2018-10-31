@@ -8,15 +8,27 @@ function Armazem()
     var este = this;
 
     this.aberto = false;
-    this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
-                             { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
-        "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
+    this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40, 5, 40, 40,
+                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic",
+                                         "red", "X", false, false, false);
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
 
+    this.btnUpgrade = new BotaoRetangular(this.x + 3 * this.width/4 - 140, this.y + this.height - 100, 280, 40, 5, 280, 40,
+                                          "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
+                                          "black", "Dobrar capacidade", false, false, false);
+    this.btnUpgrade.onclick = function() {
+        fazerCompra("Reforma do armazém", este.precoUpgrade, true, true, Math.log2(este.precoUpgrade/1000) + 1, function() {
+            este.precoUpgrade *= 2;
+            este.capacidade *= 2;
+        })
+    }
+
     this.qtdeMateriaPrima = 150;
-    this.capacidadeMaxima = 500;
+    this.capacidade = 500;
+    this.precoUpgrade = 2000;
+    this.produtos = new Array();
 
     this.abrirFechar = function() 
     {
@@ -25,10 +37,12 @@ function Armazem()
         {
             desativarBotoes();
             this.btnFechar.ativarInteracao();
+            this.btnUpgrade.ativarInteracao();
         }
         else
         {
             this.btnFechar.desativarInteracao();
+            this.btnUpgrade.desativarInteracao();
             ativarBotoes();
         }
     }
@@ -67,7 +81,6 @@ function Armazem()
 
         este.btnFechar.desenhar();
 
-        ctx.fillStyle = "white";
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
         ctx.globalAlpha = 0.15;
@@ -177,9 +190,23 @@ function Armazem()
 
         ctx.textAlign = "left";
         ctx.font = "14.6pt Century Gothic";
-        ctx.fillText(`${este.capacidadeMaxima} unidades.`, este.x + este.width/2 + 238, este.y + 480);
-        ctx.fillText(`${este.capacidadeMaxima - este.qtdeMateriaPrima} unidades.`, este.x + este.width/2 + 238, este.y + 450);
+        ctx.fillText(`${este.capacidade} unidades.`, este.x + este.width/2 + 238, este.y + 480);
+        ctx.fillText(`${este.capacidade - este.qtdeMateriaPrima} unidades.`, este.x + este.width/2 + 238, este.y + 450);
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "center";
+        ctx.font = "bold 16pt Century Gothic";
+        ctx.fillStyle = "green";
+        ctx.fillText(`Preço do upgrade: ${formatarDinheiro(este.precoUpgrade)}`, este.x + 3 * este.width/4, este.y + este.height - 50);
+
+        este.btnUpgrade.desenhar();
 
         ctx.restore();
     }
+}
+function Produto(nome, preco)
+{
+    this.nome = nome;
+    this.preco = preco;
+    this.qtdeEmEstoque = 0;
 }

@@ -43,6 +43,8 @@ function Garagem()
     }
     function desenharJanela()
     {
+        ctx.save();
+
         ctx.fillStyle = "#333333";
         ctx.globalAlpha = 0.3;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -51,7 +53,7 @@ function Garagem()
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
        
-        ctx.fillStyle = "silver";
+        ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";
@@ -60,5 +62,10 @@ function Garagem()
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
+
+        ctx.globalAlpha = 0.15;
+        ctx.drawImage(imgFundoGaragem, este.x + 182, este.y + 80);
+
+        ctx.restore();
     }
 }

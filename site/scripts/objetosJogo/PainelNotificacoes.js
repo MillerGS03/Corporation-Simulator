@@ -48,7 +48,8 @@ function PainelNotificacoes()
     {
         if (este.aberto)
         {
-            este.x -= 5;
+            if (!pausado)
+                este.x -= 5;
             if (este.x >= canvas.width - este.width)
                 setTimeout(abrir, 10);
             else
@@ -64,7 +65,8 @@ function PainelNotificacoes()
     {
         if (!este.aberto)
         {
-            este.x += 5;
+            if (!pausado)
+                este.x += 5;
             if (este.x < canvas.width + 3)
                 setTimeout(fechar, 10);
             else

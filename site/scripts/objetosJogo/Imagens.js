@@ -148,3 +148,7 @@ var imgMercadoria = new Image();
 var imgFundoArmazem = new Image();
 imgMercadoria.src = "imagens/construcoes/mercadorias.png";
 imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";
+//--------------------------------------------------------------------------
+// Garagem.js
+var imgFundoGaragem = new Image();
+imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";

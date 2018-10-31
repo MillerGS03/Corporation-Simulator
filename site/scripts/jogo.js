@@ -53,6 +53,7 @@ var xMouse;
 var yMouse;
 
 var carregado = false;
+var pausado = false;
 
 var qtasConstrucoesInicialmente = 0;
 /**
@@ -493,12 +494,14 @@ function pausar()
 		clearInterval(timerDias);
 	timerDias = null;
 	rua.pausar();
+	pausado = true;
 }
 function despausar()
 {
 	if (!timerDias)
 		timerDias = setInterval(intervaloDias, 50);
 	rua.despausar();
+	pausado = false;
 }
 function salvar()
 {
@@ -538,6 +541,10 @@ function salvar()
 		atualizar.X = itensConstruidos[i].x;
 		atualizar.Y = itensConstruidos[i].y;
 		atualizar.Sustentador = itensConstruidos[i].sustentador;
+		try
+		{
+			atualizar.Atualizacao = itensConstruidos[i].getAtualizacao();
+		} catch {}
 
 		$.ajax({
 			url: 'http://' + local + ':3000/construcao',
@@ -554,6 +561,10 @@ function salvar()
 			novoItem.X = itensConstruidos[i].getX();
 			novoItem.Y = itensConstruidos[i].getY();
 			novoItem.Sustentador = itensConstruidos[i].sustentador;
+			try
+			{
+				novoItem.Insercao = itensConstruidos[i].getInsercao();
+			} catch {}
 			$.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
 		}
 	}

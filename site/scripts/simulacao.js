@@ -1,6 +1,6 @@
-//("#saldo").css('display', 'none')
+$("#saldo").css('display', 'none')
 $("#contas").css('display', 'none')
-$("#classif").css('display', 'none')
+//$("#classif").css('display', 'none')
 var contas;
 var classificacoes;
 $.ajax({
@@ -19,7 +19,16 @@ var chartClass;
 var pontosSaldo = new Array();
 var pontosConta = new Array();
 var pontosClass = new Array();
-
+function primeiroSaldo()
+{
+	var x = simulacao.DataCriacao + '';
+	var atual = new Date(x.substring(0, x.length-1));
+	var aux = new Object();
+	aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
+	aux.y = simulacao.Saldo;
+	pontosSaldo.push(aux)
+}
+primeiroSaldo();
 
 function atualizarData()
 {
@@ -67,6 +76,7 @@ function atualizarPontosConta()
 		aux.label = contas[i].Nome;
 		aux.y = Math.abs(contas[i].Valor)/total * 100;
 		aux.y = aux.y.toFixed(3);
+		aux.color = (contas[i].Valor<0?"darkred":"green");
 		pontosConta[i] = aux;
 	}
 	if (chartConta != null)
@@ -91,7 +101,7 @@ function atualizarPontosClass()
 	if (chartClass != null)
 		chartClass.render();
 }
-setInterval(atualizarPontosSaldo, 10000)
+var iSaldo = setInterval(atualizarPontosSaldo, 10000)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -237,4 +247,8 @@ function verificarPerdaGanho(dia)
 		}
 	}
 	return total;
+}
+function finalizarSimulacao()
+{
+	clearInterval(iSaldo);
 }

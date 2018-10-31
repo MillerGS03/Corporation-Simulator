@@ -1,6 +1,20 @@
-$("#saldo").css('display', 'none')
+var tema = 'light';
+//$("#saldo").css('display', 'none')
 $("#contas").css('display', 'none')
-//$("#classif").css('display', 'none')
+$("#classif").css('display', 'none')
+$("#tema").on('click', function(){
+	if (tema == 'light')
+		tema = 'dark';
+	else
+		tema = 'light';
+	chartSaldo.destroy();
+	chartConta.destroy();
+	chartClass.destroy();
+	criarGraficoClass();
+	criarGraficoConta();
+	criarGraficoSaldo();
+	setTimeout(function(){}, 100)
+})
 var contas;
 var classificacoes;
 $.ajax({
@@ -153,6 +167,7 @@ function criarGraficoSaldo()
 {
 	chartSaldo = new CanvasJS.Chart("saldo", {
 		animationEnabled: true,
+		theme: tema + '1',
 		zoomEnabled: true,
 		axisX: {title: "Dias"},
 		axisY: {title: "Saldo", prefix: '$'},
@@ -170,7 +185,7 @@ function criarGraficoConta()
 {
 	chartConta = new CanvasJS.Chart("contas", {
 		animationEnabled: true,
-		theme: "light2", // "light1", "light2", "dark1", "dark2"
+		theme: tema + '1',
 		culture: 'es',
 		title: {text: "Contas"},
 		data: [{
@@ -191,6 +206,7 @@ function criarGraficoClass()
 {
 	chartClass = new CanvasJS.Chart("classif", {
 		animationEnabled: true,
+		theme: tema + '1',
 		culture: 'es',
 		title:{text: "Classificações"},
 		data:

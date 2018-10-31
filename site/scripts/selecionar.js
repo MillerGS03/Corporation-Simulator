@@ -168,8 +168,7 @@ function iniciarSelecionar()
     }
     function removerOpcao()
     {
-        confirme('Excluir esse jogo', function(){
-            //Guilty Crown - Episódio 
+        confirma('Excluir esse jogo', function(){
             var select = document.getElementById('select');
             var nomeJogo = select.options[select.selectedIndex].value;
             $.ajax({

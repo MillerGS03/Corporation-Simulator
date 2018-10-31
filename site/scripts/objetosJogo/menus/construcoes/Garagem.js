@@ -30,6 +30,7 @@ function Garagem()
             this.btnMercadorias.ativarInteracao();
             this.btnGerenciarProducao.ativarInteracao();
             this.btnGerenciarDinheiro.ativarInteracao();
+            this.btnVendas.ativarInteracao();
         }
         else
         {
@@ -38,10 +39,20 @@ function Garagem()
             this.btnMercadorias.desativarInteracao();
             this.btnGerenciarProducao.desativarInteracao();
             this.btnGerenciarDinheiro.desativarInteracao();
+            this.btnVendas.desativarInteracao();
 
             ativarBotoes();
         }
     }
+
+    /**
+     * 0 - Mercadorias
+     * 1 - Estoque
+     * 2 - Gerenciar produção
+     * 3 - Gerenciar dinheiro
+     * 4 - Vendas
+     */
+    var opcaoAberta = 0;
     this.desenhar = function() 
     {
         if (this.aberto)
@@ -50,6 +61,25 @@ function Garagem()
 
             desenharJanela();
             desenharLayout();
+
+            switch (opcaoAberta)
+            {
+                case 0:
+                    desenharMercadorias();
+                    break;
+                case 1:
+                    desenharEstoque();
+                    break;
+                case 2:
+                    desenharGerenciarProducao();
+                    break;
+                case 3:
+                    desenharGerenciarDinheiro();
+                    break;
+                case 4:
+                    desenharVendas();
+                    break;
+            }
 
             ctx.restore();
         }
@@ -95,43 +125,140 @@ function Garagem()
         este.btnEstoque.desenhar();
         este.btnGerenciarProducao.desenhar();
         este.btnGerenciarDinheiro.desenhar();
+        este.btnVendas.desenhar();
 
         ctx.restore();
     }
+    function desenharMercadorias()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "silver";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.fillRect(este.x + 300, este.y + 330, este.width - 320, 263);
+        ctx.strokeRect(este.x + 300, este.y + 330, este.width - 320, 263);
+
+        ctx.fillStyle = "gray";
+        ctx.fillRect(este.x + 300, este.y + 330, este.width - 320, 30);
+        ctx.strokeRect(este.x + 300, este.y + 330, este.width - 320, 30);
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13pt Consolas";
+        
+        ctx.fillText(" Produto              Preço             Atualizar", este.x + 300, este.y + 345);
+
+        ctx.fillStyle = "#d8d8d8";
+        for (var i = 0; i < 8; i ++)
+        {
+            if (i%2 == 1)
+                ctx.fillRect(este.x + 301, este.y + 361 + 29 * i, este.width - 322, 30);
+            este.botoesAumentarPreco[i].desenhar();
+            este.botoesDiminuirPreco[i].desenhar();
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + 500, este.y + 360);
+        ctx.lineTo(este.x + 500, este.y + 593);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + 575, este.y + 360);
+        ctx.lineTo(este.x + 575, este.y + 593);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore();
+    }
+    function desenharEstoque()
+    {
+        ctx.save();
+        
+        
+        
+        ctx.restore();
+    }
+    function desenharGerenciarProducao()
+    {
+        ctx.save();
+        
+        
+        
+        ctx.restore();
+    }
+    function desenharGerenciarDinheiro()
+    {
+        ctx.save();
+        
+        
+        
+        ctx.restore();
+    }
+    function desenharVendas()
+    {
+        ctx.save();
+        
+        
+        
+        ctx.restore();
+    }
+
     function configurarBotoes()
     {
-        este.btnMercadorias = new BotaoRetangular(este.x, este.y + 300, 280, 45, 0, 280, 45,
+        este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,
                                                   "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
                                                   "black", "Mercadorias", false, false, false);
-        este.btnEstoque = new BotaoRetangular(este.x, este.y + 345, 280, 45, 0, 280, 45,
+        este.btnEstoque = new BotaoRetangular(este.x, este.y + 245, 280, 45, 0, 280, 45,
                                               "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                               "black", "Estoque", false, false, false);
-        este.btnGerenciarProducao = new BotaoRetangular(este.x, este.y + 390, 280, 45, 0, 280, 45,
+        este.btnGerenciarProducao = new BotaoRetangular(este.x, este.y + 290, 280, 45, 0, 280, 45,
                                                         "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                         "black", "Gerenciar Produção", false, false, false);
-        este.btnGerenciarDinheiro = new BotaoRetangular(este.x, este.y + 435, 280, 45, 0, 280, 45,
+        este.btnGerenciarDinheiro = new BotaoRetangular(este.x, este.y + 335, 280, 45, 0, 280, 45,
                                                         "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                         "black", "Gerenciar Dinheiro", false, false, false);
+        este.btnVendas = new BotaoRetangular(este.x, este.y + 380, 280, 45, 0, 280, 45,
+                                             "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
+                                             "black", "Vendas", false, false, false);
     
-        var onclick = function(sender)
+        var onclickBotoesMenu = function(sender)
         {
             este.btnMercadorias.backgroundColor = "#c3c3c3";
             este.btnEstoque.backgroundColor = "#c3c3c3";
             este.btnGerenciarProducao.backgroundColor = "#c3c3c3";
             este.btnGerenciarDinheiro.backgroundColor = "#c3c3c3";
+            este.btnVendas.backgroundColor = "#c3c3c3";
 
             este.btnMercadorias.backgroundHoverColor = "#dadada";
             este.btnEstoque.backgroundHoverColor = "#dadada";
             este.btnGerenciarProducao.backgroundHoverColor = "#dadada";
             este.btnGerenciarDinheiro.backgroundHoverColor = "#dadada";
+            este.btnVendas.backgroundHoverColor = "#dadada";
 
             sender.backgroundColor = "#e5e5e5";
             sender.backgroundHoverColor = "#ececec";
         }
 
-        este.btnMercadorias.onclick = function() {onclick(este.btnMercadorias)};
-        este.btnEstoque.onclick = function() {onclick(este.btnEstoque)};
-        este.btnGerenciarProducao.onclick = function() {onclick(este.btnGerenciarProducao)};
-        este.btnGerenciarDinheiro.onclick = function() {onclick(este.btnGerenciarDinheiro)};
+        este.btnMercadorias.onclick = function() {opcaoAberta = 0; onclickBotoesMenu(este.btnMercadorias)};
+        este.btnEstoque.onclick = function() {opcaoAberta = 1; onclickBotoesMenu(este.btnEstoque)};
+        este.btnGerenciarProducao.onclick = function() {opcaoAberta = 2; onclickBotoesMenu(este.btnGerenciarProducao)};
+        este.btnGerenciarDinheiro.onclick = function() {opcaoAberta = 3; onclickBotoesMenu(este.btnGerenciarDinheiro)};
+        este.btnVendas.onclick = function() {opcaoAberta = 4; onclickBotoesMenu(este.btnVendas)};
+
+        este.botoesAumentarPreco = new Array();
+        este.botoesDiminuirPreco = new Array();
+        este.botoesExcluir = new Array();
+
+        for (var i = 0; i < 8; i++)
+        {
+            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 580, este.y + 364 + 29 * i, 100, 26, 3, 100, 26, "#c3c3c3", "#dadada",
+                                          null, null, "bold 12pt Century Gothic", "black", "- Preço", false, false, false));
+            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 685, este.y + 364 + 29 * i, 100, 26, 3, 100, 26, "#c3c3c3", "#dadada",
+                                          null, null, "bold 12pt Century Gothic", "black", "+ Preço", false, false, false));
+        }
     }
 }

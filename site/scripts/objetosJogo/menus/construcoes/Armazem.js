@@ -15,7 +15,7 @@ function Armazem()
         este.abrirFechar();
     }
 
-    this.btnUpgrade = new BotaoRetangular(this.x + 3 * this.width/4 - 140, this.y + this.height - 100, 280, 40, 5, 280, 40,
+    this.btnUpgrade = new BotaoRetangular(this.x + 3 * this.width/4 - 140, this.y + this.height - 80, 280, 40, 5, 280, 40,
                                           "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                           "black", "Dobrar capacidade", false, false, false);
     this.btnUpgrade.onclick = function() {
@@ -29,6 +29,12 @@ function Armazem()
     this.capacidade = 500;
     this.precoUpgrade = 2000;
     this.produtos = new Array();
+    this.getQtdeTotalDeProdutos = function() {
+        var total = 10;
+        for (var i = 0; i < this.produtos.length; i++)
+            total += this.produtos[i].qtdeEmEstoque;
+        return total;
+    }
 
     this.abrirFechar = function() 
     {
@@ -181,25 +187,114 @@ function Armazem()
     {
         ctx.save();
 
-        ctx.fillStyle = "black";
-        ctx.textAlign = "right";
-        ctx.textBaseline = "alphabetic";
-        ctx.font = "bold 14.6pt Century Gothic";
-        ctx.fillText("Capacidade máxima: ", este.x + este.width/2 + 238, este.y + 480);
-        ctx.fillText("Capacidade disponível: ", este.x + este.width/2 + 238, este.y + 450);
-
-        ctx.textAlign = "left";
-        ctx.font = "14.6pt Century Gothic";
-        ctx.fillText(`${este.capacidade} unidades.`, este.x + este.width/2 + 238, este.y + 480);
-        ctx.fillText(`${este.capacidade - este.qtdeMateriaPrima} unidades.`, este.x + este.width/2 + 238, este.y + 450);
+        desenharGrafico();
+        desenharLegenda();
 
         ctx.textBaseline = "top";
         ctx.textAlign = "center";
         ctx.font = "bold 16pt Century Gothic";
         ctx.fillStyle = "green";
-        ctx.fillText(`Preço do upgrade: ${formatarDinheiro(este.precoUpgrade)}`, este.x + 3 * este.width/4, este.y + este.height - 50);
+        ctx.fillText(`Preço do upgrade: ${formatarDinheiro(este.precoUpgrade)}`, este.x + 3 * este.width/4, este.y + este.height - 35);
 
         este.btnUpgrade.desenhar();
+
+        ctx.restore();
+    }
+    function desenharGrafico()
+    {
+        ctx.save();
+
+        var raio = 96;
+        var xCentro = este.x + 3 * este.width/4;
+        var yCentro = este.y + 230;
+
+        ctx.lineWidth = 4;
+        ctx.fillStyle = "#00ff00";
+        ctx.beginPath();
+        ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fill();
+
+
+        var anguloInicial = - Math.PI / 2;
+        var anguloFinal = 2 * Math.PI * este.qtdeMateriaPrima / este.capacidade + anguloInicial;
+
+        ctx.lineWidth = 2;
+        ctx.fillStyle = "#664805";
+        ctx.beginPath();
+        ctx.moveTo(xCentro, yCentro);
+        ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+
+        anguloInicial = anguloFinal;
+        anguloFinal = 2 * Math.PI * este.getQtdeTotalDeProdutos() / este.capacidade + anguloInicial;
+
+        ctx.fillStyle = "#ffb200";
+        ctx.beginPath();
+        ctx.moveTo(xCentro, yCentro);
+        ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+        
+        ctx.restore();
+    }
+    function desenharLegenda()
+    {
+        ctx.save();
+
+        // Retângulos coloridos
+
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "#664805";
+        ctx.fillRect(este.x + este.width/2 + 25, este.y + 364, 22, 12);
+        ctx.strokeRect(este.x + este.width/2 + 25, este.y + 364, 22, 12);
+
+        ctx.fillStyle = "#ffb200";
+        ctx.fillRect(este.x + este.width/2 + 25, este.y + 394, 22, 12);
+        ctx.strokeRect(este.x + este.width/2 + 25, este.y + 394, 22, 12);
+
+        ctx.fillStyle = "#00ff00";
+        ctx.fillRect(este.x + este.width/2 + 25, este.y + 424, 22, 12);
+        ctx.strokeRect(este.x + este.width/2 + 25, este.y + 424, 22, 12);
+
+        // Títulos
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 14.5pt Century Gothic";
+
+        ctx.fillText("Matérias-primas: ", este.x + este.width/2 + 255, este.y + 370);
+        ctx.fillText("Mercadorias: ", este.x + este.width/2 + 255, este.y + 400);
+        ctx.fillText("Espaço disponível: ", este.x + este.width/2 + 255, este.y + 430);
+        ctx.fillText("Capacidade máxima: ", este.x + este.width/2 + 255, este.y + 460);
+
+        // Valores absolutos
+
+        ctx.textAlign = "left";
+        ctx.font = "14.5pt Century Gothic";
+
+        ctx.fillText(`${este.qtdeMateriaPrima} u`, este.x + este.width/2 + 255, este.y + 370);
+        ctx.fillText(`${este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 255, este.y + 400);
+        ctx.fillText(`${este.capacidade - este.qtdeMateriaPrima - este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 255, este.y + 430);
+        ctx.fillText(`${este.capacidade} u`, este.x + este.width/2 + 255, este.y + 460);
+
+        // Valores percentuais
+
+        ctx.textAlign = "right";
+        ctx.fillText(`${Math.round(100* este.qtdeMateriaPrima / este.capacidade)}%`, este.x + este.width - 25, este.y + 370);
+        ctx.fillText(`${Math.round(100* este.getQtdeTotalDeProdutos() / este.capacidade)}%`, este.x + este.width - 25, este.y + 400);
+        ctx.fillText(`${Math.round(100* (este.capacidade - este.qtdeMateriaPrima - este.getQtdeTotalDeProdutos()) / este.capacidade)}%`, este.x + este.width - 25, este.y + 430);
+        ctx.fillText(`100%`, este.x + este.width - 25, este.y + 460);
+
+        // Observação
+
+        ctx.textAlign = "left";
+        ctx.font = "italic 13pt Century Gothic";
+        ctx.fillText("Observação: u = unidade(s)", este.x + este.width/2 + 20, este.y + este.height - 105);
 
         ctx.restore();
     }

@@ -126,7 +126,7 @@ section#conteudoInfo
 {
 	position: relative;
 	bottom: 4.25vh;
-	left: 17.5vh;
+	left: -5vh;
 	width: 20vh;
 	height: 5vh;
 	border: 0.3vh solid black;
@@ -150,7 +150,7 @@ section#conteudoInfo
 {
 	position: relative;
 	bottom: 4.25vh;
-	left: 22.5vh;
+	left: 5vh;
 	width: 20vh;
 	height: 5vh;
 	border: 0.3vh solid black;
@@ -194,7 +194,7 @@ section#conteudoInfo
 	height: 8vh;
 	border-radius: 50%;	
 	transition: filter 0.5s;
-	z-index: 2;
+	z-index: 20000;
 }
 .btnSair:hover
 {

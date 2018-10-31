@@ -71,3 +71,22 @@
 	max-width: 96%;
 	height: auto;
 }
+#tema
+{
+	position: relative;
+	width: 28vh;
+	height: 3.5vh;
+	right: 50vh;
+	border: 0.3vh solid black;
+	border-radius: 0.5vh;
+	background: white;
+	font-family: 'Century Gothic';
+	font-size: 2vh;
+	transition: background 0.5s;
+	z-index: 345;
+}
+#tema:hover
+{
+	background: lightgray;
+	transition: background 0.5s;
+}

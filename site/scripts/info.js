@@ -33,6 +33,11 @@ function abrirInfo(arq)
 		finalizarJogo();
 		tempoEsperaFinalizar = 20;
 	}
+	else if (conteudoAberto == 'simulacao.html')
+	{
+		finalizarSimulacao();
+		tempoEsperaFinalizar = 20;
+	}
 	setTimeout(function() {
 		$("#conteudoInfo").empty();
 		$('#conteudoInfo').load("html/" + arq);

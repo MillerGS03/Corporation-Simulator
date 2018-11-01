@@ -39,7 +39,7 @@ function primeiroSaldo()
 	var atual = new Date(x.substring(0, x.length-1));
 	var aux = new Object();
 	aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
-	aux.y = simulacao.Saldo;
+	aux.y = 0;
 	pontosSaldo.push(aux)
 }
 primeiroSaldo();
@@ -47,9 +47,9 @@ primeiroSaldo();
 function atualizarData()
 {
 	hoje = new Date();
-	if (hoje.getDate() != diaAtual.getDate())
+	if (hoje.getDate() > diaAtual.getDate())
 	{
-		var diff = hoje.getDate() - diaAtual.getDate(); 
+		var diff = hoje.getDate() - diaAtual.getDate() - 1; 
 		diaAtual = hoje;
 		return diff;
 	}
@@ -61,16 +61,17 @@ function atualizarPontosSaldo()
 	var diff = atualizarData();
 	if (diff > 0)
 	{
+		var x = simulacao.DataCriacao + '';
+		x = x.substring(0, x.length-1);
+		var atual = new Date(x);
+		var y = 0;
 		for (var i = 0; i <= diff; i++)
 		{
-			var x = simulacao.DataCriacao + '';
-			x = x.substring(0, x.length-1);
-			var atual = new Date(x);
-			atual.setDate(atual.getDate() + i);
-			simulacao.Saldo += verificarPerdaGanho(atual);
+			atual.setDate(atual.getDate() + 1);
+			y += (contas!=null?verificarPerdaGanho(atual):0)
 			aux = new Object();
 			aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
-			aux.y = simulacao.Saldo;
+			aux.y = y;
 			pontosSaldo.push(aux)
 		}
 	}
@@ -83,8 +84,9 @@ function atualizarPontosConta()
 {
 	var total = 0;
 	for (var i = 0; i < contas.length; i++)
-		total += Math.abs(contas[i].Valor);
-	for (var i = 0; i < contas.length; i++)
+		if (contas[i].Marcado == 0)
+			total += Math.abs(contas[i].Valor);
+	for (var i = 0; i < contas.length && contas[i].Marcado == 0; i++)
 	{
 		aux = new Object();
 		aux.label = contas[i].Nome;
@@ -115,7 +117,7 @@ function atualizarPontosClass()
 	if (chartClass != null)
 		chartClass.render();
 }
-var iSaldo = setInterval(atualizarPontosSaldo, 10000)
+var iSaldo = setInterval(atualizarPontosSaldo, 100)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -139,28 +141,6 @@ function abrirS(l)
 	$("#modal-content").empty();
 	$("#modal-content").load("html/paginasSimulacao/" + l);
 	$("#modal").css('display', 'block');
-}
-
-function confirma(txt, funcao)
-{
-	var str = '<div id="modalConfirma" class="modal"><div id="modalConfirma-content">'+
-	'<span class="btnSair" id="sairModalConfirma"></span>'+
-	'<h1 id="txtConfirma">Deseja realmente ' + txt + '?</h1>'+
-	'<button id="btnSim">Sim</button>'+
-	'<button id="btnCancelar">Cancelar</button>'+
-	'</div></div>'
-	$("#painelConta").append(str)
-	$("#modalConfirma").css('display', 'block');
-	$("#sairModalConfirma").on('click', function(){
-		$("#modalConfirma").css('display', 'none');
-	})
-	$("#btnSim").on('click', function(){
-		funcao();
-		$("#modalConfirma").css('display', 'none');
-	})
-	$("#btnCancelar").on('click', function(){
-		$("#modalConfirma").css('display', 'none');
-	});
 }
 
 function criarGraficoSaldo()
@@ -233,7 +213,7 @@ setTimeout(function(){
 	criarGraficoConta();
 	atualizarPontosClass();
 	criarGraficoClass();
-}, 200)
+}, 500)
 function verificarPerdaGanho(dia)
 {
 	var total = 0;
@@ -253,13 +233,15 @@ function verificarPerdaGanho(dia)
 				novo.setMonth(novo.getMonth() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
 			else
 				novo.setFullYear(novo.getFullYear() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
-			contas[i].DiaPerdaGanho = novo;
+			
 			total += contas[i].Valor;
-			$.ajax({
-				url: 'http://' + local + ':3000/contas/' + contas[i].CodPatrimonio,
-				type: 'patch',
-				data: contas[i]
-			})
+
+			if (contas[i].Marcado == 0)
+				contas[i].DiaPerdaGanho = novo;
+			else
+				$.ajax({
+				url: 'http://' + local + ':3000/excluirConta/' + contas[i].CodPatrimonio,
+				type: 'delete'})
 		}
 	}
 	return total;
@@ -267,4 +249,27 @@ function verificarPerdaGanho(dia)
 function finalizarSimulacao()
 {
 	clearInterval(iSaldo);
+	$.ajax({
+		url: 'http://' + local + ':3000/UpdateSimulacao',
+		type: 'patch',
+		data: simulacao
+	})
+	for (var i = 0; i < contas.length; i++)
+		$.ajax({
+			url: 'http://' + local + ':3000/contas/' + contas[i].CodPatrimonio,
+			type: 'patch',
+			data: contas[i]
+		})
+}
+function carregar()
+{
+	$.ajax({
+		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
+	}).done(function(dados){contas = dados;})
+	$.ajax({
+		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+	}).done(function(dados) {classificacoes = dados});
+	pontosSaldo = JSON.parse(simulacao.PontosSaldo);
+	if (pontosSaldo == null)
+		primeiroSaldo();
 }

@@ -97,7 +97,6 @@ a
 }
 #jogos
 {
-	/* top: 84.1vh; */
 	top: 88.5vh;
 }
 section#conteudoInfo
@@ -166,6 +165,30 @@ section#conteudoInfo
 {
 	cursor:pointer;
 	background-color: darkred;
+	color:white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+}
+#btnOK
+{
+	position: relative;
+	bottom: 4.25vh;
+	left: 0;
+	width: 20vh;
+	height: 5vh;
+	border: 0.3vh solid black;
+	border-radius: 5vh;
+	color: black;
+	font-size: 3vh;
+	background-color: white;
+	transition: color 0.5s;
+	transition: background-color 0.5s;
+	font-weight: bold;
+}
+#btnOK:hover
+{
+	cursor:pointer;
+	background-color: rgb(43, 106, 255);
 	color:white;
 	transition: color 0.5s;
 	transition: background-color 0.5s;

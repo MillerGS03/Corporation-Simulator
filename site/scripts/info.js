@@ -89,4 +89,17 @@ function confirma(txt, funcao)
 		$("#modalConfirma").remove();
 	});
 }
+function alerta(txt)
+{
+	var str = '<div id="modalAlerta" class="modal"><div id="modalConfirma-content">'+
+	'<h1 id="txtConfirma">' + txt + '</h1>'+
+	'<button id="btnOK">OK</button>'+
+	'</div></div>'
+	$("#conteudoInfo").append(str)
+	$("#modalAlerta").css('display', 'block');
+	$("#btnOK").on('click', function(){
+		$("#modalAlerta").css('display', 'none');
+		$("#modalAlerta").remove();
+	})
+}
 colocarDados();

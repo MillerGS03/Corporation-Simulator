@@ -54,28 +54,31 @@ function fazerTabela(arr)
             arr = arr.sort(compararClassDesc)
     }
     $.each(arr, function(i, v){
-        var str = '';
-        if (i % 2 == 0)
-            str = '<tr class="par"><td>';
-        else
-            str = '<tr class="impar"><td>';
-        str += v.Nome + '</td><td>';
-        str += (v.Valor < 0?'Perda':'Ganho') + '</td><td>';
-        str += Math.abs(v.Valor) + '</td><td>';
-        str += v.IntervaloDeTempo.substring(0, v.IntervaloDeTempo.length - 1);
-        if (v.IntervaloDeTempo.charAt(v.IntervaloDeTempo.length - 1) == 'D')
-            str += ' dias' + '</td><td>';
-        else if (v.IntervaloDeTempo.charAt(v.IntervaloDeTempo.length - 1) == 'M')
-            str += ' meses' + '</td><td>';
-        else
-            str += ' anos' + '</td><td>';
-        for (var i = 0; i < classificacoes.length; i++)
-            if(classificacoes[i].CodClassificacao == v.CodClassificacao)
-                str += classificacoes[i].Nome + '</td>';
-        str += '</tr>';
-        $("#table").append(str);
-    })
-    $("#painelConta").append('</table></div>');
+        if (v.Marcado == 0)
+        {
+            var str = '';
+            if (i % 2 == 0)
+                str = '<tr class="par"><td>';
+            else
+                str = '<tr class="impar"><td>';
+            str += v.Nome + '</td><td>';
+            str += (v.Valor < 0?'Perda':'Ganho') + '</td><td>';
+            str += Math.abs(v.Valor) + '</td><td>';
+            str += v.IntervaloDeTempo.substring(0, v.IntervaloDeTempo.length - 1);
+            if (v.IntervaloDeTempo.charAt(v.IntervaloDeTempo.length - 1) == 'D')
+                str += ' dias' + '</td><td>';
+            else if (v.IntervaloDeTempo.charAt(v.IntervaloDeTempo.length - 1) == 'M')
+                str += ' meses' + '</td><td>';
+            else
+                str += ' anos' + '</td><td>';
+            for (var i = 0; i < classificacoes.length; i++)
+                if(classificacoes[i].CodClassificacao == v.CodClassificacao)
+                    str += classificacoes[i].Nome + '</td>';
+            str += '</tr>';
+            $("#table").append(str);
+        })
+        $("#painelConta").append('</table></div>');
+        }
 }
 
 function compararValor(a, b)

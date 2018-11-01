@@ -60,23 +60,65 @@ input[type='radio']
 	z-index: 1;
 }
 #txtSub:hover {cursor: default;}
-#fim
+.btnAddSub
 {
 	display: none;
 	position: relative;
-	left: 50vh;
 	font-family: "Century Gothic";
 	font-size: 3.5vh;
 	color: black;
 	font-weight: bold;
+	width: 25vh;
+	height: 10vh;
 	border: 0.3vh solid black;
 	border-radius: 2vh;
-	width: 25vh;
-	height: 5vh;
 	background: white;
 	transition: background 0.5s;
 }
-#fim:hover
+.btnAddSub:hover
+{
+	background: lightgray;
+	cursor: pointer;
+	transition: background 0.5s;
+}
+#fim
+{
+	left: 30vh;
+}
+#marcar
+{
+	left: 70vh;
+	bottom: 10vh;
+}
+#marcarData
+{
+	position: relative;
+	display: none;
+	left: 100vh;
+	bottom: 20vh;
+	height: 4vh;
+	width: 25vh;
+	font-family: "Century Gothic";
+	font-size: 2vh;
+}
+#OkAddSub
+{
+	display: none;
+	position: relative;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+	color: black;
+	font-weight: bold;
+	width: 25vh;
+	height: 5vh;
+	border: 0.3vh solid black;
+	border-radius: 2vh;
+	background: white;
+	transition: background 0.5s;
+	left: 70vh;
+	bottom: 10vh;
+}
+#OkAddSub:hover
 {
 	background: lightgray;
 	cursor: pointer;

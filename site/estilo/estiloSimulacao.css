@@ -83,7 +83,7 @@
 	font-family: 'Century Gothic';
 	font-size: 2vh;
 	transition: background 0.5s;
-	z-index: 345;
+	z-index: 1;
 }
 #tema:hover
 {

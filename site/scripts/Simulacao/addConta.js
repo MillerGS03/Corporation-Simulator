@@ -78,6 +78,12 @@ function adicionar()
 {
 	var conta = new Object();
 	conta.Nome = document.getElementById('nomeConta').value;
+	for (var i = 0; i < contas.length; i++)
+		if (contas[i].Nome.toUpperCase() == conta.Nome.toUpperCase())
+		{
+			alerta('Você já tem uma conta com esse nome!')
+			return;
+		}
 	var valor = document.getElementById('valorConta').value;
 	if (document.getElementById('perda').checked)
 		valor = -valor;
@@ -102,6 +108,7 @@ function adicionar()
 	}
 	conta.Intervalo = intervalo;
 	conta.DiaPerdaGanho = hoje;
+	conta.Marcado = 0;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;
 	for (var i = 0; i < classificacoes.length; i++)

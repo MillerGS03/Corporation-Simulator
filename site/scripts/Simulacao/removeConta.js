@@ -41,9 +41,12 @@ function addOptions()
     s.add(p)
     for (var i = 0; i < contas.length; i++)
     {
-        var o = document.createElement('option');
-        o.text = contas[i].Nome;
-        s.add(o);
+        if (contas[i].Marcado == 0)
+        {
+            var o = document.createElement('option');
+            o.text = contas[i].Nome;
+            s.add(o);
+        }
     }
 }
 

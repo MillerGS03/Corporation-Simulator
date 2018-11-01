@@ -226,8 +226,9 @@ rota.post('/addSimulacao/:cod/:nome', (requisicao, resposta) => {
   execSQL(`insert into Simulacao values(${cod}, '${today}', '${nome}', 0)`, resposta);
 })
 rota.delete('/simulacoes/:codUsuario/:nome', (requisicao, resposta) =>{
-  execSQL(`Delete from Patrimonio where CodSimulacao in (select CodSimulacao from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}')`, resposta);
-	execSQL(`DELETE from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and nome='${requisicao.params.nome}'`, resposta);
+  execSQL(`Delete from Patrimonio where CodSimulacao in (select CodSimulacao from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and Nome='${requisicao.params.nome}')`, resposta);
+  execSQL(`delete from Classificacao where CodSimulacao in (select CodSimulacao from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and Nome = '${requisicao.params.nome}')`, resposta)
+	execSQL(`DELETE from Simulacao where CodUsuario = ${requisicao.params.codUsuario} and Nome='${requisicao.params.nome}'`, resposta);
 })
 rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;
@@ -236,6 +237,7 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   const Nome = c.Nome;
   const Valor = parseInt(c.Valor);
   const Class = c.Classificacao;
+  const Marcado = c.Marcado;
   var today = new Date(c.DiaPerdaGanho);
   var dd = today.getDate();
   var mm = today.getMonth()+1;
@@ -247,7 +249,7 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
     mm = '0'+mm
   } 
   today = mm + '/' + dd + '/' + yyyy;
-  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class}, '${today}')`, resposta);
+  execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class}, '${today}', ${Marcado})`, resposta);
 })
 rota.get('/getClassificacoes/:codSimulacao', (requisicao, resposta) => {
   execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
@@ -288,4 +290,8 @@ rota.get('/simulacao/:codS/contas/:ordem/:tipo', (requisicao, resposta) => {
     execSQL(`select * from Patrimonio where CodSimulacao = ${requisicao.params.codS} order by ${requisicao.params.ordem} ${requisicao.params.tipo}`, resposta);
   else
     execSQL(`select * from Patrimonio where CodSimulacao = ${requisicao.params.codS} order by Nome ${requisicao.params.tipo}`, resposta);
-})  
+})
+rota.patch('/UpdateSimulacao', (requisicao, resposta) => {
+  const s = requisicao.body;
+  execSQL(`update Simulacao set Saldo=${s.Saldo} where CodSimulacao = ${s.CodSimulacao}`, resposta)
+})

@@ -117,7 +117,9 @@ function iniciarSelecionar()
                 carregarSimulacao(s.options[s.selectedIndex].value)
             });
             $("#btnRemover").css("visibility", "visible");
-            $("#btnRemover").on("click", removerOpcao);
+            $("#btnRemover").on("click", function(){
+                removerOpcao();
+            });
         }
     }
 
@@ -131,6 +133,7 @@ function iniciarSelecionar()
             $("#select").off("change");
             $("#select").off("mouseleave");
             $("#btnCarregar").off("click");
+            $("#btnRemover").off('click');
             ctxSimulacoes = null;
             canvasSimulacoes = null;
             abrirInfo("simulacao.html");
@@ -162,7 +165,7 @@ function iniciarSelecionar()
     function removerOpcao()
     {
         var nomeSimulacao =document.getElementById('select').options[document.getElementById('select').selectedIndex].value;
-        confirma('Excluir essa simulação', function(){
+        confirma('excluir essa simulação', function(){
             $.ajax({
                 url: 'http://' + local + ':3000/simulacoes/' + `${user.CodUsuario}/${nomeSimulacao}`,
                 type: 'DELETE',

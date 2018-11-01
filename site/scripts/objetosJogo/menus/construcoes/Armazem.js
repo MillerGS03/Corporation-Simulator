@@ -299,9 +299,3 @@ function Armazem()
         ctx.restore();
     }
 }
-function Produto(nome, preco)
-{
-    this.nome = nome;
-    this.preco = preco;
-    this.qtdeEmEstoque = 0;
-}

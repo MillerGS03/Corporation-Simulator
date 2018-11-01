@@ -107,11 +107,11 @@ function Comercio(aquele)
 				})
 			}
 			else
-				alert('Não há fornecedores suficientes');	
+				alerta('Não há fornecedores suficientes');	
 
 		}
 		else
-			alert('Selecione ao menos 1 franquia para comprar');
+			alerta('Selecione ao menos 1 franquia para comprar');
 	};
 
 	this.btnMaisFranquiasV.onclick = function() {
@@ -133,7 +133,7 @@ function Comercio(aquele)
 			telaAtual = 0;
 		}
 		else
-			alert('Franquias insuficientes');
+			alerta('Franquias insuficientes');
 	};
 
 	this.desenhar = function() {

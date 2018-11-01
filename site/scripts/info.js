@@ -97,6 +97,7 @@ function alerta(txt)
 	'</div></div>'
 	$("#conteudoInfo").append(str)
 	$("#modalAlerta").css('display', 'block');
+	$("#modalAlerta").css('z-index', '100000');
 	$("#btnOK").on('click', function(){
 		$("#modalAlerta").css('display', 'none');
 		$("#modalAlerta").remove();

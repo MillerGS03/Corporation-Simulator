@@ -391,7 +391,7 @@ function Banco(x, y)
 
         var funcCriarCCorrente = function() {
             if (barra.nivel < 1)
-                alert("Você ainda não atingiu o nível mínimo.");
+                alerta("Você ainda não atingiu o nível mínimo.");
             else
             {
                 fazerCompra("Abertura de conta corrente", 100, true, false, 2, function() {
@@ -600,7 +600,7 @@ function Banco(x, y)
             if (ativo)
             {
                 if (this.quantia == "0")
-                    alert("Digite uma quantia para " + (abertoContaCorrente == 1)?"sacar":"depositar" + "!");
+                    alerta("Digite uma quantia para " + (abertoContaCorrente == 1)?"sacar":"depositar" + "!");
                 else if (abertoContaCorrente == 1)
                     sacar(parseInt(this.quantia));
                 else if (abertoContaCorrente == 2)

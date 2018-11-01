@@ -47,7 +47,7 @@ function Construcao()
                 break;
             }
         if (jaTem)
-            alert("Você já tem esse item!");
+            alerta("Você já tem esse item!");
         else 
         {
             construcao.abrirFechar();

@@ -166,7 +166,7 @@ function MenuJogo()
 
         este.btnSalvar = new BotaoRetangular(este.x + 1, este.y + este.height - 190, este.width - 2, 50, 0, este.width - 2, 50,
                                                 "#c3c3c3", "#dadada", null, null, "bold 20pt Century Gothic", "black", "Salvar", false, true, false);
-        este.btnSalvar.onclick = function() {salvar(); alert("Jogo salvo com sucesso!")};
+        este.btnSalvar.onclick = function() {salvar(); alerta("Jogo salvo com sucesso!")};
         
         este.btnSalvarFechar = new BotaoRetangular(este.x + 1, este.y + este.height - 140, este.width - 2, 50, 0, este.width - 2, 50,
                                                 "#c3c3c3", "#dadada", null, null, "bold 20pt Century Gothic", "black", "Salvar e fechar", false, true, false);

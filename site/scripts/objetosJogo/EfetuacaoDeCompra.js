@@ -81,7 +81,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 					if (sucesso = barra.dinheiro >= este.valor)
 						barra.dinheiro -= este.valor;
 					else
-						alert("Dinheiro em caixa insuficiente!");
+						alerta("Dinheiro em caixa insuficiente!");
 					break;
 				case "Débito": 
 					if (sucesso = mapa.banco.saldo >= este.valor)
@@ -90,13 +90,13 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 						mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, este.nome, -este.valor);
 					}
 					else
-						alert("Saldo insuficiente!");
+						alerta("Saldo insuficiente!");
 					break;
 				/*case "Crédito":
 					if (sucesso = mapa.banco.fatura.checarLimiteParcelas(calendario.dia, calendario.mes, calendario.ano, opcaoDeParcelasAtual, valorPorParcela))
 						mapa.banco.fatura.lancar(calendario.dia, calendario.mes, calendario.ano, este.nome, valorPorParcela, opcaoDeParcelasAtual)
 					else
-						alert("Limite de crédito disponível insuficiente!");
+						alerta("Limite de crédito disponível insuficiente!");
 					break;*/
 			}
 			if (sucesso)

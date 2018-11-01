@@ -117,7 +117,7 @@ function MenuItemConstruido(x, y, itemConstruido, informacoes)
                     if (sustentados.length > 0)
                     {
                         if (sustentados.length == 1)
-                            alert("Impossível reposicionar. Este item serve de base para a seguinte construção: " + sustentados[0].nome + ".")
+                            alerta("Impossível reposicionar. Este item serve de base para a seguinte construção: " + sustentados[0].nome + ".")
                         else
                         {
                             var sustentadosString = "";
@@ -126,7 +126,7 @@ function MenuItemConstruido(x, y, itemConstruido, informacoes)
                                     sustentadosString += sustentados[j].nome + ", ";
                                 else
                                     sustentadosString += sustentados[j].nome + ".";
-                            alert("Impossível reposicionar. Este item serve de base para as seguintes construções: " + sustentadosString)
+                            alerta("Impossível reposicionar. Este item serve de base para as seguintes construções: " + sustentadosString)
                         }
                     }
                     else

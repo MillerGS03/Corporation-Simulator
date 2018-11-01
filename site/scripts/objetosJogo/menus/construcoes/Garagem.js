@@ -5,6 +5,13 @@ function Garagem()
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
+    this.produtos = new Array();
+    
+    this.produtos.push(new Produto("batata", 5));
+    this.produtos.push(new Produto("feijão", 10));
+    this.produtos.push(new Produto("arroz", 8.2));
+    this.produtos.push(new Produto("macarrão", 9));
+    this.produtos.push(new Produto("1234567890123456789", 100));
     
     var este = this;
 
@@ -22,27 +29,59 @@ function Garagem()
     {
         this.aberto = !this.aberto;
         if (this.aberto)
-        {
-            desativarBotoes();
-
-            this.btnFechar.ativarInteracao();
-            this.btnEstoque.ativarInteracao();
-            this.btnMercadorias.ativarInteracao();
-            this.btnGerenciarProducao.ativarInteracao();
-            this.btnGerenciarDinheiro.ativarInteracao();
-            this.btnVendas.ativarInteracao();
-        }
+            this.ativar();
         else
-        {
-            this.btnFechar.desativarInteracao();
-            this.btnEstoque.desativarInteracao();
-            this.btnMercadorias.desativarInteracao();
-            this.btnGerenciarProducao.desativarInteracao();
-            this.btnGerenciarDinheiro.desativarInteracao();
-            this.btnVendas.desativarInteracao();
+            this.desativar();
+    }
 
-            ativarBotoes();
+    this.ativar = function()
+    {
+        desativarBotoes();
+        
+        this.btnFechar.ativarInteracao();
+        this.btnEstoque.ativarInteracao();
+        this.btnMercadorias.ativarInteracao();
+        this.btnGerenciarProducao.ativarInteracao();
+        this.btnGerenciarDinheiro.ativarInteracao();
+        this.btnVendas.ativarInteracao();
+
+        switch (opcaoAberta)
+        {
+            case 0:
+                for (var i = 0; i < this.produtos.length; i++)
+                {
+                    this.botoesAumentarPreco[i].ativarInteracao();
+                    this.botoesDiminuirPreco[i].ativarInteracao();
+                    this.botoesExcluir[i].ativarInteracao();
+                }
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
         }
+    }
+    this.desativar = function()
+    {
+        this.btnFechar.desativarInteracao();
+        this.btnEstoque.desativarInteracao();
+        this.btnMercadorias.desativarInteracao();
+        this.btnGerenciarProducao.desativarInteracao();
+        this.btnGerenciarDinheiro.desativarInteracao();
+        this.btnVendas.desativarInteracao();
+
+        for (var i = 0; i < this.produtos.length; i++)
+        {
+            this.botoesAumentarPreco[i].desativarInteracao();
+            this.botoesDiminuirPreco[i].desativarInteracao();
+            this.botoesExcluir[i].desativarInteracao();
+        }
+
+        ativarBotoes();
     }
 
     /**
@@ -133,6 +172,8 @@ function Garagem()
     {
         ctx.save();
 
+        // Tabela
+
         ctx.fillStyle = "silver";
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
@@ -151,14 +192,24 @@ function Garagem()
         
         ctx.fillText(" Produto              Preço             Atualizar", este.x + 300, este.y + 345);
 
-        ctx.fillStyle = "#d8d8d8";
         for (var i = 0; i < 8; i ++)
         {
             if (i%2 == 1)
+            {
+                ctx.fillStyle = "#d8d8d8";
                 ctx.fillRect(este.x + 301, este.y + 359 + 29 * i, este.width - 322, 30);
-            este.botoesAumentarPreco[i].desenhar();
-            este.botoesDiminuirPreco[i].desenhar();
-            este.botoesExcluir[i].desenhar();
+            }
+
+            if (i < este.produtos.length)
+            {
+                ctx.fillStyle = "black";
+                var pad = "                                                          ";
+                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + (pad + formatarDinheiro(este.produtos[i].preco)).substr(-10),
+                             este.x + 300, este.y + 373.5 + 29 * i);
+                este.botoesAumentarPreco[i].desenhar();
+                este.botoesDiminuirPreco[i].desenhar();
+                este.botoesExcluir[i].desenhar();
+            }
         }
 
         ctx.beginPath();
@@ -168,8 +219,8 @@ function Garagem()
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(este.x + 575, este.y + 360);
-        ctx.lineTo(este.x + 575, este.y + 593);
+        ctx.moveTo(este.x + 605, este.y + 360);
+        ctx.lineTo(este.x + 605, este.y + 593);
         ctx.closePath();
         ctx.stroke();
 
@@ -256,12 +307,20 @@ function Garagem()
 
         for (var i = 0; i < 8; i++)
         {
-            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 582, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
+            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 610, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
                                           null, null, "bold 12pt Century Gothic", "black", "- Preço", false, false, false));
-            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 681, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
+            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 699, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
                                           null, null, "bold 12pt Century Gothic", "black", "+ Preço", false, false, false));
-            este.botoesExcluir.push(new BotaoRetangular(este.x + 780, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
+            este.botoesExcluir.push(new BotaoRetangular(este.x + 788, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
                                     null, null, "bold 12pt Century Gothic", "black", "Excluir", false, false, false));
         }
     }
+}
+function Produto(nome, preco)
+{
+    this.nome = nome;
+    this.preco = preco;
+    this.qtdeEmEstoque = 0;
+    this.dataDeCriacao = "";
+    this.qualidade = 0;
 }

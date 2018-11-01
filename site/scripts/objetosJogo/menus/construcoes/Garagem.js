@@ -155,9 +155,10 @@ function Garagem()
         for (var i = 0; i < 8; i ++)
         {
             if (i%2 == 1)
-                ctx.fillRect(este.x + 301, este.y + 361 + 29 * i, este.width - 322, 30);
+                ctx.fillRect(este.x + 301, este.y + 359 + 29 * i, este.width - 322, 30);
             este.botoesAumentarPreco[i].desenhar();
             este.botoesDiminuirPreco[i].desenhar();
+            este.botoesExcluir[i].desenhar();
         }
 
         ctx.beginPath();
@@ -255,10 +256,12 @@ function Garagem()
 
         for (var i = 0; i < 8; i++)
         {
-            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 580, este.y + 364 + 29 * i, 100, 26, 3, 100, 26, "#c3c3c3", "#dadada",
+            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 582, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
                                           null, null, "bold 12pt Century Gothic", "black", "- Preço", false, false, false));
-            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 685, este.y + 364 + 29 * i, 100, 26, 3, 100, 26, "#c3c3c3", "#dadada",
+            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 681, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
                                           null, null, "bold 12pt Century Gothic", "black", "+ Preço", false, false, false));
+            este.botoesExcluir.push(new BotaoRetangular(este.x + 780, este.y + 362 + 29 * i, 94, 24, 3, 94, 24, "#c3c3c3", "#dadada",
+                                    null, null, "bold 12pt Century Gothic", "black", "Excluir", false, false, false));
         }
     }
 }

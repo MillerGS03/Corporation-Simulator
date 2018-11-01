@@ -168,8 +168,8 @@ function iniciarSelecionar()
                 type: 'DELETE',
             });
             setTimeout(function() {
-                addOptions();
-            }, 100);
+                abrirInfo("simulacoes.html");
+            }, 10);
         });
     }
 }

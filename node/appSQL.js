@@ -259,7 +259,7 @@ rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
 rota.post('/addClassificacao/:codSimulacao/:nome', (requisicao, resposta) => {
   execSQL(`insert into Classificacao values('${requisicao.params.nome}', ${parseInt(requisicao.params.codSimulacao)})`, resposta);
 })
-rota.delete('/classificacoes/:codSimulacao/:nome', (requisiscao, resposta) => {
+rota.delete('/classificacoes/:codSimulacao/:nome', (requisicao, resposta) => {
   execSQL(`delete Classificacao from Classificacao where CodSimulacao = ${parseInt(requisicao.params.codSimulacao)} and
   Nome='${requisicao.params.nome}'`, resposta);
 })

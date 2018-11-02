@@ -6,6 +6,16 @@ function Garagem()
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
     this.produtos = new Array();
+
+    this.qtdeMateriaPrima = 150;
+    this.capacidade = 300;
+
+    this.getQtdeTotalDeProdutos = function() {
+        var total = 10;
+        for (var i = 0; i < this.produtos.length; i++)
+            total += this.produtos[i].qtdeEmEstoque;
+        return total;
+    }
     
     this.produtos.push(new Produto("batata", 5));
     this.produtos.push(new Produto("feijão", 10));
@@ -23,7 +33,7 @@ function Garagem()
         este.abrirFechar();
     }
 
-    configurarBotoes();
+    configurar();
 
     this.abrirFechar = function() 
     {
@@ -54,6 +64,10 @@ function Garagem()
                     this.botoesDiminuirPreco[i].ativarInteracao();
                     this.botoesExcluir[i].ativarInteracao();
                 }
+
+                this.btnCriarCancelar.ativarInteracao();
+                this.txtNome.ativarInteracao();
+                this.txtPreco.ativarInteracao();
                 break;
             case 1:
                 break;
@@ -73,6 +87,7 @@ function Garagem()
         this.btnGerenciarProducao.desativarInteracao();
         this.btnGerenciarDinheiro.desativarInteracao();
         this.btnVendas.desativarInteracao();
+        this.btnCriarCancelar.desativarInteracao();
 
         for (var i = 0; i < this.produtos.length; i++)
         {
@@ -80,6 +95,9 @@ function Garagem()
             this.botoesDiminuirPreco[i].desativarInteracao();
             this.botoesExcluir[i].desativarInteracao();
         }
+
+        this.txtNome.desativarInteracao();
+        this.txtPreco.desativarInteracao();
 
         ativarBotoes();
     }
@@ -172,12 +190,46 @@ function Garagem()
     {
         ctx.save();
 
-        // Tabela
+        // Criação de produtos
 
         ctx.fillStyle = "silver";
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
+        roundRect(este.x + 300, este.y + 95, este.width - 320, 200, 10, true, true);
 
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.font = "bold 18pt Century Gothic";
+        ctx.fillText("Desenvolvimento de Novos Produtos", este.x + este.width/2 + 140, este.y + 100);
+
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 15pt Century Gothic";
+        ctx.fillText("Nome", este.x + 380, este.y + 170);
+        ctx.fillText("Preço", este.x + 710, este.y + 170);
+
+        este.txtNome.desenhar();
+        este.txtPreco.desenhar();
+
+        ctx.textBaseline = "alphabetic";
+        ctx.textAlign = "top";
+        ctx.font = "bold 15pt Century Gothic";
+        ctx.fillText("Tempo de desenvolvimento: ", este.x + 600, este.y + 234);
+        ctx.fillText("Custo de desenvolvimento: ", este.x + 600, este.y + 266);
+
+        ctx.textAlign = "left";
+        ctx.font = "15pt Century Gothic";
+        ctx.fillText("10 dias", este.x + 600, este.y + 234);
+
+        ctx.fillStyle = "green";
+        ctx.fillText(formatarDinheiro(2000), este.x + 600, este.y + 266);
+
+        este.btnCriarCancelar.desenhar();
+
+        // Tabela
+
+        ctx.fillStyle = "silver";
         ctx.fillRect(este.x + 300, este.y + 330, este.width - 320, 263);
         ctx.strokeRect(este.x + 300, este.y + 330, este.width - 320, 263);
 
@@ -229,11 +281,145 @@ function Garagem()
     function desenharEstoque()
     {
         ctx.save();
-        
-        
-        
+
+        desenharLayoutEstoque();
+        desenharMateriasPrimasEstoque();
+        desenharMercadoriasEstoque();
+        desenharEstoqueEstoque();
+
         ctx.restore();
     }
+    function desenharLayoutEstoque()
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + 280, este.y + este.height/3 + 29);
+        ctx.lineTo(este.x + este.width/2 + 164, este.y + este.height/3 + 29);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + este.width/2 + 164, este.y + 60);
+        ctx.lineTo(este.x + este.width/2 + 164, este.y + este.height/2);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + este.width/2 + 164, este.y + este.height/2);
+        ctx.lineTo(este.x + este.width - 1, este.y + este.height/2)
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.drawImage(imgIconeFornecedores, este.x + 300, este.y + 70);
+        ctx.drawImage(imgMercadoria, este.x + 300, este.y + este.height/3 + 39);
+
+        ctx.fillStyle = "black";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 22pt Century Gothic";
+        ctx.textAlign = "center";
+
+        ctx.fillText("Matérias-primas", este.x + (este.width - 280) / 4 + 330, este.y + 102);
+        ctx.fillText("Mercadorias", este.x + (este.width - 280) / 4 + 330, este.y + este.height/3 + 81);
+        ctx.fillText("Estoque", este.x + 290 + 3 * (este.width - 280)/4, este.y + 102);
+
+        ctx.restore();
+    }
+    function desenharMateriasPrimasEstoque()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "alphabetic";
+        ctx.font = "bold 16.5pt Century Gothic";
+        ctx.fillText("Quantidade: ", este.x + 445, este.y + 180);
+
+        ctx.textAlign = "left";
+        ctx.font = "16.5pt Century Gothic";
+        ctx.fillText(este.qtdeMateriaPrima + " " + (este.qtdeMateriaPrima == 1?"unidade.":"unidades."), este.x + 445, este.y + 180);
+
+        ctx.restore();
+    }
+    function desenharMercadoriasEstoque()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "silver";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        ctx.fillRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 263);
+        ctx.strokeRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 263);
+
+        ctx.fillStyle = "gray";
+        ctx.fillRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 30);
+        ctx.strokeRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 30);
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13pt Consolas";
+        
+        ctx.fillText(" Produto              Preço     Qtde", este.x + 395, este.y + este.height/3 + 143);
+
+        ctx.fillStyle = "#d8d8d8";
+        for (var i = 0; i < 8; i += 2)
+            ctx.fillRect(este.x + 396, este.y + este.height/3 + 159 + 29 * i, este.width/2 - 82, 30);
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + 595, este.y + este.height/3 + 128);
+        ctx.lineTo(este.x + 595, este.y + este.height/3 + 391);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(este.x + 680, este.y + este.height/3 + 128);
+        ctx.lineTo(este.x + 680, este.y + este.height/3 + 391);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore();
+    }
+    function desenharEstoqueEstoque()
+    {
+        ctx.save();
+
+        // Títulos
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13.5pt Century Gothic";
+
+        ctx.fillText("Espaço disponível: ", este.x + este.width/2 + 375, este.y + 160);
+        ctx.fillText("Capacidade máxima: ", este.x + este.width/2 + 375, este.y + 190);
+
+        // Valores absolutos
+
+        ctx.textAlign = "left";
+        ctx.font = "13.5pt Century Gothic";
+
+        ctx.fillText(`${este.capacidade - este.qtdeMateriaPrima - este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 375, este.y + 160);
+        ctx.fillText(`${este.capacidade} u`, este.x + este.width/2 + 375, este.y + 190);
+
+        // Observação
+
+        ctx.textAlign = "left";
+        ctx.font = "italic 13pt Century Gothic";
+        ctx.fillText("Observação: u = unidade(s)", este.x + este.width/2 + 190, este.y + este.height - 400);
+
+        ctx.textAlign = "center";
+        ctx.font = "bold 14pt Century Gothic";
+        ctx.fillText("Compre o armazém para", este.x + este.width/2 + 309, este.y + este.height - 365);
+        ctx.fillText("aumentar a capacidade!", este.x + este.width/2 + 309, este.y + este.height - 340);
+
+        ctx.restore();
+    }
+
     function desenharGerenciarProducao()
     {
         ctx.save();
@@ -259,7 +445,7 @@ function Garagem()
         ctx.restore();
     }
 
-    function configurarBotoes()
+    function configurar()
     {
         este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,
                                                   "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
@@ -293,6 +479,9 @@ function Garagem()
 
             sender.backgroundColor = "#e5e5e5";
             sender.backgroundHoverColor = "#ececec";
+
+            este.desativar();
+            este.ativar();
         }
 
         este.btnMercadorias.onclick = function() {opcaoAberta = 0; onclickBotoesMenu(este.btnMercadorias)};
@@ -300,6 +489,10 @@ function Garagem()
         este.btnGerenciarProducao.onclick = function() {opcaoAberta = 2; onclickBotoesMenu(este.btnGerenciarProducao)};
         este.btnGerenciarDinheiro.onclick = function() {opcaoAberta = 3; onclickBotoesMenu(este.btnGerenciarDinheiro)};
         este.btnVendas.onclick = function() {opcaoAberta = 4; onclickBotoesMenu(este.btnVendas)};
+
+        este.btnCriarCancelar = new BotaoRetangular(este.x + 720, este.y + 220, 130, 50, 10, 130, 50,
+                                "#4c98a5", "#5eb9c9", null, null, "bold 19pt Century Gothic",
+                                "white", "Criar!", false, false, false);
 
         este.botoesAumentarPreco = new Array();
         este.botoesDiminuirPreco = new Array();
@@ -314,6 +507,24 @@ function Garagem()
             este.botoesExcluir.push(new BotaoRetangular(este.x + 788, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
                                     null, null, "bold 12pt Century Gothic", "black", "Excluir", false, false, false));
         }
+
+        este.txtNome = new TextBox({
+            x: este.x + 390,
+            y: este.y + 150,
+            width: 240,
+            placeholder: "Nome",
+            font: "15pt Century Gothic",
+            maxlength: 20
+        });
+        este.txtPreco = new TextBox({
+            x: este.x + 720,
+            y: este.y + 150,
+            width: 130,
+            placeholder: "Preço",
+            font: "15pt Century Gothic",
+            onlynumbers: true,
+            maxlength: 9
+        })
     }
 }
 function Produto(nome, preco)

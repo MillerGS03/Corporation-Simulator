@@ -133,6 +133,7 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 		}
 	}
 	this.onclick = function(e) {} // Handler do evento de click. Pode ser configurado na instância
+	this.onhoverchanged = function() {}
 
 	function clicou(e) // Chama o Handler do botão pressionado
 	{
@@ -172,13 +173,11 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 
 			mudouHover = mudouHover != este.hovering;
 
-			if (este.changeCursor)
-			{
-				if (este.hovering)
-					canvas.style.cursor = "pointer";
-				else if (mudouHover)
-					canvas.style.cursor = "default";
-			}
+			if (mudouHover && este.changeCursor)
+				canvas.style.cursor = este.hovering?"pointer":"default";
+
+			if (mudouHover)
+				este.onhoverchanged();
 
 			if (este.autoUpdate)
 				atualizar();

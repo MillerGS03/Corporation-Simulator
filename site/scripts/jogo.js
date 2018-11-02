@@ -52,6 +52,7 @@ var efetuacao;
 var xMouse;
 var yMouse;
 
+var desenhar = true;
 var carregado = false;
 var pausado = false;
 
@@ -148,7 +149,17 @@ function iniciar()
 	setTimeout(function(){
 		criarBotoes();
 		ativarBotoes();
-		timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
+
+		window.requestAnimFrame = (function(callback) {
+			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+			function(callback) {
+				if (desenhar)
+			  		window.setTimeout(callback, 1000 / 60);
+			};
+		  })();
+
+		requestAnimationFrame(function() {atualizar()});
+		//timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
 	}, 10);
 	$("#meuCanvas").on("mousemove", (function(e){
 		if (e.bubbles)
@@ -267,6 +278,7 @@ function atualizar()
 		menuJogo.desenhar();
 		desenharBordasCanvas();
 	}
+	requestAnimationFrame(function() {atualizar()});
 }
 function desenharStatusConstrucao()
 {
@@ -576,7 +588,7 @@ function finalizarJogo()
 	$(document).off();
 	rua.pausar();
 	clearInterval(timerDias);
-	clearInterval(timerDesenhar);
+	desenhar = false;
 	salvar();
 	musica.pause();
 	

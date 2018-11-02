@@ -75,6 +75,7 @@ function Mapa()
         desativarBotoes();
 
         this.btnFechar.ativarInteracao();
+        
 
         if (lugarAberto != -1)
         {

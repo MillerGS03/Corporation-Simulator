@@ -106,7 +106,6 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
-update Patrimonio set DiaPerdaGanho = '30/10/2018' where CodPatrimonio = 33
 
 delete from Amizade
 delete from Notificacao

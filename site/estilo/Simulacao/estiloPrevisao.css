@@ -1,0 +1,51 @@
+#painelConta h1
+{
+	background: inherit;
+	position: relative;
+	bottom: 2vh;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 4.7vh;
+}
+#painelConta hr
+{
+	position: absolute;
+	top: 8vh;
+}
+#painelConta h2
+{
+    background: inherit;
+    position: absolute;
+    top: 8vh;
+    left: 2vh;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Century Gothic";
+	font-size: 3.5vh;
+}
+#data
+{
+    position: absolute;
+    top: 18vh;
+    left: 40vh;
+    font-family: "Century Gothic";
+    font-size: 2.3vh;
+    height: 5vh;
+    width: 35vh;
+}
+#previsaoContas
+{
+    position: absolute;
+    left: 2.5%;
+    top: 24vh;
+    background: inherit;
+    width: 95%;
+    height: 35vh;
+}
+#estimado
+{
+    display: none;
+    position: absolute;
+    top: 30vh;
+    left: 35vh;
+}

@@ -4,41 +4,51 @@ $("#sairModal").on('click', function() {
     $("#modal").css('display', 'none');
 });
 $("#s").on('change', function(){
-	var nomeConta = document.getElementById('s').options[document.getElementById('s').selectedIndex].value;
-    $.ajax({
-		url: 'http://' + local + ':3000/contas/' + simulacao.CodSimulacao + '/' + nomeConta
-	}).done(function(dados){
-		conta = dados[0];
-		$('#nomeConta').val(conta.Nome);
-		if (conta.Valor < 0)
-			$("#perda").prop("checked", true)
-		else
-			$("#ganho").prop("checked", true)
-		$("#valorConta").val(Math.abs(conta.Valor));
-		var intervalo = conta.IntervaloDeTempo.charAt(conta.IntervaloDeTempo.length - 1)
-		switch (intervalo)
-		{
-			case 'D':
-				$("#tTempo").prop('selectedIndex', 0);
-			break;
-
-			case 'M':
-				$("#tTempo").prop('selectedIndex', 1);
-			break;
-
-			case 'A':
-				$("#tTempo").prop('selectedIndex', 2);
-			break;
-		}
-		$("#nTempo").val(conta.IntervaloDeTempo.substring(0, conta.IntervaloDeTempo.length - 1))
+	if (document.getElementById('s').selectedIndex > 0)
+	{
+		var nomeConta = document.getElementById('s').options[document.getElementById('s').selectedIndex].value;
 		$.ajax({
-			url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+			url: 'http://' + local + ':3000/contas/' + simulacao.CodSimulacao + '/' + nomeConta
 		}).done(function(dados){
-			for(var i = 1; i < dados.length; i++)
-				if (conta.CodClassificacao == dados[i-1].CodClassificacao)
-					$("#classificacoes").prop('selectedIndex', i);
+			conta = dados[0];
+			$('#nomeConta').val(conta.Nome);
+			if (conta.Valor < 0)
+				$("#perda").prop("checked", true)
+			else
+				$("#ganho").prop("checked", true)
+			$("#valorConta").val(Math.abs(conta.Valor));
+			var intervalo = conta.IntervaloDeTempo.charAt(conta.IntervaloDeTempo.length - 1)
+			switch (intervalo)
+			{
+				case 'D':
+					$("#tTempo").prop('selectedIndex', 0);
+				break;
+	
+				case 'M':
+					$("#tTempo").prop('selectedIndex', 1);
+				break;
+	
+				case 'A':
+					$("#tTempo").prop('selectedIndex', 2);
+				break;
+			}
+			$("#nTempo").val(conta.IntervaloDeTempo.substring(0, conta.IntervaloDeTempo.length - 1))
+			$.ajax({
+				url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
+			}).done(function(dados){
+				for(var i = 0; i < dados.length; i++)
+					if (conta.CodClassificacao == dados[i].CodClassificacao)
+						$("#classificacoes").prop('selectedIndex', i+1);
+			})
 		})
-	})
+	}
+	else
+	{
+		$("input[type=text]").val('');
+		$("#classificacoes").val(0);
+		$("#perda").prop("checked", false)
+		$("#ganho").prop("checked", false)
+	}
 })
 $('#addClass').on('click', function(){
 	$('#txtClass').css('display', 'block');
@@ -66,7 +76,7 @@ $('#btnClass').on('click', function(){
 $('#removeClass').on('click', function(){
     var cod = simulacao.CodSimulacao;
     var classif = $("#classificacoes option:selected").val();
-    confirma('eo', function(){
+    confirma('remover essa classificação', function(){
         $.ajax({
             url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
             type: 'DELETE'
@@ -133,6 +143,7 @@ function validarFormulario()
 
 function atualizarConta()
 {
+	var hoje = new Date();
 	var contaA = new Object();
 	contaA.Nome = document.getElementById('nomeConta').value;
 	var valor = document.getElementById('valorConta').value;
@@ -142,11 +153,21 @@ function atualizarConta()
 	var intervalo;												//em segundos
 	var tipoTempo = $("#tTempo option:selected").text();
 	if (tipoTempo == 'Dia(s)')
+	{
 		intervalo = $("#nTempo").val() + 'D';
+		hoje.setDate(hoje.getDate() + parseInt($('#nTempo').val()));
+	}
 	else if (tipoTempo == 'Mes(es)')
+	{
 		intervalo = $("#nTempo").val() + 'M';
+		hoje.setMonth(hoje.getMonth() + parseInt($('#nTempo').val()));
+	}
 	else
+	{
 		intervalo = $("#nTempo").val() + 'A';
+		hoje.setFullYear(hoje.getFullYear() + parseInt($('#nTempo').val()));
+	}
+	contaA.DiaPerdaGanho = hoje.getDate() + '/' + hoje.getMonth() + '/' + hoje.getFullYear();
 	contaA.Intervalo = intervalo;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;

@@ -76,9 +76,9 @@ function fazerTabela(arr)
                     str += classificacoes[i].Nome + '</td>';
             str += '</tr>';
             $("#table").append(str);
-        })
-        $("#painelConta").append('</table></div>');
         }
+    })
+    $("#painelConta").append('</table></div>');
 }
 
 function compararValor(a, b)

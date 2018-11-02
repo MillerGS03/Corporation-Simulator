@@ -58,8 +58,8 @@
   	animation-name:modalopen;
   	animation-duration:1s;
   	position: absolute;
-  	left: 20%;
-  	top: -20vh;
+  	left: 50vh;
+  	bottom: 40vh;
 }
 #painelConta
 {
@@ -73,10 +73,10 @@
 }
 #tema
 {
-	position: relative;
+	position: absolute;
 	width: 28vh;
 	height: 3.5vh;
-	right: 50vh;
+	left: 7vh;
 	border: 0.3vh solid black;
 	border-radius: 0.5vh;
 	background: white;

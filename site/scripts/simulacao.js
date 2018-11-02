@@ -38,7 +38,7 @@ function primeiroSaldo()
 	var x = simulacao.DataCriacao + '';
 	var atual = new Date(x.substring(0, x.length-1));
 	var aux = new Object();
-	aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
+	aux.x = atual;
 	aux.y = 0;
 	pontosSaldo.push(aux)
 }
@@ -70,7 +70,7 @@ function atualizarPontosSaldo()
 			atual.setDate(atual.getDate() + 1);
 			y += (contas!=null?verificarPerdaGanho(atual):0)
 			aux = new Object();
-			aux.label = formatarData(atual.getDate(), atual.getMonth()+1, atual.getFullYear());
+			aux.x = atual;
 			aux.y = y;
 			pontosSaldo.push(aux)
 		}
@@ -135,6 +135,9 @@ $("#atualizarConta").on('click', function(){
 $("#tabelas").on('click', function(){
 	abrirS('tabelas.html');
 })
+$('#previsao').on('click', function(){
+	abrirS('previsao.html');
+})
 
 function abrirS(l)
 {
@@ -149,7 +152,7 @@ function criarGraficoSaldo()
 		animationEnabled: true,
 		theme: tema + '1',
 		zoomEnabled: true,
-		axisX: {title: "Dias"},
+		axisX: {title: "Dias", valueFormatString: "DD/MM/YY"},
 		axisY: {title: "Saldo", prefix: '$'},
 		title: {text: "Saldo: " + simulacao.Saldo},
 		data:

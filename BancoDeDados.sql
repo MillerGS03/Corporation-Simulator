@@ -83,21 +83,6 @@ Titulo varchar(20) not null,
 Descricao ntext not null
 )
 
-create table Amizade(
-CodUsuario int not null,
-constraint fkUsuarioAmigo foreign key(CodUsuario) references Usuario(CodUsuario),
-CodAmigo int not null
-)
-
---insert into Amizade values()
---insert into Notificacao values()
-insert into Classificacao values('teste', 1)
---insert into Patrimonio values()
---insert into Simulacao values()
---insert into ConstrucaoJogo values()
---insert into Jogo values()
---insert into Usuario values()
-
 select * from Amizade
 select * from Notificacao
 select * from Classificacao
@@ -106,8 +91,9 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
+update Jogo set Estatisticas = '{"Saldo":[], "Economia":[], "LucroPrejuizo":[], "Perda":[], "Ganho":[], "Fator":[], "xVal":0, "xValMes":0}'
 
-delete from Amizade
+
 delete from Notificacao
 delete from Classificacao
 delete from Patrimonio
@@ -125,5 +111,3 @@ drop table Simulacao
 drop table ConstrucaoJogo
 drop table Jogo
 drop table Usuario
-
-delete from Patrimonio where CodSimulacao = 8

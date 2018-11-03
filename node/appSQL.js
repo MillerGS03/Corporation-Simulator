@@ -213,8 +213,9 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
   const nF = a.NumeroFranquias;
   const nFo = a.NumeroFornecedores;
   const nI = a.NumeroIndustrias;
+  const est = a.Estatisticas;
   execSQL(`update Jogo set XP=${xp}, Data='${a.Data}', Caixa=${caixa},
-  NumeroFranquias=${nF}, NumeroFornecedores=${nFo}, NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
+  NumeroFranquias=${nF}, NumeroFornecedores=${nFo}, NumeroIndustrias=${nI}, Estatisticas = '${est}' where CodJogo=${codJogo}`, resposta)
 })
 
 rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {

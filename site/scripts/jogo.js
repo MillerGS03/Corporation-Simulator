@@ -57,7 +57,6 @@ var efetuacao;
 var xMouse;
 var yMouse;
 
-var desenhar = true;
 var carregado = false;
 var pausado = false;
 
@@ -154,6 +153,7 @@ function iniciar()
 	setTimeout(function(){
 		criarBotoes();
 		ativarBotoes();
+		timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
 
 		window.requestAnimFrame = (function(callback) {
 			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
@@ -290,7 +290,6 @@ function atualizar()
 		menuJogo.desenhar();
 		desenharBordasCanvas();
 	}
-	requestAnimationFrame(function() {atualizar()});
 }
 function desenharStatusConstrucao()
 {
@@ -354,7 +353,6 @@ function passarDia()
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
-	estatisticas.isPassouMes(calendario.mes);
 	estatisticas.setEconomia(calendario.fatorEconomia());
 	estatisticas.setCustos(mapa.custoTotal());
 	estatisticas.setGanhos(mapa.ganhoTotal());
@@ -474,9 +472,11 @@ function carregarDados()
 	var ano = parseInt(aux.substring(6));
 	var mes = parseInt(aux.substring(3, 5));
 	var dia = parseInt(aux.substring(0, 2));
+	calendario.setFator(jogo.Estatisticas);
 	calendario.dia = dia;
 	calendario.mes = mes;
 	calendario.ano = ano;
+	estatisticas.setEstatisticas(jogo.Estatisticas);
 	barra.atualizarDia(dia);
 	barra.ganharXP(jogo.XP, false);
 	mapa.banco.saldo = jogo.ContaBancoMovimento; // @TODO Resolver informações do banco
@@ -588,7 +588,8 @@ function salvar()
 	atualizar.NumeroFranquias = mapa.numeroFranquias;
 	atualizar.NumeroFornecedores = mapa.numeroFornecedores;
 	atualizar.NumeroIndustrias = mapa.numeroIndustrias;
-	$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
+	atualizar.Estatisticas = JSON.stringify(estatisticas.getEstatisticas());
+		$.post('http://' + local + ':3000/jogo/' + jogo.CodJogo, atualizar);
 
 	atualizar = new Object();
 	atualizar.VolumeJogos = menuJogo.getAlturaSom() * 6 - 1;
@@ -687,7 +688,7 @@ function finalizarJogo()
 	$(document).off();
 	rua.pausar();
 	clearInterval(timerDias);
-	desenhar = false;
+	clearInterval(timerDesenhar);
 	salvar();
 	musica.pause();
 	

@@ -1,35 +1,19 @@
 function Estatisticas()
 {
-    var datas = new Array();
-    iniciarDatas();
-    var meses = new Array();
-    iniciarMeses();
     var valores15 = new Array();
     var valoresTotais = new Array();
-    var posicoes = new Array();
-    var posicoes12 = new Array();
     var valoresEconomia = new Array();
     var valoresCustos = new Array();
     var valoresGanhos = new Array();
     var valoresCG = new Array();
-    var atual = 0;
-    var atualTudo = 0;
     var telaAtualE = 0;
-    var vezes = 0;
-    var x;
-    var y;
-    var escalaAtual = 0;
-    var escalaTudo = 0;
-    var escalaGanho = 0;
-    var escalaCusto = 0;
-    var escalaCG = 0;
-    var ec = 0;
-    var cus = 0;
-    var ga = 0;
-    var cg = 0;
-    var passouMes = false;
-    var mesAtual = 0;
-    var vezesMes = 1;
+    var chartTotal;
+    var chart15;
+    var chartEconomia;
+    var chartLucroPrejuizo;
+    var mesAtual = calendario.mes;
+    var xVal = 0;
+    var xValMes = 0;
     this.width = 700;
     this.height = 500;
     this.x = (canvas.width - this.width)/2;
@@ -53,101 +37,103 @@ function Estatisticas()
     	"bold 18pt Century Gothic", "black", "Custos e Ganhos", false, false, false);
 
     this.btnFechar.onclick = function(e) {
+        $('.grafico').css('display', 'none');
         este.abrirFechar();
     }
     this.btnVoltar.onclick = function()
     {
     	desativarTela();
     	telaAtualE = 0;
-    	ativarTela();
+        ativarTela();
+        $('.grafico').css('display', 'none');
     };
     this.btnDinheiro.onclick = function()
     {
     	desativarTela();
-    	telaAtualE = 1;
-    	ativarTela();
+        telaAtualE = 1;
+        ativarTela();
+        $('.grafico').css('display', 'none');
+        $("#15").css('display', 'block')
+        criarGrafico15();
     };
     this.btnDinheiroTudo.onclick = function()
     {
     	desativarTela();
     	telaAtualE = 2;
-    	ativarTela();
+        ativarTela();
+        $('.grafico').css('display', 'none');
+        $("#total").css('display', 'block')
+        criarGraficoTotal();
+        
     };
     this.btnEconomia.onclick = function() 
     {
     	desativarTela();
-    	telaAtualE = 3;
-    	ativarTela();
+        telaAtualE = 3;      
+        ativarTela();
+        $('.grafico').css('display', 'none');
+        $('#economia').css('display', 'block');  
+        criarGraficoEconomia();
     };
     this.btnCustosGanhos.onclick = function()
     {
     	desativarTela();
-    	telaAtualE = 4;
-    	ativarTela();
+        telaAtualE = 4;
+        ativarTela();
+        $('.grafico').css('display', 'none');
+        $('#perdaGanho').css('display', 'block'); 
+        criarGraficoCustosGanhos();
     };
 
     this.setEconomia = function(f) {
-    	if (passouMes)
+    	if (mesAtual != calendario.mes)
     	{
-    		valoresEconomia[ec++] = f;
-	    	if (ec == 12)
-	    	{
-	    		for (var i = 0; i < 12; i++)
-	    			valoresEconomia[i] = valoresEconomia[i+1];
-	    		valoresEconomia[11] = f;
-	    	}
+            var obj = new Object();
+            obj.label = formatarData(calendario.mes, calendario.ano)
+            obj.x = xValMes;
+            obj.y = f;
+            valoresEconomia.push(obj);
+	    	if (valoresEconomia.length > 12)
+	    		valoresEconomia.shift();
 	    }
     };
     this.setCustos = function(c) {
-    	if (passouMes)
+    	if (mesAtual != calendario.mes)
     	{
-    		valoresCustos[cus++] = c;
-	    	if (cus == 12)
-	    	{
-	    		for(var i = 0; i < 12; i++)
-	    			valoresCustos[i] = valoresCustos[i+1];
-	    		valoresCustos[11] = c;
-	    	}
+            var obj = new Object();
+            obj.label = formatarData(calendario.mes, calendario.ano)
+            obj.y = c;
+            obj.x = xValMes;
+            valoresCustos.push(obj);
+	    	if (valoresCustos.length > 12)
+	    		valoresCustos.shift();
 	    }
     };
     this.setGanhos = function(g) {
-    	if (passouMes)
+    	if (mesAtual != calendario.mes)
     	{
-    		valoresGanhos[ga++] = g;
-	    	if (ga == 12)
-	    	{
-	    		for(var i = 0; i < 12; i++)
-	    			valoresGanhos[i] = valoresGanhos[i+1];
-	    		valoresGanhos[11] = g;
-	    	}
+            var obj = new Object();
+            obj.label = formatarData(calendario.mes, calendario.ano)
+            obj.y = g;
+            obj.x = xValMes;
+            valoresGanhos.push(obj);
+	    	if (valoresGanhos.length > 12)
+	    		valoresGanhos.shift();
     	}
     };
     this.setLucroPrejuizo = function(v) 
     {
-    	if (passouMes)
+    	if (mesAtual != calendario.mes)
     	{
-    		valoresCG[cg++] = v;
-	    	if (cg == 12)
-	    	{
-	    		for (var i = 0; i < 12; i++)
-	    			valoresCG[i] = valoresCG[i+1];
-	    		valoresCG[11] = v;
-	    	}
-	    	passouMes = false;
+            mesAtual = calendario.mes;
+            var obj = new Object();
+            obj.label = formatarData(calendario.mes, calendario.ano)
+            obj.y = v;
+            obj.x = xValMes++;
+            valoresCG.push(obj);
+	    	if (valoresCG.length > 12)
+                valoresCG.shift();
 	    }
-    };
-    this.isPassouMes = function(m)
-    {
-    	if (mesAtual < m)
-    	{
-    		passouMes = true;
-    		mesAtual = m;
-    	}
-    	else if (mesAtual == 12 && m == 1)
-    	{
-    		passouMes = true;
-    		mesAtual = m;
-    	}
     };
     this.desenhar = function() {
 
@@ -161,28 +147,24 @@ function Estatisticas()
             	desenharTelaInicio();
             else
             {
-            	este.btnVoltar.desenhar();
-            	escalaAtual = calcularEscala();
-            	escalaTudo = calcularEscalaTudo();
-            	escalaCG = calcularEscalaLucro();
-            	escalaGanho = calcularEscalaGanho();
-            	escalaCusto = calcularEscalaCusto();
-            	desenharEixos();
+                este.btnVoltar.desenhar();
             	switch(telaAtualE)
             	{
-            		case 1:
-            			desenharLinhaGrafico("#4286f4");
+                    case 1:
+                        $("#15").css('display', 'block')
+                        chart15.render();
             		break;
-            		case 2:
-            			desenharLinhaGraficoTudo("#4286f4");
+                    case 2:
+                        $("#total").css('display', 'block')
+                        chartTotal.render();
             		break;
-            		case 3:
-            			desenharLinhaGraficoEconomia("#5e35e8");
+                    case 3:
+                        $("#economia").css('display', 'block')
+                        chartEconomia.render();
             		break;
-            		case 4:
-            			desenharLucro("#ffeb3a");
-            			desenharCusto("#ff2b2b");
-            			desenharGanho("#41e835");
+                    case 4:
+                        $("#perdaGanho").css('display', 'block')
+                        chartLucroPrejuizo.render();
             		break;
             	}
             }
@@ -249,33 +231,6 @@ function Estatisticas()
     	este.btnCustosGanhos.desenhar();
     	ctx.restore();
     }
-    function desenharEixos()
-    {
-        ctx.save();
-        desenharLinhas();
-        ctx.fillStyle = "Black";
-        var e = 0;
-        switch(telaAtualE)
-        {
-        	case 1:
-        		e = escalaAtual;
-        	break;
-        	case 2:
-        		e = escalaTudo;
-        	break;
-        	case 3:
-        		e = 1;
-        	break;
-        	case 4:
-        		e = escalaCG;
-        	break;
-        }
-        desenharEixoY(e);
-        desenharEixoX(e);
-        desenharSetas();
-        ctx.closePath();
-        ctx.restore();
-    }
     function ativarTela()
     {
     	if (telaAtualE == 0)
@@ -296,346 +251,126 @@ function Estatisticas()
     		este.btnDinheiroTudo.desativarInteracao();
     	}
     	else
-    	{
     		este.btnVoltar.desativarInteracao();
-    	}
-    }
-    function desenharSetas()
-    {
-        ctx.beginPath();
-        ctx.strokeStyle = "Black";
-        ctx.moveTo(x + 620, y);
-        ctx.lineTo(x + 620, y - 7.5);
-        ctx.lineTo(x + 635, y);
-        ctx.lineTo(x + 620, y + 7.5);
-        ctx.lineTo(x + 620, y);
-        ctx.stroke();
-        ctx.closePath();
-        ctx.beginPath();
-        ctx.strokeStyle = "Black";
-        ctx.moveTo(x, y - 350);
-        ctx.lineTo(x - 7.5, y - 350);
-        ctx.lineTo(x, y - 365);
-        ctx.lineTo(x + 7.5, y - 350);
-        ctx.lineTo(x, y - 350);
-        ctx.stroke();
-        ctx.closePath();
-    }
-    function desenharLinhas()
-    {
-        ctx.beginPath();
-        ctx.lineTo(x, y);
-        ctx.moveTo(x - 30, y);
-        ctx.lineTo(x + 620, y);
-        ctx.moveTo(x, y - 350);
-        ctx.lineTo(x, y + 30);
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
-        ctx.closePath();
-    }
-    function desenharEixoY(e)
-    {
-        for (var i = 1; i <= 10; i++) {
-            ctx.textAlign = "right";
-            ctx.font = "bold 12pt Century Gothic";
-            ctx.fillText(i + "", x - 3, y - (34 * i), 3000);
-        }
-        ctx.textAlign = "left";
-        strEscala = defineStringEscala(e);
-        ctx.fillText("$ " + strEscala, x - 40, y - 385);
-    }
-    function desenharEixoX(e)
-    {
-        ctx.font = "bold 10pt Century Gothic";
-        var xAtual;
-        var yAtual;
-        var atual;
-        var aux = x;
-        ctx.beginPath();
-        if (telaAtualE == 1)
-        {
-            for (var i = 0; i < 15; i++)
-            {
-                aux += (i!=0?40:15);
-                posicoes[i] = aux + 20;
-                ctx.fillText(datas[i], aux, y + 5);
-            }
-        }
-        else if (telaAtualE == 3 || telaAtualE == 4)
-        {
-        	for (var i = 0; i < 12; i++)
-        	{
-        		aux += (i!=0?50:15);
-        		posicoes12[i] = aux + 20;
-        		ctx.fillText(meses[i], aux, y + 5);
-        	}
-        }
-    }
-    function calcularEscala()
-    {
-        var aux = "";
-        for (var i = 0; i < valores15.length; i++) {
-            if (aux < valores15[i])
-                aux = valores15[i] + "";
-        }
-        return aux.length - 1;
-    }
-    function calcularEscalaTudo()
-    {
-        var aux = "";
-        for (var i = 0; i < valoresTotais.length; i++)
-            if (aux < valoresTotais[i])
-                aux = valoresTotais[i] + "";
-        return aux.length - 1;
-    }
-    function calcularEscalaGanho()
-    {
-    	var aux = 0;
-    	var aux2 = "";
-    	for (var i = 0; i < 12; i++)
-    	{
-    		if (valoresGanhos[i] > aux)
-    			aux = valoresGanhos[i];
-    	}
-    	aux2 = aux + "";
-    	return aux2.length - 1;
-    }
-    function calcularEscalaCusto()
-    {
-    	var aux = 0;
-    	var aux2 = "";
-    	for (var i = 0; i < 12; i++)
-    	{
-    		if (valoresCustos[i] > aux)
-    			aux = valoresCustos[i];
-    	}
-    	aux2 = aux + "";
-    	return aux2.length - 1;
-    }
-    function calcularEscalaLucro()
-    {
-    	var aux = 0;
-    	var aux2 = "";
-    	for (var i = 0; i < 12; i++)
-    	{
-    		if (valoresCG[i] > aux)
-    			aux = valoresCG[i];
-    	}
-    	aux2 = aux + "";
-    	return aux2.length - 1;
-    }
-    function defineStringEscala(e)
-    {
-        var strE = "";
-        if (e == 1)
-            strE = "(dezenas)";
-        else if (e == 2)
-            strE = "(centenas)";
-        else if (e == 3)
-            strE = "(milhares)";
-        else if (e == 4)
-            strE = "(dezenas de milhares)";
-        else if (e == 5)
-            strE = "(centenas de milhares)";
-        else if (e == 6)
-            strE = "(milhões)";
-        else if (e == 7)
-            strE = "(dezenas de milhões)";
-        else if (e == 8)
-            strE = "(centenas de milhões)";
-        else if (e == 9)
-            strE = "(bilhões)";
-        else if (e == 10)
-            strE = "(dezenas de bilhões)";
-        else if (e == 11)
-            strE = "(centenas de bilhões)";
-        else if (e == 12)
-            strE = "(trilhões)";
-        else if (e == 13)
-            strE = "(dezenas de trilhões)";
-        else if (e == 14)
-        	strE = "(centenas de trilhões)";
-        else if (e == 15)
-        	strE = "(quadrilhões)";
-        return strE;
-    }
-    function iniciarDatas()
-    {
-        var dia = calendario.dia;
-        var mes = calendario.mes;
-        for (var i = 0; i < 15; i++){
-            datas[i] = formatarData(dia, mes, null);
-            if (dia == calendario.qtosDiasTemOMes[calendario.mes - 1]){
-                dia = 1;
-                mes++;
-            }
-            dia++;
-        }
-    }
-    function iniciarMeses()
-    {
-    	var mes = calendario.mes;
-    	var ano = calendario.ano;
-    	for (var i = 0; i < 12; i++)
-    		meses[i] = formatarData(mes++, ano);
     }
     this.adicionarValor = function (v) {
         if (!isNaN(v)) {
-            if (atual >= 15) {
-                for (var i = 0; i < 15; i++)
-                    valores15[i] = valores15[i+1];
-                valores15[atual] = v;
-            }
-            else {
-                valores15[atual++] = v;
-            }
-            valoresTotais[atualTudo++] = v;
-            if (vezes == 14){
-                for(var i = 0; i < 14; i++){
-                    datas[i] = datas[i+1];
+            var obj = new Object();
+            obj.label = formatarData(calendario.dia, calendario.mes, calendario.ano)
+            obj.x = xVal++;
+            obj.y = v;
+            valores15.push(obj);
+            valoresTotais.push(obj)
+            if (valores15.length > 15)
+                valores15.shift();
+        }
+    }
+    this.getEstatisticas = function() {
+        var est = new Object();
+        est.Saldo = valoresTotais;
+        est.Economia = valoresEconomia;
+        est.LucroPrejuizo = valoresCG;
+        est.Perda = valoresCustos;
+        est.Ganho = valoresGanhos;
+        est.Fator = valoresEconomia[valoresEconomia.length-1];
+        est.xVal = xVal;
+        est.xValMes = xValMes;
+        return est;
+    }
+    this.setEstatisticas = function(obj)
+    {
+        var est = JSON.parse(obj);
+        valoresTotais = est.Saldo;
+        valoresEconomia = est.Economia;
+        valoresCG = est.LucroPrejuizo;
+        valoresCustos = est.Perda;
+        valoresGanhos = est.Ganho;
+        mesAtual = calendario.mes;
+        xVal = est.xVal;
+        xValMes = est.xValMes;
+    }
+    function criarGraficoTotal()
+    {
+        chartTotal = new CanvasJS.Chart("total", {
+            animationEnabled: true,
+            culture: 'en',
+            zoomEnabled: true,
+            axisX: {title: "Dias"},
+            axisY: {title: "Saldo", prefix: '$'},
+            title: {text: "Saldo"},
+            data:
+            [{
+                type: "line",
+                color: '#4286f4',
+                dataPoints: valoresTotais
+            }]
+        });
+        chartTotal.render();
+    }
+    function criarGraficoEconomia()
+    {
+        chartEconomia = new CanvasJS.Chart("economia", {
+            animationEnabled: true,
+            culture: 'es',
+            zoomEnabled: true,
+            axisX: {title: "Meses"},
+            axisY: {title: "Índice econômico"},
+            title: {text: "Economia"},
+            data:
+            [{
+                type: "line",
+                color: '#5e35e8',
+                dataPoints: valoresEconomia
+            }]
+        });
+        chartEconomia.render();
+    }
+    function criarGrafico15()
+    {
+        chart15 = new CanvasJS.Chart("15", {
+            animationEnabled: true,
+            culture: 'es',
+            zoomEnabled: true,
+            axisX: {title: "Dias"},
+            axisY: {title: "Saldo", prefix: '$'},
+            title: {text: "Saldo"},
+            data:
+            [{
+                type: "line",
+                color: '#4286f4',
+                dataPoints: valores15
+            }]
+        });
+        chart15.render();
+    }
+    function criarGraficoCustosGanhos()
+    {
+        chartLucroPrejuizo = new CanvasJS.Chart("perdaGanho", {
+            animationEnabled: true,
+            culture: 'en',
+            zoomEnabled: true,
+            axisX: {title: "Meses"},
+            axisY: {title: "Total", prefix: '$'},
+            title: {text: "Lucros/Prejuízos"},
+            data:
+            [
+                {
+                    type: "line",
+                    color: '#41e835',
+                    dataPoints: valoresGanhos
+                },
+                {
+                    type: 'line',
+                    color: '#ff2b2b',
+                    dataPoints: valoresCustos
+                },
+                {
+                    type: 'line',
+                    color: '#ffeb3a',
+                    dataPoints: valoresCG
                 }
-                datas[14] = formatarData(calendario.dia, calendario.mes, null);
-            }
-            else
-                vezes++;
-            vezesMes++;
-            if (vezesMes == calendario.qtosDiasTemOMes[calendario.mes - 1])
-            {
-            	for (var i = 0; i < 12; i++)
-            		meses[i] = meses[i+1];
-            	meses[11] = calendario.mes;
-            	vezesMes = 1;
-            }
-        }
-    }
-    function desenharLinhaGrafico(cor)
-    {
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = cor;
-        var Y = 0;
-        var valorAtual = 0;
-        for (var i = 0; i < valores15.length; i++)
-        {
-            if (valores15[i] != null)
-            {
-                valorAtual = valores15[i]/Math.pow(10, escalaAtual);
-                Y = (valorAtual
-                	!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtuals)));
-                if (i == 0)
-                    ctx.moveTo(x, Y);
-                ctx.lineTo(posicoes[i], Y);
-                ctx.stroke();
-            }
-        }
-        ctx.closePath();
-        ctx.restore();
-    }
-    function desenharLinhaGraficoTudo(cor)
-    {
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = cor;
-        var X = x;
-        var Y = 0;
-        var valorAtual = 0;
-        for(var i = 0; i < valoresTotais.length; i++)
-        {
-            X += (i!=0?(620/valoresTotais.length):0);
-            valorAtual = valoresTotais[i]/Math.pow(10, escalaTudo);
-            Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
-            ctx.lineTo(X, Y);
-            ctx.stroke();
-        }
-        ctx.closePath();
-        ctx.restore();
-    }
-    function desenharLinhaGraficoEconomia(cor)
-    {
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = cor;
-        var Y = 0;
-        var valorAtual = 0;
-        for (var i = 0; i < valoresEconomia.length; i++)
-        {
-            if (valoresEconomia[i] != null)
-            {
-                valorAtual = valoresEconomia[i];
-                Y = (valorAtual!=0?(y-(34*valorAtual) + 12.5):(y-(34*valorAtual)));
-                if (i == 0)
-                    ctx.moveTo(x, Y);
-                ctx.lineTo(posicoes12[i], Y);
-                ctx.stroke();
-            }
-        }
-        ctx.closePath();
-        ctx.restore();
-    }
-    function desenharLucro(cor)
-    {
-    	ctx.save();
-    	ctx.beginPath();
-    	ctx.strokeStyle = cor;
-        var valor = 0;
-        var Y = 0;
-        for (var i = 0; i < valoresCG.length; i++)
-        {
-        	if (valoresCG[i] != null)
-        	{
-        		valor = valoresCG[i]/Math.pow(10, escalaCG);
-        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
-        		if (i == 0)
-        			ctx.moveTo(x, Y);
-        		ctx.lineTo(posicoes12[i], Y);
-        		ctx.stroke();
-        	}
-        }
-        ctx.closePath();
-        ctx.restore();
-    }
-    function desenharCusto(cor)
-    {
-    	ctx.save();
-    	ctx.beginPath();
-    	ctx.strokeStyle = cor;
-        var valor = 0;
-        var Y = 0;
-        for (var i = 0; i < valoresCustos.length; i++)
-        {
-        	if (valoresCustos[i] != null)
-        	{
-        		valor = valoresCustos[i]/Math.pow(10, escalaCusto);
-        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
-        		if (i == 0)
-       	 			ctx.moveTo(x, Y);
-        		ctx.lineTo(posicoes12[i], Y);
-        		ctx.stroke();
-        	}
-        }
-        ctx.closePath();
-        ctx.restore();
-    }
-    function desenharGanho(cor)
-    {
-    	ctx.save();
-    	ctx.beginPath();
-    	ctx.strokeStyle = cor;
-        var valor = 0;
-        var Y = 0;
-        for (var i = 0; i < valoresGanhos.length; i++)
-        {
-        	if (valoresGanhos[i] != null)
-        	{
-        		valor = valoresGanhos[i]/Math.pow(10, escalaGanho);
-        		Y = (valor!=0?(y-(34*valor) + 12.5):(y-(34*valor)));
-        		if (i == 0)
-        			ctx.moveTo(x, Y);
-        		ctx.lineTo(posicoes12[i], Y);
-        		ctx.stroke();
-        	}
-        }
-        ctx.closePath();
-        ctx.restore();
+            ]
+        });
+        chartLucroPrejuizo.render();
     }
 }

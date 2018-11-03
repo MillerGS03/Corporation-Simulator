@@ -5,9 +5,9 @@ function TextBox(informacoes)
 
     var focused = false;
     this.ativo = false;
-    this.text = "";
-    this.enabled = true;
 
+    this.enabled = (informacoes.enabled != null)?informacoes.enabled:true;
+    this.text = (informacoes.text != null)?informacoes.text:"";
     this.x = informacoes.x?informacoes.x:0;
     this.y = informacoes.y?informacoes.y:0;
     this.width = informacoes.width?informacoes.width:200;
@@ -21,6 +21,11 @@ function TextBox(informacoes)
     this.placeholder = informacoes.placeholder?informacoes.placeholder:"";
     this.placeholderColor = informacoes.placeholderColor?informacoes.placeholderColor:"#aaaaaa";
     this.onlynumbers = informacoes.onlynumbers?informacoes.onlynumbers:false;
+    this.acceptFloats = (informacoes.acceptFloats != null)?informacoes.acceptFloats:true;
+    this.maxvalue = informacoes.maxvalue != null?informacoes.maxvalue:false;
+    this.textAlign = informacoes.textAlign?informacoes.textAlign:(this.onlynumbers?"right":"left");
+    this.beforeTextChanged = informacoes.beforeTextChanged != null?informacoes.beforeTextChanged:function() {};
+    this.afterTextChanged = informacoes.afterTextChanged != null?informacoes.afterTextChanged:function() {};
 
     this.getFocused = function() {
         return focused;
@@ -46,19 +51,20 @@ function TextBox(informacoes)
         ctx.lineWidth = focused && this.enabled?3:2;
         roundRect(this.x, this.y, this.width, this.height, this.borderRadius, true, true);
 
-        ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = this.font;
 
         if (this.text.length == 0)
         {
+            ctx.textAlign = "left";
             ctx.fillStyle = this.placeholderColor;
             ctx.fillText(this.placeholder, this.x + this.padding, this.y + this.height/2, this.width - 2 * this.padding);
         }
         else
         {
+            ctx.textAlign = this.textAlign;
             ctx.fillStyle = this.color;
-            ctx.fillText(this.text, this.x + this.padding, this.y + this.height/2, this.width - 2 * this.padding);
+            ctx.fillText(this.text, this.textAlign=="left"?this.x + this.padding:this.x + this.width - this.padding, this.y + this.height/2, this.width - 2 * this.padding);
         }
 
         ctx.restore();
@@ -76,7 +82,11 @@ function TextBox(informacoes)
             // delete ou backspace
             if (keycode == 46 || keycode == 8) {
                 event.preventDefault(); // evita que redirecione para a última página acessada com o backspace
+                este.beforeTextChanged(este);
                 este.text = este.text.slice(0,este.text.length-1);
+                if (este.text.length == 0 && este.onlynumbers && este.placeholder == "")
+                    este.text = "0";
+                este.afterTextChanged(este);
             }
 
             if (keycode == 32) {
@@ -90,8 +100,20 @@ function TextBox(informacoes)
         if (focused && este.enabled)
         {
             var char = String.fromCharCode(parseInt(e.which));
-            if (este.text.length < este.maxlength && (!este.onlynumbers || ((!isNaN(char) || (char == "," && !este.text.includes(","))) && (char != "0" || este.text.length > 0))))
-                este.text += char;
+            este.beforeTextChanged(este);
+            if (este.text.length < este.maxlength && (!este.onlynumbers || 
+               ((!isNaN(char) || (este.acceptFloats && char == "," && !este.text.includes(",")))
+               && (char != "0" || (este.text.length == 0 || este.text.charAt(0)))) &&
+               (este.maxvalue === false || parseFloat(este.text + char) <= este.maxvalue)))
+            {
+                if (este.text == "0" && este.onlynumbers && char != ",")
+                    este.text = char;
+                else if (este.text.length == 0 && este.onlynumbers && char == ",")
+                    este.text = "0,";
+                else
+                    este.text += char;
+            }
+            este.afterTextChanged(este);
         }
     }
     var funcaoClick = function() {

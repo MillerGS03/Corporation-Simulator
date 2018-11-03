@@ -8,6 +8,7 @@ function Garagem()
     this.qtdeFuncionarios = 0;
 
     this.produtos = new Array();
+    this.produtosRemovidos = new Array();
     this.qtdeMateriaPrima = 150;
     this.capacidade = 300;
 
@@ -34,8 +35,6 @@ function Garagem()
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
-
-    configurar();
 
     this.abrirFechar = function() 
     {
@@ -74,7 +73,8 @@ function Garagem()
                 {
                     this.btnAprimorarCancelar.ativarInteracao();
                     this.btnLancarAlterar.ativarInteracao();
-                    transformarElementosCriando(true);
+                    if (produtoSendoAlterado)
+                        transformarElementosAlterando(true);
                 }
                 else
                 {
@@ -87,6 +87,9 @@ function Garagem()
             case 1:
                 break;
             case 2:
+                for (var i = 0; i < this.produtos.length; i++)
+                    if (this.produtos[i].status == 1)
+                        this.txtsProducao[i].ativarInteracao();
                 break;
             case 3:
                 break;
@@ -106,10 +109,11 @@ function Garagem()
         this.btnAprimorarCancelar.desativarInteracao();
         this.btnLancarAlterar.desativarInteracao();
 
-        for (var i = 0; i < this.produtos.length; i++)
+        for (var i = 0; i < 8; i++)
         {
             this.botoesAlterar[i].desativarInteracao();
             this.botoesExcluir[i].desativarInteracao();
+            this.txtsProducao[i].desativarInteracao();
         }
 
         this.txtNome.desativarInteracao();
@@ -133,6 +137,27 @@ function Garagem()
                 {
                     this.desativar();
                     this.ativar();
+                }
+            }
+        }
+
+        if (este.qtdeMateriaPrima > 0)
+        {
+            for (var i = 0; i < este.produtos.length; i++)
+            {
+                var produtoAtual = este.produtos[i];
+                if (este.qtdeMateriaPrima > produtoAtual.producao)
+                {
+                    produtoAtual.qtdeEmEstoque += produtoAtual.producao;
+                    este.qtdeMateriaPrima -= produtoAtual.producao;
+                }
+                else
+                {
+                    produtoAtual.qtdeEmEstoque += este.qtdeMateriaPrima;
+                    este.qtdeMateriaPrima = 0;
+                    painelNotificacoes.adicionarNotificacao("Matéria-prima acabou!", "Obtenha mais para continuar a produzir!",
+                                                            calendario.dia, calendario.mes, calendario.ano);
+                    break;
                 }
             }
         }
@@ -226,7 +251,14 @@ function Garagem()
     {
         ctx.save();
 
-        // Criação de produtos
+        desenharCriacaoDeMercadorias();
+        desenharTabelaMercadorias();
+
+        ctx.restore();
+    }
+    function desenharCriacaoDeMercadorias()
+    {
+        ctx.save();
 
         ctx.fillStyle = "silver";
         ctx.strokeStyle = "black";
@@ -247,7 +279,6 @@ function Garagem()
 
         este.txtNome.desenhar();
         este.txtPreco.desenhar();
-
 
         var ultimoProduto = este.produtos[este.produtos.length - 1];
         if (ultimoProduto == null || ultimoProduto.status == 1)
@@ -292,29 +323,41 @@ function Garagem()
         else
             este.btnCriarCancelar.desenhar();
 
-        // Tabela
+        ctx.restore();
+    }
+    function desenharTabelaMercadorias()
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        var xTabela = este.x + 300;
+        var yTabela = este.y + 330;
+        var widthTabela = este.width - (xTabela + 20 - este.x);
+        var heightTabela = 263;
 
         ctx.fillStyle = "silver";
-        ctx.fillRect(este.x + 300, este.y + 330, este.width - 320, 263);
-        ctx.strokeRect(este.x + 300, este.y + 330, este.width - 320, 263);
+        ctx.fillRect(xTabela, yTabela, widthTabela, heightTabela);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, heightTabela);
 
         ctx.fillStyle = "gray";
-        ctx.fillRect(este.x + 300, este.y + 330, este.width - 320, 30);
-        ctx.strokeRect(este.x + 300, este.y + 330, este.width - 320, 30);
+        ctx.fillRect(xTabela, yTabela, widthTabela, 30);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, 30);
 
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 13pt Consolas";
         
-        ctx.fillText(" Produto              Preço             Atualizar", este.x + 300, este.y + 345);
+        ctx.fillText(" Produto                Preço            Atualizar", xTabela, yTabela + 15);
 
         for (var i = 0; i < 8; i++)
         {
             if (i%2 == 0)
             {
                 ctx.fillStyle = "#d8d8d8";
-                ctx.fillRect(este.x + 301, este.y + 361 + 29 * i, este.width - 322, 30);
+                ctx.fillRect(xTabela + 1, yTabela + 31 + 29 * i, widthTabela - 2, 30);
             }
 
             if (i < este.produtos.length && este.produtos[i].status == 1)
@@ -322,21 +365,21 @@ function Garagem()
                 ctx.fillStyle = "black";
                 var pad = "                                                          ";
                 ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + (pad + formatarDinheiro(este.produtos[i].preco)).substr(-10),
-                             este.x + 300, este.y + 375 + 29 * i);
+                             xTabela, yTabela + 45 + 29 * i);
                 este.botoesAlterar[i].desenhar();
                 este.botoesExcluir[i].desenhar();
             }
         }
 
         ctx.beginPath();
-        ctx.moveTo(este.x + 500, este.y + 360);
-        ctx.lineTo(este.x + 500, este.y + 593);
+        ctx.moveTo(xTabela + 200, yTabela + 30);
+        ctx.lineTo(xTabela + 200, yTabela + heightTabela);
         ctx.closePath();
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.moveTo(este.x + 605, este.y + 360);
-        ctx.lineTo(este.x + 605, este.y + 593);
+        ctx.moveTo(xTabela + 305, yTabela + 30);
+        ctx.lineTo(xTabela + 305, yTabela + heightTabela);
         ctx.closePath();
         ctx.stroke();
 
@@ -499,22 +542,28 @@ function Garagem()
         ctx.restore();
     }
 
-    var coresProducao = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5"];
+    var coresProducao = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5", "gray"];
     function desenharGerenciarProducao()
     {
         ctx.save();
         
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
-        ctx.font = "bold 18pt Century Gothic";
+        ctx.font = "bold 20pt Century Gothic";
         ctx.fillStyle = "black";
-        ctx.fillText("Capacidade de produção: ", este.x + 630, este.y + 105);
+        ctx.fillText("Capacidade de produção: ", este.x + 650, este.y + 100);
         
         ctx.textAlign = "left";
-        ctx.font = "18pt Century Gothic";
-        ctx.fillText(`${este.capacidadeProducao}u/dia`, este.x + 630, este.y + 105);
+        ctx.font = "20pt Century Gothic";
+        ctx.fillText(`${este.capacidadeProducao}u/dia`, este.x + 650, este.y + 100);
+
+        ctx.textAlign = "center";
+        ctx.font = "bold 15pt Century Gothic";
+        ctx.fillText("Compre o operacional para aumentar", este.x + 510, este.y + 165);
+        ctx.fillText("a capacidade de produção!", este.x + 510, este.y + 195);
 
         desenharGraficoProducao();
+        desenharTabelaProducao();
         
         ctx.restore();
     }
@@ -522,9 +571,9 @@ function Garagem()
     {
         ctx.save();
 
-        var raio = 96;
+        var raio = 88;
         var xCentro = este.x + este.width - (raio + 15);
-        var yCentro = este.y + 230;
+        var yCentro = este.y + 204;
 
         ctx.lineWidth = 4;
         ctx.fillStyle = "gray";
@@ -538,19 +587,103 @@ function Garagem()
 
         for (var i = 0; i < este.produtos.length; i++)
         {
-            anguloInicial = anguloFinal;
-            anguloFinal = anguloInicial + 2 * Math.PI * (este.produtos[i].producao)/este.capacidadeProducao;
+            if (este.produtos[i].producao > 0)
+            {
+                anguloInicial = anguloFinal;
+                anguloFinal = anguloInicial + 2 * Math.PI * (este.produtos[i].producao)/este.capacidadeProducao;
 
-            ctx.lineWidth = 2;
-            ctx.fillStyle = coresProducao[i];
-            ctx.beginPath();
-            ctx.moveTo(xCentro, yCentro);
-            ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.fillStyle = coresProducao[i];
+                ctx.beginPath();
+                ctx.moveTo(xCentro, yCentro);
+                ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
+                ctx.closePath();
+                ctx.fill();
+            }
         }
         
+        ctx.restore();
+    }
+
+    function calcularProducaoDisponivel()
+    {
+        var producaoDisponivel = este.capacidadeProducao;
+        for (var i = 0; i < este.produtos.length; i++)
+            producaoDisponivel -= parseInt(este.txtsProducao[i].text);
+        return producaoDisponivel;
+    }
+    var xTabelaProducao = este.x + 300;
+    var yTabelaProducao = este.y + 308;
+    function desenharTabelaProducao()
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        var widthTabela = este.width - (xTabelaProducao + 20 - este.x);
+        var heightTabela = 303;
+
+        ctx.fillStyle = "silver";
+        ctx.fillRect(xTabelaProducao, yTabelaProducao, widthTabela, heightTabela);
+        ctx.strokeRect(xTabelaProducao, yTabelaProducao, widthTabela, heightTabela);
+
+        ctx.fillStyle = "gray";
+        ctx.fillRect(xTabelaProducao, yTabelaProducao, widthTabela, 30);
+        ctx.strokeRect(xTabelaProducao, yTabelaProducao, widthTabela, 30);
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13pt Consolas";
+        
+        ctx.fillText(" Legenda           Nome                    Produção", xTabelaProducao, yTabelaProducao + 15);
+
+        for (var i = 0; i < 9; i++)
+        {
+            if (i%2 == 0) // Faixas mais claras
+            {
+                ctx.fillStyle = "#d8d8d8";
+                ctx.fillRect(xTabelaProducao + 1, yTabelaProducao + 31 + 30 * i, widthTabela - 2, 31);
+            }
+
+            ctx.fillStyle = coresProducao[i];
+            ctx.fillRect(xTabelaProducao + 6, yTabelaProducao + 36 + 30 * i, 80, 20);
+            ctx.strokeRect(xTabelaProducao + 6, yTabelaProducao + 36 + 30 * i, 80, 20);
+
+            ctx.fillStyle = "black";
+            if (i < este.produtos.length && este.produtos[i].status == 1)
+            {
+                var pad = "                                                          ";
+                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20), xTabelaProducao + 92, yTabelaProducao + 46 + 30 * i);
+                ctx.fillText("u/dia", xTabelaProducao + 509, yTabelaProducao + 45 + 30 * i)
+                este.txtsProducao[i].desenhar();
+            }
+            else if (i == 8)
+            {
+                ctx.save();
+
+                ctx.textAlign = "center";
+                ctx.font = "bold 14.5pt Consolas"
+                ctx.fillText("Produção disponível", xTabelaProducao + 208.5, yTabelaProducao + 46 + 30 * i);
+                ctx.fillText(calcularProducaoDisponivel() + "u/dia", xTabelaProducao + (widthTabela + 325)/2, yTabelaProducao + 46 + 30 * i);
+
+                ctx.restore();
+            }
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(xTabelaProducao + 92, yTabelaProducao + 30);
+        ctx.lineTo(xTabelaProducao + 92, yTabelaProducao + heightTabela);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xTabelaProducao + 325, yTabelaProducao + 30);
+        ctx.lineTo(xTabelaProducao + 325, yTabelaProducao + heightTabela);
+        ctx.closePath();
+        ctx.stroke();
+
         ctx.restore();
     }
     function desenharGerenciarDinheiro()
@@ -585,6 +718,19 @@ function Garagem()
         este.txtNome.enabled = !criando;
         este.txtPreco.enabled = !criando;
     }
+    function transformarElementosAlterando(alterando)
+    {
+        este.txtNome.enabled = !alterando;
+        este.txtPreco.enabled = true;
+        este.txtNome.text = alterando?produtoSendoAlterado.nome + "":"";
+        este.txtPreco.text = alterando?produtoSendoAlterado.preco + "":"";
+        este.txtPreco.setFocused(alterando);
+        este.btnLancarAlterar.text = alterando?"Alterar":"Lançar";
+        este.btnAprimorarCancelar.text = alterando?"Cancelar":"Aprimorar";
+        este.btnAprimorarCancelar.backgroundColor = alterando?"#ba0000":"#4c98a5";
+        este.btnAprimorarCancelar.backgroundHoverColor = alterando?"#e00000":"#5eb9c9";
+    }
+
     function configurar()
     {
         este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,
@@ -638,23 +784,28 @@ function Garagem()
             {
                 try
                 {
-                    var nome = este.txtNome.text;
-                    var preco = parseFloat(este.txtPreco.text);
+                    if (este.produtos.length < 8)
+                    {
+                        var nome = este.txtNome.text;
+                        var preco = parseFloat(este.txtPreco.text);
 
-                    if (nome.length < 2)
-                        throw new DOMException("Insira um nome com pelo menos 2 caracteres!", "Erro");
-                    if (!preco || preco == 0)
-                        throw new DOMException("Insira um preço não nulo!", "Erro");
+                        if (nome.length < 2)
+                            throw new DOMException("Insira um nome com pelo menos 2 caracteres!", "Erro");
+                        if (!preco || preco == 0)
+                            throw new DOMException("Insira um preço não nulo!", "Erro");
 
-                    for (var i = 0; i < este.produtos.length; i++)
-                        if (este.produtos[i].nome.toUpperCase() == nome.toUpperCase())
-                            throw new DOMException("Nome de produto já existente!")
+                        for (var i = 0; i < este.produtos.length; i++)
+                            if (este.produtos[i].nome.toUpperCase() == nome.toUpperCase())
+                                throw new DOMException("Nome de produto já existente!")
 
-                    fazerCompra("Desenv. do produto: " + nome, 2000, false, true, 1, function() {
-                        este.produtos.push(new Produto(nome, preco));
+                        fazerCompra("Desenv. do produto: " + nome, 2000, false, true, 1, function() {
+                            este.produtos.push(new Produto(nome, preco));
 
-                        transformarElementosCriando(true);
-                    })
+                            transformarElementosCriando(true);
+                        })
+                    }
+                    else
+                        throw new DOMException("Você atingiu o limite de produtos!");
                 }
                 catch (ex) {alerta(ex.message)}
             }
@@ -666,21 +817,6 @@ function Garagem()
                     transformarElementosCriando(false);
                 })
             }
-        }
-
-        function transformarElementosAlterando(alterando)
-        {
-            este.txtNome.enabled = !alterando;
-            este.txtNome.text = alterando?produtoSendoAlterado.nome + "":"";
-            este.txtPreco.text = alterando?produtoSendoAlterado.preco + "":"";
-            este.txtPreco.setFocused(alterando);
-            este.btnLancarAlterar.text = alterando?"Alterar":"Lançar";
-            este.btnAprimorarCancelar.text = alterando?"Cancelar":"Aprimorar";
-            este.btnAprimorarCancelar.backgroundColor = alterando?"#ba0000":"#4c98a5";
-            este.btnAprimorarCancelar.backgroundHoverColor = alterando?"#e00000":"#5eb9c9";
-
-            este.desativar();
-            este.ativar();
         }
 
         este.btnLancarAlterar = new BotaoRetangular(este.x + 715, este.y + 201, 140, 40, 10, 140, 40,
@@ -771,6 +907,8 @@ function Garagem()
                 {
                     produtoSendoAlterado = este.produtos[botao.numeroRegistro];
                     transformarElementosAlterando(true);
+                    este.desativar();
+                    este.ativar();
                 }
             }
 
@@ -784,7 +922,17 @@ function Garagem()
                 else
                     confirma('Deseja realmente tirar o produto "' + produto.nome + '" do mercado?', function() {
                         este.desativar();
+                        este.produtosRemovidos.push(este.produtos[botao.numeroRegistro]);
                         este.produtos.splice(botao.numeroRegistro, 1);
+
+                        for (var i = 0; i < este.produtos.length; i++)
+                        {
+                            este.txtsProducao[i].text = este.produtos[i].producao + "";
+                            var operacional = getJanelaConstrucao("Operacional");
+                            if (operacional != null)
+                                operacional.txtsProducao[i].text = este.produtos[i].producao + "";
+                        }
+
                         este.ativar();
                     })
             }
@@ -805,9 +953,34 @@ function Garagem()
             placeholder: "Preço",
             font: "15pt Century Gothic",
             onlynumbers: true,
-            maxlength: 7
+            maxvalue: 99999,
+            maxlength: 8
         })
+
+        este.txtsProducao = new Array();
+        for (var i = 0; i < 8; i++)
+            este.txtsProducao.push(new TextBox({
+                x: xTabelaProducao + 375,
+                y: yTabelaProducao + 34 + 30 * i,
+                width: 130,
+                height: 24,
+                text: "0",
+                onlynumbers: true,
+                acceptFloats: false,
+                font: "13pt Century Gothic",
+                beforeTextChanged: function(textbox) {
+                    textbox.maxvalue = calcularProducaoDisponivel() + parseInt(textbox.text);
+                },
+                afterTextChanged: function(textbox) {
+                    var registro = (textbox.y - (yTabelaProducao + 34))/30;
+                    este.produtos[registro].producao = parseInt(textbox.text);
+                    var operacional = getJanelaConstrucao("Operacional");
+                    if (operacional)
+                        operacional.txtsProducao[registro].text = textbox.text;
+                }
+            }))
     }
+    configurar();
 }
 function Produto(nome, preco)
 {

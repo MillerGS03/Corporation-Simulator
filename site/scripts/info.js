@@ -20,7 +20,7 @@ function colocarDados() {
 			'font-weight: bold;'+
 			'cursor:pointer;'+
 			'transition: background-color 0.2s ease-out;'+
-			'z-index: 3;'+
+			'z-index: 1;'+
 			'background-color:' + user.CorFundo + ';'+
 		'}'+
 	'</style>');

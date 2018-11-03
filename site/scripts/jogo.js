@@ -521,18 +521,6 @@ function carregarDados()
 		for(var i = 0; i < itensConstruidos.length; i++){
 			botoes.push(itensConstruidos[i].botao)
 		}
-	})
-	contador = 0;
-
-	if (jogo.Caixa == -1)
-	{
-		barra.dinheiro = 80000;
-		tutorial.abrirFechar();
-	}
-	else
-	{
-		setTimeout(ativarBotoes, 50);
-		setTimeout(ativarBotoes, 500);
 
 		$.ajax({
 			url: 'http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo
@@ -541,18 +529,21 @@ function carregarDados()
 
 			var armazem = getJanelaConstrucao("Armazém");
 			var garagem = getJanelaConstrucao("Garagem");
+			var operacional = getJanelaConstrucao("Operacional");
 
 			if (armazem)
 			{
-				if (infoJogo.CapacidadeArmazem)
+				if (infoJogo.CapacidadeArmazem != null)
 					armazem.capacidade = infoJogo.CapacidadeArmazem;
-				if (infoJogo.PrecoUpgradeArmazem)
+				if (infoJogo.PrecoUpgradeArmazem != null)
 					armazem.precoUpgrade = infoJogo.PrecoUpgradeArmazem;
 			}
 			if (garagem)
 			{
-				if (infoJogo.QtdeMateriaPrima)
-					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima
+				if (infoJogo.QtdeMateriaPrima != null)
+					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima;
+				if (infoJogo.CapacidadeProducao != null)
+					garagem.capacidadeProducao = infoJogo.CapacidadeProducao;
 				$.ajax({
 					url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo
 				}).done(function(produtos){
@@ -567,10 +558,27 @@ function carregarDados()
 						produto.producao = produtos[i].Producao;
 
 						garagem.produtos.push(produto);
+						garagem.txtsProducao[i].text = produto.producao + "";
+						if (operacional)
+							operacional.txtsProducao[i].text = produto.producao + "";
 					}
+					if (operacional && infoJogo.PrecoUpgradeOperacional != null)
+						operacional.precoUpgrade = infoJogo.PrecoUpgradeOperacional;
 				})
 			}
 		})
+	})
+	contador = 0;
+
+	if (jogo.Caixa == -1)
+	{
+		barra.dinheiro = 80000;
+		tutorial.abrirFechar();
+	}
+	else
+	{
+		setTimeout(ativarBotoes, 50);
+		setTimeout(ativarBotoes, 500);
 
 		barra.dinheiro = jogo.Caixa;
 		if (!timerDias)
@@ -643,6 +651,7 @@ function salvar()
 
 	var armazem = getJanelaConstrucao("Armazém");
 	var garagem = getJanelaConstrucao("Garagem");
+	var operacional = getJanelaConstrucao("Operacional");
 
 	if (armazem)
 	{
@@ -652,17 +661,17 @@ function salvar()
 	if (garagem)
 	{
 		atualizar.QtdeMateriaPrima = garagem.qtdeMateriaPrima;
-		$.ajax({
-			url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo,
-			type: 'delete',
-			data: {}
-		})
-
+		atualizar.CapacidadeProducao = garagem.capacidadeProducao;
+		for (var i = 0; i < garagem.produtosRemovidos.length; i++)
+			$.ajax({
+				url: 'http://' + local + ':3000/produto/' + jogo.CodJogo + "/" + garagem.produtosRemovidos[i].nome,
+				type: 'delete',
+				data: {}
+			})
+		garagem.produtosRemovidos = new Array();
 		setTimeout(function() {
 			for (var i = 0; i < garagem.produtos.length; i++)
 			{
-				console.log("oi");
-	
 				var produto = new Object();
 				produto.CodJogo = jogo.CodJogo;
 				produto.Nome = garagem.produtos[i].nome;
@@ -678,6 +687,8 @@ function salvar()
 			}
 		}, 40);
 	}
+	if (operacional)
+		atualizar.PrecoUpgradeOperacional = operacional.precoUpgrade;
 
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
 

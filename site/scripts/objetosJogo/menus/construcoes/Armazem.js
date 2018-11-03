@@ -26,7 +26,7 @@ function Armazem()
     }
 
     this.capacidade = 500;
-    this.precoUpgrade = 2000;
+    this.precoUpgrade = 4000;
 
     this.getQtdeTotalDeProdutos = function() {
         var total = 0;
@@ -242,7 +242,6 @@ function Armazem()
         ctx.moveTo(xCentro, yCentro);
         ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
         ctx.closePath();
-        ctx.stroke();
         ctx.fill();
 
         anguloInicial = anguloFinal;
@@ -253,7 +252,6 @@ function Armazem()
         ctx.moveTo(xCentro, yCentro);
         ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
         ctx.closePath();
-        ctx.stroke();
         ctx.fill();
         
         ctx.restore();

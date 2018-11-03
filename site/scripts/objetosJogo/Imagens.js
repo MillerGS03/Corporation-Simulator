@@ -152,3 +152,7 @@ imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";
 // Garagem.js
 var imgFundoGaragem = new Image();
 imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";
+//--------------------------------------------------------------------------
+// Operacional.js
+var imgFundoOperacional = new Image();
+imgFundoOperacional.src = "imagens/construcoes/fundoOperacional.jpg";

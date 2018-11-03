@@ -193,11 +193,11 @@ rota.post('/produto', (requisicao, resposta) => {
   const DiasRestantes = a.DiasRestantes;
   const Producao = a.Producao;
 
-  execSQL(`insert into Produto values (${CodJogo}, '${Nome}', ${Preco}, ${QuantidadeEmEstoque}, '${DataDeCriacao}',
-                                       ${Status}, ${Qualidade}, ${DiasRestantes}, ${Producao})`, resposta)
+  execSQL(`exec ColocarProduto_sp ${CodJogo}, '${Nome}', ${Preco}, ${QuantidadeEmEstoque}, '${DataDeCriacao}',
+                                       ${Status}, ${Qualidade}, ${DiasRestantes}, ${Producao}`, resposta)
 })
-rota.delete('/produtos/:codJogo', (requisicao, resposta) => {
-  execSQL(`delete from Produto where CodJogo = ${requisicao.params.codJogo}`, resposta);
+rota.delete('/produto/:codJogo/:nome', (requisicao, resposta) => {
+  execSQL(`delete from Produto where CodJogo = ${requisicao.params.codJogo} and Nome = '${requisicao.params.nome}'`, resposta);
 })
 
 rota.get('/infoEmpresa/:codJogo', (requisicao, resposta) => {
@@ -221,12 +221,15 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
 rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
   const codJogo = requisicao.params.cod;
   const a = requisicao.body;
-  const CapacidadeArmazem = a.CapacidadeArmazem?a.CapacidadeArmazem:"null";
-  const PrecoUpgradeArmazem = a.PrecoUpgradeArmazem?a.PrecoUpgradeArmazem:"null";
-  const QtdeMateriaPrima = a.QtdeMateriaPrima?a.QtdeMateriaPrima:"null";
+  const CapacidadeArmazem = a.CapacidadeArmazem != null?a.CapacidadeArmazem:"null";
+  const PrecoUpgradeArmazem = a.PrecoUpgradeArmazem != null?a.PrecoUpgradeArmazem:"null";
+  const QtdeMateriaPrima = a.QtdeMateriaPrima != null?a.QtdeMateriaPrima:"null";
+  const PrecoUpgradeOperacional = a.PrecoUpgradeOperacional != null?a.PrecoUpgradeOperacional:"null";
+  const CapacidadeProducao = a.CapacidadeProducao != null?a.CapacidadeProducao:"null";
 
   execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
-                                  QtdeMateriaPrima = ${QtdeMateriaPrima} where CodJogo=${codJogo}`, resposta);
+                                  QtdeMateriaPrima = ${QtdeMateriaPrima}, PrecoUpgradeOperacional = ${PrecoUpgradeOperacional},
+                                  CapacidadeProducao = ${CapacidadeProducao} where CodJogo=${codJogo}`, resposta);
 })
 
 //rotas das simulacoes

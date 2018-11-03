@@ -153,9 +153,7 @@ function iniciar()
 	setTimeout(function(){
 		criarBotoes();
 		ativarBotoes();
-<<<<<<< HEAD
 		timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
-=======
 
 		window.requestAnimFrame = (function(callback) {
 			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
@@ -166,7 +164,6 @@ function iniciar()
 		  })();
 
 		requestAnimationFrame(function() {atualizar()});
->>>>>>> 64434a65d3eb1fdf66d948e556096186e537d5b9
 	}, 10);
 	$("#meuCanvas").on("mousemove", (function(e){
 		if (e.bubbles)

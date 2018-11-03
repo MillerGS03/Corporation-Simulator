@@ -42,8 +42,8 @@ function TextBox(informacoes)
         ctx.save();
 
         ctx.fillStyle = this.backgroundColor;
-        ctx.strokeStyle = focused?"#4c98a5":"black";
-        ctx.lineWidth = focused?3:2;
+        ctx.strokeStyle = focused && this.enabled?"#4c98a5":"black";
+        ctx.lineWidth = focused && this.enabled?3:2;
         roundRect(this.x, this.y, this.width, this.height, this.borderRadius, true, true);
 
         ctx.textAlign = "left";
@@ -64,8 +64,12 @@ function TextBox(informacoes)
         ctx.restore();
     }
 
+    this.clear = function() {
+        this.text = "";
+    }
+
     var funcaoKeydown = function(e) {
-        if (focused)
+        if (focused && este.enabled)
         {
             var keycode = parseInt(e.which);
             
@@ -83,7 +87,7 @@ function TextBox(informacoes)
         }
     }
     var funcaoKeypress = function(e) {
-        if (focused)
+        if (focused && este.enabled)
         {
             var char = String.fromCharCode(parseInt(e.which));
             if (este.text.length < este.maxlength && (!este.onlynumbers || ((!isNaN(char) || (char == "," && !este.text.includes(","))) && (char != "0" || este.text.length > 0))))

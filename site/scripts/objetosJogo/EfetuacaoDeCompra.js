@@ -1,6 +1,6 @@
 function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso)
 {
-	this.width = 500;
+	this.width = 600;
 	this.height = 400;
 	this.x = (canvas.width - this.width)/2;
 	this.y = (canvas.height - this.height)/2;
@@ -222,7 +222,7 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 		ctx.fillText("Valor:", este.x + 80, este.y + 120, este.width - 15);
 		ctx.font = "16pt Century Gothic";
 		ctx.textAlign = "left";
-		ctx.fillText(este.nome, este.x + 85, este.y + 90, este.width - 60);
+		ctx.fillText(este.nome, este.x + 85, este.y + 90, este.width - 90);
 		ctx.fillText(formatarDinheiro(este.valor), este.x + 85, este.y + 120, este.width - 60);
 
 		ctx.restore();

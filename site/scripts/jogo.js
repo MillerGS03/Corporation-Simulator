@@ -21,6 +21,11 @@ var btnConstrucao;
 var btnMapa;
 var btnCalendario;
 var btnNotificacoes;
+
+/**
+ * Painel contendo as notificações mostradas ao usuário
+ * @type {PainelNotificacoes}
+ */
 var painelNotificacoes;
 /**
  * Mapa contendo lugares externos à empresa
@@ -154,12 +159,11 @@ function iniciar()
 			return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
 			function(callback) {
 				if (desenhar)
-			  		window.setTimeout(callback, 1000 / 60);
+			  		window.setTimeout(callback, 1000 / 50);
 			};
 		  })();
 
 		requestAnimationFrame(function() {atualizar()});
-		//timerDesenhar = setInterval(atualizar, 1000 / 60); // 60 FPS
 	}, 10);
 	$("#meuCanvas").on("mousemove", (function(e){
 		if (e.bubbles)
@@ -173,16 +177,24 @@ function iniciar()
 
 	calendario.adicionarEvento(25, 2, 1, 1);
 }
+
+var ultimaLeituraDias = new Date();
 function intervaloDias()
 {
-	contador++;
-	if (contador % 10 == 0)
+	if (ultimaLeituraDias != null)
+		contador += (new Date().getTime() - ultimaLeituraDias.getTime()) / 50;
+	else
+		contador++;
+
+	ultimaLeituraDias = new Date();
+	
+	for (var i = 0; i < Math.floor(contador / 25); i++)
 	{
 		passarDia();
 		barra.ganharXP(1);
 	}
-	if (contador % 200 == 0)
-		painelNotificacoes.adicionarNotificacao("bla", "Hello, mi amigo", calendario.dia, calendario.mes, calendario.ano);
+	if (contador >= 25)
+		contador = contador % 25;
 }
 function criarBotoes() 
 {
@@ -351,6 +363,19 @@ function passarDia()
 	estatisticas.setLucroPrejuizo(l);
 	mapa.setFator(calendario.fatorEconomia());
 	barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
+
+	var garagem = getJanelaConstrucao("Garagem");
+	if (garagem)
+		garagem.passarDia();
+}
+
+function getJanelaConstrucao(nome)
+{
+	for (var i = 0; i < itensConstruidos.length; i++)
+		if (itensConstruidos[i].nome == nome)
+			return itensConstruidos[i].menu.janela;
+	
+	return false;
 }
 
 /**
@@ -424,6 +449,23 @@ function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um ret�
         ctx.fill();
 	}
 }
+function pausar()
+{
+	ultimaLeituraDias = null;
+	if (timerDias)
+		clearInterval(timerDias);
+	timerDias = null;
+	rua.pausar();
+	pausado = true;
+}
+function despausar()
+{
+	ultimaLeituraDias = new Date();
+	if (!timerDias)
+		timerDias = setInterval(intervaloDias, 50);
+	rua.despausar();
+	pausado = false;
+}
 function carregarDados()
 {
 	itensConstruidos = new Array();
@@ -438,7 +480,7 @@ function carregarDados()
 	barra.atualizarDia(dia);
 	barra.ganharXP(jogo.XP, false);
 	mapa.banco.saldo = jogo.ContaBancoMovimento; // @TODO Resolver informações do banco
-	menuJogo.setAlturaSom(user.VolumeJogos); // @TODO Puxar do banco de dados
+	menuJogo.setAlturaSom(user.VolumeJogos);
 	menuJogo.setIsComMusica(user.ComMusicaNosJogos);
 	mapa.setNumeros(parseInt(jogo.NumeroFranquias), parseInt(jogo.NumeroFornecedores), parseInt(jogo.NumeroIndustrias));
 	$.ajax({
@@ -479,11 +521,6 @@ function carregarDados()
 			botoes.push(itensConstruidos[i].botao)
 		}
 	})
-	if (!(calendario.dia < 3 && calendario.mes == 1 && calendario.ano == 1))
-	{
-		setTimeout(ativarBotoes, 50);
-		setTimeout(ativarBotoes, 500);
-	}
 	contador = 0;
 
 	if (jogo.Caixa == -1)
@@ -493,27 +530,52 @@ function carregarDados()
 	}
 	else
 	{
+		setTimeout(ativarBotoes, 50);
+		setTimeout(ativarBotoes, 500);
+
+		$.ajax({
+			url: 'http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo
+		}).done(function(dados){
+			var infoJogo = dados[0];
+
+			var armazem = getJanelaConstrucao("Armazém");
+			var garagem = getJanelaConstrucao("Garagem");
+
+			if (armazem)
+			{
+				if (infoJogo.CapacidadeArmazem)
+					armazem.capacidade = infoJogo.CapacidadeArmazem;
+				if (infoJogo.PrecoUpgradeArmazem)
+					armazem.precoUpgrade = infoJogo.PrecoUpgradeArmazem;
+			}
+			if (garagem)
+			{
+				if (infoJogo.QtdeMateriaPrima)
+					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima
+				$.ajax({
+					url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo
+				}).done(function(produtos){
+					for (var i = 0; i < produtos.length; i++)
+					{
+						var produto = new Produto(produtos[i].Nome, produtos[i].Preco);
+						produto.qtdeEmEstoque = produtos[i].QuantidadeEmEstoque;
+						produto.diasRestantes = produtos[i].DiasRestantes;
+						produto.dataDeCriacao = produtos[i].DataDeCriacao;
+						produto.status = produtos[i].Status;
+						produto.qualidade = produtos[i].Qualidade;
+
+						garagem.produtos.push(produto);
+					}
+				})
+			}
+		})
+
 		barra.dinheiro = jogo.Caixa;
 		if (!timerDias)
 			timerDias = setInterval(intervaloDias, 50);
 	}
 	mapa.desativar();
 	carregado = true;
-}
-function pausar()
-{
-	if (timerDias)
-		clearInterval(timerDias);
-	timerDias = null;
-	rua.pausar();
-	pausado = true;
-}
-function despausar()
-{
-	if (!timerDias)
-		timerDias = setInterval(intervaloDias, 50);
-	rua.despausar();
-	pausado = false;
 }
 function salvar()
 {
@@ -553,10 +615,6 @@ function salvar()
 		atualizar.X = itensConstruidos[i].x;
 		atualizar.Y = itensConstruidos[i].y;
 		atualizar.Sustentador = itensConstruidos[i].sustentador;
-		try
-		{
-			atualizar.Atualizacao = itensConstruidos[i].getAtualizacao();
-		} catch {}
 
 		$.ajax({
 			url: 'http://' + local + ':3000/construcao',
@@ -573,13 +631,52 @@ function salvar()
 			novoItem.X = itensConstruidos[i].getX();
 			novoItem.Y = itensConstruidos[i].getY();
 			novoItem.Sustentador = itensConstruidos[i].sustentador;
-			try
-			{
-				novoItem.Insercao = itensConstruidos[i].getInsercao();
-			} catch {}
+
 			$.post('http://' + local + ':3000/construir/' + jogo.CodJogo, novoItem);
 		}
 	}
+
+	atualizar = new Object();
+
+	var armazem = getJanelaConstrucao("Armazém");
+	var garagem = getJanelaConstrucao("Garagem");
+
+	if (armazem)
+	{
+		atualizar.CapacidadeArmazem = armazem.capacidade;
+		atualizar.PrecoUpgradeArmazem = armazem.precoUpgrade;
+	}
+	if (garagem)
+	{
+		atualizar.QtdeMateriaPrima = garagem.qtdeMateriaPrima;
+		$.ajax({
+			url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo,
+			type: 'delete',
+			data: {}
+		})
+
+		setTimeout(function() {
+			for (var i = 0; i < garagem.produtos.length; i++)
+			{
+				console.log("oi");
+	
+				var produto = new Object();
+				produto.CodJogo = jogo.CodJogo;
+				produto.Nome = garagem.produtos[i].nome;
+				produto.Preco = garagem.produtos[i].preco;
+				produto.QuantidadeEmEstoque = garagem.produtos[i].qtdeEmEstoque;
+				produto.DataDeCriacao = garagem.produtos[i].dataDeCriacao;
+				produto.Status = garagem.produtos[i].status;
+				produto.Qualidade = garagem.produtos[i].qualidade;
+				produto.DiasRestantes = garagem.produtos[i].diasRestantes
+	
+				$.post('http://' + local + ':3000/produto', produto);
+			}
+		}, 20);
+	}
+
+	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
+
 	qtasConstrucoesInicialmente = itensConstruidos.length;
 }
 function finalizarJogo()

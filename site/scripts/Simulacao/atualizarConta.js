@@ -76,7 +76,7 @@ $('#btnClass').on('click', function(){
 $('#removeClass').on('click', function(){
     var cod = simulacao.CodSimulacao;
     var classif = $("#classificacoes option:selected").val();
-    confirma('remover essa classificação', function(){
+    confirma('Deseja realmente remover essa classificação?', function(){
         $.ajax({
             url: 'http://' + local + ':3000/classificacoes/' + cod + '/' + classif,
             type: 'DELETE'

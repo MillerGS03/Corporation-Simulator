@@ -161,10 +161,7 @@ rota.post('/construir/:codJogo', (requisicao, resposta) => {
   const X = requisicao.body.X;
   const Y = requisicao.body.Y;
   const Sustentador = requisicao.body.Sustentador?"'" + requisicao.body.Sustentador + "'":"null";
-  const InsercaoConstrucao = requisicao.body.Insercao;
   execSQL(`insert into ConstrucaoJogo values(${codJogo}, '${Nome}', ${X}, ${Y}, ${Sustentador})`, resposta);
-  if (InsercaoConstrucao)
-    execSQL(InsercaoConstrucao, resposta);
 })
 rota.patch('/construcao', (requisicao, resposta) =>{
   const CodJogo = requisicao.body.CodJogo;
@@ -175,17 +172,36 @@ rota.patch('/construcao', (requisicao, resposta) =>{
   const AtualizacaoConstrucao = requisicao.body.Atualizacao;
   execSQL(`update ConstrucaoJogo set X=${X}, Y=${Y}, Sustentador=${Sustentador} 
            where CodJogo=${CodJogo} and ItemConstruido='${ItemConstruido}'`, resposta);
-  if (AtualizacaoConstrucao)
-    execSQL(AtualizacaoConstrucao, resposta);
-
 })
 rota.get('/construcao/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;
-  execSQL(`select * from ConstrucaoJogo where CodJogo = ${codJogo}`, resposta)
+  execSQL(`select * from ConstrucaoJogo where CodJogo = ${codJogo}`, resposta);
 })
-rota.get('/armazem/:codJogo', (requisicao, resposta) => {
+rota.get('/produtos/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;
-  execSQL(`select * from Armazem where CodJogo = ${codJogo}`, resposta);
+  execSQL(`select * from Produto where CodJogo = ${codJogo}`, resposta);
+})
+rota.post('/produto', (requisicao, resposta) => {
+  const a = requisicao.body;
+  const CodJogo = a.CodJogo;
+  const Nome = a.Nome;
+  const Preco = a.Preco;
+  const QuantidadeEmEstoque = a.QuantidadeEmEstoque;
+  const DataDeCriacao = a.DataDeCriacao;
+  const Status = a.Status;
+  const Qualidade = a.Qualidade;
+  const DiasRestantes = a.DiasRestantes;
+
+  execSQL(`insert into Produto values (${CodJogo}, '${Nome}', ${Preco}, ${QuantidadeEmEstoque}, '${DataDeCriacao}',
+                                       ${Status}, ${Qualidade}, ${DiasRestantes})`, resposta)
+})
+rota.delete('/produtos/:codJogo', (requisicao, resposta) => {
+  execSQL(`delete from Produto where CodJogo = ${requisicao.params.codJogo}`, resposta);
+})
+
+rota.get('/infoEmpresa/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  execSQL(`select * from InfoEmpresa where CodJogo = ${codJogo}`, resposta);
 })
 //salva o jogo quando o usuario sai
 rota.post('/jogo/:cod', (requisicao, resposta) => {
@@ -198,6 +214,17 @@ rota.post('/jogo/:cod', (requisicao, resposta) => {
   const nI = a.NumeroIndustrias;
   execSQL(`update Jogo set XP=${xp}, Data='${a.Data}', Caixa=${caixa},
   NumeroFranquias=${nF}, NumeroFornecedores=${nFo}, NumeroIndustrias=${nI} where CodJogo=${codJogo}`, resposta)
+})
+
+rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
+  const codJogo = requisicao.params.cod;
+  const a = requisicao.body;
+  const CapacidadeArmazem = a.CapacidadeArmazem?a.CapacidadeArmazem:"null";
+  const PrecoUpgradeArmazem = a.PrecoUpgradeArmazem?a.PrecoUpgradeArmazem:"null";
+  const QtdeMateriaPrima = a.QtdeMateriaPrima?a.QtdeMateriaPrima:"null";
+
+  execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
+                                  QtdeMateriaPrima = ${QtdeMateriaPrima} where CodJogo=${codJogo}`, resposta);
 })
 
 //rotas das simulacoes

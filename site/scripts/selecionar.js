@@ -168,7 +168,7 @@ function iniciarSelecionar()
     }
     function removerOpcao()
     {
-        confirma('Excluir esse jogo', function(){
+        confirma('Deseja realmente excluir esse jogo?', function(){
             var select = document.getElementById('select');
             var nomeJogo = select.options[select.selectedIndex].value;
             $.ajax({

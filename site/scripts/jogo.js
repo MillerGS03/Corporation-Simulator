@@ -563,6 +563,7 @@ function carregarDados()
 						produto.dataDeCriacao = produtos[i].DataDeCriacao;
 						produto.status = produtos[i].Status;
 						produto.qualidade = produtos[i].Qualidade;
+						produto.producao = produtos[i].Producao;
 
 						garagem.produtos.push(produto);
 					}
@@ -668,11 +669,12 @@ function salvar()
 				produto.DataDeCriacao = garagem.produtos[i].dataDeCriacao;
 				produto.Status = garagem.produtos[i].status;
 				produto.Qualidade = garagem.produtos[i].qualidade;
-				produto.DiasRestantes = garagem.produtos[i].diasRestantes
+				produto.DiasRestantes = garagem.produtos[i].diasRestantes;
+				produto.Producao = garagem.produtos[i].producao;
 	
 				$.post('http://' + local + ':3000/produto', produto);
 			}
-		}, 20);
+		}, 40);
 	}
 
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);

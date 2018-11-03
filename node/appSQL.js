@@ -191,9 +191,10 @@ rota.post('/produto', (requisicao, resposta) => {
   const Status = a.Status;
   const Qualidade = a.Qualidade;
   const DiasRestantes = a.DiasRestantes;
+  const Producao = a.Producao;
 
   execSQL(`insert into Produto values (${CodJogo}, '${Nome}', ${Preco}, ${QuantidadeEmEstoque}, '${DataDeCriacao}',
-                                       ${Status}, ${Qualidade}, ${DiasRestantes})`, resposta)
+                                       ${Status}, ${Qualidade}, ${DiasRestantes}, ${Producao})`, resposta)
 })
 rota.delete('/produtos/:codJogo', (requisicao, resposta) => {
   execSQL(`delete from Produto where CodJogo = ${requisicao.params.codJogo}`, resposta);

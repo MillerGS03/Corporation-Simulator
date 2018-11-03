@@ -11,6 +11,8 @@ function Garagem()
     this.qtdeMateriaPrima = 150;
     this.capacidade = 300;
 
+    this.capacidadeProducao = 100;
+
     var produtoSendoAlterado = null;
 
     this.getQtdeTotalDeProdutos = function() {
@@ -72,9 +74,13 @@ function Garagem()
                 {
                     this.btnAprimorarCancelar.ativarInteracao();
                     this.btnLancarAlterar.ativarInteracao();
+                    transformarElementosCriando(true);
                 }
                 else
+                {
                     this.btnCriarCancelar.ativarInteracao();
+                    transformarElementosCriando(ultimoProduto != null && ultimoProduto.status != 1);
+                }
                 this.txtNome.ativarInteracao();
                 this.txtPreco.ativarInteracao();
                 break;
@@ -493,11 +499,57 @@ function Garagem()
         ctx.restore();
     }
 
+    var coresProducao = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5"];
     function desenharGerenciarProducao()
     {
         ctx.save();
         
+        ctx.textAlign = "right";
+        ctx.textBaseline = "alphabetic";
+        ctx.font = "bold 18pt Century Gothic";
+        ctx.fillStyle = "black";
+        ctx.fillText("Capacidade de produção: ", este.x + 630, este.y + 105);
         
+        ctx.textAlign = "left";
+        ctx.font = "18pt Century Gothic";
+        ctx.fillText(`${este.capacidadeProducao}u/dia`, este.x + 630, este.y + 105);
+
+        desenharGraficoProducao();
+        
+        ctx.restore();
+    }
+    function desenharGraficoProducao()
+    {
+        ctx.save();
+
+        var raio = 96;
+        var xCentro = este.x + este.width - (raio + 15);
+        var yCentro = este.y + 230;
+
+        ctx.lineWidth = 4;
+        ctx.fillStyle = "gray";
+        ctx.beginPath();
+        ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fill();
+
+        var anguloInicial = - Math.PI / 2;
+        var anguloFinal = anguloInicial;
+
+        for (var i = 0; i < este.produtos.length; i++)
+        {
+            anguloInicial = anguloFinal;
+            anguloFinal = anguloInicial + 2 * Math.PI * (este.produtos[i].producao)/este.capacidadeProducao;
+
+            ctx.lineWidth = 2;
+            ctx.fillStyle = coresProducao[i];
+            ctx.beginPath();
+            ctx.moveTo(xCentro, yCentro);
+            ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+        }
         
         ctx.restore();
     }
@@ -518,6 +570,21 @@ function Garagem()
         ctx.restore();
     }
 
+    function transformarElementosCriando(criando)
+    {
+        este.btnCriarCancelar.text = criando?"Parar":"Criar!";
+        este.btnCriarCancelar.backgroundColor = criando?"#ba0000":"#4c98a5";
+        este.btnCriarCancelar.backgroundHoverColor = criando?"#e00000":"#5eb9c9";
+
+        var ultimoProduto = este.produtos[este.produtos.length - 1];
+        if (criando)
+        {
+            este.txtNome.text = ultimoProduto.nome;
+            este.txtPreco.text = ultimoProduto.preco;
+        }
+        este.txtNome.enabled = !criando;
+        este.txtPreco.enabled = !criando;
+    }
     function configurar()
     {
         este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,
@@ -562,7 +629,7 @@ function Garagem()
         este.btnGerenciarProducao.onclick = function() {opcaoAberta = 2; onclickBotoesMenu(este.btnGerenciarProducao)};
         este.btnGerenciarDinheiro.onclick = function() {opcaoAberta = 3; onclickBotoesMenu(este.btnGerenciarDinheiro)};
         este.btnVendas.onclick = function() {opcaoAberta = 4; onclickBotoesMenu(este.btnVendas)};
-
+        
         este.btnCriarCancelar = new BotaoRetangular(este.x + 720, este.y + 220, 130, 50, 10, 130, 50,
                                                     "#4c98a5", "#5eb9c9", null, null, "bold 19pt Century Gothic",
                                                     "white", "Criar!", false, false, false);
@@ -586,12 +653,7 @@ function Garagem()
                     fazerCompra("Desenv. do produto: " + nome, 2000, false, true, 1, function() {
                         este.produtos.push(new Produto(nome, preco));
 
-                        este.btnCriarCancelar.text = "Parar";
-                        este.btnCriarCancelar.backgroundColor = "#ba0000";
-                        este.btnCriarCancelar.backgroundHoverColor = "#e00000";
-
-                        este.txtNome.enabled = false;
-                        este.txtPreco.enabled = false;
+                        transformarElementosCriando(true);
                     })
                 }
                 catch (ex) {alerta(ex.message)}
@@ -601,17 +663,12 @@ function Garagem()
                 confirma("Você não terá o custo de volta se parar. Deseja continuar?", function() {
                     este.produtos.pop();
 
-                    este.btnCriarCancelar.text = "Criar!";
-                    este.btnCriarCancelar.backgroundColor = "#4c98a5";
-                    este.btnCriarCancelar.backgroundHoverColor = "#5eb9c9";
-    
-                    este.txtNome.enabled = true;
-                    este.txtPreco.enabled = true;
+                    transformarElementosCriando(false);
                 })
             }
         }
 
-        function transformarElementos(alterando)
+        function transformarElementosAlterando(alterando)
         {
             este.txtNome.enabled = !alterando;
             este.txtNome.text = alterando?produtoSendoAlterado.nome + "":"";
@@ -663,7 +720,7 @@ function Garagem()
                         produtoSendoAlterado.preco = preco;
                         produtoSendoAlterado = null;
 
-                        transformarElementos(false);
+                        transformarElementosAlterando(false);
                     })
                 }
                 catch (ex) {alerta(ex.message)}
@@ -684,12 +741,7 @@ function Garagem()
                         ultimoProduto.status--;
                         ultimoProduto.diasRestantes = 10;
 
-                        este.btnCriarCancelar.text = "Parar";
-                        este.btnCriarCancelar.backgroundColor = "#ba0000";
-                        este.btnCriarCancelar.backgroundHoverColor = "#e00000";
-
-                        este.txtNome.enabled = false;
-                        este.txtPreco.enabled = false;
+                        transformarElementosCriando(true);
 
                         este.desativar();
                         este.ativar();
@@ -699,7 +751,7 @@ function Garagem()
             else
             {
                 produtoSendoAlterado = null;
-                transformarElementos(false);
+                transformarElementosAlterando(false);
             }
         }
 
@@ -718,7 +770,7 @@ function Garagem()
                 else
                 {
                     produtoSendoAlterado = este.produtos[botao.numeroRegistro];
-                    transformarElementos(true);
+                    transformarElementosAlterando(true);
                 }
             }
 
@@ -775,6 +827,7 @@ function Produto(nome, preco)
     this.diasRestantes = 10;
     this.dataDeCriacao = "";
     this.qualidade = 0;
+    this.producao = 0;
 
     this.calcularQualidade = function() 
     {

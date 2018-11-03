@@ -124,6 +124,14 @@ function iniciar()
 		$("#meuCanvas").css("left", "calc((76vw - 1000px * " + fatorEscala + ") / 2)")
 		$("#meuCanvas").css("top", "calc((96vh - 700px * " + fatorEscala + ") / 2)");
 		$("#meuCanvas").css("transform", "scale(" + fatorEscala + ")")
+		$(".grafico").css("transform", "scale(" + fatorEscala + ")")
+		$(".grafico").css("left", "calc((76vw - 1000px * " + fatorEscala + ") / 2 + (154.4px * " +fatorEscala+ "))")
+		$(".grafico").css("top", "calc((96vh - 700px * " + fatorEscala + ") / 2 + (237.53px * " +fatorEscala+ "))");
+		if (fatorEscala < 1.2864)
+		{
+			$(".grafico").css('width', 'calc(10 * (680px(-3.88*'+fatorEscala+'+6)))')
+			$(".grafico").css('heigth', 'calc(10 * (375px(-3.88*'+fatorEscala+'+6)))')
+		}
 	}
 	redimensionarCanvas();
 	window.addEventListener("resize", redimensionarCanvas);

@@ -167,6 +167,10 @@ function Calendario()
     }
 
     this.fatorEconomia = function () { return f;};
+    this.setFator = function(fator) {
+        //var obj = JSON.parse(fator);
+        //f = obj.Fator;
+    };
 
     /**
      * Desenha a janela do Calendário no canvas

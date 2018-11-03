@@ -16,11 +16,11 @@ select * from Armazem
 
 sp_help ConstrucaoJogo
 
-create proc CriarJogo_sp
+alter proc CriarJogo_sp
 @nome varchar(30),
 @codUsuario int
 as
-insert into Jogo values (@nome, @codUsuario, 0, '01/01/01', -1, 0, 0, 0, 0)
+insert into Jogo values (@nome, @codUsuario, 0, '01/01/01', -1, 0, 0, 0, 0, '{"Saldo":[], "Economia":[], "LucroPrejuizo":[], "Perda":[], "Ganho":[], "Fator":[]}')
 
 alter proc RemoverJogo_sp
 @codUsuario int,

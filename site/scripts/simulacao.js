@@ -47,9 +47,9 @@ primeiroSaldo();
 function atualizarData()
 {
 	hoje = new Date();
-	if (hoje.getDate() > diaAtual.getDate())
+	if (hoje > diaAtual)
 	{
-		var diff = hoje.getDate() - diaAtual.getDate() - 1; 
+		var diff = Math.abs(Math.round((diaAtual.getTime() - new Date().getTime())/86400000))
 		diaAtual = hoje;
 		return diff;
 	}
@@ -65,7 +65,7 @@ function atualizarPontosSaldo()
 		x = x.substring(0, x.length-1);
 		var atual = new Date(x);
 		var y = 0;
-		for (var i = 0; i <= diff; i++)
+		for (var i = 0; i < diff; i++)
 		{
 			atual.setDate(atual.getDate() + 1);
 			y += (contas!=null?verificarPerdaGanho(atual):0)

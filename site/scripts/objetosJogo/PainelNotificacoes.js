@@ -2,7 +2,7 @@ function PainelNotificacoes()
 {
     this.x = canvas.width + 3;
     this.y = 162;
-    this.width = 260;
+    this.width = 355;
     this.height = canvas.height - this.y;
 
     var este = this;
@@ -152,12 +152,12 @@ function PainelNotificacoes()
             ctx.strokeRect(este.x, este.y + yNotificacao, this.width, this.height);
             
             ctx.fillStyle = "black";
-            ctx.font = "bold 17pt Century Gothic";
+            ctx.font = "bold 16pt Century Gothic";
             ctx.textAlign = "left";
             ctx.textBaseline = "alphabetic";
             ctx.fillText(this.titulo, este.x + 60, este.y + yNotificacao + 28, this.width - 65);
-            ctx.font = "13pt Century Gothic";
-            ctx.fillText(this.mensagem, este.x + 65, este.y + yNotificacao + 48, this.width - 70);
+            ctx.font = "12pt Century Gothic";
+            ctx.fillText(this.mensagem, este.x + 75, este.y + yNotificacao + 48, this.width - 80);
         
             ctx.textAlign = "right";
             ctx.textBaseline = "bottom";

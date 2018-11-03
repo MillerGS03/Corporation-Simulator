@@ -25,14 +25,14 @@ function Armazem()
         })
     }
 
-    this.qtdeMateriaPrima = 150;
     this.capacidade = 500;
     this.precoUpgrade = 2000;
-    this.produtos = new Array();
+
     this.getQtdeTotalDeProdutos = function() {
-        var total = 10;
-        for (var i = 0; i < this.produtos.length; i++)
-            total += this.produtos[i].qtdeEmEstoque;
+        var total = 0;
+        var produtos = this.getProdutos();
+        for (var i = 0; i < produtos.length; i++)
+            total += produtos[i].qtdeEmEstoque;
         return total;
     }
 
@@ -139,7 +139,8 @@ function Armazem()
 
         ctx.textAlign = "left";
         ctx.font = "18pt Century Gothic";
-        ctx.fillText(este.qtdeMateriaPrima + " " + (este.qtdeMateriaPrima == 1?"unidade.":"unidades."), este.x + 190, este.y + 180);
+        var qtdeMateriaPrima = este.getQtdeMateriaPrima();
+        ctx.fillText(qtdeMateriaPrima + " " + (qtdeMateriaPrima == 1?"unidade.":"unidades."), este.x + 190, este.y + 180);
 
         ctx.restore();
     }
@@ -161,13 +162,29 @@ function Armazem()
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 13pt Consolas";
+        ctx.font = "bold 12pt Consolas";
         
-        ctx.fillText(" Produto              Preço     Qtde", este.x + 15, este.y + este.height/3 + 133);
+        ctx.fillText(" Produto                 Preço     Qtde", este.x + 15, este.y + este.height/3 + 133);
 
-        ctx.fillStyle = "#d8d8d8";
-        for (var i = 0; i < 8; i += 2)
-            ctx.fillRect(este.x + 16, este.y + este.height/3 + 149 + 29 * i, este.width/2 - 32, 30);
+        var produtos = este.getProdutos();
+        for (var i = 0; i < 8; i ++)
+        {
+            if (i%2 == 0)
+            {
+                ctx.fillStyle = "#d8d8d8";
+                ctx.fillRect(este.x + 16, este.y + este.height/3 + 149 + 29 * i, este.width/2 - 32, 30);
+            }
+
+            if (i < produtos.length && produtos[i].status == 1)
+            {
+                ctx.fillStyle = "black";
+                var pad = "                                                          ";
+                ctx.fillText(" " + (produtos[i].nome + pad).substr(0, 20) + 
+                                   (pad + formatarDinheiro(produtos[i].preco)).substr(-11) +
+                                   (pad + produtos[i].qtdeEmEstoque).substr(-9),
+                             este.x + 15, este.y + este.height/3 + 163.5 + 29 * i);
+            }
+        }
 
         ctx.beginPath();
         ctx.moveTo(este.x + 215, este.y + este.height/3 + 118);
@@ -217,7 +234,7 @@ function Armazem()
 
 
         var anguloInicial = - Math.PI / 2;
-        var anguloFinal = 2 * Math.PI * este.qtdeMateriaPrima / este.capacidade + anguloInicial;
+        var anguloFinal = 2 * Math.PI * este.getQtdeMateriaPrima() / este.capacidade + anguloInicial;
 
         ctx.lineWidth = 2;
         ctx.fillStyle = "#664805";
@@ -277,17 +294,18 @@ function Armazem()
         ctx.textAlign = "left";
         ctx.font = "14.5pt Century Gothic";
 
-        ctx.fillText(`${este.qtdeMateriaPrima} u`, este.x + este.width/2 + 255, este.y + 370);
+        var qtdeMateriaPrima = este.getQtdeMateriaPrima();
+        ctx.fillText(`${qtdeMateriaPrima} u`, este.x + este.width/2 + 255, este.y + 370);
         ctx.fillText(`${este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 255, este.y + 400);
-        ctx.fillText(`${este.capacidade - este.qtdeMateriaPrima - este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 255, este.y + 430);
+        ctx.fillText(`${este.capacidade - qtdeMateriaPrima - este.getQtdeTotalDeProdutos()} u`, este.x + este.width/2 + 255, este.y + 430);
         ctx.fillText(`${este.capacidade} u`, este.x + este.width/2 + 255, este.y + 460);
 
         // Valores percentuais
 
         ctx.textAlign = "right";
-        ctx.fillText(`${Math.round(100* este.qtdeMateriaPrima / este.capacidade)}%`, este.x + este.width - 25, este.y + 370);
+        ctx.fillText(`${Math.round(100* qtdeMateriaPrima / este.capacidade)}%`, este.x + este.width - 25, este.y + 370);
         ctx.fillText(`${Math.round(100* este.getQtdeTotalDeProdutos() / este.capacidade)}%`, este.x + este.width - 25, este.y + 400);
-        ctx.fillText(`${Math.round(100* (este.capacidade - este.qtdeMateriaPrima - este.getQtdeTotalDeProdutos()) / este.capacidade)}%`, este.x + este.width - 25, este.y + 430);
+        ctx.fillText(`${Math.round(100* (este.capacidade - qtdeMateriaPrima - este.getQtdeTotalDeProdutos()) / este.capacidade)}%`, este.x + este.width - 25, este.y + 430);
         ctx.fillText(`100%`, este.x + este.width - 25, este.y + 460);
 
         // Observação
@@ -297,5 +315,15 @@ function Armazem()
         ctx.fillText("Observação: u = unidade(s)", este.x + este.width/2 + 20, este.y + este.height - 105);
 
         ctx.restore();
+    }
+    this.getProdutos = function()
+    {
+        var garagem = getJanelaConstrucao("Garagem");
+        return garagem?garagem.produtos:[];
+    }
+    this.getQtdeMateriaPrima = function()
+    {
+        var garagem = getJanelaConstrucao("Garagem");
+        return garagem?garagem.qtdeMateriaPrima:0;
     }
 }

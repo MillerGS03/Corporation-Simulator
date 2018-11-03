@@ -5,10 +5,13 @@ function Garagem()
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
-    this.produtos = new Array();
+    this.qtdeFuncionarios = 0;
 
+    this.produtos = new Array();
     this.qtdeMateriaPrima = 150;
     this.capacidade = 300;
+
+    var produtoSendoAlterado = null;
 
     this.getQtdeTotalDeProdutos = function() {
         var total = 10;
@@ -16,12 +19,9 @@ function Garagem()
             total += this.produtos[i].qtdeEmEstoque;
         return total;
     }
-    
-    this.produtos.push(new Produto("batata", 5));
-    this.produtos.push(new Produto("feijão", 10));
-    this.produtos.push(new Produto("arroz", 8.2));
-    this.produtos.push(new Produto("macarrão", 9));
-    this.produtos.push(new Produto("1234567890123456789", 100));
+
+    for (var i = 0; i < this.produtos.length; i++)
+        this.produtos[i].status = 1;
     
     var este = this;
 
@@ -60,12 +60,21 @@ function Garagem()
             case 0:
                 for (var i = 0; i < this.produtos.length; i++)
                 {
-                    this.botoesAumentarPreco[i].ativarInteracao();
-                    this.botoesDiminuirPreco[i].ativarInteracao();
-                    this.botoesExcluir[i].ativarInteracao();
+                    if (this.produtos[i].status == 1)
+                    {
+                        this.botoesAlterar[i].ativarInteracao();
+                        this.botoesExcluir[i].ativarInteracao();
+                    }
                 }
 
-                this.btnCriarCancelar.ativarInteracao();
+                var ultimoProduto = this.produtos[this.produtos.length - 1];
+                if (ultimoProduto != null && (produtoSendoAlterado || (ultimoProduto.status != 1 && ultimoProduto.diasRestantes == 0)))
+                {
+                    this.btnAprimorarCancelar.ativarInteracao();
+                    this.btnLancarAlterar.ativarInteracao();
+                }
+                else
+                    this.btnCriarCancelar.ativarInteracao();
                 this.txtNome.ativarInteracao();
                 this.txtPreco.ativarInteracao();
                 break;
@@ -88,11 +97,12 @@ function Garagem()
         this.btnGerenciarDinheiro.desativarInteracao();
         this.btnVendas.desativarInteracao();
         this.btnCriarCancelar.desativarInteracao();
+        this.btnAprimorarCancelar.desativarInteracao();
+        this.btnLancarAlterar.desativarInteracao();
 
         for (var i = 0; i < this.produtos.length; i++)
         {
-            this.botoesAumentarPreco[i].desativarInteracao();
-            this.botoesDiminuirPreco[i].desativarInteracao();
+            this.botoesAlterar[i].desativarInteracao();
             this.botoesExcluir[i].desativarInteracao();
         }
 
@@ -100,6 +110,26 @@ function Garagem()
         this.txtPreco.desativarInteracao();
 
         ativarBotoes();
+    }
+
+    this.passarDia = function()
+    {
+        var ultimoProduto = this.produtos[this.produtos.length - 1];
+        if (ultimoProduto != null &&ultimoProduto.status != 1 && ultimoProduto.diasRestantes > 0)
+        {
+            ultimoProduto.diasRestantes--;
+            if (ultimoProduto.diasRestantes == 0)
+            {
+                painelNotificacoes.adicionarNotificacao(ultimoProduto.nome + " terminado(a)!", "Aprimore ou lance ao mercado!",
+                                                        calendario.dia, calendario.mes, calendario.ano);
+                ultimoProduto.calcularQualidade();
+                if (this.aberto)
+                {
+                    this.desativar();
+                    this.ativar();
+                }
+            }
+        }
     }
 
     /**
@@ -212,20 +242,49 @@ function Garagem()
         este.txtNome.desenhar();
         este.txtPreco.desenhar();
 
-        ctx.textBaseline = "alphabetic";
-        ctx.textAlign = "top";
-        ctx.font = "bold 15pt Century Gothic";
-        ctx.fillText("Tempo de desenvolvimento: ", este.x + 600, este.y + 234);
-        ctx.fillText("Custo de desenvolvimento: ", este.x + 600, este.y + 266);
 
-        ctx.textAlign = "left";
-        ctx.font = "15pt Century Gothic";
-        ctx.fillText("10 dias", este.x + 600, este.y + 234);
+        var ultimoProduto = este.produtos[este.produtos.length - 1];
+        if (ultimoProduto == null || ultimoProduto.status == 1)
+        {
+            ctx.textBaseline = "alphabetic";
+            ctx.textAlign = "top";
+            ctx.font = "bold 15pt Century Gothic";
+            ctx.fillText("Tempo de desenvolvimento: ", este.x + 600, este.y + 234);
+            ctx.fillText("Custo de desenvolvimento: ", este.x + 600, este.y + 266);
 
-        ctx.fillStyle = "green";
-        ctx.fillText(formatarDinheiro(2000), este.x + 600, este.y + 266);
+            ctx.textAlign = "left";
+            ctx.font = "15pt Century Gothic";
+            ctx.fillText("10 dias", este.x + 600, este.y + 234);
 
-        este.btnCriarCancelar.desenhar();
+            ctx.fillStyle = "green";
+            ctx.fillText(formatarDinheiro(2000), este.x + 600, este.y + 266);
+        }
+        else
+        {
+            ctx.fillStyle = "#8e8e8e";
+            roundRect(este.x + 330, este.y + 230, 350, 30,{lowerRight:15, upperRight:15}, true, true);
+            ctx.fillStyle = ultimoProduto.diasRestantes==0?"#03c403":"green";
+            roundRect(este.x + 330, este.y + 230, (10 - ultimoProduto.diasRestantes)/10 * 350, 30, {lowerRight: 15, upperRight:15}, true, true);
+            
+            ctx.font = "bold 15.5pt Century Gothic";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "black";
+            if (ultimoProduto.diasRestantes == 0)
+                ctx.fillText("Desenvolvimento completo!", este.x + 505, este.y + 245);
+            else
+                ctx.fillText((10 - ultimoProduto.diasRestantes) + "/10 dias", este.x + 505, este.y + 245);
+
+            ctx.fillStyle = "silver";
+            ctx.fillRect(este.x + 305, este.y + 228, 24, 34);
+        }
+
+        if (ultimoProduto != null && (produtoSendoAlterado || (ultimoProduto.status != 1 && ultimoProduto.diasRestantes == 0)))
+        {
+            este.btnLancarAlterar.desenhar();
+            este.btnAprimorarCancelar.desenhar();
+        }
+        else
+            este.btnCriarCancelar.desenhar();
 
         // Tabela
 
@@ -244,22 +303,21 @@ function Garagem()
         
         ctx.fillText(" Produto              Preço             Atualizar", este.x + 300, este.y + 345);
 
-        for (var i = 0; i < 8; i ++)
+        for (var i = 0; i < 8; i++)
         {
-            if (i%2 == 1)
+            if (i%2 == 0)
             {
                 ctx.fillStyle = "#d8d8d8";
-                ctx.fillRect(este.x + 301, este.y + 359 + 29 * i, este.width - 322, 30);
+                ctx.fillRect(este.x + 301, este.y + 361 + 29 * i, este.width - 322, 30);
             }
 
-            if (i < este.produtos.length)
+            if (i < este.produtos.length && este.produtos[i].status == 1)
             {
                 ctx.fillStyle = "black";
                 var pad = "                                                          ";
                 ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + (pad + formatarDinheiro(este.produtos[i].preco)).substr(-10),
-                             este.x + 300, este.y + 373.5 + 29 * i);
-                este.botoesAumentarPreco[i].desenhar();
-                este.botoesDiminuirPreco[i].desenhar();
+                             este.x + 300, este.y + 375 + 29 * i);
+                este.botoesAlterar[i].desenhar();
                 este.botoesExcluir[i].desenhar();
             }
         }
@@ -362,13 +420,28 @@ function Garagem()
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 13pt Consolas";
+        ctx.font = "bold 12pt Consolas";
         
-        ctx.fillText(" Produto              Preço     Qtde", este.x + 395, este.y + este.height/3 + 143);
+        ctx.fillText(" Produto                 Preço     Qtde", este.x + 395, este.y + este.height/3 + 143);
 
-        ctx.fillStyle = "#d8d8d8";
-        for (var i = 0; i < 8; i += 2)
-            ctx.fillRect(este.x + 396, este.y + este.height/3 + 159 + 29 * i, este.width/2 - 82, 30);
+        for (var i = 0; i < 8; i++)
+        {
+            if (i % 2 == 0)
+            {
+                ctx.fillStyle = "#d8d8d8";
+                ctx.fillRect(este.x + 396, este.y + este.height/3 + 161 + 29 * i, este.width/2 - 82, 30);
+            }
+
+            if (i < este.produtos.length && este.produtos[i].status == 1)
+            {
+                ctx.fillStyle = "black";
+                var pad = "                                                          ";
+                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + 
+                                   (pad + formatarDinheiro(este.produtos[i].preco)).substr(-11) + 
+                                   (pad + este.produtos[i].qtdeEmEstoque).substr(-9),
+                                   este.x + 395, este.y + este.height/3 + 173.5 + 29 * i);
+            }
+        }
 
         ctx.beginPath();
         ctx.moveTo(este.x + 595, este.y + este.height/3 + 128);
@@ -491,21 +564,178 @@ function Garagem()
         este.btnVendas.onclick = function() {opcaoAberta = 4; onclickBotoesMenu(este.btnVendas)};
 
         este.btnCriarCancelar = new BotaoRetangular(este.x + 720, este.y + 220, 130, 50, 10, 130, 50,
-                                "#4c98a5", "#5eb9c9", null, null, "bold 19pt Century Gothic",
-                                "white", "Criar!", false, false, false);
+                                                    "#4c98a5", "#5eb9c9", null, null, "bold 19pt Century Gothic",
+                                                    "white", "Criar!", false, false, false);
+        este.btnCriarCancelar.onclick = function() {
+            if (este.btnCriarCancelar.text == "Criar!")
+            {
+                try
+                {
+                    var nome = este.txtNome.text;
+                    var preco = parseFloat(este.txtPreco.text);
 
-        este.botoesAumentarPreco = new Array();
-        este.botoesDiminuirPreco = new Array();
+                    if (nome.length < 2)
+                        throw new DOMException("Insira um nome com pelo menos 2 caracteres!", "Erro");
+                    if (!preco || preco == 0)
+                        throw new DOMException("Insira um preço não nulo!", "Erro");
+
+                    for (var i = 0; i < este.produtos.length; i++)
+                        if (este.produtos[i].nome.toUpperCase() == nome.toUpperCase())
+                            throw new DOMException("Nome de produto já existente!")
+
+                    fazerCompra("Desenv. do produto: " + nome, 2000, false, true, 1, function() {
+                        este.produtos.push(new Produto(nome, preco));
+
+                        este.btnCriarCancelar.text = "Parar";
+                        este.btnCriarCancelar.backgroundColor = "#ba0000";
+                        este.btnCriarCancelar.backgroundHoverColor = "#e00000";
+
+                        este.txtNome.enabled = false;
+                        este.txtPreco.enabled = false;
+                    })
+                }
+                catch (ex) {alerta(ex.message)}
+            }
+            else
+            {
+                confirma("Você não terá o custo de volta se parar. Deseja continuar?", function() {
+                    este.produtos.pop();
+
+                    este.btnCriarCancelar.text = "Criar!";
+                    este.btnCriarCancelar.backgroundColor = "#4c98a5";
+                    este.btnCriarCancelar.backgroundHoverColor = "#5eb9c9";
+    
+                    este.txtNome.enabled = true;
+                    este.txtPreco.enabled = true;
+                })
+            }
+        }
+
+        function transformarElementos(alterando)
+        {
+            este.txtNome.enabled = !alterando;
+            este.txtNome.text = alterando?produtoSendoAlterado.nome + "":"";
+            este.txtPreco.text = alterando?produtoSendoAlterado.preco + "":"";
+            este.txtPreco.setFocused(alterando);
+            este.btnLancarAlterar.text = alterando?"Alterar":"Lançar";
+            este.btnAprimorarCancelar.text = alterando?"Cancelar":"Aprimorar";
+            este.btnAprimorarCancelar.backgroundColor = alterando?"#ba0000":"#4c98a5";
+            este.btnAprimorarCancelar.backgroundHoverColor = alterando?"#e00000":"#5eb9c9";
+
+            este.desativar();
+            este.ativar();
+        }
+
+        este.btnLancarAlterar = new BotaoRetangular(este.x + 715, este.y + 201, 140, 40, 10, 140, 40,
+                                             "#4c98a5", "#5eb9c9", null, null, "bold 18pt Century Gothic",
+                                             "white", "Lançar!", false, false, false);
+        este.btnLancarAlterar.onclick = function() {
+            if (este.btnLancarAlterar.text == "Lançar!")
+            {
+                confirma('Deseja realmente lançar o produto "' + este.txtNome.text + '" ao mercado?', function() {
+                    var ultimoProduto = este.produtos[este.produtos.length - 1];
+                    ultimoProduto.status = 1;
+                    ultimoProduto.dataDeCriacao = formatarData(calendario.dia, calendario.mes, calendario.ano);
+
+                    este.txtNome.clear();
+                    este.txtPreco.clear();
+                    este.txtNome.enabled = true;
+                    este.txtPreco.enabled = true;
+                    
+                    este.btnCriarCancelar.text = "Criar!";
+                    este.btnCriarCancelar.backgroundColor = "#4c98a5";
+                    este.btnCriarCancelar.backgroundHoverColor = "#5eb9c9";
+
+                    este.desativar();
+                    este.ativar();
+                });
+            }
+            else
+            {
+                try
+                {
+                    var preco = parseFloat(este.txtPreco.text);
+
+                    if (!preco || preco == 0)
+                        throw new DOMException("Insira um preço não nulo!", "Erro");
+
+                    confirma("Deseja realmente alterar o produto?", function() {
+                        produtoSendoAlterado.preco = preco;
+                        produtoSendoAlterado = null;
+
+                        transformarElementos(false);
+                    })
+                }
+                catch (ex) {alerta(ex.message)}
+            }
+        }
+        este.btnAprimorarCancelar = new BotaoRetangular(este.x + 715, este.y + 249, 140, 40, 10, 140, 40,
+                                                "#4c98a5", "#5eb9c9", null, null, "bold 18pt Century Gothic",
+                                                "white", "Aprimorar", false, false, false);
+        este.btnAprimorarCancelar.onclick = function() {
+            if (este.btnAprimorarCancelar.text == "Aprimorar")
+            {
+                var ultimoProduto = este.produtos[este.produtos.length - 1];
+                if (ultimoProduto.status == -2)
+                    alerta("Não é possível aprimorar mais.");
+                else
+                {
+                    fazerCompra('Aprimoramento de "' + ultimoProduto.nome + '"', (2 - ultimoProduto.status) * 2000, false, true, 1, function() {
+                        ultimoProduto.status--;
+                        ultimoProduto.diasRestantes = 10;
+
+                        este.btnCriarCancelar.text = "Parar";
+                        este.btnCriarCancelar.backgroundColor = "#ba0000";
+                        este.btnCriarCancelar.backgroundHoverColor = "#e00000";
+
+                        este.txtNome.enabled = false;
+                        este.txtPreco.enabled = false;
+
+                        este.desativar();
+                        este.ativar();
+                    })
+                }
+            }
+            else
+            {
+                produtoSendoAlterado = null;
+                transformarElementos(false);
+            }
+        }
+
+        este.botoesAlterar = new Array();
         este.botoesExcluir = new Array();
 
         for (var i = 0; i < 8; i++)
         {
-            este.botoesDiminuirPreco.push(new BotaoRetangular(este.x + 610, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
-                                          null, null, "bold 12pt Century Gothic", "black", "- Preço", false, false, false));
-            este.botoesAumentarPreco.push(new BotaoRetangular(este.x + 699, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
-                                          null, null, "bold 12pt Century Gothic", "black", "+ Preço", false, false, false));
-            este.botoesExcluir.push(new BotaoRetangular(este.x + 788, este.y + 362 + 29 * i, 84, 24, 3, 84, 24, "#c3c3c3", "#dadada",
+            este.botoesAlterar.push(new BotaoRetangular(este.x + 611, este.y + 364 + 29 * i, 127, 24, 3, 127, 24, "#c3c3c3", "#dadada",
+                                          null, null, "bold 12pt Century Gothic", "black", "Alterar Preço", false, false, false));
+            
+            este.botoesAlterar[i].numeroRegistro = i;
+            este.botoesAlterar[i].onclick = function(botao) {
+                if (este.produtos[este.produtos.length - 1].status != 1)
+                    alerta("Não é possível alterar um produto desenvolvendo outro.");
+                else
+                {
+                    produtoSendoAlterado = este.produtos[botao.numeroRegistro];
+                    transformarElementos(true);
+                }
+            }
+
+            este.botoesExcluir.push(new BotaoRetangular(este.x + 746, este.y + 364 + 29 * i, 127, 24, 3, 127, 24, "#c3c3c3", "#dadada",
                                     null, null, "bold 12pt Century Gothic", "black", "Excluir", false, false, false));
+            este.botoesExcluir[i].numeroRegistro = i;
+            este.botoesExcluir[i].onclick = function(botao) {
+                var produto = este.produtos[botao.numeroRegistro];
+                if (produtoSendoAlterado == produto)
+                    alerta("Cancele a alteração do produto antes de excluí-lo!");
+                else
+                    confirma('Deseja realmente tirar o produto "' + produto.nome + '" do mercado?', function() {
+                        este.desativar();
+                        este.produtos.splice(botao.numeroRegistro, 1);
+                        este.ativar();
+                    })
+            }
         }
 
         este.txtNome = new TextBox({
@@ -523,7 +753,7 @@ function Garagem()
             placeholder: "Preço",
             font: "15pt Century Gothic",
             onlynumbers: true,
-            maxlength: 9
+            maxlength: 7
         })
     }
 }
@@ -532,6 +762,27 @@ function Produto(nome, preco)
     this.nome = nome;
     this.preco = preco;
     this.qtdeEmEstoque = 0;
+
+    /**
+     *  1 - Lançado
+     *  0 - Em desenvolvimento
+     * -1 - Primeiro aprimoramento
+     * -2 - Segundo aprimoramento
+     */
+    this.status = 0;
+
+    // Dias que ainda faltam para acabar o desenvolvimento.
+    this.diasRestantes = 10;
     this.dataDeCriacao = "";
     this.qualidade = 0;
+
+    this.calcularQualidade = function() 
+    {
+        var qtosFuncionarios = getJanelaConstrucao("R. Humanos")?getJanelaConstrucao("R. Humanos").funcionariosDesenvolvimento + 1:1;
+    
+        if (this.status == 0)
+            this.qualidade = (Math.random() * 2 + 1) * Math.log2(qtosFuncionarios + 1);
+        else
+            this.qualidade += Math.random() * 2 * Math.log2(qtosFuncionarios + 1);
+    }
 }

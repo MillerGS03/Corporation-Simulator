@@ -143,7 +143,7 @@ function BotaoCircular(x, y, r, rHover, bgColor, bgHoverColor, bgImage, bgHoverI
 				tocarSom(este.som);
 			else
 				tocarSom("sons/click.ogg");
-			este.onclick(e);
+			este.onclick(este);
 			canvas.dispatchEvent(new Event("mousemove"));
 			BotaoCircular.cooldown = true;
 			setTimeout(function() {BotaoCircular.cooldown = false}, 10);

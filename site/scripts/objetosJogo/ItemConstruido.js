@@ -1,12 +1,5 @@
 // Informações estáticas
-ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100, infoMenu: MenuItemConstruido.armazem,
-                          getInsercao: function(armazem) {
-                              return `insert into Armazem values(${jogo.CodJogo}, ${armazem.capacidade}, ${armazem.precoUpgrade}, ${armazem.qtdeMateriaPrima})`
-                          },
-                          getAtualizacao: function(armazem) {
-                              return `update Armazem set Capacidade = ${armazem.capacidade}, PrecoUpgrade = ${armazem.precoUpgrade}, MateriaPrima = ${armazem.qtdeMateriaPrima}
-                                      where CodJogo = ${jogo.CodJogo}`;
-                          }};
+ItemConstruido.armazem = {nome: "Armazém", preco: ItemAVender.armazem.preco, imagem: imgArmazem, width: 100, height: 100, infoMenu: MenuItemConstruido.armazem};
 ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, imagem: imgGaragem, width: 130, height: 130, infoMenu: MenuItemConstruido.garagem};
 ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140, infoMenu: MenuItemConstruido.operacional};
 ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130, infoMenu: MenuItemConstruido.recursosHumanos};
@@ -28,9 +21,6 @@ function ItemConstruido(informacoes, isPrimeiro)
     this.nome = informacoes.nome;
     this.imagem = informacoes.imagem;
     this.preco = informacoes.preco;
-
-    this.getInsercao = function() {return informacoes.getInsercao(este.menu.janela);};
-    this.getAtualizacao = function() {return informacoes.getAtualizacao(este.menu.janela)};
 
     this.sustentador = null;
 

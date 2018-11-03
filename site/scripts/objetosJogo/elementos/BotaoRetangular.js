@@ -149,7 +149,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 				tocarSom(este.som);
 			else
 				tocarSom("sons/click.ogg");
-			este.onclick(e);
+			este.onclick(este);
 			canvas.dispatchEvent(new Event("mousemove"));
 			BotaoRetangular.cooldown = true;
 			setTimeout(function() {BotaoRetangular.cooldown = false}, 10);

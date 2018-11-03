@@ -13,7 +13,7 @@ $("#selectContas").change(function(){
 });
 $("#btnExcluirConta").on('click', function(){
     if (document.getElementById('selectContas').selectedIndex > 0)
-        confirma('excluir essa conta', function(){
+        confirma('Deseja realmente excluir essa conta?', function(){
             $.ajax({
                 url: 'http://' + local + ':3000/excluirConta/' + contas[document.getElementById('selectContas').selectedIndex - 1].CodPatrimonio,
                 type: 'DELETE'

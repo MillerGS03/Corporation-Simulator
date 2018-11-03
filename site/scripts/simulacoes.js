@@ -165,7 +165,7 @@ function iniciarSelecionar()
     function removerOpcao()
     {
         var nomeSimulacao =document.getElementById('select').options[document.getElementById('select').selectedIndex].value;
-        confirma('excluir essa simulação', function(){
+        confirma('Deseja realmente excluir essa simulação?', function(){
             $.ajax({
                 url: 'http://' + local + ':3000/simulacoes/' + `${user.CodUsuario}/${nomeSimulacao}`,
                 type: 'DELETE',

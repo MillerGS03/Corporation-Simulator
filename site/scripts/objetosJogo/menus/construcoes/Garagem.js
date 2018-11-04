@@ -141,11 +141,11 @@ function Garagem()
             }
         }
 
-        if (este.qtdeMateriaPrima > 0)
+        for (var i = 0; i < este.produtos.length; i++)
         {
-            for (var i = 0; i < este.produtos.length; i++)
+            var produtoAtual = este.produtos[i];
+            if (este.qtdeMateriaPrima > 0)
             {
-                var produtoAtual = este.produtos[i];
                 if (este.qtdeMateriaPrima > produtoAtual.producao)
                 {
                     produtoAtual.qtdeEmEstoque += produtoAtual.producao;
@@ -157,9 +157,21 @@ function Garagem()
                     este.qtdeMateriaPrima = 0;
                     painelNotificacoes.adicionarNotificacao("Matéria-prima acabou!", "Obtenha mais para continuar a produzir!",
                                                             calendario.dia, calendario.mes, calendario.ano);
-                    break;
                 }
             }
+            if (produtoAtual.qtdeEmEstoque > produtoAtual.calcularVendasDiarias())
+            {
+                produtoAtual.totalDeVendas += produtoAtual.vendasDiarias;
+                produtoAtual.qtdeEmEstoque -= produtoAtual.vendasDiarias;
+                barra.dinheiro += produtoAtual.vendasDiarias * produtoAtual.preco;
+            }
+            else if (produtoAtual.qtdeEmEstoque > 0)
+            {
+                produtoAtual.totalDeVendas += produtoAtual.qtdeEmEstoque;
+                barra.dinheiro += produtoAtual.qtdeEmEstoque;
+                produtoAtual.qtdeEmEstoque = 0;
+            }
+
         }
     }
 
@@ -698,8 +710,80 @@ function Garagem()
     {
         ctx.save();
         
+        desenharTabelaVendas();
         
+        ctx.restore();
+    }
+
+    var xTabelaVendas = este.x + 290;
+    var yTabelaVendas = este.y + 330;
+
+    function desenharTabelaVendas()
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+
+        var widthTabela = este.width - (xTabelaVendas + 10 - este.x);
+        var heightTabela = 272;
+
+        ctx.fillStyle = "silver";
+        ctx.fillRect(xTabelaVendas, yTabelaVendas, widthTabela, heightTabela);
+        ctx.strokeRect(xTabelaVendas, yTabelaVendas, widthTabela, heightTabela);
+
+        ctx.fillStyle = "gray";
+        ctx.fillRect(xTabelaVendas, yTabelaVendas, widthTabela, 30);
+        ctx.strokeRect(xTabelaVendas, yTabelaVendas, widthTabela, 30);
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 13pt Consolas";
         
+        ctx.fillText(" Legenda          Produto          Renda Diária  Vendas Totais", xTabelaVendas, yTabelaVendas + 15);
+
+        for (var i = 0; i < 8; i++)
+        {
+            if (i%2 == 0) // Faixas mais claras
+            {
+                ctx.fillStyle = "#d8d8d8";
+                ctx.fillRect(xTabelaVendas + 1, yTabelaVendas + 31 + 30 * i, widthTabela - 2, 31);
+            }
+
+            ctx.fillStyle = coresProducao[i];
+            ctx.fillRect(xTabelaVendas + 6, yTabelaVendas + 36 + 30 * i, 80, 20);
+            ctx.strokeRect(xTabelaVendas + 6, yTabelaVendas + 36 + 30 * i, 80, 20);
+
+            ctx.fillStyle = "black";
+            if (i < este.produtos.length && este.produtos[i].status == 1)
+            {
+                var pad = "                                                          ";
+                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20), xTabelaVendas + 92, yTabelaVendas + 46 + 30 * i);
+                ctx.textAlign = "right";
+                ctx.fillText(formatarDinheiro(este.produtos[i].vendasDiarias * este.produtos[i].preco), xTabelaVendas + 453, yTabelaVendas + 46 + 30 * i);
+                ctx.fillText(este.produtos[i].totalDeVendas, xTabelaVendas + widthTabela - 4, yTabelaVendas + 46 + 30 * i)
+            }
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(xTabelaVendas + 92, yTabelaVendas + 30);
+        ctx.lineTo(xTabelaVendas + 92, yTabelaVendas + heightTabela);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xTabelaVendas + 322, yTabelaVendas + 30);
+        ctx.lineTo(xTabelaVendas + 322, yTabelaVendas + heightTabela);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xTabelaVendas + 457, yTabelaVendas + 30);
+        ctx.lineTo(xTabelaVendas + 457, yTabelaVendas + heightTabela);
+        ctx.closePath();
+        ctx.stroke();
+
         ctx.restore();
     }
 
@@ -1001,6 +1085,8 @@ function Produto(nome, preco)
     this.dataDeCriacao = "";
     this.qualidade = 0;
     this.producao = 0;
+    this.totalDeVendas = 0;
+    this.vendasDiarias = 0;
 
     this.calcularQualidade = function() 
     {
@@ -1010,5 +1096,21 @@ function Produto(nome, preco)
             this.qualidade = (Math.random() * 2 + 1) * Math.log2(qtosFuncionarios + 1);
         else
             this.qualidade += Math.random() * 2 * Math.log2(qtosFuncionarios + 1);
+
+        return this.qualidade;
+    }
+    this.calcularVendasDiarias = function()
+    {
+        var dataDesformatada = desformatarData(this.dataDeCriacao);
+        var objDataCriacao = new Date(dataDesformatada.ano, dataDesformatada.mes, dataDesformatada.dia);
+        var objDataAtual = new Date(calendario.ano, calendario.mes, calendario.dia);
+        var diferencaDeDias = (objDataAtual.getTime() - objDataCriacao.getTime()) / (1000 * 60 * 60 * 24);
+        var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3.4);
+        var pesoPreco = Math.pow(this.preco, calendario.fatorEconomia() / 5 + 1);
+        this.vendasDiarias = Math.floor(1500 * this.qualidade * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
+        if (this.vendasDiarias > this.qtdeEmEstoque)
+            this.vendasDiarias = this.qtdeEmEstoque;
+
+        return this.vendasDiarias;
     }
 }

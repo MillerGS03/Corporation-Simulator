@@ -423,6 +423,15 @@ function formatarData(dia, mes, ano)
 		data += "/" + (ano < 10?"0" + ano:ano);
 	return data;
 }
+function desformatarData(data)
+{
+	var dataDesformatada = {
+		dia: parseInt(data.substr(0, 2)),
+		mes: parseInt(data.substr(3, 2)),
+		ano: parseInt(data.substr(6))
+	}
+	return dataDesformatada;
+}
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {
 	var cornerRadius = { upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0 };

@@ -553,8 +553,6 @@ function Garagem()
 
         ctx.restore();
     }
-
-    var coresProducao = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5", "gray"];
     function desenharGerenciarProducao()
     {
         ctx.save();
@@ -571,14 +569,43 @@ function Garagem()
 
         ctx.textAlign = "center";
         ctx.font = "bold 15pt Century Gothic";
-        ctx.fillText("Compre o operacional para aumentar", este.x + 510, este.y + 165);
-        ctx.fillText("a capacidade de produção!", este.x + 510, este.y + 195);
+        ctx.fillText("Compre o operacional para aumentar", este.x + 495, este.y + 240);
+        ctx.fillText("a capacidade de produção!", este.x + 495, este.y + 270);
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "right";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 17pt Century Gothic";
+        ctx.fillText("Status da produção: ", este.x + este.width/2 + 125, este.y + 125);
+
+        var produtosAtivos = 0;
+        for (var i = 0; i < este.produtos.length; i++)
+            if (este.produtos[i].producao > 0)
+                produtosAtivos++;
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = produtosAtivos == 0 || este.qtdeMateriaPrima==0?"red":"green";
+        ctx.fillText(produtosAtivos == 0 || este.qtdeMateriaPrima==0?"parada.":"ativa.", este.x + este.width/2 + 125, este.y + 125);
+
+        ctx.textAlign = "center";
+        ctx.font = "italic 16pt Century Gothic";
+        var texto;
+        if (produtosAtivos > 0)
+            texto = este.qtdeMateriaPrima==0?"Sem matéria-prima.":`${este.qtdeMateriaPrima}u de matéria-prima disponível`;
+        else if (este.produtos.length == 0)
+            texto = "Crie produtos para começar!";
+        else
+            texto = este.produtos.length - (este.produtos[este.produtos.length - 1].status!=1?1:0) > 1?"Inicie a produção dos itens abaixo!":"Inicie a produção do item abaixo!";
+            
+        ctx.fillText(texto, este.x + este.width/2 + 60, este.y + 150);
 
         desenharGraficoProducao();
         desenharTabelaProducao();
         
         ctx.restore();
     }
+
+    var coresGrafico = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5", "gray"];
     function desenharGraficoProducao()
     {
         ctx.save();
@@ -586,33 +613,13 @@ function Garagem()
         var raio = 88;
         var xCentro = este.x + este.width - (raio + 15);
         var yCentro = este.y + 204;
-
-        ctx.lineWidth = 4;
-        ctx.fillStyle = "gray";
-        ctx.beginPath();
-        ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.fill();
-
-        var anguloInicial = - Math.PI / 2;
-        var anguloFinal = anguloInicial;
-
+        var valores = new Array();
         for (var i = 0; i < este.produtos.length; i++)
-        {
-            if (este.produtos[i].producao > 0)
-            {
-                anguloInicial = anguloFinal;
-                anguloFinal = anguloInicial + 2 * Math.PI * (este.produtos[i].producao)/este.capacidadeProducao;
+            valores.push(este.produtos[i].producao);
 
-                ctx.lineWidth = 2;
-                ctx.fillStyle = coresProducao[i];
-                ctx.beginPath();
-                ctx.moveTo(xCentro, yCentro);
-                ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
-                ctx.closePath();
-                ctx.fill();
-            }
-        }
+        var total = este.capacidadeProducao;
+
+        desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
         
         ctx.restore();
     }
@@ -659,7 +666,7 @@ function Garagem()
                 ctx.fillRect(xTabelaProducao + 1, yTabelaProducao + 31 + 30 * i, widthTabela - 2, 31);
             }
 
-            ctx.fillStyle = coresProducao[i];
+            ctx.fillStyle = coresGrafico[i];
             ctx.fillRect(xTabelaProducao + 6, yTabelaProducao + 36 + 30 * i, 80, 20);
             ctx.strokeRect(xTabelaProducao + 6, yTabelaProducao + 36 + 30 * i, 80, 20);
 
@@ -711,6 +718,9 @@ function Garagem()
         ctx.save();
         
         desenharTabelaVendas();
+        desenharGraficoRendaDiariaVendas();
+        desenharGraficoVendasTotais();
+        desenharInformacoesVendas();
         
         ctx.restore();
     }
@@ -751,7 +761,7 @@ function Garagem()
                 ctx.fillRect(xTabelaVendas + 1, yTabelaVendas + 31 + 30 * i, widthTabela - 2, 31);
             }
 
-            ctx.fillStyle = coresProducao[i];
+            ctx.fillStyle = coresGrafico[i];
             ctx.fillRect(xTabelaVendas + 6, yTabelaVendas + 36 + 30 * i, 80, 20);
             ctx.strokeRect(xTabelaVendas + 6, yTabelaVendas + 36 + 30 * i, 80, 20);
 
@@ -759,6 +769,7 @@ function Garagem()
             if (i < este.produtos.length && este.produtos[i].status == 1)
             {
                 var pad = "                                                          ";
+                ctx.textAlign = "left";
                 ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20), xTabelaVendas + 92, yTabelaVendas + 46 + 30 * i);
                 ctx.textAlign = "right";
                 ctx.fillText(formatarDinheiro(este.produtos[i].vendasDiarias * este.produtos[i].preco), xTabelaVendas + 453, yTabelaVendas + 46 + 30 * i);
@@ -783,6 +794,88 @@ function Garagem()
         ctx.lineTo(xTabelaVendas + 457, yTabelaVendas + heightTabela);
         ctx.closePath();
         ctx.stroke();
+
+        ctx.restore();
+    }
+    function desenharGraficoRendaDiariaVendas()
+    {
+        ctx.save();
+
+        var raio = 70;
+        var xCentro = este.x + raio + 310;
+        var yCentro = este.y + raio + 165;
+        var valores = new Array();
+        var total = 0;
+
+        for (var i = 0; i < este.produtos.length; i++)
+        {
+            var rendaDiaria = este.produtos[i].vendasDiarias * este.produtos[i].preco;
+            valores.push(rendaDiaria);
+            total += rendaDiaria;
+        }
+
+        desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
+
+        ctx.textBaseline = "bottom";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 19pt Century Gothic";
+
+        ctx.fillText("Renda Diária", xCentro, yCentro - raio - 10);
+        
+        ctx.restore();
+    }
+    function desenharGraficoVendasTotais()
+    {
+        ctx.save();
+
+        var raio = 70;
+        var xCentro = este.x + este.width - (raio + 30);
+        var yCentro = este.y + raio + 165;
+        var valores = new Array();
+        var total = 0;
+
+        for (var i = 0; i < este.produtos.length; i++)
+        {
+            var vendasTotais = este.produtos[i].totalDeVendas;
+            valores.push(vendasTotais);
+            total += vendasTotais;
+        }
+        
+        desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
+
+        ctx.textBaseline = "bottom";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 19pt Century Gothic";
+
+        ctx.fillText("Vendas Totais", xCentro, yCentro - raio - 10);
+        
+        ctx.restore();
+    }
+    function desenharInformacoesVendas()
+    {
+        ctx.save();
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "right";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 19pt Century Gothic";
+        ctx.fillText("Status das vendas: ", este.x + este.width/2 + 200, este.y + 70);
+    
+        var produtosComEstoque = 0;
+        for (var i = 0; i < este.produtos.length; i++)
+            if (este.produtos[i].rendaDiaria > 0 || este.produtos[i].qtdeEmEstoque > 0)
+                produtosComEstoque++;
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = produtosComEstoque==0?"red":"green";
+        ctx.fillText(produtosComEstoque==0?"paradas.":"ativas.", este.x + este.width/2 + 200, este.y + 70);
+
+        ctx.textAlign = "center";
+        ctx.font = "italic 16pt Century Gothic";
+        var texto = produtosComEstoque==0?"Nenhum produto com estoque.":`${produtosComEstoque}/${este.produtos.length - (este.produtos[este.produtos.length - 1].status!=1?1:0)} produto(s) com estoque`;
+        ctx.fillText(texto, este.x + este.width/2 + 140, este.y + 95);
 
         ctx.restore();
     }
@@ -1013,7 +1106,7 @@ function Garagem()
                         {
                             este.txtsProducao[i].text = este.produtos[i].producao + "";
                             var operacional = getJanelaConstrucao("Operacional");
-                            if (operacional != null)
+                            if (operacional)
                                 operacional.txtsProducao[i].text = este.produtos[i].producao + "";
                         }
 
@@ -1105,9 +1198,9 @@ function Produto(nome, preco)
         var objDataCriacao = new Date(dataDesformatada.ano, dataDesformatada.mes, dataDesformatada.dia);
         var objDataAtual = new Date(calendario.ano, calendario.mes, calendario.dia);
         var diferencaDeDias = (objDataAtual.getTime() - objDataCriacao.getTime()) / (1000 * 60 * 60 * 24);
-        var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3.4);
-        var pesoPreco = Math.pow(this.preco, calendario.fatorEconomia() / 5 + 1);
-        this.vendasDiarias = Math.floor(1500 * this.qualidade * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
+        var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3);
+        var pesoPreco = Math.pow(this.preco, 2 - (calendario.fatorEconomia() / 8 ));
+        this.vendasDiarias = Math.floor(500 * this.qualidade * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
         if (this.vendasDiarias > this.qtdeEmEstoque)
             this.vendasDiarias = this.qtdeEmEstoque;
 

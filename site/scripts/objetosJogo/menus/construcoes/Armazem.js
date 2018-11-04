@@ -224,35 +224,12 @@ function Armazem()
         var raio = 96;
         var xCentro = este.x + 3 * este.width/4;
         var yCentro = este.y + 230;
+        var valores = [este.getQtdeMateriaPrima(), este.getQtdeTotalDeProdutos()];
+        var total = este.capacidade;
+        var cores = ["#664805", "#ffb200"];
+        var corBase = "#00ff00";
 
-        ctx.lineWidth = 4;
-        ctx.fillStyle = "#00ff00";
-        ctx.beginPath();
-        ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.fill();
-
-
-        var anguloInicial = - Math.PI / 2;
-        var anguloFinal = 2 * Math.PI * este.getQtdeMateriaPrima() / este.capacidade + anguloInicial;
-
-        ctx.lineWidth = 2;
-        ctx.fillStyle = "#664805";
-        ctx.beginPath();
-        ctx.moveTo(xCentro, yCentro);
-        ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
-        ctx.closePath();
-        ctx.fill();
-
-        anguloInicial = anguloFinal;
-        anguloFinal = 2 * Math.PI * este.getQtdeTotalDeProdutos() / este.capacidade + anguloInicial;
-
-        ctx.fillStyle = "#ffb200";
-        ctx.beginPath();
-        ctx.moveTo(xCentro, yCentro);
-        ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
-        ctx.closePath();
-        ctx.fill();
+        desenharGraficoPizza(raio, xCentro, yCentro, valores, total, cores, corBase);
         
         ctx.restore();
     }

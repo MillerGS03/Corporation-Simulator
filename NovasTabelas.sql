@@ -16,6 +16,7 @@ alter proc RemoverJogo_sp
 as
 delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome=@nomeJogo)
 delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
 
 create table Produto (
@@ -28,4 +29,23 @@ QuantidadeEmEstoque int not null,
 DataDeCriacao varchar(10) not null,
 Status int not null,
 Qualidade float not null,
-DiasRestantes int not null)
+DiasRestantes int not null,
+TotalDeVendas int not null)
+
+alter proc ColocarProduto_sp
+@CodJogo int,
+@Nome varchar(20),
+@Preco money,
+@QuantidadeEmEstoque int,
+@DataDeCriacao varchar(10),
+@Status int,
+@Qualidade float,
+@DiasRestantes int,
+@Producao int,
+@TotalDeVendas int
+as
+if (select count(Nome) from Produto where Nome=@Nome and CodJogo=@CodJogo) = 0
+    insert into Produto values (@CodJogo, @Nome, @Preco, @QuantidadeEmEstoque, @DataDeCriacao, @Status, @Qualidade, @DiasRestantes, @Producao, @TotalDeVendas)
+else
+    update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas
+                       where CodJogo=@CodJogo and Nome=@Nome

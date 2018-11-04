@@ -383,17 +383,16 @@ function Garagem()
             }
         }
 
-        ctx.beginPath();
-        ctx.moveTo(xTabela + 200, yTabela + 30);
-        ctx.lineTo(xTabela + 200, yTabela + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        var xLinhas = [200, 305];
 
-        ctx.beginPath();
-        ctx.moveTo(xTabela + 305, yTabela + 30);
-        ctx.lineTo(xTabela + 305, yTabela + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        for (var i = 0; i < xLinhas.length; i++)
+        {
+            ctx.beginPath();
+            ctx.moveTo(xTabela + xLinhas[i], yTabela + 30);
+            ctx.lineTo(xTabela + xLinhas[i], yTabela + heightTabela);
+            ctx.closePath();
+            ctx.stroke();
+        }
 
         ctx.restore();
     }
@@ -467,30 +466,35 @@ function Garagem()
     {
         ctx.save();
 
+        var xTabela = este.x + 395;
+        var yTabela = este.y + este.height/3 + 128;
+        var widthTabela = este.width/2 - 80;
+        var heightTabela = 263;
+
         ctx.fillStyle = "silver";
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
 
-        ctx.fillRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 263);
-        ctx.strokeRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 263);
+        ctx.fillRect(xTabela, yTabela, widthTabela, heightTabela);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, heightTabela);
 
         ctx.fillStyle = "gray";
-        ctx.fillRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 30);
-        ctx.strokeRect(este.x + 395, este.y + este.height/3 + 128, este.width/2 - 80, 30);
+        ctx.fillRect(xTabela, yTabela, widthTabela, 30);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, 30);
 
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 12pt Consolas";
         
-        ctx.fillText(" Produto                 Preço     Qtde", este.x + 395, este.y + este.height/3 + 143);
+        ctx.fillText(" Produto                 Preço     Qtde", xTabela, yTabela + 15);
 
         for (var i = 0; i < 8; i++)
         {
             if (i % 2 == 0)
             {
                 ctx.fillStyle = "#d8d8d8";
-                ctx.fillRect(este.x + 396, este.y + este.height/3 + 161 + 29 * i, este.width/2 - 82, 30);
+                ctx.fillRect(xTabela + 1, yTabela + 33 + 29 * i, widthTabela - 2, 30);
             }
 
             if (i < este.produtos.length && este.produtos[i].status == 1)
@@ -500,21 +504,20 @@ function Garagem()
                 ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + 
                                    (pad + formatarDinheiro(este.produtos[i].preco)).substr(-11) + 
                                    (pad + este.produtos[i].qtdeEmEstoque).substr(-9),
-                                   este.x + 395, este.y + este.height/3 + 173.5 + 29 * i);
+                                   xTabela, yTabela + 45.5 + 29 * i);
             }
         }
 
-        ctx.beginPath();
-        ctx.moveTo(este.x + 595, este.y + este.height/3 + 128);
-        ctx.lineTo(este.x + 595, este.y + este.height/3 + 391);
-        ctx.closePath();
-        ctx.stroke();
+        var xLinhas = [200, 285];
 
-        ctx.beginPath();
-        ctx.moveTo(este.x + 680, este.y + este.height/3 + 128);
-        ctx.lineTo(este.x + 680, este.y + este.height/3 + 391);
-        ctx.closePath();
-        ctx.stroke();
+        for (var i = 0; i < xLinhas.length; i++)
+        {
+            ctx.beginPath();
+            ctx.moveTo(xTabela + xLinhas[i], yTabela + 30);
+            ctx.lineTo(xTabela + xLinhas[i], yTabela + heightTabela);
+            ctx.closePath();
+            ctx.stroke();
+        }
 
         ctx.restore();
     }
@@ -691,17 +694,16 @@ function Garagem()
             }
         }
 
-        ctx.beginPath();
-        ctx.moveTo(xTabelaProducao + 92, yTabelaProducao + 30);
-        ctx.lineTo(xTabelaProducao + 92, yTabelaProducao + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        var xLinhas = [92, 325];
 
-        ctx.beginPath();
-        ctx.moveTo(xTabelaProducao + 325, yTabelaProducao + 30);
-        ctx.lineTo(xTabelaProducao + 325, yTabelaProducao + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        for (var i = 0; i < xLinhas.length; i++)
+        {
+            ctx.beginPath();
+            ctx.moveTo(xTabelaProducao + xLinhas[i], yTabelaProducao + 30);
+            ctx.lineTo(xTabelaProducao + xLinhas[i], yTabelaProducao + heightTabela);
+            ctx.closePath();
+            ctx.stroke();
+        }
 
         ctx.restore();
     }
@@ -777,23 +779,16 @@ function Garagem()
             }
         }
 
-        ctx.beginPath();
-        ctx.moveTo(xTabelaVendas + 92, yTabelaVendas + 30);
-        ctx.lineTo(xTabelaVendas + 92, yTabelaVendas + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        var xLinhas = [92, 322, 457];
 
-        ctx.beginPath();
-        ctx.moveTo(xTabelaVendas + 322, yTabelaVendas + 30);
-        ctx.lineTo(xTabelaVendas + 322, yTabelaVendas + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(xTabelaVendas + 457, yTabelaVendas + 30);
-        ctx.lineTo(xTabelaVendas + 457, yTabelaVendas + heightTabela);
-        ctx.closePath();
-        ctx.stroke();
+        for (var i = 0; i < xLinhas.length; i++)
+        {
+            ctx.beginPath();
+            ctx.moveTo(xTabelaVendas + xLinhas[i], yTabelaVendas + 30);
+            ctx.lineTo(xTabelaVendas + xLinhas[i], yTabelaVendas + heightTabela);
+            ctx.closePath();
+            ctx.stroke();
+        }
 
         ctx.restore();
     }

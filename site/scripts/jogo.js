@@ -608,6 +608,7 @@ function carregarDados()
 						produto.status = produtos[i].Status;
 						produto.qualidade = produtos[i].Qualidade;
 						produto.producao = produtos[i].Producao;
+						produto.totalDeVendas = produtos[i].TotalDeVendas;
 
 						garagem.produtos.push(produto);
 						garagem.txtsProducao[i].text = produto.producao + "";
@@ -734,6 +735,7 @@ function salvar()
 				produto.Qualidade = garagem.produtos[i].qualidade;
 				produto.DiasRestantes = garagem.produtos[i].diasRestantes;
 				produto.Producao = garagem.produtos[i].producao;
+				produto.TotalDeVendas = garagem.produtos[i].totalDeVendas;
 	
 				$.post('http://' + local + ':3000/produto', produto);
 			}

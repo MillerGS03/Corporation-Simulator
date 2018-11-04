@@ -104,23 +104,16 @@ function Construcao()
     function configurarItens()
     {
         este.itens = new Array();
-        
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.garagem, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.armazem, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.operacional, este.itens.length));
-        este.itens.push(new ItemAVender(este.x + 22 + 205 * este.itens.length, este.y + 175, ItemAVender.recursosHumanos, este.itens.length));
 
-        este.itens[0].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.garagem, itensConstruidos.length == 0), 0);
-        }
-        este.itens[1].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.armazem, itensConstruidos.length == 0), 1);
-        }
-        este.itens[2].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.operacional, itensConstruidos.length == 0), 2);
-        }
-        este.itens[3].botaoComprar.onclick = function() {
-            comprar(new ItemConstruido(ItemConstruido.recursosHumanos, itensConstruidos.length == 0), 3)
+        var itensAVender = ["garagem", "armazem", "operacional", "recursosHumanos", "marketing", "financeiro"];
+        
+        for (var i = 0; i < itensAVender.length; i++)
+        {
+            este.itens.push(new ItemAVender(este.x + 22 + 205 * (i < 4?i:i - 3), este.y + (i < 4?70:este.height - 260), ItemAVender[itensAVender[i]], i));
+            este.itens[i].botaoComprar.indiceItem = i;
+            este.itens[i].botaoComprar.onclick = function(botao) {
+                comprar(new ItemConstruido(ItemConstruido[itensAVender[botao.indiceItem]], itensConstruidos.length == 0), i);
+            }
         }
     }
 

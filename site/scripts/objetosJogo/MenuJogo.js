@@ -27,9 +27,9 @@ function MenuJogo()
             this.desativar();
             this.btnDespausar.hovering = false;
 
-            if (!tutorial.aberto)
+            if (!tutorial.aberto && statusConstruindo == 0)
                 despausar();
-            else
+            else if (tutorial.aberto)
                 tutorial.ativar();
         }
     }

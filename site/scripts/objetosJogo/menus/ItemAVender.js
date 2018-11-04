@@ -10,7 +10,6 @@ ItemAVender.marketing   = {nome: "Marketing", descricao: ["Promova sua empresa e
                            preco: 30000, img: imgItemRecursosHumanos, nivelMinimo: 4};
 ItemAVender.financeiro  = {nome: "Financeiro", descricao: ["Controle o fluxo de", "caixa!"],
                            preco: 35000, img: imgItemRecursosHumanos, nivelMinimo: 5};
-ItemAVender.caminho     = {nome: "Caminho", descricao: "Ligue partes da empresa!", preco: 100, img: null, nivelMinimo: 1};
 
 function ItemAVender(x, y, informacoes, indice) 
 {

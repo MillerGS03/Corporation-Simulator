@@ -148,23 +148,28 @@ function Armazem()
     {
         ctx.save();
 
+        var xTabela = este.x + 15;
+        var yTabela = este.y + este.height/3 + 118;
+        var widthTabela = este.width/2 - 30;
+        var heightTabela = 263;
+
         ctx.fillStyle = "silver";
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
 
-        ctx.fillRect(este.x + 15, este.y + este.height/3 + 118, este.width/2 - 30, 263);
-        ctx.strokeRect(este.x + 15, este.y + este.height/3 + 118, este.width/2 - 30, 263);
+        ctx.fillRect(xTabela, yTabela, widthTabela, heightTabela);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, heightTabela);
 
         ctx.fillStyle = "gray";
-        ctx.fillRect(este.x + 15, este.y + este.height/3 + 118, este.width/2 - 30, 30);
-        ctx.strokeRect(este.x + 15, este.y + este.height/3 + 118, este.width/2 - 30, 30);
+        ctx.fillRect(xTabela, yTabela, widthTabela, 30);
+        ctx.strokeRect(xTabela, yTabela, widthTabela, 30);
 
         ctx.fillStyle = "black";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 12pt Consolas";
         
-        ctx.fillText(" Produto                 Preço     Qtde", este.x + 15, este.y + este.height/3 + 133);
+        ctx.fillText(" Produto                 Preço     Qtde", xTabela, yTabela + 15);
 
         var produtos = este.getProdutos();
         for (var i = 0; i < 8; i ++)
@@ -172,7 +177,7 @@ function Armazem()
             if (i%2 == 0)
             {
                 ctx.fillStyle = "#d8d8d8";
-                ctx.fillRect(este.x + 16, este.y + este.height/3 + 149 + 29 * i, este.width/2 - 32, 30);
+                ctx.fillRect(xTabela + 1, yTabela + 31 + 29 * i, widthTabela - 2, 30);
             }
 
             if (i < produtos.length && produtos[i].status == 1)
@@ -180,23 +185,22 @@ function Armazem()
                 ctx.fillStyle = "black";
                 var pad = "                                                          ";
                 ctx.fillText(" " + (produtos[i].nome + pad).substr(0, 20) + 
-                                   (pad + formatarDinheiro(produtos[i].preco)).substr(-11) +
-                                   (pad + produtos[i].qtdeEmEstoque).substr(-9),
-                             este.x + 15, este.y + este.height/3 + 163.5 + 29 * i);
+                                   (pad + formatarDinheiro(produtos[i].preco)).substr(-12) +
+                                   (pad + produtos[i].qtdeEmEstoque).substr(-8),
+                             xTabela, yTabela + 45.5 + 29 * i);
             }
         }
 
-        ctx.beginPath();
-        ctx.moveTo(este.x + 215, este.y + este.height/3 + 118);
-        ctx.lineTo(este.x + 215, este.y + este.height/3 + 381);
-        ctx.closePath();
-        ctx.stroke();
+        var xLinhas = [215, 300];
 
-        ctx.beginPath();
-        ctx.moveTo(este.x + 300, este.y + este.height/3 + 118);
-        ctx.lineTo(este.x + 300, este.y + este.height/3 + 381);
-        ctx.closePath();
-        ctx.stroke();
+        for (var i = 0; i < xLinhas.length; i++)
+        {
+            ctx.beginPath();
+            ctx.moveTo(xTabela + xLinhas[i], yTabela + 30);
+            ctx.lineTo(xTabela + xLinhas[i], yTabela + heightTabela);
+            ctx.closePath();
+            ctx.stroke();
+        }
 
         ctx.restore();
     }

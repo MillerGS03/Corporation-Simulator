@@ -227,10 +227,18 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
   const QtdeMateriaPrima = a.QtdeMateriaPrima != null?a.QtdeMateriaPrima:"null";
   const PrecoUpgradeOperacional = a.PrecoUpgradeOperacional != null?a.PrecoUpgradeOperacional:"null";
   const CapacidadeProducao = a.CapacidadeProducao != null?a.CapacidadeProducao:"null";
+  const Capacitacao = a.Capacitacao;
+  const fDesenv = a.FuncionariosDesenvolvimento;
+  const fProd = a.FuncionariosProducao;
+  const fFin = a.FuncionariosFinanceiro;
+  const fMark = a.FuncionariosMarketing;
+  const fRh = a.FuncionariosRH;
 
   execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
                                   QtdeMateriaPrima = ${QtdeMateriaPrima}, PrecoUpgradeOperacional = ${PrecoUpgradeOperacional},
-                                  CapacidadeProducao = ${CapacidadeProducao} where CodJogo=${codJogo}`, resposta);
+                                  CapacidadeProducao = ${CapacidadeProducao}, Capacitacao = ${Capacitacao}, FuncionariosDesenvolvimento = ${fDesenv},
+                                  FuncionariosProducao = ${fProd}, FuncionariosFinanceiro = ${fFin}, FuncionariosMarketing = ${fMark}, FuncionariosRH = ${fRh}
+                                  where CodJogo=${codJogo}`, resposta);
 })
 
 //rotas das simulacoes

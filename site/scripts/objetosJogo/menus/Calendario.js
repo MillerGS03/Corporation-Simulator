@@ -130,6 +130,7 @@ function Calendario()
             }
             this.dia = 1;
             this.mes++;
+            pagarSalarios();
             if (this.mes > 12)
             {
                 this.mes = 1;

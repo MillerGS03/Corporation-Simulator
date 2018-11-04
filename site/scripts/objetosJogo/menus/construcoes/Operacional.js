@@ -99,8 +99,35 @@ function Operacional()
         ctx.textAlign = "center";
         ctx.font = "bold 18pt Century Gothic";
         ctx.fillStyle = "green";
-        ctx.fillText("Preço do upgrade: " + formatarDinheiro(este.precoUpgrade), este.x + este.width/2, este.y + 205);
+        ctx.fillText("Preço do upgrade: " + formatarDinheiro(este.precoUpgrade), este.x + este.width/2, este.y + 170);
         este.btnUpgrade.desenhar();
+
+        ctx.textBaseline = "top";
+        ctx.textAlign = "right";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 17pt Century Gothic";
+        ctx.fillText("Status da produção: ", este.x + este.width/2 + 65, este.y + 225);
+
+        var produtosAtivos = 0;
+        for (var i = 0; i < produtos.length; i++)
+            if (produtos[i].producao > 0)
+                produtosAtivos++;
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = produtosAtivos == 0 || garagem.qtdeMateriaPrima==0?"red":"green";
+        ctx.fillText(produtosAtivos == 0 || garagem.qtdeMateriaPrima==0?"parada.":"ativa.", este.x + este.width/2 + 65, este.y + 225);
+
+        ctx.textAlign = "center";
+        ctx.font = "italic 16pt Century Gothic";
+        var texto;
+        if (produtosAtivos > 0)
+            texto = garagem.qtdeMateriaPrima==0?"Sem matéria-prima.":`${garagem.qtdeMateriaPrima}u de matéria-prima disponível`;
+        else if (produtos.length == 0)
+            texto = "Crie produtos para começar!";
+        else
+            texto = produtos.length - (produtos[produtos.length - 1].status!=1?1:0) > 1?"Inicie a produção dos itens abaixo!":"Inicie a produção do item abaixo!";
+            
+        ctx.fillText(texto, este.x + este.width/2, este.y + 250);
 
         ctx.restore();
     }
@@ -114,33 +141,15 @@ function Operacional()
         var raio = 88;
         var xCentro = este.x + este.width - (raio + 15);
         var yCentro = este.y + 200;
-
-        ctx.lineWidth = 4;
-        ctx.fillStyle = "gray";
-        ctx.beginPath();
-        ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.fill();
-
-        var anguloInicial = - Math.PI / 2;
-        var anguloFinal = anguloInicial;
+        var corBase = "gray";
+        var valores = new Array();
         
         for (var i = 0; i < produtos.length; i++)
-        {
-            if (produtos[i].producao > 0)
-            {
-                anguloInicial = anguloFinal;
-                anguloFinal = anguloInicial + 2 * Math.PI * (produtos[i].producao)/garagem.capacidadeProducao;
+            valores.push(produtos[i].producao);
+        
+        var total = garagem.capacidadeProducao;
 
-                ctx.lineWidth = 2;
-                ctx.fillStyle = coresProducao[i];
-                ctx.beginPath();
-                ctx.moveTo(xCentro, yCentro);
-                ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
-                ctx.closePath();
-                ctx.fill();
-            }
-        }
+        desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresProducao, corBase);
         
         ctx.restore();
     }
@@ -230,7 +239,7 @@ function Operacional()
     }
     function configurar()
     {
-        este.btnUpgrade = new BotaoRetangular(este.x + (este.width - 280)/2, este.y + 150, 280, 40, 5, 280, 40,
+        este.btnUpgrade = new BotaoRetangular(este.x + (este.width - 280)/2, este.y + 125, 280, 40, 5, 280, 40,
                                               "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                               "black", "Dobrar capacidade", false, false, false);
         este.btnUpgrade.onclick = function() {

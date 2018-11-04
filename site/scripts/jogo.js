@@ -432,6 +432,41 @@ function desformatarData(data)
 	}
 	return dataDesformatada;
 }
+
+
+function desenharGraficoPizza(raio, xCentro, yCentro, valores, total, cores, corBase)
+{
+	ctx.save();
+
+	ctx.lineWidth = 4;
+	ctx.fillStyle = corBase;
+	ctx.beginPath();
+	ctx.ellipse(xCentro, yCentro, raio, raio, 0, 0, Math.PI * 2);
+	ctx.stroke();
+	ctx.fill();
+
+	var anguloInicial = - Math.PI / 2;
+	var anguloFinal = anguloInicial;
+
+	for (var i = 0; i < valores.length; i++)
+	{
+		if (valores[i] > 0)
+		{
+			anguloInicial = anguloFinal;
+			anguloFinal = anguloInicial + 2 * Math.PI * (valores[i])/total;
+
+			ctx.lineWidth = 2;
+			ctx.fillStyle = cores[i];
+			ctx.beginPath();
+			ctx.moveTo(xCentro, yCentro);
+			ctx.arc(xCentro, yCentro, raio, anguloInicial, anguloFinal);
+			ctx.closePath();
+			ctx.fill();
+		}
+	}
+
+	ctx.restore();
+}
 function roundRect(x, y, width, height, radius, fill, stroke) // Desenha um retângulo com bordas redondas
 {
 	var cornerRadius = { upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0 };

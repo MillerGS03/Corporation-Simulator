@@ -8,7 +8,7 @@ insert into Jogo values (@nome, @codUsuario, 0, '01/01/01', -1, 0, 0, 0, 0, '{"S
 )
 declare @codJogo int
 select @CodJogo = max(CodJogo) from Jogo
-insert into InfoEmpresa values (@codJogo, null, null, null, null, null)
+insert into InfoEmpresa values (@codJogo, null, null, null, null, null, 0, 0, 0, 0, 0, 0)
 
 alter proc RemoverJogo_sp
 @codUsuario int,

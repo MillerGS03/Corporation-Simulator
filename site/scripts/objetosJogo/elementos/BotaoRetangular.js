@@ -27,7 +27,7 @@ BotaoRetangular.reativar = function()
 	BotaoRetangular.exceto = new Array();
 	BotaoRetangular.inativos = false;
 }
-function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom)
+function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign)
 {
 	this.x = x;
 	this.y = y;
@@ -48,6 +48,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.autoUpdate = false;
 	this.changeCursor = changeCursor;
 	this.som = caminhoSom;
+	this.imgAlign = imageAlign==null?'center':imageAlign;
 
 	this.stroke = true;
 
@@ -98,12 +99,22 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 			ctx.fillStyle = this.backgroundColor;
             roundRect(this.x, this.y, this.width, this.height, this.radius, true, this.stroke);
 		}
-		if (this.backgroundImage != null && !this.hovering)
-			ctx.drawImage(this.backgroundImage, this.x + this.width / 2 - this.backgroundImage.width/2,
+		if (this.imgAlign == 'center')
+		{
+			if (this.backgroundImage != null && !this.hovering)
+				ctx.drawImage(this.backgroundImage, this.x + this.width / 2 - this.backgroundImage.width/2,
 				                                this.y + this.width / 2 - this.backgroundImage.height/2);
-		else if (this.backgroundHoverImage != null && this.hovering)
-			ctx.drawImage(this.backgroundHoverImage, this.x + this.width / 2 - this.backgroundHoverImage.width/2,
-				                                     this.y + this.width / 2 - this.backgroundHoverImage.height/2);
+			else if (this.backgroundHoverImage != null && this.hovering)
+				ctx.drawImage(this.backgroundHoverImage, this.x + this.width / 2 - this.backgroundHoverImage.width/2,
+				                                this.y + this.width / 2 - this.backgroundHoverImage.height/2);
+		}
+		else if (this.imgAlign == 'topLeft')
+		{
+			if (this.backgroundImage != null && !this.hovering)
+				ctx.drawImage(this.backgroundImage, this.x, this.y);
+			else if (this.backgroundHoverImage != null && this.hovering)
+				ctx.drawImage(this.backgroundHoverImage, this.x, this.y);
+		}
 		if (this.font != null && this.font != "" && this.text != null && this.text != "" &&
 		 ((this.textOnlyOnHover && this.hovering) || !this.textOnlyOnHover))
 		{

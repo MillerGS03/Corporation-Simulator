@@ -91,7 +91,8 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
-update Jogo set Estatisticas = '{"Saldo":[], "Economia":[], "LucroPrejuizo":[], "Perda":[], "Ganho":[], "Fator":[], "xVal":0, "xValMes":0}'
+select * from InfoEmpresa
+update InfoEmpresa set Capacitacao = 1
 
 
 delete from Notificacao

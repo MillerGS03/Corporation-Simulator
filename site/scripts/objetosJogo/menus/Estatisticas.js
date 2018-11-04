@@ -86,7 +86,7 @@ function Estatisticas()
     };
 
     this.setEconomia = function(f) {
-    	if (mesAtual != calendario.mes)
+    	if (mesAtual != calendario.mes || xValMes == 0)
     	{
             var obj = new Object();
             obj.label = formatarData(calendario.mes, calendario.ano)
@@ -98,7 +98,7 @@ function Estatisticas()
 	    }
     };
     this.setCustos = function(c) {
-    	if (mesAtual != calendario.mes)
+    	if (mesAtual != calendario.mes || xValMes == 0)
     	{
             var obj = new Object();
             obj.label = formatarData(calendario.mes, calendario.ano)
@@ -110,7 +110,7 @@ function Estatisticas()
 	    }
     };
     this.setGanhos = function(g) {
-    	if (mesAtual != calendario.mes)
+    	if (mesAtual != calendario.mes || xValMes == 0)
     	{
             var obj = new Object();
             obj.label = formatarData(calendario.mes, calendario.ano)
@@ -123,7 +123,7 @@ function Estatisticas()
     };
     this.setLucroPrejuizo = function(v) 
     {
-    	if (mesAtual != calendario.mes)
+    	if (mesAtual != calendario.mes || xValMes == 0)
     	{
             mesAtual = calendario.mes;
             var obj = new Object();

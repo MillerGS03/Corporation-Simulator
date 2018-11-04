@@ -15,14 +15,6 @@ function RecursosHumanos()
     var fRh = 0;
     var capacitacao = 0;
     var custo = 0;
-    var c = new Image();
-    c.src = 'imagens/botoes/btnContratar.png';
-    var ch = new Image();
-    ch.src = 'imagens/botoes/btnContratarHover.png'
-    var d = new Image();
-    d.src = 'imagens/botoes/btnDemitir.png'
-    var dh = new Image();
-    dh.src = 'imagens/botoes/btnDemitirHover.png'
 
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
@@ -31,38 +23,38 @@ function RecursosHumanos()
     
     this.btnContratarDesenv = new BotaoRetangular(this.x + 395, this.y + 190, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
-        c, ch, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgContratar, imgContratarHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
     this.btnDemitirDesenv = new BotaoRetangular(this.x + 485, this.y + 190, 80, 50,
         {}, 80, 50, 'darkred', '#c10000',
-        d, dh, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgDemitir, imgDemitirHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
 
     this.btnContratarProd = new BotaoRetangular(this.x + 395, this.y + 267, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
-        c, ch, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgContratar, imgContratarHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
     this.btnDemitirProd = new BotaoRetangular(this.x + 485, this.y + 267, 80, 50,
         {}, 80, 50, 'darkred', '#c10000',
-        d, dh, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgDemitir, imgDemitirHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
 
     this.btnContratarFin = new BotaoRetangular(this.x + 395, this.y + 344, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
-        c, ch, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgContratar, imgContratarHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
     this.btnDemitirFin = new BotaoRetangular(this.x + 485, this.y + 344, 80, 50,
         {}, 80, 50, 'darkred', '#c10000',
-        d, dh, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgDemitir, imgDemitirHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
 
     this.btnContratarMark = new BotaoRetangular(this.x + 395, this.y + 421, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
-        c, ch, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgContratar, imgContratarHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
     this.btnDemitirMark = new BotaoRetangular(this.x + 485, this.y + 421, 80, 50,
         {}, 80, 50, 'darkred', '#c10000',
-        d, dh, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgDemitir, imgDemitirHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
 
     this.btnContratarRh = new BotaoRetangular(this.x + 395, this.y + 498, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
-        c, ch, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgContratar, imgContratarHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
     this.btnDemitirRh = new BotaoRetangular(this.x + 485, this.y + 498, 80, 50,
         {}, 80, 50, 'darkred', '#c10000',
-        d, dh, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
+        imgDemitir, imgDemitirHover, 'bold 16pt Century Gothic', 'white', '', true, false, false, null, 'topLeft');
 
     this.btnTreinar = new BotaoRetangular(this.x + 600, this.y + 425, 275, 50,
         { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 275, 50, 'grey', 'lightgray',

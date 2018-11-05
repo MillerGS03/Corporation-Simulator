@@ -10,13 +10,20 @@ function Marketing()
 
     this.aberto = false;
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40, 5, 40, 40,
-                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic", 
+                                         "#232323", "#535353", null, null, "bold 18pt Century Gothic",
                                          "red", "X", false, false, false);
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
 
-    this.abrirFechar = function() 
+    /*
+      0 - Nenhuma
+      1 a 5 - baixa a excelente
+    */
+    this.promocaoEmpresa = 0;
+    this.diasRestantesPromocaoEmpresa = 0;
+
+    this.abrirFechar = function()
     {
         this.aberto = !this.aberto;
         if (this.aberto)
@@ -45,12 +52,13 @@ function Marketing()
         else
         {
             for (var i = 0; i < garagem.produtos.length; i++)
-                if (i < garagem.produtos.length && garagem.produtos[i].fatorMarketing > 0)
+                if (i < garagem.produtos.length && garagem.produtos[i].fatorMarketing == 0)
                     this.botoesPromover[i].ativarInteracao();
             this.btnFechar.ativarInteracao();
+            this.btnPromoverEmpresa.ativarInteracao();
         }
     }
-    this.desativar = function() 
+    this.desativar = function()
     {
         for (var i = 0; i < 8; i++)
             this.botoesPromover[i].desativarInteracao();
@@ -61,8 +69,9 @@ function Marketing()
         this.btnPromover.desativarInteracao();
         this.btnFecharPromocao.desativarInteracao();
         this.btnFechar.desativarInteracao();
+        this.btnPromoverEmpresa.desativarInteracao();
     }
-    this.desenhar = function() 
+    this.desenhar = function()
     {
         if (this.aberto)
         {
@@ -89,7 +98,7 @@ function Marketing()
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
-       
+
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
@@ -124,7 +133,7 @@ function Marketing()
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 13pt Consolas";
-        
+
         ctx.fillText(" Legenda          Produto          Renda Diária  Vendas Totais   Criado em        Ações", xTabelaVendas, yTabelaVendas + 15);
 
         for (var i = 0; i < 8; i++)
@@ -155,7 +164,7 @@ function Marketing()
                 {
                     var s = garagem.produtos[i].diasRestantes == 1?"":"s";
                     ctx.font = "bold 12pt Consolas";
-                    ctx.fillText(`+${garagem.produtos[i].diasRestantes} dia${s} de promoção`, 
+                    ctx.fillText(`+${garagem.produtos[i].diasRestantes} dia${s} de promoção`,
                                  xTabelaVendas + (730 + widthTabela)/2, yTabelaVendas + 46 + 30 * i, widthTabela - 734);
                     ctx.font = "bold 13pt Consolas";
                 }
@@ -204,7 +213,7 @@ function Marketing()
         ctx.font = "bold 19pt Century Gothic";
 
         ctx.fillText("Renda Diária", xCentro, yCentro - raio - 10);
-        
+
         ctx.restore();
     }
     function desenharGraficoVendasTotais()
@@ -223,7 +232,7 @@ function Marketing()
             valores.push(vendasTotais);
             total += vendasTotais;
         }
-        
+
         desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
 
         ctx.textBaseline = "bottom";
@@ -232,7 +241,7 @@ function Marketing()
         ctx.font = "bold 19pt Century Gothic";
 
         ctx.fillText("Vendas Totais", xCentro, yCentro - raio - 10);
-        
+
         ctx.restore();
     }
     function desenharInformacoesVendas()
@@ -244,7 +253,7 @@ function Marketing()
         ctx.fillStyle = "black";
         ctx.font = "bold 19pt Century Gothic";
         ctx.fillText("Status das vendas: ", este.x + este.width/2 + 60, este.y + 70);
-    
+
         var produtosComEstoque = 0;
         for (var i = 0; i < garagem.produtos.length; i++)
             if (garagem.produtos[i].rendaDiaria > 0 || garagem.produtos[i].qtdeEmEstoque > 0)
@@ -258,6 +267,8 @@ function Marketing()
         ctx.font = "italic 16pt Century Gothic";
         var texto = produtosComEstoque==0?"Nenhum produto com estoque.":`${produtosComEstoque}/${garagem.produtos.length - (garagem.produtos[garagem.produtos.length - 1].status!=1?1:0)} produto(s) com estoque`;
         ctx.fillText(texto, este.x + este.width/2, este.y + 95);
+
+        este.btnPromoverEmpresa.desenhar();
 
         ctx.restore();
     }
@@ -318,7 +329,7 @@ function Marketing()
         ctx.font = "bold 18pt Century Gothic";
         ctx.textAlign = "center";
         ctx.fillText(qualidades[dadosJanelaPromocao.indiceQualidade], xJanelaPromocao + 295, yJanelaPromocao + 165);
-        
+
         este.btnMaisQualidade.desenhar();
         este.btnMenosQualidade.desenhar();
         este.btnPromover.desenhar();
@@ -354,7 +365,7 @@ function Marketing()
             }
         }
         este.btnFecharPromocao = new BotaoRetangular(xJanelaPromocao + widthJanelaPromocao - 50, yJanelaPromocao + 10, 40, 40, 5, 40, 40,
-                                                     "#232323", "#535353", null, null, "bold 18pt Century Gothic", 
+                                                     "#232323", "#535353", null, null, "bold 18pt Century Gothic",
                                                      "red", "X", false, false, false);
         este.btnFecharPromocao.onclick = function() {
             dadosJanelaPromocao.aberta = false;
@@ -377,7 +388,7 @@ function Marketing()
         });
 
         este.btnMaisQualidade = new BotaoRetangular(xJanelaPromocao + 425, yJanelaPromocao + 145, 45, 20, 0, 45, 20,
-                                                    "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic", 
+                                                    "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                     "black", "^", false, false, false);
         este.btnMaisQualidade.onclick = function() {
             var rh = getJanelaConstrucao("R. Humanos");
@@ -390,7 +401,7 @@ function Marketing()
             este.ativar();
         }
         este.btnMenosQualidade = new BotaoRetangular(xJanelaPromocao + 425, yJanelaPromocao + 165, 45, 20, 0, 45, 20,
-                                                     "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic", 
+                                                     "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                      "black", "v", false, false, false);
         este.btnMenosQualidade.onclick = function() {
             dadosJanelaPromocao.indiceQualidade--;
@@ -415,6 +426,22 @@ function Marketing()
             }
         }
 
+        este.btnPromoverEmpresa = new BotaoRetangular(este.x + (este.width - 270)/2, este.y + 200, 270,
+                                               50, 9, 270, 50, "#4c98a5", "#5eb9c9",
+                                               null, null, "bold 21pt Century Gothic", "white", "Promover Empresa", false, false, false);
+        este.btnPromoverEmpresa.onclick = function() {
+            dadosJanelaPromocao.aberta = true;
+            dadosJanelaPromocao.nomePromocao = "Empresa";
+            dadosJanelaPromocao.indiceQualidade = 0;
+            este.txtTempo.clear();
+            dadosJanelaPromocao.onPromocaoFeita = function() {
+                este.promocaoEmpresa = dadosJanelaPromocao.indiceQualidade + 1;
+                este.diasRestantesPromocaoEmpresa = parseInt(este.txtTempo.text);
+                alerta(`A ${dadosJanelaPromocao.nomePromocao} será promovida por ${este.txtTempo.text} dias`);
+            }
+            este.desativar();
+            este.ativar();
+        }
 
     }
     configurar();

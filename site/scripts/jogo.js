@@ -85,7 +85,7 @@ function tocarMusica()
 
 	if (musica.canPlayType("audio/mp3"))
 		novaMusica = novaMusica.replace("ogg", "mp3");
-	
+
 	musica.src = novaMusica;
 	musica.load();
 	musica.play();
@@ -115,7 +115,7 @@ function iniciar()
 	canvas = document.getElementById('meuCanvas');
 	ctx = canvas.getContext("2d");
 
-	function redimensionarCanvas() 
+	function redimensionarCanvas()
 	{
 		fatorEscala = window.innerWidth / 1500;
 		if (96 * window.innerHeight / 100 < 700 * fatorEscala || 72 * window.innerWidth / 100 > 1000 * (96 * window.innerHeight / 70000))
@@ -177,11 +177,11 @@ function iniciar()
 		if (e.bubbles)
 		{
 			var rect = e.target.getBoundingClientRect();
-	
+
 			xMouse = (e.clientX - rect.left) / fatorEscala;
 			yMouse = (e.clientY - rect.top) / fatorEscala;
 		}
-	})); 
+	}));
 
 	calendario.adicionarEvento(25, 2, 1, 1);
 }
@@ -195,7 +195,7 @@ function intervaloDias()
 		contador++;
 
 	ultimaLeituraDias = new Date();
-	
+
 	for (var i = 0; i < Math.floor(contador / 25); i++)
 	{
 		passarDia();
@@ -204,7 +204,7 @@ function intervaloDias()
 	if (contador >= 25)
 		contador = contador % 25;
 }
-function criarBotoes() 
+function criarBotoes()
 {
 	btnEstatisticas = new BotaoCircular(60, 130, 40, 48,
 		"#347b87", "#4c98a5", imgBtnEstatisticas, imgBtnEstatisticasHover,
@@ -221,7 +221,7 @@ function criarBotoes()
 	btnNotificacoes = new BotaoCircular(canvas.width - 42, 110, 32, 32,
 		"#232323", "#535353", imgBtnNotificacoes, imgBtnNotificacoes,
 		"bold 16pt Century Gothic", "#c80000", "", false, true, true);
-	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {	
+	btnNotificacoes.atualizarNotificacoes = function(qtasNotificacoes) {
 		if (qtasNotificacoes == "0")
 		{
 			this.text = "";
@@ -397,7 +397,7 @@ function getJanelaConstrucao(nome)
 	for (var i = 0; i < itensConstruidos.length; i++)
 		if (itensConstruidos[i].nome == nome)
 			return itensConstruidos[i].menu.janela;
-	
+
 	return false;
 }
 
@@ -427,9 +427,9 @@ function formatarDinheiro(valor)
 
 /**
  * Recebe o dia, o mês e o ano e retorna uma data no formato dd/mm/aa. Se o ano for omitido, retorna dd/mm.
- * @param {number} dia 
- * @param {number} mes 
- * @param {number} ano 
+ * @param {number} dia
+ * @param {number} mes
+ * @param {number} ano
  * @return {string} Data
  */
 function formatarData(dia, mes, ano)
@@ -564,19 +564,19 @@ function carregarDados()
 				case 'Armazém':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.armazem, isPrimeiro);
 				break;
-	
+
 				case 'Garagem':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.garagem, isPrimeiro);
 				break;
-	
+
 				case 'Operacional':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.operacional, isPrimeiro);
 				break;
-	
+
 				case 'R. Humanos':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.recursosHumanos, isPrimeiro);
 				break;
-	
+
 				case 'Marketing':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.marketing, isPrimeiro);
 				break;
@@ -599,6 +599,7 @@ function carregarDados()
 			var garagem = getJanelaConstrucao("Garagem");
 			var operacional = getJanelaConstrucao("Operacional");
 			var rh = getJanelaConstrucao('R. Humanos');
+			var marketing = getJanelaConstrucao("Marketing");
 
 			if (armazem)
 			{
@@ -647,6 +648,11 @@ function carregarDados()
 			}
 			if (rh)
 				rh.setRH(infoJogo)
+			if (marketing)
+			{
+				marketing.promocaoEmpresa = infoJogo.PromocaoEmpresa;
+				marketing.diasRestantesPromocaoEmpresa = infoJogo.DiasRestantesPromocaoEmpresa;
+			}
 		})
 	})
 	contador = 0;
@@ -729,7 +735,8 @@ function salvar()
 	var armazem = getJanelaConstrucao("Armazém");
 	var garagem = getJanelaConstrucao("Garagem");
 	var operacional = getJanelaConstrucao("Operacional");
-	var rh = getJanelaConstrucao('R. Humanos')
+	var rh = getJanelaConstrucao('R. Humanos');
+	var marketing = getJanelaConstrucao("Marketing");
 
 	if (armazem)
 	{
@@ -762,14 +769,20 @@ function salvar()
 				produto.Producao = garagem.produtos[i].producao;
 				produto.TotalDeVendas = garagem.produtos[i].totalDeVendas;
 				produto.FatorMarketing = garagem.produtos[i].fatorMarketing;
-	
+
 				$.post('http://' + local + ':3000/produto', produto);
 			}
 		}, 40);
 	}
 	if (operacional)
 		atualizar.PrecoUpgradeOperacional = operacional.precoUpgrade;
-	jQuery.extend(atualizar, rh.getRH())
+	if (marketing)
+	{
+		atualizar.PromocaoEmpresa = marketing.promocaoEmpresa;
+		atualizar.DiasRestantesPromocaoEmpresa = marketing.diasRestantesPromocaoEmpresa;
+	}
+	if (rh)
+		jQuery.extend(atualizar, rh.getRH())
 
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
 
@@ -784,7 +797,7 @@ function finalizarJogo()
 	desenhar = false;
 	salvar();
 	musica.pause();
-	
+
 	if (timeoutMusica)
 		clearTimeout(timeoutMusica);
 }

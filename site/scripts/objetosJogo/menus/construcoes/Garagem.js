@@ -25,7 +25,7 @@ function Garagem()
 
     for (var i = 0; i < this.produtos.length; i++)
         this.produtos[i].status = 1;
-    
+
     var este = this;
 
     this.aberto = false;
@@ -36,7 +36,7 @@ function Garagem()
         este.abrirFechar();
     }
 
-    this.abrirFechar = function() 
+    this.abrirFechar = function()
     {
         this.aberto = !this.aberto;
         if (this.aberto)
@@ -48,7 +48,7 @@ function Garagem()
     this.ativar = function()
     {
         desativarBotoes();
-        
+
         this.btnFechar.ativarInteracao();
         this.btnEstoque.ativarInteracao();
         this.btnMercadorias.ativarInteracao();
@@ -171,7 +171,6 @@ function Garagem()
                 barra.dinheiro += produtoAtual.qtdeEmEstoque;
                 produtoAtual.qtdeEmEstoque = 0;
             }
-            console.log("oi");
             if (produtoAtual.fatorMarketing > 0 )
             {
                 produtoAtual.diasRestantes--;
@@ -194,7 +193,7 @@ function Garagem()
      * 4 - Vendas
      */
     var opcaoAberta = 0;
-    this.desenhar = function() 
+    this.desenhar = function()
     {
         if (this.aberto)
         {
@@ -236,7 +235,7 @@ function Garagem()
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, 20, true, true)
-       
+
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
@@ -325,7 +324,7 @@ function Garagem()
             roundRect(este.x + 330, este.y + 230, 350, 30,{lowerRight:15, upperRight:15}, true, true);
             ctx.fillStyle = ultimoProduto.diasRestantes==0?"#03c403":"green";
             roundRect(este.x + 330, este.y + 230, (10 - ultimoProduto.diasRestantes)/10 * 350, 30, {lowerRight: 15, upperRight:15}, true, true);
-            
+
             ctx.font = "bold 15.5pt Century Gothic";
             ctx.textAlign = "center";
             ctx.fillStyle = "black";
@@ -372,7 +371,7 @@ function Garagem()
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 13pt Consolas";
-        
+
         ctx.fillText(" Produto                Preço            Atualizar", xTabela, yTabela + 15);
 
         for (var i = 0; i < 8; i++)
@@ -497,7 +496,7 @@ function Garagem()
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 12pt Consolas";
-        
+
         ctx.fillText(" Produto                 Preço     Qtde", xTabela, yTabela + 15);
 
         for (var i = 0; i < 8; i++)
@@ -512,8 +511,8 @@ function Garagem()
             {
                 ctx.fillStyle = "black";
                 var pad = "                                                          ";
-                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) + 
-                                   (pad + formatarDinheiro(este.produtos[i].preco)).substr(-11) + 
+                ctx.fillText(" " + (este.produtos[i].nome + pad).substr(0, 20) +
+                                   (pad + formatarDinheiro(este.produtos[i].preco)).substr(-11) +
                                    (pad + este.produtos[i].qtdeEmEstoque).substr(-9),
                                    xTabela, yTabela + 45.5 + 29 * i);
             }
@@ -570,13 +569,13 @@ function Garagem()
     function desenharGerenciarProducao()
     {
         ctx.save();
-        
+
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
         ctx.font = "bold 20pt Century Gothic";
         ctx.fillStyle = "black";
         ctx.fillText("Capacidade de produção: ", este.x + 650, este.y + 100);
-        
+
         ctx.textAlign = "left";
         ctx.font = "20pt Century Gothic";
         ctx.fillText(`${este.capacidadeProducao}u/dia`, este.x + 650, este.y + 100);
@@ -610,12 +609,12 @@ function Garagem()
             texto = "Crie produtos para começar!";
         else
             texto = este.produtos.length - (este.produtos[este.produtos.length - 1].status!=1?1:0) > 1?"Inicie a produção dos itens abaixo!":"Inicie a produção do item abaixo!";
-            
+
         ctx.fillText(texto, este.x + este.width/2 + 60, este.y + 150);
 
         desenharGraficoProducao();
         desenharTabelaProducao();
-        
+
         ctx.restore();
     }
 
@@ -634,7 +633,7 @@ function Garagem()
         var total = este.capacidadeProducao;
 
         desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
-        
+
         ctx.restore();
     }
 
@@ -669,7 +668,7 @@ function Garagem()
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 13pt Consolas";
-        
+
         ctx.fillText(" Legenda           Nome                    Produção", xTabelaProducao, yTabelaProducao + 15);
 
         for (var i = 0; i < 9; i++)
@@ -721,20 +720,20 @@ function Garagem()
     function desenharGerenciarDinheiro()
     {
         ctx.save();
-        
-        
-        
+
+
+
         ctx.restore();
     }
     function desenharVendas()
     {
         ctx.save();
-        
+
         desenharTabelaVendas();
         desenharGraficoRendaDiariaVendas();
         desenharGraficoVendasTotais();
         desenharInformacoesVendas();
-        
+
         ctx.restore();
     }
 
@@ -763,7 +762,7 @@ function Garagem()
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
         ctx.font = "bold 13pt Consolas";
-        
+
         ctx.fillText(" Legenda          Produto          Renda Diária  Vendas Totais", xTabelaVendas, yTabelaVendas + 15);
 
         for (var i = 0; i < 8; i++)
@@ -828,7 +827,7 @@ function Garagem()
         ctx.font = "bold 19pt Century Gothic";
 
         ctx.fillText("Renda Diária", xCentro, yCentro - raio - 10);
-        
+
         ctx.restore();
     }
     function desenharGraficoVendasTotais()
@@ -847,7 +846,7 @@ function Garagem()
             valores.push(vendasTotais);
             total += vendasTotais;
         }
-        
+
         desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresGrafico, "gray");
 
         ctx.textBaseline = "bottom";
@@ -856,7 +855,7 @@ function Garagem()
         ctx.font = "bold 19pt Century Gothic";
 
         ctx.fillText("Vendas Totais", xCentro, yCentro - raio - 10);
-        
+
         ctx.restore();
     }
     function desenharInformacoesVendas()
@@ -868,7 +867,7 @@ function Garagem()
         ctx.fillStyle = "black";
         ctx.font = "bold 19pt Century Gothic";
         ctx.fillText("Status das vendas: ", este.x + este.width/2 + 200, este.y + 70);
-    
+
         var produtosComEstoque = 0;
         for (var i = 0; i < este.produtos.length; i++)
             if (este.produtos[i].rendaDiaria > 0 || este.produtos[i].qtdeEmEstoque > 0)
@@ -931,7 +930,7 @@ function Garagem()
         este.btnVendas = new BotaoRetangular(este.x, este.y + 380, 280, 45, 0, 280, 45,
                                              "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                              "black", "Vendas", false, false, false);
-    
+
         var onclickBotoesMenu = function(sender)
         {
             este.btnMercadorias.backgroundColor = "#c3c3c3";
@@ -958,7 +957,7 @@ function Garagem()
         este.btnGerenciarProducao.onclick = function() {opcaoAberta = 2; onclickBotoesMenu(este.btnGerenciarProducao)};
         este.btnGerenciarDinheiro.onclick = function() {opcaoAberta = 3; onclickBotoesMenu(este.btnGerenciarDinheiro)};
         este.btnVendas.onclick = function() {opcaoAberta = 4; onclickBotoesMenu(este.btnVendas)};
-        
+
         este.btnCriarCancelar = new BotaoRetangular(este.x + 720, este.y + 220, 130, 50, 10, 130, 50,
                                                     "#4c98a5", "#5eb9c9", null, null, "bold 19pt Century Gothic",
                                                     "white", "Criar!", false, false, false);
@@ -1017,7 +1016,7 @@ function Garagem()
                     este.txtPreco.clear();
                     este.txtNome.enabled = true;
                     este.txtPreco.enabled = true;
-                    
+
                     este.btnCriarCancelar.text = "Criar!";
                     este.btnCriarCancelar.backgroundColor = "#4c98a5";
                     este.btnCriarCancelar.backgroundHoverColor = "#5eb9c9";
@@ -1081,7 +1080,7 @@ function Garagem()
         {
             este.botoesAlterar.push(new BotaoRetangular(este.x + 611, este.y + 364 + 29 * i, 127, 24, 3, 127, 24, "#c3c3c3", "#dadada",
                                           null, null, "bold 12pt Century Gothic", "black", "Alterar Preço", false, false, false));
-            
+
             este.botoesAlterar[i].numeroRegistro = i;
             este.botoesAlterar[i].onclick = function(botao) {
                 if (este.produtos[este.produtos.length - 1].status != 1)
@@ -1188,10 +1187,10 @@ function Produto(nome, preco)
     this.totalDeVendas = 0;
     this.vendasDiarias = 0;
 
-    this.calcularQualidade = function() 
+    this.calcularQualidade = function()
     {
         var qtosFuncionarios = getJanelaConstrucao("R. Humanos")?getJanelaConstrucao("R. Humanos").funcionariosDesenvolvimento + 1:1;
-    
+
         if (this.status == 0)
             this.qualidade = (Math.random() * 2 + 1) * Math.log2(qtosFuncionarios + 1);
         else

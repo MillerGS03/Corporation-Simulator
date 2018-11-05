@@ -598,6 +598,7 @@ function carregarDados()
 			var armazem = getJanelaConstrucao("Armazém");
 			var garagem = getJanelaConstrucao("Garagem");
 			var operacional = getJanelaConstrucao("Operacional");
+			var rh = getJanelaConstrucao('R. Humanos');
 
 			if (armazem)
 			{
@@ -644,6 +645,8 @@ function carregarDados()
 				carregado = true;
 				ativarBotoes();
 			}
+			if (rh)
+				rh.setRH(infoJogo)
 		})
 	})
 	contador = 0;
@@ -726,6 +729,7 @@ function salvar()
 	var armazem = getJanelaConstrucao("Armazém");
 	var garagem = getJanelaConstrucao("Garagem");
 	var operacional = getJanelaConstrucao("Operacional");
+	var rh = getJanelaConstrucao('R. Humanos')
 
 	if (armazem)
 	{
@@ -765,6 +769,7 @@ function salvar()
 	}
 	if (operacional)
 		atualizar.PrecoUpgradeOperacional = operacional.precoUpgrade;
+	jQuery.extend(atualizar, rh.getRH())
 
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
 

@@ -231,44 +231,48 @@ function RecursosHumanos()
     {
         var preco = 2000 * capacitacao
         este.btnContratarDesenv.text = fDesenv>=10?'--':formatarDinheiro(preco);
-        este.btnDemitirDesenv.text = fDesenv>0?formatarDinheiro(preco + 10000):'--';
+        este.btnDemitirDesenv.text = fDesenv>0?formatarDinheiro(preco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--';
 
         preco = 2000 * capacitacao
         este.btnContratarProd.text = fProd>=10?'--':formatarDinheiro(preco);
-        este.btnDemitirProd.text = fProd>0?formatarDinheiro(preco + 10000):'--';
+        este.btnDemitirProd.text = fProd>0?formatarDinheiro(preco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--';
 
         preco = 2000 * capacitacao
         este.btnContratarFin.text = fFin>=10?'--':formatarDinheiro(preco)
-        este.btnDemitirFin.text = fFin>0?formatarDinheiro(preco + 10000):'--'
+        este.btnDemitirFin.text = fFin>0?formatarDinheiro(preco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--'
 
         preco = 2000 * capacitacao
         este.btnContratarMark.text = fMark>=10?'--':formatarDinheiro(preco)
-        este.btnDemitirMark.text = fMark>0?formatarDinheiro(preco + 10000):'--'
+        este.btnDemitirMark.text = fMark>0?formatarDinheiro(preco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--'
 
         preco = 2000 * capacitacao
         este.btnContratarRh.text = fRh>=10?'--':formatarDinheiro(preco)
-        este.btnDemitirRh.text = fRh>0?formatarDinheiro(preco + 10000):'--'
+        este.btnDemitirRh.text = fRh>0?formatarDinheiro(ppreco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--'
     }
     function colocarDados()
     {
         ctx.fillStyle = 'black';
         ctx.font = 'bold 20pt Century Gothic';
-        ctx.fillText('Total de funcionários:', este.x + 725, este.y + 150)
+        ctx.fillText('Total de funcionários:', este.x + 725, este.y + 100)
         ctx.font = 'bold 22pt Century Gothic';
-        ctx.fillText(funcionarios, este.x + 725, este.y + 175)
+        ctx.fillText(funcionarios, este.x + 725, este.y + 125)
         ctx.font = 'bold 20pt Century Gothic';
-        ctx.fillText('Gasto com salário:', este.x + 725, este.y + 225)
+        ctx.fillText('Gasto com salário:', este.x + 725, este.y + 175)
         ctx.font = 'bold 22pt Century Gothic';
-        ctx.fillText(formatarDinheiro(calcularSalario()), este.x + 725, este.y + 250)
+        ctx.fillText(formatarDinheiro(este.calcularSalario()), este.x + 725, este.y + 200)
         ctx.font = 'bold 20pt Century Gothic';
-        ctx.fillText('Média dos salários:', este.x + 725, este.y + 300)
+        ctx.fillText('Média dos salários:', este.x + 725, este.y + 250)
         ctx.font = 'bold 22pt Century Gothic';
         if (funcionarios > 0)
-            ctx.fillText(formatarDinheiro(calcularSalario()/funcionarios), este.x + 725, este.y + 325)
+            ctx.fillText(formatarDinheiro(este.calcularSalario()/funcionarios), este.x + 725, este.y + 275)
         else
-            ctx.fillText(formatarDinheiro(0), este.x + 725, este.y + 325)
+            ctx.fillText(formatarDinheiro(0), este.x + 725, este.y + 275)
+        ctx.font = 'bold 20pt Century Gothic';
+        ctx.fillText('Provisão de funcionários:', este.x + 735, este.y + 325);
+        ctx.font = 'bold 22pt Century Gothic';
+        ctx.fillText('31.4%', este.x + 725, este.y + 350)
     }
-    function calcularSalario()
+    this.calcularSalario = function()
     {
         var total = 0;
         total += fDesenv * 2000 * capacitacao
@@ -301,7 +305,7 @@ function RecursosHumanos()
         if (atual < 1)
             alerta('Número mínimo de funcionários atingido.');
         else
-            fazerCompra('Demissão', 2000 * capacitacao + 10000, true, true, 1, function(){
+            fazerCompra('Demissão', (2000 * capacitacao) * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1), true, true, 1, function(){
                 if (txt == 'fRh')
                 {
                     if (funcionarios > 5 * atual - 1)
@@ -345,4 +349,10 @@ function RecursosHumanos()
         obj.FuncionariosRH = fRh;
         return obj;
     }
+}
+function pagarSalarios()
+{
+    var rh = getJanelaConstrucao('R. Humanos')
+    var salario = rh.calcularSalario() * 1.314;
+    barra.dinheiro -= salario;
 }

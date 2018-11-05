@@ -171,6 +171,17 @@ function Garagem()
                 barra.dinheiro += produtoAtual.qtdeEmEstoque;
                 produtoAtual.qtdeEmEstoque = 0;
             }
+            console.log("oi");
+            if (produtoAtual.fatorMarketing > 0 )
+            {
+                produtoAtual.diasRestantes--;
+                if (produtoAtual.diasRestantes == 0)
+                {
+                    produtoAtual.fatorMarketing = 0;
+                    painelNotificacoes.adicionarNotificacao("Publicidade expirada", `O marketing de "${produtoAtual.nome}" diminuiu`,
+                                                            calendario.dia, calendario.mes, calendario.ano)
+                }
+            }
 
         }
     }
@@ -1168,8 +1179,9 @@ function Produto(nome, preco)
      */
     this.status = 0;
 
-    // Dias que ainda faltam para acabar o desenvolvimento.
+    // Dias que ainda faltam para acabar o desenvolvimento ou para acabar o período de promoção do marketing.
     this.diasRestantes = 10;
+    this.fatorMarketing = 0;
     this.dataDeCriacao = "";
     this.qualidade = 0;
     this.producao = 0;
@@ -1195,7 +1207,8 @@ function Produto(nome, preco)
         var diferencaDeDias = (objDataAtual.getTime() - objDataCriacao.getTime()) / (1000 * 60 * 60 * 24);
         var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3);
         var pesoPreco = Math.pow(this.preco, 2 - (calendario.fatorEconomia() / 8 ));
-        this.vendasDiarias = Math.floor(500 * this.qualidade * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
+        var pesoMarketing = this.fatorMarketing/2 + 1;
+        this.vendasDiarias = Math.floor(500 * this.qualidade * pesoMarketing * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
         if (this.vendasDiarias > this.qtdeEmEstoque)
             this.vendasDiarias = this.qtdeEmEstoque;
 

@@ -30,7 +30,8 @@ DataDeCriacao varchar(10) not null,
 Status int not null,
 Qualidade float not null,
 DiasRestantes int not null,
-TotalDeVendas int not null)
+TotalDeVendas int not null,
+FatorMarketing int not null)
 
 alter proc ColocarProduto_sp
 @CodJogo int,
@@ -42,10 +43,11 @@ alter proc ColocarProduto_sp
 @Qualidade float,
 @DiasRestantes int,
 @Producao int,
-@TotalDeVendas int
+@TotalDeVendas int,
+@FatorMarketing int
 as
 if (select count(Nome) from Produto where Nome=@Nome and CodJogo=@CodJogo) = 0
-    insert into Produto values (@CodJogo, @Nome, @Preco, @QuantidadeEmEstoque, @DataDeCriacao, @Status, @Qualidade, @DiasRestantes, @Producao, @TotalDeVendas)
+    insert into Produto values (@CodJogo, @Nome, @Preco, @QuantidadeEmEstoque, @DataDeCriacao, @Status, @Qualidade, @DiasRestantes, @Producao, @TotalDeVendas, @FatorMarketing)
 else
-    update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas
+    update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas, FatorMarketing=@FatorMarketing
                        where CodJogo=@CodJogo and Nome=@Nome

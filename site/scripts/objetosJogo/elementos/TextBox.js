@@ -71,7 +71,7 @@ function TextBox(informacoes)
     }
 
     this.clear = function() {
-        this.text = "";
+        this.text = this.onlynumbers && this.placeholder == ""?"0":"";
     }
 
     var funcaoKeydown = function(e) {

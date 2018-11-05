@@ -298,7 +298,23 @@ function atualizar()
 		menuJogo.desenhar();
 		desenharBordasCanvas();
 	}
+	else
+		desenharCarregando();
 	requestAnimationFrame(function() {atualizar()});
+}
+function desenharCarregando()
+{
+	ctx.save();
+
+	ctx.fillStyle = "gray";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "black";
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	ctx.font = "bold 30pt Century Gothic";
+	ctx.fillText("Carregando...", canvas.width/2, canvas.height/2);
+
+	ctx.restore();
 }
 function desenharStatusConstrucao()
 {
@@ -609,6 +625,7 @@ function carregarDados()
 						produto.qualidade = produtos[i].Qualidade;
 						produto.producao = produtos[i].Producao;
 						produto.totalDeVendas = produtos[i].TotalDeVendas;
+						produto.fatorMarketing = produtos[i].fatorMarketing;
 
 						garagem.produtos.push(produto);
 						garagem.txtsProducao[i].text = produto.producao + "";
@@ -617,7 +634,15 @@ function carregarDados()
 					}
 					if (operacional && infoJogo.PrecoUpgradeOperacional != null)
 						operacional.precoUpgrade = infoJogo.PrecoUpgradeOperacional;
+
+					carregado = true;
+					ativarBotoes();
 				})
+			}
+			else
+			{
+				carregado = true;
+				ativarBotoes();
 			}
 		})
 	})
@@ -630,15 +655,11 @@ function carregarDados()
 	}
 	else
 	{
-		setTimeout(ativarBotoes, 50);
-		setTimeout(ativarBotoes, 500);
-
 		barra.dinheiro = jogo.Caixa;
 		if (!timerDias)
 			timerDias = setInterval(intervaloDias, 50);
 	}
 	mapa.desativar();
-	carregado = true;
 }
 function salvar()
 {
@@ -736,6 +757,7 @@ function salvar()
 				produto.DiasRestantes = garagem.produtos[i].diasRestantes;
 				produto.Producao = garagem.produtos[i].producao;
 				produto.TotalDeVendas = garagem.produtos[i].totalDeVendas;
+				produto.FatorMarketing = garagem.produtos[i].fatorMarketing;
 	
 				$.post('http://' + local + ':3000/produto', produto);
 			}

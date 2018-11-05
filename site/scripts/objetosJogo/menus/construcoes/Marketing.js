@@ -33,11 +33,19 @@ function Marketing()
     this.ativar = function()
     {
         if (dadosJanelaPromocao.aberta)
+        {
             this.btnFecharPromocao.ativarInteracao();
+            if (dadosJanelaPromocao.indiceQualidade < 4)
+                this.btnMaisQualidade.ativarInteracao();
+            if (dadosJanelaPromocao.indiceQualidade > 0)
+                this.btnMenosQualidade.ativarInteracao();
+            this.txtTempo.ativarInteracao();
+            this.btnPromover.ativarInteracao();
+        }
         else
         {
             for (var i = 0; i < garagem.produtos.length; i++)
-                if (i < garagem.produtos.length && garagem.produtos[i].status == 1)
+                if (i < garagem.produtos.length && garagem.produtos[i].fatorMarketing > 0)
                     this.botoesPromover[i].ativarInteracao();
             this.btnFechar.ativarInteracao();
         }
@@ -47,6 +55,10 @@ function Marketing()
         for (var i = 0; i < 8; i++)
             this.botoesPromover[i].desativarInteracao();
 
+        this.txtTempo.desativarInteracao();
+        this.btnMaisQualidade.desativarInteracao();
+        this.btnMenosQualidade.desativarInteracao();
+        this.btnPromover.desativarInteracao();
         this.btnFecharPromocao.desativarInteracao();
         this.btnFechar.desativarInteracao();
     }
@@ -138,7 +150,17 @@ function Marketing()
                 ctx.fillText(garagem.produtos[i].totalDeVendas, xTabelaVendas + 594, yTabelaVendas + 46 + 30 * i);
                 ctx.textAlign = "center";
                 ctx.fillText(garagem.produtos[i].dataDeCriacao, xTabelaVendas + 664, yTabelaVendas + 46 + 30 * i);
-                este.botoesPromover[i].desenhar();
+
+                if (garagem.produtos[i].diasRestantes > 0)
+                {
+                    var s = garagem.produtos[i].diasRestantes == 1?"":"s";
+                    ctx.font = "bold 12pt Consolas";
+                    ctx.fillText(`+${garagem.produtos[i].diasRestantes} dia${s} de promoção`, 
+                                 xTabelaVendas + (730 + widthTabela)/2, yTabelaVendas + 46 + 30 * i, widthTabela - 734);
+                    ctx.font = "bold 13pt Consolas";
+                }
+                else
+                    este.botoesPromover[i].desenhar();
             }
         }
 
@@ -244,7 +266,7 @@ function Marketing()
 
 
     var widthJanelaPromocao = 540;
-    var heightJanelaPromocao = 370;
+    var heightJanelaPromocao = 345;
     var xJanelaPromocao = this.x + (this.width - widthJanelaPromocao)/2
     var yJanelaPromocao = this.y + (this.height - heightJanelaPromocao)/2;
     function desenharJanelaPromocao()
@@ -273,14 +295,20 @@ function Marketing()
         ctx.font = "bold 20pt Century Gothic";
         ctx.fillText("Tempo", xJanelaPromocao + 150, yJanelaPromocao + 115);
         ctx.fillText("Qualidade", xJanelaPromocao + 150, yJanelaPromocao + 165);
+        ctx.fillText("Preço", xJanelaPromocao + 150, yJanelaPromocao + 215);
 
         este.txtTempo.desenhar();
 
         ctx.textAlign = "left";
         ctx.fillText("dias", xJanelaPromocao + 435, yJanelaPromocao + 115);
 
+        ctx.fillStyle = "green";
+        ctx.fillText(formatarDinheiro(calcularPreco()), xJanelaPromocao + 165, yJanelaPromocao + 215)
+
         var qualidades = ["Baixa", "Regular", "Média", "Boa", "Excelente"];
         var coresQualidade = ["#930000", "#f27d00", "#cebd02", "#5ca801", "#01a884"]
+
+        ctx.fillStyle = "white";
 
         ctx.lineWidth = 1;
         ctx.fillRect(xJanelaPromocao + 165, yJanelaPromocao + 145, 260, 40);
@@ -290,8 +318,16 @@ function Marketing()
         ctx.font = "bold 18pt Century Gothic";
         ctx.textAlign = "center";
         ctx.fillText(qualidades[dadosJanelaPromocao.indiceQualidade], xJanelaPromocao + 295, yJanelaPromocao + 165);
+        
+        este.btnMaisQualidade.desenhar();
+        este.btnMenosQualidade.desenhar();
+        este.btnPromover.desenhar();
 
         ctx.restore();
+    }
+    function calcularPreco()
+    {
+        return parseInt(este.txtTempo.text) * 1000 * Math.pow(2, dadosJanelaPromocao.indiceQualidade);
     }
 
     function configurar()
@@ -306,6 +342,13 @@ function Marketing()
             este.botoesPromover[i].onclick = function(botao) {
                 dadosJanelaPromocao.aberta = true;
                 dadosJanelaPromocao.nomePromocao = '"' + garagem.produtos[botao.numeroRegistro].nome + '"';
+                dadosJanelaPromocao.indiceQualidade = 0;
+                este.txtTempo.clear();
+                dadosJanelaPromocao.onPromocaoFeita = function() {
+                    garagem.produtos[botao.numeroRegistro].fatorMarketing = dadosJanelaPromocao.indiceQualidade + 1;
+                    garagem.produtos[botao.numeroRegistro].diasRestantes = parseInt(este.txtTempo.text);
+                    alerta(`${dadosJanelaPromocao.nomePromocao} será promovido por ${este.txtTempo.text} dias`);
+                }
                 este.desativar();
                 este.ativar();
             }
@@ -326,12 +369,52 @@ function Marketing()
             height: 40,
             font: "bold 18pt Century Gothic",
             onlynumbers: true,
-            acceptfloats: false,
-            placeholder: "Tempo de promoção",
+            acceptFloats: false,
+            text: "0",
             maxvalue: 99,
             borderRadius: 0,
             backgroundColor: "white"
-        })
+        });
+
+        este.btnMaisQualidade = new BotaoRetangular(xJanelaPromocao + 425, yJanelaPromocao + 145, 45, 20, 0, 45, 20,
+                                                    "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic", 
+                                                    "black", "^", false, false, false);
+        este.btnMaisQualidade.onclick = function() {
+            var rh = getJanelaConstrucao("R. Humanos");
+            var qualidadeMaxima = rh?(rh.getRH().FuncionariosMarketing)/2:0;
+            if (dadosJanelaPromocao.indiceQualidade + 1 > qualidadeMaxima)
+                alerta("Contrate contrate funcionários na área para aumentar a qualidade!");
+            else
+                dadosJanelaPromocao.indiceQualidade++;
+            este.desativar();
+            este.ativar();
+        }
+        este.btnMenosQualidade = new BotaoRetangular(xJanelaPromocao + 425, yJanelaPromocao + 165, 45, 20, 0, 45, 20,
+                                                     "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic", 
+                                                     "black", "v", false, false, false);
+        este.btnMenosQualidade.onclick = function() {
+            dadosJanelaPromocao.indiceQualidade--;
+            este.desativar();
+            este.ativar();
+        }
+        este.btnPromover = new BotaoRetangular(xJanelaPromocao + (widthJanelaPromocao - 200)/2, yJanelaPromocao + 255, 200,
+                                               50, 9, 200, 50, "#4c98a5", "#5eb9c9",
+                                               null, null, "bold 21pt Century Gothic", "white", "Promover!", false, false, false);
+        este.btnPromover.onclick = function() {
+            if (parseInt(este.txtTempo.text) < 7)
+                alerta("O tempo mínimo é de 7 dias!");
+            else
+            {
+                fazerCompra("Publicidade de " + dadosJanelaPromocao.nomePromocao, calcularPreco(), false, true, 1, function() {
+                    dadosJanelaPromocao.onPromocaoFeita();
+                    dadosJanelaPromocao.aberta = false;
+                    dadosJanelaPromocao.nomePromocao = "";
+                    este.desativar();
+                    este.ativar();
+                })
+            }
+        }
+
 
     }
     configurar();

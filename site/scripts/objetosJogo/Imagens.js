@@ -97,6 +97,7 @@ imgItemGaragem.src = "imagens/iconesItens/garagem.png";
 imgItemOperacional.src = "imagens/iconesItens/operacional.png";
 imgItemRecursosHumanos.src = "imagens/iconesItens/recursosHumanos.png";
 imgItemMarketing.src = "imagens/iconesItens/marketing.png";
+imgItemFinanceiro.src = "imagens/iconesItens/financeiro.png";
 
 var iconeDica = new Image();
 var iconeDicaHover = new Image();
@@ -141,11 +142,13 @@ var imgGaragem = new Image();
 var imgOperacional = new Image();
 var imgRecursosHumanos = new Image();
 var imgMarketing = new Image();
+var imgFinanceiro = new Image();
 imgArmazem.src = "imagens/construcoes/armazem.png";
 imgGaragem.src = "imagens/construcoes/garagem.png";
 imgOperacional.src = "imagens/construcoes/operacional.png";
 imgRecursosHumanos.src = "imagens/construcoes/recursosHumanos.png";
 imgMarketing.src = "imagens/construcoes/marketing.png";
+imgFinanceiro.src = "imagens/construcoes/financeiro.png";
 //--------------------------------------------------------------------------
 // Armazem.js
 var imgMercadoria = new Image();
@@ -159,14 +162,18 @@ imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";
 //--------------------------------------------------------------------------
 // RecursosHumanos.js
 var imgContratar = new Image();
-imgContratar.src = 'imagens/botoes/btnContratar.png';
 var imgContratarHover = new Image();
-imgContratarHover.src = 'imagens/botoes/btnContratarHover.png'
 var imgDemitir = new Image();
-imgDemitir.src = 'imagens/botoes/btnDemitir.png'
 var imgDemitirHover = new Image();
+imgContratar.src = 'imagens/botoes/btnContratar.png';
+imgContratarHover.src = 'imagens/botoes/btnContratarHover.png'
+imgDemitir.src = 'imagens/botoes/btnDemitir.png'
 imgDemitirHover.src = 'imagens/botoes/btnDemitirHover.png'
 //--------------------------------------------------------------------------
 // Marketing.js
 var imgFundoMarketing = new Image();
-imgFundoMarketing = "imagens/construcoes/fundoMarketing.png";
+imgFundoMarketing.src = "imagens/construcoes/fundoMarketing.png";
+//--------------------------------------------------------------------------
+// Financeiro.js
+var imgFundoFinanceiro = new Image();
+imgFundoFinanceiro.src = "imagens/construcoes/fundoFinanceiro.jpg";

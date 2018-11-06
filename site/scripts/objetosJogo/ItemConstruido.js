@@ -4,7 +4,7 @@ ItemConstruido.garagem = {nome: "Garagem", preco: ItemAVender.garagem.preco, ima
 ItemConstruido.operacional = {nome: "Operacional", preco: ItemAVender.operacional.preco, imagem: imgOperacional, width: 140, height: 140, infoMenu: MenuItemConstruido.operacional};
 ItemConstruido.recursosHumanos = {nome: "R. Humanos", preco: ItemAVender.recursosHumanos.preco, imagem: imgRecursosHumanos, width: 130, height: 130, infoMenu: MenuItemConstruido.recursosHumanos};
 ItemConstruido.marketing = {nome: "Marketing", preco: ItemAVender.marketing.preco, imagem: imgMarketing, width: 120, height: 120, infoMenu: MenuItemConstruido.marketing};
-ItemConstruido.financeiro = {nome: "Financeiro", preco: ItemAVender.financeiro.preco, imagem: null, width: 120, height: 120, infoMenu: MenuItemConstruido.financeiro};
+ItemConstruido.financeiro = {nome: "Financeiro", preco: ItemAVender.financeiro.preco, imagem: imgFinanceiro, width: 120, height: 120, infoMenu: MenuItemConstruido.financeiro};
 
 function ItemConstruido(informacoes, isPrimeiro) 
 {

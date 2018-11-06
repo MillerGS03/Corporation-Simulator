@@ -580,6 +580,9 @@ function carregarDados()
 				case 'Marketing':
 					itensConstruidos[i] = new ItemConstruido(ItemConstruido.marketing, isPrimeiro);
 				break;
+
+				case 'Financeiro':
+					itensConstruidos[i] = new ItemConstruido(ItemConstruido.financeiro, isPrimeiro);
 			}
 			itensConstruidos[i].sustentador = dados[i].Sustentador;
 			itensConstruidos[i].setX(dados[i].X);

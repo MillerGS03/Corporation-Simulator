@@ -352,7 +352,10 @@ function RecursosHumanos()
 }
 function pagarSalarios()
 {
-    var rh = getJanelaConstrucao('R. Humanos')
-    var salario = rh.calcularSalario() * 1.314;
-    barra.dinheiro -= salario;
+    var rh = getJanelaConstrucao('R. Humanos');
+    if (rh)
+    {
+        var salario = rh.calcularSalario() * 1.314;
+        barra.dinheiro -= salario;
+    }
 }

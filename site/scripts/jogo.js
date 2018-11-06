@@ -637,6 +637,13 @@ function carregarDados()
 					if (operacional && infoJogo.PrecoUpgradeOperacional != null)
 						operacional.precoUpgrade = infoJogo.PrecoUpgradeOperacional;
 
+					if (marketing)
+					{
+						marketing.promocaoEmpresa = infoJogo.PromocaoEmpresa;
+						marketing.diasRestantesPromocaoEmpresa = infoJogo.DiasRestantesPromocaoEmpresa;
+						marketing.diasTotaisPromocaoEmpresa = infoJogo.DiasTotaisPromocaoEmpresa;
+					}
+
 					carregado = true;
 					ativarBotoes();
 				})
@@ -648,11 +655,6 @@ function carregarDados()
 			}
 			if (rh)
 				rh.setRH(infoJogo)
-			if (marketing)
-			{
-				marketing.promocaoEmpresa = infoJogo.PromocaoEmpresa;
-				marketing.diasRestantesPromocaoEmpresa = infoJogo.DiasRestantesPromocaoEmpresa;
-			}
 		})
 	})
 	contador = 0;
@@ -780,6 +782,7 @@ function salvar()
 	{
 		atualizar.PromocaoEmpresa = marketing.promocaoEmpresa;
 		atualizar.DiasRestantesPromocaoEmpresa = marketing.diasRestantesPromocaoEmpresa;
+		atualizar.DiasTotaisPromocaoEmpresa = marketing.diasTotaisPromocaoEmpresa;
 	}
 	if (rh)
 		jQuery.extend(atualizar, rh.getRH())

@@ -22,12 +22,15 @@ function Marketing()
     */
     this.promocaoEmpresa = 0;
     this.diasRestantesPromocaoEmpresa = 0;
+    this.diasTotaisPromocaoEmpresa = 0;
 
     this.abrirFechar = function()
     {
         this.aberto = !this.aberto;
         if (this.aberto)
         {
+            if (!garagem)
+                garagem = getJanelaConstrucao("Garagem");
             desativarBotoes();
             this.ativar();
         }
@@ -55,7 +58,8 @@ function Marketing()
                 if (i < garagem.produtos.length && garagem.produtos[i].fatorMarketing == 0)
                     this.botoesPromover[i].ativarInteracao();
             this.btnFechar.ativarInteracao();
-            this.btnPromoverEmpresa.ativarInteracao();
+            if (this.promocaoEmpresa == 0)
+                this.btnPromoverEmpresa.ativarInteracao();
         }
     }
     this.desativar = function()
@@ -268,13 +272,42 @@ function Marketing()
         var texto = produtosComEstoque==0?"Nenhum produto com estoque.":`${produtosComEstoque}/${garagem.produtos.length - (garagem.produtos[garagem.produtos.length - 1].status!=1?1:0)} produto(s) com estoque`;
         ctx.fillText(texto, este.x + este.width/2, este.y + 95);
 
-        este.btnPromoverEmpresa.desenhar();
+        if (este.promocaoEmpresa == 0)
+            este.btnPromoverEmpresa.desenhar();
+        else
+            desenharPromovendoEmpresa();
+
+        ctx.restore();
+    }
+    function desenharPromovendoEmpresa()
+    {
+        ctx.save();
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 24pt Century Gothic";
+
+        ctx.fillText("Publicidade da Empresa", este.x + este.width/2, este.y + 170);
+
+        ctx.textAlign = "right";
+        ctx.font = "bold 18pt Century Gothic";
+        ctx.fillText("Qualidade: ", este.x + este.width/2 - 20, este.y + 210);
+        ctx.fillText("Vendas: ", este.x + este.width/2 - 20, este.y + 240);
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = coresQualidade[este.promocaoEmpresa - 1];
+        ctx.fillText(qualidades[este.promocaoEmpresa - 1], este.x + este.width/2 - 20, este.y + 210);
+        ctx.fillStyle = "green";
+        ctx.fillText(`+${100 * este.promocaoEmpresa/4}%`, este.x + este.width/2 - 20, este.y + 240);
 
         ctx.restore();
     }
 
     var dadosJanelaPromocao = {aberta: false, nomePromocao: "Empresa", indiceQualidade: 0, onPromocaoFeita: function(){}};
 
+    var qualidades = ["Baixa", "Regular", "Média", "Boa", "Excelente"];
+    var coresQualidade = ["#930000", "#f27d00", "#cebd02", "#5ca801", "#01a884"];
 
     var widthJanelaPromocao = 540;
     var heightJanelaPromocao = 345;
@@ -314,10 +347,7 @@ function Marketing()
         ctx.fillText("dias", xJanelaPromocao + 435, yJanelaPromocao + 115);
 
         ctx.fillStyle = "green";
-        ctx.fillText(formatarDinheiro(calcularPreco()), xJanelaPromocao + 165, yJanelaPromocao + 215)
-
-        var qualidades = ["Baixa", "Regular", "Média", "Boa", "Excelente"];
-        var coresQualidade = ["#930000", "#f27d00", "#cebd02", "#5ca801", "#01a884"]
+        ctx.fillText(formatarDinheiro(calcularPreco()), xJanelaPromocao + 165, yJanelaPromocao + 215);
 
         ctx.fillStyle = "white";
 
@@ -437,6 +467,7 @@ function Marketing()
             dadosJanelaPromocao.onPromocaoFeita = function() {
                 este.promocaoEmpresa = dadosJanelaPromocao.indiceQualidade + 1;
                 este.diasRestantesPromocaoEmpresa = parseInt(este.txtTempo.text);
+                este.diasTotaisPromocaoEmpresa = parseInt(este.txtTempo.text);
                 alerta(`A ${dadosJanelaPromocao.nomePromocao} será promovida por ${este.txtTempo.text} dias`);
             }
             este.desativar();

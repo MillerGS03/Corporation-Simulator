@@ -183,6 +183,24 @@ function Garagem()
             }
 
         }
+
+        var marketing = getJanelaConstrucao("Marketing");
+        if (marketing && marketing.promocaoEmpresa > 0)
+        {
+            marketing.diasRestantesPromocaoEmpresa--;
+            if (marketing.diasRestantesPromocaoEmpresa == 0)
+            {
+                marketing.promocaoEmpresa = 0;
+                painelNotificacoes.adicionarNotificacao("Publicidade expirada", "O marketing da empresa diminuiu", 
+                                                        calendario.dia, calendario.mes, calendario.ano);
+                if (marketing.aberto)
+                {
+                    marketing.desativar();
+                    marketing.ativar();
+                }
+            }
+        }
+
     }
 
     /**
@@ -1206,8 +1224,12 @@ function Produto(nome, preco)
         var diferencaDeDias = (objDataAtual.getTime() - objDataCriacao.getTime()) / (1000 * 60 * 60 * 24);
         var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3);
         var pesoPreco = Math.pow(this.preco, 2 - (calendario.fatorEconomia() / 8 ));
-        var pesoMarketing = this.fatorMarketing/2 + 1;
-        this.vendasDiarias = Math.floor(500 * this.qualidade * pesoMarketing * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
+        var pesoMarketingProduto = this.fatorMarketing/2 + 1;
+        var pesoMarketingEmpresa = 1;
+        var marketing = getJanelaConstrucao("Marketing");
+        if (marketing && marketing.promocaoEmpresa)
+            pesoMarketingEmpresa = marketing.promocaoEmpresa/4 + 1;
+        this.vendasDiarias = Math.floor(500 * this.qualidade * pesoMarketingEmpresa * pesoMarketingProduto * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
         if (this.vendasDiarias > this.qtdeEmEstoque)
             this.vendasDiarias = this.qtdeEmEstoque;
 

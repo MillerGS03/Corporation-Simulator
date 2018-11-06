@@ -228,20 +228,21 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
   const QtdeMateriaPrima = a.QtdeMateriaPrima != null?a.QtdeMateriaPrima:"null";
   const PrecoUpgradeOperacional = a.PrecoUpgradeOperacional != null?a.PrecoUpgradeOperacional:"null";
   const CapacidadeProducao = a.CapacidadeProducao != null?a.CapacidadeProducao:"null";
-  const Capacitacao = a.Capacitacao;
-  const fDesenv = a.FuncionariosDesenvolvimento;
-  const fProd = a.FuncionariosProducao;
-  const fFin = a.FuncionariosFinanceiro;
-  const fMark = a.FuncionariosMarketing;
-  const fRh = a.FuncionariosRH;
-  const PromocaoEmpresa = a.PromocaoEmpresa;
-  const DiasRestantesPromocaoEmpresa = a.DiasRestantesPromocaoEmpresa;
+  const Capacitacao = a.Capacitacao != null?a.Capacitacao:"null";
+  const fDesenv = a.FuncionariosDesenvolvimento != null?a.FuncionariosDesenvolvimento:"null";
+  const fProd = a.FuncionariosProducao != null?a.FuncionariosProducao:"null";
+  const fFin = a.FuncionariosFinanceiro != null?a.FuncionariosFinanceiro:"null";
+  const fMark = a.FuncionariosMarketing != null?a.FuncionariosMarketing:"null";
+  const fRh = a.FuncionariosRH != null?a.FuncionariosRH:"null";
+  const PromocaoEmpresa = a.PromocaoEmpresa != null?a.PromocaoEmpresa:"null";
+  const DiasRestantesPromocaoEmpresa = a.DiasRestantesPromocaoEmpresa != null?a.DiasRestantesPromocaoEmpresa:"null";
+  const DiasTotaisPromocaoEmpresa = a.DiasTotaisPromocaoEmpresa != null?a.DiasTotaisPromocaoEmpresa:"null";
 
   execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
                                   QtdeMateriaPrima = ${QtdeMateriaPrima}, PrecoUpgradeOperacional = ${PrecoUpgradeOperacional},
                                   CapacidadeProducao = ${CapacidadeProducao}, Capacitacao = ${Capacitacao}, FuncionariosDesenvolvimento = ${fDesenv},
                                   FuncionariosProducao = ${fProd}, FuncionariosFinanceiro = ${fFin}, FuncionariosMarketing = ${fMark}, FuncionariosRH = ${fRh},
-                                  PromocaoEmpresa = ${PromocaoEmpresa}, DiasRestantesPromocaoEmpresa = ${DiasRestantesPromocaoEmpresa}
+                                  PromocaoEmpresa = ${PromocaoEmpresa}, DiasRestantesPromocaoEmpresa = ${DiasRestantesPromocaoEmpresa}, DiasTotaisPromocaoEmpresa = ${DiasTotaisPromocaoEmpresa}
                                   where CodJogo=${codJogo}`, resposta);
 })
 

@@ -95,6 +95,8 @@ function Marketing()
     }
     function desenharJanela()
     {
+        ctx.save();
+
         ctx.fillStyle = "#333333";
         ctx.globalAlpha = 0.3;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -112,6 +114,11 @@ function Marketing()
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
+
+        ctx.globalAlpha = 0.15;
+        ctx.drawImage(imgFundoMarketing, este.x + (este.width - 500)/2, este.y + (este.height - 500)/2);
+
+        ctx.restore();
     }
     var xTabelaVendas = este.x + 10;
     var yTabelaVendas = este.y + 330;

@@ -7,7 +7,7 @@ ItemAVender.operacional = {nome: "Operacional", descricao: "Especialize a produ�
 ItemAVender.recursosHumanos = {nome: "RH", descricao: ["Recursos Humanos:", "São os responsáveis por", "gerenciar os funcionários." ],
                            preco: 25000, img: imgItemRecursosHumanos, nivelMinimo: 3};
 ItemAVender.marketing   = {nome: "Marketing", descricao: ["Promova sua empresa e", "aumente a clientela!"],
-                           preco: 30000, img: imgItemRecursosHumanos, nivelMinimo: 4};
+                           preco: 30000, img: imgItemMarketing, nivelMinimo: 4};
 ItemAVender.financeiro  = {nome: "Financeiro", descricao: ["Controle o fluxo de", "caixa!"],
                            preco: 35000, img: imgItemRecursosHumanos, nivelMinimo: 5};
 

@@ -73,7 +73,7 @@ rota.post('/usuario', (requisicao, resposta) =>{
     const ComMusicaNosJogos = 1; // false
     bcrypt.hash(Senha, saltRounds, (err, hash) => {
       execSQL(`insert into Usuario values('${Username}', '${hash}', '${Nome}', '${Sexo}', '${Biografia}', '${Email}',
-              '${CorBanner}', '${CorFundo}', ${VolumeJogos}, ${ComMusicaNosJogos})`, resposta);
+              '${CorBanner}', '${CorFundo}', ${VolumeJogos}, ${ComMusicaNosJogos}, 0)`, resposta);
     });
     execSQL(`insert into UsuarioFoto values((select CodUsuario from Usuario where Username = '${Username}'), '${FotoPerfil}', '')`, resposta);
 })
@@ -138,6 +138,14 @@ rota.get('/getUsuario/:username', (requisicao, resposta) => {
 
 rota.post('/executarSQL', (requisicao, resposta) => {
   execSQL(requisicao.body.comando, resposta);
+})
+rota.patch('/updateTotalXp/:cod/:xpFinal', (requisicao, resposta) => {
+  const somar = requisicao.params.xpFinal;
+  const cod = requisicao.params.cod;
+  execSQL(`AtualizarXP_sp ${cod}, ${somar}`, resposta)
+})
+rota.get('/getRanking', (requisicao, resposta) => {
+  execSQL(`select * from Usuario u order by u.SomaXP desc`, resposta)
 })
 
 //rotas para selecao/carregamento/delecao de jogo

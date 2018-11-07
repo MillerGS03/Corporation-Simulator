@@ -32,6 +32,32 @@ function criarSlideShow()
     document.getElementById("conteudo").innerHTML += '<div class="botao" id="direita" onclick="avancarSlide(1)"><div></div></div>';
     document.getElementById("conteudo").innerHTML += '<div style="text-align:center" id="botoes"></div>';
 }
+function criarSlideGenerico(slide)
+{
+    slide.classList.add("slides");
+    slide.classList.add("fade");
+
+    document.getElementById("conteinerSlides").appendChild(slide);
+
+    qtosSlides++;
+
+    var botoes = document.getElementById("botoes");
+    botoes.innerHTML = "";
+
+    for (var i = 0; i < qtosSlides; i++)
+    {
+        var ponto = document.createElement("span");
+        ponto.className = "btn";
+        ponto.id = (i + 1).toString();
+        ponto.addEventListener("click", function() {mudarSlide(parseInt(this.id))});
+        if (qtosSlides % 2 != 0)
+            ponto.style.left = (468 + 25 * (i - Math.floor(qtosSlides / 2))) * 0.12 + "vh";
+        else
+            ponto.style.left = (480 + 25 * (i - qtosSlides / 2)) * 0.12 + "vh";
+
+        botoes.appendChild(ponto);
+    }
+}
 function criarSlide(caminhoImagem, texto)
 {
     var slide = document.createElement("div");

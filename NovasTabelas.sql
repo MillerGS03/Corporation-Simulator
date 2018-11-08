@@ -106,4 +106,3 @@ as
         update Conta set EfetuarNoDebito=@EfetuarNoDebito where CodJogo=@CodJogo and Nome=@Nome
     else
         insert into Conta values(@CodJogo, @Nome, @Classificacao, @EfetuarNoDebito)
->>>>>>> 211d767c89b0caa5c5e3dbbb748a9d52ecbe691c

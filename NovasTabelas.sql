@@ -16,6 +16,7 @@ alter proc RemoverJogo_sp
 as
 delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome=@nomeJogo)
 delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+delete from Conta where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
 
@@ -86,3 +87,23 @@ insert into UsuarioRank values(@cod, @hoje, '{"Grafico": []}')
 
 select * from UsuarioRank
 update UsuarioRank set DiaAtual = '20/10/2018' where CodUsuario = 27
+create table Conta (
+CodConta int identity(1,1) primary key,
+CodJogo int not null,
+constraint fkCodJogoConta foreign key (CodJogo) references Jogo(CodJogo),
+Nome varchar(50) not null,
+Classificacao varchar(50) not null,
+EfetuarNoDebito int not null
+)
+
+create proc ColocarConta_sp
+@CodJogo int,
+@Nome varchar(50),
+@Classificacao varchar(50),
+@EfetuarNoDebito int
+as
+    if (select count(*) from Conta where CodJogo=@CodJogo and Nome=@Nome) > 0
+        update Conta set EfetuarNoDebito=@EfetuarNoDebito where CodJogo=@CodJogo and Nome=@Nome
+    else
+        insert into Conta values(@CodJogo, @Nome, @Classificacao, @EfetuarNoDebito)
+>>>>>>> 211d767c89b0caa5c5e3dbbb748a9d52ecbe691c

@@ -1,7 +1,9 @@
+criarSlideShowGenerico();
+criarSlideGenerico(document.getElementById('saldo'));
+criarSlideGenerico(document.getElementById('contas'));
+criarSlideGenerico(document.getElementById('classif'));
+mostrarSlide(slideIndex)
 var tema = 'light';
-//$("#saldo").css('display', 'none')
-$("#contas").css('display', 'none')
-$("#classif").css('display', 'none')
 $("#tema").on('click', function(){
 	if (tema == 'light')
 		tema = 'dark';
@@ -61,19 +63,20 @@ function atualizarPontosSaldo()
 	var diff = atualizarData();
 	if (diff > 0)
 	{
-		var x = simulacao.DataCriacao + '';
-		x = x.substring(0, x.length-1);
-		var atual = new Date(x);
 		var y = 0;
 		for (var i = 0; i < diff; i++)
 		{
-			atual.setDate(atual.getDate() + 1);
+			var x = simulacao.DataCriacao + '';
+			x = x.substring(0, x.length-1);
+			var atual = new Date(x);
+			atual.setDate(atual.getDate() + i)
 			y += (contas!=null?verificarPerdaGanho(atual):0)
 			aux = new Object();
 			aux.x = atual;
 			aux.y = y;
 			pontosSaldo.push(aux)
 		}
+		simulacao.Saldo = pontosSaldo[pontosSaldo.length-2].y;
 	}
 	else
 		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
@@ -117,7 +120,6 @@ function atualizarPontosClass()
 	if (chartClass != null)
 		chartClass.render();
 }
-var iSaldo = setInterval(atualizarPontosSaldo, 100)
 $("#nomeSimulacao").text(simulacao.Nome);
 
 $("#addSub").on('click', function(){
@@ -209,13 +211,16 @@ function formatarData(dia, mes, ano)
 		data += "/" + (ano < 10?"0" + ano:ano);
 	return data;
 }
+var iSaldo;
 setTimeout(function(){
+	carregar();
 	atualizarPontosSaldo();
 	criarGraficoSaldo();
 	atualizarPontosConta();
 	criarGraficoConta();
 	atualizarPontosClass();
 	criarGraficoClass();
+	iSaldo = setInterval(atualizarPontosSaldo, 100)
 }, 500)
 function verificarPerdaGanho(dia)
 {
@@ -252,17 +257,15 @@ function verificarPerdaGanho(dia)
 function finalizarSimulacao()
 {
 	clearInterval(iSaldo);
+	$('#conteinerSlidesGenerico').remove();
+	$('#esquerda').remove();
+	$('#direita').remove();
+	$('#botoes').remove();
 	$.ajax({
 		url: 'http://' + local + ':3000/UpdateSimulacao',
 		type: 'patch',
 		data: simulacao
 	})
-	for (var i = 0; i < contas.length; i++)
-		$.ajax({
-			url: 'http://' + local + ':3000/contas/' + contas[i].CodPatrimonio,
-			type: 'patch',
-			data: contas[i]
-		})
 }
 function carregar()
 {
@@ -272,7 +275,4 @@ function carregar()
 	$.ajax({
 		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
 	}).done(function(dados) {classificacoes = dados});
-	pontosSaldo = JSON.parse(simulacao.PontosSaldo);
-	if (pontosSaldo == null)
-		primeiroSaldo();
 }

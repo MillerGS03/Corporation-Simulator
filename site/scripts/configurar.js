@@ -155,6 +155,17 @@ $("#retirarBanner").on("click", function() {
 		data: banner
 	})
 });
+$("#delConta").on('click', function(){
+	confirma("Deseja realmente excluir sua conta?", function(){
+		$.ajax({
+			url: 'http://' + local + ':3000/usuario/' + user.CodUsuario,
+			type: 'delete'
+		})
+		logout();
+		return false;
+	})
+	return false;
+})
 
 function colocarDadosConfig()
 {

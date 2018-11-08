@@ -147,6 +147,9 @@ rota.patch('/updateTotalXp/:cod/:xpFinal', (requisicao, resposta) => {
 rota.get('/getRanking', (requisicao, resposta) => {
   execSQL(`select * from Usuario u order by u.SomaXP desc`, resposta)
 })
+rota.delete('/usuario/:cod', (requisicao, resposta) => {
+  console.log(`exec RemoverUsuario_sp ${requisicao.params.cod}`)
+})
 
 //rotas para selecao/carregamento/delecao de jogo
 rota.get('/jogos/:codUsuario', (requisicao, resposta) => {

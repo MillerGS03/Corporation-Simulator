@@ -318,3 +318,10 @@ input[type="color"]
 	top: 42vh;
 	width: 100%;
 }
+#delConta
+{
+	position: absolute;
+	top: 40vh;
+	left: 40vh;
+	font-family: 'Century'
+}

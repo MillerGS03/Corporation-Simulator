@@ -14,9 +14,16 @@ alter proc RemoverJogo_sp
 @codUsuario int,
 @nomeJogo varchar(30)
 as
-delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome=@nomeJogo)
-delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
-delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+declare @codJogo int
+select @codJogo = CodJogo from Jogo where Nome = @nomeJogo and CodUsuario = @codUsuario
+declare @xp int
+select @xp = XP from Jogo where CodJogo = @codJogo
+set @xp = @xp * -1
+exec AtualizarXP_sp @xp
+delete from ConstrucaoJogo where CodJogo = @codJogo
+delete from Produto where CodJogo = @codJogo
+delete from InfoEmpresa where CodJogo = @codJogo
+delete from Conta where CodJogo = @codJogo
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
 
 create table Produto (
@@ -51,3 +58,17 @@ if (select count(Nome) from Produto where Nome=@Nome and CodJogo=@CodJogo) = 0
 else
     update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas, FatorMarketing=@FatorMarketing
                        where CodJogo=@CodJogo and Nome=@Nome
+
+
+create proc RemoverUsuario_sp
+@CodUsuario int
+as
+delete from Simulacao where CodUsuario = @CodUsuario
+delete from UsuarioFoto where CodUsuario = @CodUsuario
+delete from UsuarioRank where CodUsuario = @CodUsuario
+delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @CodUsuario)
+delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @CodUsuario)
+delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @CodUsuario)
+delete from Conta where CodJogo in (select CodJogo from Jogo where CodUsuario = @CodUsuario)
+delete from Jogo where CodUsuario = @codUsuario
+delete from Usuario where CodUsuario = @CodUsuario

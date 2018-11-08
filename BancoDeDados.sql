@@ -91,6 +91,7 @@ select * from Simulacao
 select * from ConstrucaoJogo
 select * from Jogo
 select * from Usuario
+select * from UsuarioFoto
 select * from InfoEmpresa
 update InfoEmpresa set Capacitacao = 1
 

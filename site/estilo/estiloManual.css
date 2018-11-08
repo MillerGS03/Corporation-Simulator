@@ -20,6 +20,7 @@
 	left: 5.2vh;
 	text-align: justify;
 	font-size: 4vh;
+	bottom: 3vh;
 }
 #conteudo .painelManual p
 {
@@ -27,6 +28,7 @@
 	left: 3.25vh;
 	text-align: justify;
 	font-size: 2.5vh;
+	bottom: 3vh;
 }
 #conteudo .painelManual hr
 {
@@ -36,6 +38,10 @@
 	height: 0.3vh;
 	border: 0;
 	margin: 1vh;
+}
+#conteudo .painelManual #txt
+{
+	width: 95%;
 }
 #avancar
 {
@@ -56,4 +62,21 @@
 	height: 8vh;
 	background: url('../imagens/funcionalidades/setaEsquerda.png') no-repeat;
 	background-size: 100%;
+}
+.painelManual #razonete
+{
+	max-width: 15vh;
+	max-height: 15vh;
+}
+.painelManual #bp
+{
+	position: relative;
+	bottom: 5vh;
+}
+.painelManual #l
+{
+	position: relative;
+	bottom: 3vh;
+	max-width: 90%;
+	max-height: 15vh;
 }

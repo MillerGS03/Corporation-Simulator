@@ -24,7 +24,18 @@ delete from ConstrucaoJogo where CodJogo = @codJogo
 delete from Produto where CodJogo = @codJogo
 delete from InfoEmpresa where CodJogo = @codJogo
 delete from Conta where CodJogo = @codJogo
+delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome=@nomeJogo)
+delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+delete from Conta where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+>>>>>>> 91660d8364d6c97615569b148c3c47dde0ae1503
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
+
+create proc AtualizarXP_sp
+@CodUsuario int,
+@valor int
+as
+update Usuario set SomaXP += @valor where CodUsuario = @CodUsuario
 
 create table Produto (
 CodProduto int identity(1,1) primary key,
@@ -72,3 +83,49 @@ delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsua
 delete from Conta where CodJogo in (select CodJogo from Jogo where CodUsuario = @CodUsuario)
 delete from Jogo where CodUsuario = @codUsuario
 delete from Usuario where CodUsuario = @CodUsuario
+
+
+create table UsuarioRank(
+CodUsuario int not null,
+constraint fkUsuarioRank foreign key(CodUsuario) references Usuario(CodUsuario),
+DiaAtual varchar(30),
+GraficoRank varchar(max)
+)
+delete from UsuarioRank
+delete from UsuarioFoto where CodUsuario = 16 and ImagemBanner = ''
+
+delete from Usuario where CodUsuario = 26
+delete from UsuarioRank where CodUsuario = 26
+delete from UsuarioFoto where CodUsuario = 26
+delete from Jogo where CodUsuario = 26
+
+create proc CriarUsuarioAux_sp
+@foto varchar(max),
+@hoje varchar(30)
+as
+declare @cod int
+select @cod = max(CodUsuario) from Usuario
+insert into UsuarioFoto values(@cod, @foto, '')
+insert into UsuarioRank values(@cod, @hoje, '{"Grafico": []}')
+
+select * from UsuarioRank
+update UsuarioRank set DiaAtual = '20/10/2018' where CodUsuario = 27
+create table Conta (
+CodConta int identity(1,1) primary key,
+CodJogo int not null,
+constraint fkCodJogoConta foreign key (CodJogo) references Jogo(CodJogo),
+Nome varchar(50) not null,
+Classificacao varchar(50) not null,
+EfetuarNoDebito int not null
+)
+
+create proc ColocarConta_sp
+@CodJogo int,
+@Nome varchar(50),
+@Classificacao varchar(50),
+@EfetuarNoDebito int
+as
+    if (select count(*) from Conta where CodJogo=@CodJogo and Nome=@Nome) > 0
+        update Conta set EfetuarNoDebito=@EfetuarNoDebito where CodJogo=@CodJogo and Nome=@Nome
+    else
+        insert into Conta values(@CodJogo, @Nome, @Classificacao, @EfetuarNoDebito)

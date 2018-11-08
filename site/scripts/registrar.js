@@ -42,9 +42,15 @@ function verificarCampos()
 				usuario.ImagemBanner = 0000;
 				usuario.CorBanner = '';
 				usuario.CorFundo = '';
+				var h = new Date();
+				var x = h + '';
+				usuario.hoje = new Date(x.substring(0, x.length-1));
 				$.post('http://' + local + ':3000/usuario', usuario)
-				abrir("html/home.html");
-				alert("Registro efetuado. Faça login para continuar!");
+				setTimeout(function(){
+					$.post('http://' + local + ':3000/usuario/aux', usuario)
+					abrir("html/home.html");
+					alert("Registro efetuado. Faça login para continuar!");
+				}, 500)
 			}
 			else
 				alert("Nome de usuário já tomado!");

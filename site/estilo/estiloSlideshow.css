@@ -1,4 +1,4 @@
-section#conteudo
+.conteudoNovoSlideShow
 {
     width: 114vh;
     height: 72vh;
@@ -27,7 +27,23 @@ section#conteudo .botao
     border-radius: 50%;
     cursor: pointer;
 }
+section#conteudo .botaoG
+{
+    position: absolute;
+    top: 40vh;
+    height: 7.6vh;
+    width: 7.6vh;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 .botao div
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.botaoG div
 {
     width: 100%;
     height: 100%;
@@ -44,6 +60,17 @@ section#conteudo .botao
     background-size: 100%;
 }
 
+#esquerdaG {position: absolute; left: 55vh;}
+#esquerdaG div {
+    background: url('../imagens/funcionalidades/setaEsquerda.png') no-repeat;
+    background-size: 100%;
+}
+#direitaG {position: absolute; right: 5vh;}
+#direitaG div {
+    background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
+    background-size: 100%;
+}
+
 #conteinerSlides
 {
     width: 85vh;
@@ -55,6 +82,14 @@ section#conteudo .botao
     margin-left: auto;
     margin-right: auto;
 }
+#conteinerSlidesGenerico
+{
+    width: 120vh;
+    height: 50vh;
+    position: absolute;
+    top: 15vh;
+    left: 32%;
+}
 
 .botao img
 {
@@ -62,6 +97,15 @@ section#conteudo .botao
     border-radius: 50%;
 }
 .botao:hover img
+{
+    opacity: .8;
+}
+.botaoG img
+{
+    transition: .2s;
+    border-radius: 50%;
+}
+.botaoG:hover img
 {
     opacity: .8;
 }
@@ -89,7 +133,18 @@ section#conteudo h1
     position: absolute;
     bottom: 1.6vh;
 }
-.active, .btn:hover {
+.btnG {
+    cursor: pointer;
+    height: 1.6vh;
+    width: 1.6vh;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    position: absolute;
+    top: 70vh;
+}
+.activeSlideShow, .btn:hover {
     background-color: #717171;
   }
 .fade {

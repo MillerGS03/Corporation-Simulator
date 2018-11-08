@@ -26,13 +26,13 @@
 {
 	height: 50vh;
 	background-color: white;
-	width: 96%;
+	width: 100%;
 	position: absolute;
-	left: 2%;
-	top: 13vh;
+	left: 0;
+	top: 0;
 }
 
-.btn
+.btnS
 {
 	position: absolute;
 	top: 69vh;

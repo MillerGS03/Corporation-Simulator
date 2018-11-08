@@ -134,6 +134,13 @@ function Financeiro()
     }
     function configurar()
     {
+        este.switchers = new Array();
+        for (var i = 0; i < 10; i++)
+        {
+            este.switchers.push(new BotaoRetangular(xTabela + (565 + widthTabela - 90)/2, yTabela + 45 + i * 34,
+                                                    90, 26, 8, 90, 26, "#e5e5e5", "#ececec", null, null, "",
+                                                    "", "", false, false, false));
+        }
         este.btnIrParaBanco = new BotaoRetangular(xTabela + widthTabela - 280, este.y + (yTabela - este.y + heightTabela + este.height)/2 - 22,
                                                   280, 44, 8, 280, 44, "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
                                                   "black", "Ir para o banco", false, false, false);

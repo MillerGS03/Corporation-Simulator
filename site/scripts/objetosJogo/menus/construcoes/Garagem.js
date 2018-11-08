@@ -801,6 +801,8 @@ function Garagem()
 
         ctx.restore();
     }
+
+    var saldos = estatisticas.getEstatisticas().Saldo;
     function desenharInformacoesFinancas()
     {
         ctx.save();
@@ -809,8 +811,56 @@ function Garagem()
         ctx.textBaseline = "alphabetic";
         ctx.fillStyle = "black";
         ctx.font = "bold 17pt Century Gothic";
-        ctx.fillText("Status mensal: ", xTabelaFinancas + 190, yTabelaFinancas + heightTabelaFinancas + 65);
-        ctx.fillText("Status anual: ", xTabelaFinancas + 190, yTabelaFinancas + heightTabelaFinancas + 100);
+        ctx.fillText("Status mensal: ", xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 65);
+        ctx.fillText("Status anual: ", xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 100);
+
+        var corStatusMensal = "black";
+        var corStatusAnual = "black";
+        var msgStatusMensal = " - ";
+        var msgStatusAnual = " - ";
+
+        if (saldos.length > 2)
+        {
+            var saldoAtual = saldos[saldos.length - 1];
+            var saldoMesAnterior = saldos[saldos.length - 2];
+            var lucroOuPrejuizoMensal = saldoAtual - saldoMesAnterior;
+            if (lucroOuPrejuizoMensal > 0)
+            {
+                msgStatusMensal = "Lucro de " + formatarDinheiro(lucroOuPrejuizoMensal);
+                corStatusMensal = "green";
+            }
+            else if (lucroOuPrejuizoMensal == 0)
+                msgStatusMensal = "Sem variação";
+            else
+            {
+                msgStatusMensal = "Prejuízo de " + formatarDinheiro(lucroOuPrejuizoMensal);
+                corStatusAnual = "red";
+            }
+
+            if (saldos.length > 13)
+            {
+                var saldoAnoAnterior = saldos[saldos.length - 13];
+                var lucroOuPrejuizoAnual = saldoAtual - saldoAnoAnterior;
+                if (lucroOuPrejuizoAnual > 0)
+                {
+                    msgStatusAnual = "Lucro de " + formatarDinheiro(lucroOuPrejuizoAnual);
+                    corStatusAnual = "green";
+                }
+                else if (lucroOuPrejuizoAnual == 0)
+                    msgStatusMensal = "Sem variação";
+                else
+                {
+                    msgStatusAnual = "Prejuízo de " + formatarDinheiro(lucroOuPrejuizoAnual);
+                    corStatusAnual = "red";
+                }
+            }
+        }
+
+        ctx.textAlign = "left";
+        ctx.fillStyle = corStatusMensal;
+        ctx.fillText(msgStatusMensal, xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 65);
+        ctx.fillStyle = corStatusAnual;
+        ctx.fillText(msgStatusAnual, xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 100);
 
         este.btnIrParaBanco.desenhar();
 

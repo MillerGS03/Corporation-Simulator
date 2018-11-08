@@ -16,6 +16,8 @@ function Garagem()
 
     var produtoSendoAlterado = null;
 
+    this.contas = new Array();
+
     this.getQtdeTotalDeProdutos = function() {
         var total = 10;
         for (var i = 0; i < this.produtos.length; i++)
@@ -778,7 +780,13 @@ function Garagem()
                 ctx.fillRect(xTabelaFinancas + 1, yTabelaFinancas + 41 + i * 34, widthTabelaFinancas - 2, 34);
                 ctx.fillStyle = "#333333";
             }
-            este.switchers[i].desenhar();
+            if (i < este.contas.length)
+            {
+                ctx.fillStyle = "black";
+                ctx.fillText(este.contas[i].nome, xTabelaFinancas + 5, yTabelaFinancas + 58 + i * 34);
+                ctx.fillText(este.contas[i].classificacao, xTabelaFinancas + 285, yTabelaFinancas + 58 + i * 34);
+                este.switchers[i].desenhar();
+            }
         }
 
         var xLinhas = [280, 440];
@@ -800,7 +808,7 @@ function Garagem()
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
         ctx.fillStyle = "black";
-        ctx.font = "bold 18pt Century Gothic";
+        ctx.font = "bold 17pt Century Gothic";
         ctx.fillText("Status mensal: ", xTabelaFinancas + 190, yTabelaFinancas + heightTabelaFinancas + 65);
         ctx.fillText("Status anual: ", xTabelaFinancas + 190, yTabelaFinancas + heightTabelaFinancas + 100);
 
@@ -1248,12 +1256,17 @@ function Garagem()
         este.switchers = new Array();
         for (var i = 0; i < 10; i++)
         {
-            este.switchers.push(new BotaoRetangular(xTabelaFinancas + (440 + widthTabelaFinancas - 90)/2, yTabelaFinancas + 45 + i * 34,
-                                                    90, 26, 8, 90, 26, "#e5e5e5", "#ececec", null, null, "",
-                                                    "", "", false, false, false));
+            este.switchers.push(new Switcher({
+                x: xTabelaFinancas + (440 + widthTabelaFinancas - 84)/2,
+                y: yTabelaFinancas + 45 + i * 34
+            }));
+            este.switchers[i].numeroRegistro = i;
+            este.switchers[i].onswitch = function(switcher) {
+                este.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
+            }
         }
-        este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabelaFinancas - 280, este.y + (yTabelaFinancas - este.y + heightTabelaFinancas + este.height)/2 - 22,
-                                                    280, 44, 8, 280, 44, "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
+        este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabelaFinancas - 264, este.y + (yTabelaFinancas - este.y + heightTabelaFinancas + este.height)/2 - 22,
+                                                    264, 44, 8, 264, 44, "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
                                                     "black", "Ir para o banco", false, false, false);
     }
     configurar();
@@ -1311,4 +1324,10 @@ function Produto(nome, preco)
 
         return this.vendasDiarias;
     }
+}
+function Conta(nome, classificacao)
+{
+    this.nome = nome;
+    this.classificacao = classificacao;
+    this.efetuarNoDebito = false;
 }

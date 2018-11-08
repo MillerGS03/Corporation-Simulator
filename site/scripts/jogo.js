@@ -449,7 +449,6 @@ function desformatarData(data)
 	return dataDesformatada;
 }
 
-
 function desenharGraficoPizza(raio, xCentro, yCentro, valores, total, cores, corBase)
 {
 	ctx.save();
@@ -613,6 +612,8 @@ function carregarDados()
 			}
 			if (garagem)
 			{
+				var produtosCarregados = false;
+				var contasCarregadas = false;
 				if (infoJogo.QtdeMateriaPrima != null)
 					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima;
 				if (infoJogo.CapacidadeProducao != null)
@@ -647,8 +648,31 @@ function carregarDados()
 						marketing.diasTotaisPromocaoEmpresa = infoJogo.DiasTotaisPromocaoEmpresa;
 					}
 
-					carregado = true;
-					ativarBotoes();
+					produtosCarregados = true;
+					if (contasCarregadas)
+					{
+						carregado = true;
+						ativarBotoes();
+					}
+				})
+				$.ajax({
+					url: 'http://' + local + ':3000/contasJogo/' + jogo.CodJogo
+				}).done(function(contas){
+					for (var i = 0; i < contas.length; i++)
+					{
+						var conta = new Conta(contas[i].Nome, contas[i].Classificacao);
+						conta.efetuarNoDebito = contas[i].EfetuarNoDebito==1;
+						garagem.contas.push(conta);
+						garagem.switchers[i].side = conta.efetuarNoDebito?"right":"left";
+						garagem.switchers[i].deslocamento = conta.efetuarNoDebito?100:0;
+					}
+
+					contasCarregadas = true;
+					if (produtosCarregados)
+					{
+						carregado = true;
+						ativarBotoes();
+					}
 				})
 			}
 			else
@@ -778,6 +802,16 @@ function salvar()
 				$.post('http://' + local + ':3000/produto', produto);
 			}
 		}, 40);
+		for (var i = 0; i < garagem.contas.length; i++)
+		{
+			var conta = new Object();
+			conta.CodJogo = jogo.CodJogo;
+			conta.Nome = garagem.contas[i].nome;
+			conta.Classificacao = garagem.contas[i].classificacao;
+			conta.EfetuarNoDebito = garagem.contas[i].efetuarNoDebito?1:0;
+
+			$.post('http://' + local + ':3000/contasJogo', conta);
+		}
 	}
 	if (operacional)
 		atualizar.PrecoUpgradeOperacional = operacional.precoUpgrade;

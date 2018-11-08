@@ -210,6 +210,20 @@ rota.delete('/produto/:codJogo/:nome', (requisicao, resposta) => {
   execSQL(`delete from Produto where CodJogo = ${requisicao.params.codJogo} and Nome = '${requisicao.params.nome}'`, resposta);
 })
 
+rota.get('/contasJogo/:codJogo', (requisicao, resposta) => {
+  const codJogo = requisicao.params.codJogo;
+  execSQL(`select * from Conta where CodJogo = ${codJogo}`, resposta);
+})
+rota.post('/contasJogo', (requisicao, resposta) => {
+  const a = requisicao.body;
+  const CodJogo = a.CodJogo;
+  const Nome = a.Nome;
+  const Classificacao = a.Classificacao;
+  const EfetuarNoDebito = a.EfetuarNoDebito;
+
+  execSQL(`exec ColocarConta_sp ${CodJogo}, '${Nome}', '${Classificacao}', ${EfetuarNoDebito}`, resposta)
+})
+
 rota.get('/infoEmpresa/:codJogo', (requisicao, resposta) => {
   const codJogo = requisicao.params.codJogo;
   execSQL(`select * from InfoEmpresa where CodJogo = ${codJogo}`, resposta);

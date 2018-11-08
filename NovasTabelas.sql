@@ -16,6 +16,7 @@ alter proc RemoverJogo_sp
 as
 delete from ConstrucaoJogo where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome=@nomeJogo)
 delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
+delete from Conta where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
 
@@ -51,3 +52,23 @@ if (select count(Nome) from Produto where Nome=@Nome and CodJogo=@CodJogo) = 0
 else
     update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas, FatorMarketing=@FatorMarketing
                        where CodJogo=@CodJogo and Nome=@Nome
+
+create table Conta (
+CodConta int identity(1,1) primary key,
+CodJogo int not null,
+constraint fkCodJogoConta foreign key (CodJogo) references Jogo(CodJogo),
+Nome varchar(50) not null,
+Classificacao varchar(50) not null,
+EfetuarNoDebito int not null
+)
+
+create proc ColocarConta_sp
+@CodJogo int,
+@Nome varchar(50),
+@Classificacao varchar(50),
+@EfetuarNoDebito int
+as
+    if (select count(*) from Conta where CodJogo=@CodJogo and Nome=@Nome) > 0
+        update Conta set EfetuarNoDebito=@EfetuarNoDebito where CodJogo=@CodJogo and Nome=@Nome
+    else
+        insert into Conta values(@CodJogo, @Nome, @Classificacao, @EfetuarNoDebito)

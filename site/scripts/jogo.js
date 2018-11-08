@@ -61,6 +61,8 @@ var desenhar = true;
 var carregado = false;
 var pausado = false;
 
+var xpInicial;
+
 var qtasConstrucoesInicialmente = 0;
 /**
  * 0 - Nada sendo construído
@@ -659,6 +661,7 @@ function carregarDados()
 			if (rh)
 				rh.setRH(infoJogo)
 		})
+		xpInicial = jogo.XP;
 	})
 	contador = 0;
 
@@ -793,6 +796,11 @@ function salvar()
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
 
 	qtasConstrucoesInicialmente = itensConstruidos.length;
+	var xpFinal = barra.getXPTotal() - xpInicial;
+	$.ajax({
+		url: 'http://' + local + ':3000/updateTotalXp/' + user.CodUsuario + '/' + xpFinal,
+		type: 'patch'
+	})
 }
 function finalizarJogo()
 {

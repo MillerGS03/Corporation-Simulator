@@ -5,7 +5,6 @@ var simulacao;
 
 function colocarDados() {
 	$("#user").text(user.Username);
-	$("#rank").text(user.Rank);
 	$("head").append('<style type="text/css">' +
 	'.active'+
 		'{'+
@@ -36,6 +35,11 @@ function abrirInfo(arq)
 	else if (conteudoAberto == 'simulacao.html')
 	{
 		finalizarSimulacao();
+		tempoEsperaFinalizar = 20;
+	}
+	else if (conteudoAberto == 'classificacao.html')
+	{
+		salvarGrafico();
 		tempoEsperaFinalizar = 20;
 	}
 	setTimeout(function() {

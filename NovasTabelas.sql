@@ -19,6 +19,12 @@ delete from Produto where CodJogo in (select CodJogo from Jogo where CodUsuario 
 delete from InfoEmpresa where CodJogo in (select CodJogo from Jogo where CodUsuario = @codUsuario and nome = @nomeJogo)
 delete from Jogo where CodUsuario = @codUsuario and Nome = @nomeJogo
 
+create proc AtualizarXP_sp
+@CodUsuario int,
+@valor int
+as
+update Usuario set SomaXP += @valor where CodUsuario = @CodUsuario
+
 create table Produto (
 CodProduto int identity(1,1) primary key,
 CodJogo int not null,
@@ -51,3 +57,32 @@ if (select count(Nome) from Produto where Nome=@Nome and CodJogo=@CodJogo) = 0
 else
     update Produto set Preco=@Preco, QuantidadeEmEstoque=@QuantidadeEmEstoque, DataDeCriacao=@DataDeCriacao, Status=@Status, Qualidade=@Qualidade, DiasRestantes=@DiasRestantes, Producao=@Producao, TotalDeVendas=@TotalDeVendas, FatorMarketing=@FatorMarketing
                        where CodJogo=@CodJogo and Nome=@Nome
+
+
+
+
+create table UsuarioRank(
+CodUsuario int not null,
+constraint fkUsuarioRank foreign key(CodUsuario) references Usuario(CodUsuario),
+DiaAtual varchar(30),
+GraficoRank varchar(max)
+)
+delete from UsuarioRank
+delete from UsuarioFoto where CodUsuario = 16 and ImagemBanner = ''
+
+delete from Usuario where CodUsuario = 26
+delete from UsuarioRank where CodUsuario = 26
+delete from UsuarioFoto where CodUsuario = 26
+delete from Jogo where CodUsuario = 26
+
+create proc CriarUsuarioAux_sp
+@foto varchar(max),
+@hoje varchar(30)
+as
+declare @cod int
+select @cod = max(CodUsuario) from Usuario
+insert into UsuarioFoto values(@cod, @foto, '')
+insert into UsuarioRank values(@cod, @hoje, '{"Grafico": []}')
+
+select * from UsuarioRank
+update UsuarioRank set DiaAtual = '20/10/2018' where CodUsuario = 27

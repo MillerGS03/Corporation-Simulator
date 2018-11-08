@@ -150,16 +150,14 @@ rota.patch('/updateTotalXp/:cod/:xpFinal', (requisicao, resposta) => {
 rota.get('/getRanking', (requisicao, resposta) => {
   execSQL(`select * from Usuario u order by u.SomaXP desc`, resposta)
 })
-<<<<<<< HEAD
 rota.delete('/usuario/:cod', (requisicao, resposta) => {
   console.log(`exec RemoverUsuario_sp ${requisicao.params.cod}`)
-=======
+})
 rota.get('/rankUsuario/:cod', (requisicao, resposta) => {
   execSQL(`select * from UsuarioRank where CodUsuario = ${requisicao.params.cod}`, resposta)
 })
 rota.patch('/updateUsuarioRank/:cod', (requisicao, resposta) => {
   execSQL(`update UsuarioRank set DiaAtual = '${requisicao.body.DiaAtual}', GraficoRank = '${requisicao.body.GraficoRank}' where CodUsuario = ${requisicao.params.cod}`, resposta)
->>>>>>> 91660d8364d6c97615569b148c3c47dde0ae1503
 })
 
 //rotas para selecao/carregamento/delecao de jogo

@@ -1,13 +1,12 @@
+<script src="scripts/slideshow.js"></script>
+<link rel="stylesheet" type="text/css" href="estilo/estiloSlideshow.css">
 <link rel="stylesheet" type="text/css" href="estilo/estiloRanking.css">
-
+<script src="scripts/ranking.js"></script>
 <h1>Ranking</h1>
 <div id="imgRecordes">
-<ol id="ranking">
-    <li>Gustavo Miller</li>
-    <li>Felipe Scherer</li>
-    <li>Leandro</li>
-</ol>
+<ol id="rankingEsquerda"></ol>
+<ol id="rankingDireita"></ol>
 <form>
-    <input type="search" placeholder="Pesquisar Jogador..." maxlength="30">
-    <button type="submit">Procurar</button>
+    <input type="search" placeholder="Pesquisar Jogador..." maxlength="30" id="txtPesquisa">
+    <button type="button" id="search">Procurar</button>
 </form>

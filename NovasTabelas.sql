@@ -75,4 +75,4 @@ delete from Usuario where CodUsuario = @CodUsuario
 
 select * from Usuario
 
-insert into Usuario values('aa', 'aa', 'aa', 'F', '', '', '', '', 5, 1, 0)
+insert into Usuario values('hola', 'aa', 'aa', 'F', '', '', '', '', 5, 1, 0)

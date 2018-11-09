@@ -1,4 +1,4 @@
-criarSlideShowGenerico();
+criarSlideShowGenerico('simulacao');
 criarSlideGenerico(document.getElementById('saldo'));
 criarSlideGenerico(document.getElementById('contas'));
 criarSlideGenerico(document.getElementById('classif'));

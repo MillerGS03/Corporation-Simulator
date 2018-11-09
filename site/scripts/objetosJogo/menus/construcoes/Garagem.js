@@ -47,6 +47,10 @@ function Garagem()
             this.desativar();
     }
 
+    var armazem = null;
+    var financeiro = null;
+    var marketing = null;
+    var operacional = null;
     this.ativar = function()
     {
         desativarBotoes();
@@ -57,6 +61,11 @@ function Garagem()
         this.btnGerenciarProducao.ativarInteracao();
         this.btnGerenciarDinheiro.ativarInteracao();
         this.btnVendas.ativarInteracao();
+
+        armazem = getJanelaConstrucao("Armazém");
+        financeiro = getJanelaConstrucao("Financeiro");
+        marketing = getJanelaConstrucao("Marketing");
+        operacional = getJanelaConstrucao("Operacional");
 
         switch (opcaoAberta)
         {
@@ -89,14 +98,20 @@ function Garagem()
             case 1:
                 break;
             case 2:
-                for (var i = 0; i < this.produtos.length; i++)
-                    if (this.produtos[i].status == 1)
-                        this.txtsProducao[i].ativarInteracao();
+                if (!operacional)
+                {
+                    for (var i = 0; i < this.produtos.length; i++)
+                        if (this.produtos[i].status == 1)
+                            this.txtsProducao[i].ativarInteracao();
+                }
                 break;
             case 3:
-                for (var i = 0; i < this.contas.length; i++)
-                    this.switchers[i].ativarInteracao();
-                this.btnIrParaBanco.ativarInteracao();
+                if (!financeiro)
+                {
+                    for (var i = 0; i < this.contas.length; i++)
+                        this.switchers[i].ativarInteracao();
+                    this.btnIrParaBanco.ativarInteracao();
+                }
                 break;
             case 4:
                 break;
@@ -436,10 +451,15 @@ function Garagem()
     {
         ctx.save();
 
-        desenharLayoutEstoque();
-        desenharMateriasPrimasEstoque();
-        desenharMercadoriasEstoque();
-        desenharEstoqueEstoque();
+        if (!armazem)
+        {
+            desenharLayoutEstoque();
+            desenharMateriasPrimasEstoque();
+            desenharMercadoriasEstoque();
+            desenharEstoqueEstoque();
+        }
+        else
+            desenharIrPara("armazém");
 
         ctx.restore();
     }
@@ -596,6 +616,21 @@ function Garagem()
     {
         ctx.save();
 
+        if (!operacional)
+        {
+            desenharInformacoesProducao();
+            desenharGraficoProducao();
+            desenharTabelaProducao();
+        }
+        else
+            desenharIrPara("setor operacional");
+
+        ctx.restore();
+    }
+    function desenharInformacoesProducao()
+    {
+        ctx.save();
+
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
         ctx.font = "bold 20pt Century Gothic";
@@ -638,12 +673,8 @@ function Garagem()
 
         ctx.fillText(texto, este.x + este.width/2 + 60, este.y + 150);
 
-        desenharGraficoProducao();
-        desenharTabelaProducao();
-
         ctx.restore();
     }
-
     var coresGrafico = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5", "gray"];
     function desenharGraficoProducao()
     {
@@ -747,8 +778,13 @@ function Garagem()
     {
         ctx.save();
 
-        desenharTabelaFinancas();
-        desenharInformacoesFinancas();
+        if (!financeiro)
+        {
+            desenharTabelaFinancas();
+            desenharInformacoesFinancas();
+        }
+        else
+            desenharIrPara("setor financeiro");
 
         ctx.restore();
     }
@@ -874,10 +910,15 @@ function Garagem()
     {
         ctx.save();
 
-        desenharTabelaVendas();
-        desenharGraficoRendaDiariaVendas();
-        desenharGraficoVendasTotais();
-        desenharInformacoesVendas();
+        if (!marketing)
+        {
+            desenharTabelaVendas();
+            desenharGraficoRendaDiariaVendas();
+            desenharGraficoVendasTotais();
+            desenharInformacoesVendas();
+        }
+        else
+            desenharIrPara("marketing");
 
         ctx.restore();
     }
@@ -1057,7 +1098,16 @@ function Garagem()
         este.btnAprimorarCancelar.backgroundColor = alterando?"#ba0000":"#4c98a5";
         este.btnAprimorarCancelar.backgroundHoverColor = alterando?"#e00000":"#5eb9c9";
     }
+    function desenharIrPara(onde)
+    {
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillStyle = "black";
+        ctx.font = "bold 23pt Century Gothic";
 
+        ctx.fillText(`Você já tem o ${onde}.`, este.x + 280 + (este.width - 280)/2, este.y + 300);
+        ctx.fillText("Deseja visitá-lo?", este.x + 280 + (este.width - 280)/2, este.y + 335);
+    }
     function configurar()
     {
         este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,

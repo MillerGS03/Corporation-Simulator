@@ -94,8 +94,9 @@ function Garagem()
                         this.txtsProducao[i].ativarInteracao();
                 break;
             case 3:
-                for (var i = 0; i < this.switchers.length; i++)
+                for (var i = 0; i < this.contas.length; i++)
                     this.switchers[i].ativarInteracao();
+                this.btnIrParaBanco.ativarInteracao();
                 break;
             case 4:
                 break;
@@ -112,6 +113,7 @@ function Garagem()
         this.btnCriarCancelar.desativarInteracao();
         this.btnAprimorarCancelar.desativarInteracao();
         this.btnLancarAlterar.desativarInteracao();
+        this.btnIrParaBanco.desativarInteracao();
 
         for (var i = 0; i < 8; i++)
         {
@@ -785,6 +787,8 @@ function Garagem()
                 ctx.fillStyle = "black";
                 ctx.fillText(este.contas[i].nome, xTabelaFinancas + 5, yTabelaFinancas + 58 + i * 34);
                 ctx.fillText(este.contas[i].classificacao, xTabelaFinancas + 285, yTabelaFinancas + 58 + i * 34);
+                ctx.drawImage(imgDinheiroGaragem, este.switchers[i].x - 32, yTabelaFinancas + 42 + i * 34);
+                ctx.drawImage(imgCartaoGaragem, este.switchers[i].x + este.switchers[i].width + 8, yTabelaFinancas + 42 + i * 34)
                 este.switchers[i].desenhar();
             }
         }
@@ -810,47 +814,47 @@ function Garagem()
         ctx.textAlign = "right";
         ctx.textBaseline = "alphabetic";
         ctx.fillStyle = "black";
-        ctx.font = "bold 17pt Century Gothic";
-        ctx.fillText("Status mensal: ", xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 65);
-        ctx.fillText("Status anual: ", xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 100);
+        ctx.font = "bold 16pt Century Gothic";
+        ctx.fillText("Status mensal: ", xTabelaFinancas + 160, yTabelaFinancas + heightTabelaFinancas + 65);
+        ctx.fillText("Status anual: ", xTabelaFinancas + 160, yTabelaFinancas + heightTabelaFinancas + 100);
 
         var corStatusMensal = "black";
         var corStatusAnual = "black";
         var msgStatusMensal = " - ";
         var msgStatusAnual = " - ";
 
-        if (saldos.length > 2)
+        if (saldos.length > 30)
         {
-            var saldoAtual = saldos[saldos.length - 1];
-            var saldoMesAnterior = saldos[saldos.length - 2];
+            var saldoAtual = saldos[saldos.length - 1].y;
+            var saldoMesAnterior = saldos[saldos.length - 31].y;
             var lucroOuPrejuizoMensal = saldoAtual - saldoMesAnterior;
             if (lucroOuPrejuizoMensal > 0)
             {
-                msgStatusMensal = "Lucro de " + formatarDinheiro(lucroOuPrejuizoMensal);
+                msgStatusMensal = "Lucro de " + formatarDinheiro(Math.abs(lucroOuPrejuizoMensal));
                 corStatusMensal = "green";
             }
             else if (lucroOuPrejuizoMensal == 0)
                 msgStatusMensal = "Sem variação";
             else
             {
-                msgStatusMensal = "Prejuízo de " + formatarDinheiro(lucroOuPrejuizoMensal);
-                corStatusAnual = "red";
+                msgStatusMensal = "Prejuízo de " + formatarDinheiro(Math.abs(lucroOuPrejuizoMensal));
+                corStatusMensal = "red";
             }
 
-            if (saldos.length > 13)
+            if (saldos.length > 364)
             {
-                var saldoAnoAnterior = saldos[saldos.length - 13];
+                var saldoAnoAnterior = saldos[saldos.length - 365].y;
                 var lucroOuPrejuizoAnual = saldoAtual - saldoAnoAnterior;
                 if (lucroOuPrejuizoAnual > 0)
                 {
-                    msgStatusAnual = "Lucro de " + formatarDinheiro(lucroOuPrejuizoAnual);
+                    msgStatusAnual = "Lucro de " + formatarDinheiro(Math.abs(lucroOuPrejuizoAnual));
                     corStatusAnual = "green";
                 }
                 else if (lucroOuPrejuizoAnual == 0)
-                    msgStatusMensal = "Sem variação";
+                    msgStatusAnual = "Sem variação";
                 else
                 {
-                    msgStatusAnual = "Prejuízo de " + formatarDinheiro(lucroOuPrejuizoAnual);
+                    msgStatusAnual = "Prejuízo de " + formatarDinheiro(Math.abs(lucroOuPrejuizoAnual));
                     corStatusAnual = "red";
                 }
             }
@@ -858,9 +862,9 @@ function Garagem()
 
         ctx.textAlign = "left";
         ctx.fillStyle = corStatusMensal;
-        ctx.fillText(msgStatusMensal, xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 65);
+        ctx.fillText(msgStatusMensal, xTabelaFinancas + 160, yTabelaFinancas + heightTabelaFinancas + 65);
         ctx.fillStyle = corStatusAnual;
-        ctx.fillText(msgStatusAnual, xTabelaFinancas + 180, yTabelaFinancas + heightTabelaFinancas + 100);
+        ctx.fillText(msgStatusAnual, xTabelaFinancas + 160, yTabelaFinancas + heightTabelaFinancas + 100);
 
         este.btnIrParaBanco.desenhar();
 
@@ -1282,6 +1286,7 @@ function Garagem()
 
         este.txtsProducao = new Array();
         for (var i = 0; i < 8; i++)
+        {
             este.txtsProducao.push(new TextBox({
                 x: xTabelaProducao + 375,
                 y: yTabelaProducao + 34 + 30 * i,
@@ -1302,7 +1307,8 @@ function Garagem()
                         operacional.txtsProducao[registro].text = textbox.text;
                 }
             }))
-
+        }
+        
         este.switchers = new Array();
         for (var i = 0; i < 10; i++)
         {
@@ -1315,9 +1321,14 @@ function Garagem()
                 este.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
             }
         }
-        este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabelaFinancas - 264, este.y + (yTabelaFinancas - este.y + heightTabelaFinancas + este.height)/2 - 22,
-                                                    264, 44, 8, 264, 44, "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
+        este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabelaFinancas - 210, este.y + (yTabelaFinancas - este.y + heightTabelaFinancas + este.height)/2 - 22,
+                                                    210, 44, 8, 210, 44, "#c3c3c3", "#ececec", null, null, "bold 17pt Century Gothic",
                                                     "black", "Ir para o banco", false, false, false);
+        este.btnIrParaBanco.onclick = function() {
+            este.abrirFechar();
+            mapa.setLugarAberto(0);
+            mapa.abrirFechar();
+        }
     }
     configurar();
 }

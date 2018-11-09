@@ -96,6 +96,10 @@ function Mapa()
 
         ativarBotoes();
     }
+    this.setLugarAberto = function(lugar)
+    {
+        lugarAberto = lugar;
+    }
     function desenharJanela()
     {
         ctx.fillStyle = "#333333";

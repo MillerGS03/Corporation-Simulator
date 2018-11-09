@@ -158,7 +158,11 @@ imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";
 //--------------------------------------------------------------------------
 // Garagem.js
 var imgFundoGaragem = new Image();
+var imgDinheiroGaragem = new Image();
+var imgCartaoGaragem = new Image();
 imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";
+imgDinheiroGaragem.src = "imagens/construcoes/dinheiroGrg.png";
+imgCartaoGaragem.src = "imagens/construcoes/cartaoDeCreditoGrg.png";
 //--------------------------------------------------------------------------
 // RecursosHumanos.js
 var imgContratar = new Image();
@@ -176,4 +180,8 @@ imgFundoMarketing.src = "imagens/construcoes/fundoMarketing.png";
 //--------------------------------------------------------------------------
 // Financeiro.js
 var imgFundoFinanceiro = new Image();
+var imgFinanceiroDinheiro = new Image();
+var imgFinanceiroCartao = new Image();
 imgFundoFinanceiro.src = "imagens/construcoes/fundoFinanceiro.jpg";
+imgFinanceiroDinheiro.src = "imagens/construcoes/dinheiro.png";
+imgFinanceiroCartao.src = "imagens/construcoes/cartaoDeCredito.png";

@@ -322,6 +322,24 @@ input[type="color"]
 {
 	position: absolute;
 	top: 40vh;
-	left: 40vh;
-	font-family: 'Century'
+	left: 58vh;
+	width: 30vh;
+	height: 5vh;
+	color: black;
+	font-weight: bold;
+	background: white;
+	border: 0.3vh solid black;
+	border-radius: 10vh;
+	transition: background 0.4s;
+	transition: color 0.4s;
+	font-family: 'Century Gothic';
+	font-size: 3.5vh;
+}
+#delConta:hover
+{
+	cursor: pointer;
+	color: white;
+	background: darkred;
+	transition: background 0.4s;
+	transition: color 0.4s;
 }

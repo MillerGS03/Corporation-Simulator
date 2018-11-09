@@ -96,6 +96,8 @@ function Garagem()
                 this.txtPreco.ativarInteracao();
                 break;
             case 1:
+                if (armazem)
+                    this.btnIrParaConstrucao.ativarInteracao();
                 break;
             case 2:
                 if (!operacional)
@@ -104,6 +106,8 @@ function Garagem()
                         if (this.produtos[i].status == 1)
                             this.txtsProducao[i].ativarInteracao();
                 }
+                else
+                    this.btnIrParaConstrucao.ativarInteracao();
                 break;
             case 3:
                 if (!financeiro)
@@ -112,8 +116,12 @@ function Garagem()
                         this.switchers[i].ativarInteracao();
                     this.btnIrParaBanco.ativarInteracao();
                 }
+                else
+                    this.btnIrParaConstrucao.ativarInteracao();
                 break;
             case 4:
+                if (marketing)
+                    this.btnIrParaConstrucao.ativarInteracao();
                 break;
         }
     }
@@ -1105,8 +1113,16 @@ function Garagem()
         ctx.fillStyle = "black";
         ctx.font = "bold 23pt Century Gothic";
 
-        ctx.fillText(`Você já tem o ${onde}.`, este.x + 280 + (este.width - 280)/2, este.y + 300);
-        ctx.fillText("Deseja visitá-lo?", este.x + 280 + (este.width - 280)/2, este.y + 335);
+        ctx.fillText(`Você já tem o ${onde}.`, este.x + 280 + (este.width - 280)/2, este.y + 265);
+        ctx.fillText("Deseja visitá-lo?", este.x + 280 + (este.width - 280)/2, este.y + 300);
+
+        if (onde == "setor operacional")
+            onde = "operacional";
+        else if (onde == "setor financeiro")
+            onde = "financeiro";
+
+        este.btnIrParaConstrucao.text = "Ir para " + onde;
+        este.btnIrParaConstrucao.desenhar();
     }
     function configurar()
     {
@@ -1378,6 +1394,13 @@ function Garagem()
             este.abrirFechar();
             mapa.setLugarAberto(0);
             mapa.abrirFechar();
+        }
+
+        este.btnIrParaConstrucao = new BotaoRetangular(este.x + 140 + (este.width - 290)/2, este.y + 315,
+                                                       290, 50, 8, 290, 50, "#c3c3c3", "#ececec", null, null, "bold 20.5pt Century Gothic",
+                                                       "black", "Ir para (...)", false, false, false);
+        este.btnIrParaConstrucao.onclick = function() {
+            este.abrirFechar();
         }
     }
     configurar();

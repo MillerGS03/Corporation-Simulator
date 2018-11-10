@@ -88,7 +88,7 @@ function Financeiro()
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
-        ctx.globalAlpha = 0.15;
+        ctx.globalAlpha = 0.3;
         ctx.drawImage(imgFundoFinanceiro, este.x + (este.width - 667)/2, este.y + 60 + (este.height - 560)/2);
 
         ctx.restore();

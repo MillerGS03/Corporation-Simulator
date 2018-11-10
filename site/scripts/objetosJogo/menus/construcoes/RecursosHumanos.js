@@ -70,17 +70,17 @@ function RecursosHumanos()
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
-    this.btnContratarDesenv.onclick = function() {contratar('fDesenv')}
-    this.btnDemitirDesenv.onclick = function() {demitir('fDesenv')}
+    this.btnContratarDesenv.onclick = function() {getJanelaConstrucao('Garagem').reformada?contratar('fDesenv'):alerta('Você precisa reformar a garagem para contratar funcionários no desenvolvimento!')}
+    this.btnDemitirDesenv.onclick = function() {getJanelaConstrucao('Garagem').reformada?demitir('fDesenv'):alerta('Você precisa reformar a garagem para ter funcionários no desenvolvimento!')}
 
-    this.btnContratarProd.onclick = function() {getJanelaConstrucao('Operacional')?contratar('fProd'):alerta('Você não possuí setor Operacional.')}
-    this.btnDemitirProd.onclick = function() {getJanelaConstrucao('Operacional')?demitir('fProd'):alerta('Você não possuí setor Operacional.')}
+    this.btnContratarProd.onclick = function() {getJanelaConstrucao('Operacional')?contratar('fProd'):alerta('Você não possui setor Operacional.')}
+    this.btnDemitirProd.onclick = function() {getJanelaConstrucao('Operacional')?demitir('fProd'):alerta('Você não possui setor Operacional.')}
 
-    this.btnContratarFin.onclick = function() {getJanelaConstrucao('Financeiro')?contratar('fFin'):alerta('Você não possuí o setor Financeiro.')}
-    this.btnDemitirFin.onclick = function() {getJanelaConstrucao('Financeiro')?demitir('fFin'):alerta('Você não possuí o setor Financeiro.')}
+    this.btnContratarFin.onclick = function() {getJanelaConstrucao('Financeiro')?contratar('fFin'):alerta('Você não possui o setor Financeiro.')}
+    this.btnDemitirFin.onclick = function() {getJanelaConstrucao('Financeiro')?demitir('fFin'):alerta('Você não possui o setor Financeiro.')}
 
-    this.btnContratarMark.onclick = function() {getJanelaConstrucao()?contratar('fMark'):alerta('Você não possuí o setor de Marketing.')}
-    this.btnDemitirMark.onclick = function() {getJanelaConstrucao()?demitir('fMark'):alerta('Você não possuí o setor de Marketing.')}
+    this.btnContratarMark.onclick = function() {getJanelaConstrucao()?contratar('fMark'):alerta('Você não possui o setor de Marketing.')}
+    this.btnDemitirMark.onclick = function() {getJanelaConstrucao()?demitir('fMark'):alerta('Você não possui o setor de Marketing.')}
 
     this.btnContratarRh.onclick = function() {contratar('fRh')}
     this.btnDemitirRh.onclick = function() {demitir('fRh')}
@@ -147,7 +147,7 @@ function RecursosHumanos()
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, { upperLeft: 20, upperRight: 20, lowerLeft: 20, lowerRight: 20 }, true, true)
        
-        ctx.fillStyle = "silver";
+        ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";

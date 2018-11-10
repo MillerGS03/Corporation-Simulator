@@ -86,7 +86,7 @@ function Operacional()
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
-        ctx.globalAlpha = 0.15;
+        ctx.globalAlpha = 0.2;
         ctx.drawImage(imgFundoOperacional, este.x + 171.5, este.y + 131);
 
         ctx.restore();

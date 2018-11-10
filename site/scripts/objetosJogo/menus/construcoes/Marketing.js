@@ -125,7 +125,7 @@ function Marketing()
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
-        ctx.globalAlpha = 0.15;
+        ctx.globalAlpha = 0.2;
         ctx.drawImage(imgFundoMarketing, este.x + (este.width - 500)/2, este.y + 60 + (este.height - 560)/2);
 
         ctx.restore();

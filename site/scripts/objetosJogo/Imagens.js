@@ -138,12 +138,14 @@ imgIconeFornecedores.src = "imagens/mapa/iconeFornecedores.png";
 //--------------------------------------------------------------------------
 // ItensConstruidos.js
 var imgArmazem = new Image();
+var imgEscritorio = new Image();
 var imgGaragem = new Image();
 var imgOperacional = new Image();
 var imgRecursosHumanos = new Image();
 var imgMarketing = new Image();
 var imgFinanceiro = new Image();
 imgArmazem.src = "imagens/construcoes/armazem.png";
+imgEscritorio.src = "imagens/construcoes/escritorio.png";
 imgGaragem.src = "imagens/construcoes/garagem.png";
 imgOperacional.src = "imagens/construcoes/operacional.png";
 imgRecursosHumanos.src = "imagens/construcoes/recursosHumanos.png";
@@ -154,15 +156,19 @@ imgFinanceiro.src = "imagens/construcoes/financeiro.png";
 var imgMercadoria = new Image();
 var imgFundoArmazem = new Image();
 var imgIrParaGaragem = new Image();
+var imgIrParaEscritorio = new Image();
 imgMercadoria.src = "imagens/construcoes/mercadorias.png";
 imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";
 imgIrParaGaragem.src = "imagens/construcoes/irParaGaragem.png";
+imgIrParaEscritorio.src = "imagens/construcoes/irParaEscritorio.png";
 //--------------------------------------------------------------------------
 // Garagem.js
 var imgFundoGaragem = new Image();
+var imgFundoEscritorio = new Image();
 var imgDinheiroGaragem = new Image();
 var imgCartaoGaragem = new Image();
 imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";
+imgFundoEscritorio.src = "imagens/construcoes/fundoEscritorio.png";
 imgDinheiroGaragem.src = "imagens/construcoes/dinheiroGrg.png";
 imgCartaoGaragem.src = "imagens/construcoes/cartaoDeCreditoGrg.png";
 //--------------------------------------------------------------------------

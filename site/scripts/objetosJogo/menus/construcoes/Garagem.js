@@ -53,6 +53,16 @@ function Garagem()
     var financeiro = null;
     var marketing = null;
     var operacional = null;
+    var rh = null;
+    function buscarConstrucoes()
+    {
+        armazem = getJanelaConstrucao("Armazém");
+        financeiro = getJanelaConstrucao("Financeiro");
+        marketing = getJanelaConstrucao("Marketing");
+        operacional = getJanelaConstrucao("Operacional");
+        rh = getJanelaConstrucao("R. Humanos");
+    }
+
     this.ativar = function()
     {
         this.aberto = true;
@@ -66,10 +76,7 @@ function Garagem()
         this.btnGerenciarDinheiro.ativarInteracao();
         this.btnVendas.ativarInteracao();
 
-        armazem = getJanelaConstrucao("Armazém");
-        financeiro = getJanelaConstrucao("Financeiro");
-        marketing = getJanelaConstrucao("Marketing");
-        operacional = getJanelaConstrucao("Operacional");
+        buscarConstrucoes();
 
         if (!this.reformada && armazem && financeiro && marketing && operacional)
         {
@@ -319,8 +326,11 @@ function Garagem()
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 
-        ctx.globalAlpha = 0.15;
-        ctx.drawImage(imgFundoGaragem, este.x + 182, este.y + 80);
+        ctx.globalAlpha = 0.2;
+        if (este.reformada)
+            ctx.drawImage(imgFundoEscritorio, este.x + este.width/2 - 116, este.y + este.height/2 - 226);
+        else
+            ctx.drawImage(imgFundoGaragem, este.x + 182, este.y + 80);
 
         ctx.restore();
     }
@@ -1178,10 +1188,21 @@ function Garagem()
     }
     this.reformar = function()
     {
+        buscarConstrucoes();
+
+        var nomesConstrucoes = ["armazem", "financeiro", "marketing", "operacional", "rh"];
+        for (var i = 0; i < nomesConstrucoes.length; i++)
+        {
+            eval(`${nomesConstrucoes[i]}.btnIrParaGaragem.backgroundImage = imgIrParaEscritorio;`);
+            eval(`${nomesConstrucoes[i]}.btnIrParaGaragem.backgroundHoverImage = imgIrParaEscritorio;`);
+        }
+
         for (var i = 0; i < itensConstruidos.length; i++)
             if (itensConstruidos[i].nome == "Garagem")
             {
                 itensConstruidos[i].botao.text = "Escritório";
+                itensConstruidos[i].botao.backgroundImage = imgEscritorio;
+                itensConstruidos[i].botao.backgroundHoverImage = imgEscritorio;
                 break;
             }
     }
@@ -1504,7 +1525,7 @@ function Produto(nome, preco)
 
     this.calcularQualidade = function()
     {
-        var qtosFuncionarios = getJanelaConstrucao("R. Humanos")?getJanelaConstrucao("R. Humanos").funcionariosDesenvolvimento + 1:1;
+        var qtosFuncionarios = getJanelaConstrucao("R. Humanos")?getJanelaConstrucao("R. Humanos").fDesenv + 1:1;
 
         if (this.status == 0)
             this.qualidade = (Math.random() * 2 + 1) * Math.log2(qtosFuncionarios + 1);

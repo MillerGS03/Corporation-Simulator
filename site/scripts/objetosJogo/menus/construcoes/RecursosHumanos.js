@@ -20,6 +20,13 @@ function RecursosHumanos()
     this.btnFechar = new BotaoRetangular(this.x + this.width - 50, this.y + 10, 40, 40,
                              { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
         "#232323", "#535353", null, null, "bold 18pt Century Gothic", "red", "X", false, false, false);
+
+    this.btnIrParaGaragem = new BotaoRetangular(this.x + 10, this.y + 10, 40, 40, 5, 40, 40,
+                                                "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
+    this.btnIrParaGaragem.onclick = function(e) {
+        este.abrirFechar();
+        getJanelaConstrucao("Garagem").abrirFechar();
+    }
     
     this.btnContratarDesenv = new BotaoRetangular(this.x + 395, this.y + 190, 80, 50,
         {}, 80, 50, '#2b6aff', '#447cff',
@@ -87,6 +94,7 @@ function RecursosHumanos()
         {
             desativarBotoes();
             this.btnFechar.ativarInteracao();
+            this.btnIrParaGaragem.ativarInteracao();
             this.btnContratarDesenv.ativarInteracao();
             this.btnDemitirDesenv.ativarInteracao();
             this.btnContratarProd.ativarInteracao();
@@ -102,6 +110,7 @@ function RecursosHumanos()
         else
         {
             this.btnFechar.desativarInteracao();
+            this.btnIrParaGaragem.desativarInteracao();
             this.btnContratarDesenv.desativarInteracao();
             this.btnDemitirDesenv.desativarInteracao();
             this.btnContratarProd.desativarInteracao();
@@ -144,6 +153,7 @@ function RecursosHumanos()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Recursos Humanos", este.x + este.width/2, este.y + 10, este.width - 5);
 
+        este.btnIrParaGaragem.desenhar();
         este.btnFechar.desenhar();
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);
 

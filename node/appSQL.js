@@ -271,12 +271,14 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
   const PromocaoEmpresa = a.PromocaoEmpresa != null?a.PromocaoEmpresa:"null";
   const DiasRestantesPromocaoEmpresa = a.DiasRestantesPromocaoEmpresa != null?a.DiasRestantesPromocaoEmpresa:"null";
   const DiasTotaisPromocaoEmpresa = a.DiasTotaisPromocaoEmpresa != null?a.DiasTotaisPromocaoEmpresa:"null";
+  const Reformada = a.Reformada != null?a.Reformada:"null";
 
   execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
                                   QtdeMateriaPrima = ${QtdeMateriaPrima}, PrecoUpgradeOperacional = ${PrecoUpgradeOperacional},
                                   CapacidadeProducao = ${CapacidadeProducao}, Capacitacao = ${Capacitacao}, FuncionariosDesenvolvimento = ${fDesenv},
                                   FuncionariosProducao = ${fProd}, FuncionariosFinanceiro = ${fFin}, FuncionariosMarketing = ${fMark}, FuncionariosRH = ${fRh},
-                                  PromocaoEmpresa = ${PromocaoEmpresa}, DiasRestantesPromocaoEmpresa = ${DiasRestantesPromocaoEmpresa}, DiasTotaisPromocaoEmpresa = ${DiasTotaisPromocaoEmpresa}
+                                  PromocaoEmpresa = ${PromocaoEmpresa}, DiasRestantesPromocaoEmpresa = ${DiasRestantesPromocaoEmpresa}, 
+                                  DiasTotaisPromocaoEmpresa = ${DiasTotaisPromocaoEmpresa}, Reformada = ${Reformada}
                                   where CodJogo=${codJogo}`, resposta);
 })
 

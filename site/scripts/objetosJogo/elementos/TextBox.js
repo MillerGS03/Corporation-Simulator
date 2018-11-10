@@ -1,6 +1,5 @@
 function TextBox(informacoes)
 {
-
     var este = this;
 
     var focused = false;

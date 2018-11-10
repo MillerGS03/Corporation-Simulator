@@ -165,6 +165,7 @@ function ItemConstruido(informacoes, isPrimeiro)
         var novoX = este.x;
         var novoY = este.y;
 
+        var tinhaTodos = testarSeTemTodosNecessariosParaUpgrade();
         if (!reposicionando)
             itens.pop();
         else
@@ -192,11 +193,22 @@ function ItemConstruido(informacoes, isPrimeiro)
                     botoes.push(este.botao);
                     este.jaComprado = true;
                     ativarBotoes();
+                    if (tinhaTodos != testarSeTemTodosNecessariosParaUpgrade())
+                        painelNotificacoes.adicionarNotificacao("Reforma disponível!", "Transforme sua garagem em algo a mais!",
+                                                                calendario.dia, calendario.mes, calendario.ano);
                 }
             })
         }
         este.testandoPosicionamento = false;
         ativarBotoes();
+    }
+    function testarSeTemTodosNecessariosParaUpgrade()
+    {
+        var qtde = 0;
+        for (var i = 0; i < itens.length; i++)
+            if (itens[i].nome == "Armazém" || itens[i].nome == "Operacional" || itens[i].nome == "Financeiro" || itens[i].nome == "Marketing")
+                qtde++;
+        return qtde == 4;
     }
 
     var tocando = false;

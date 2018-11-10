@@ -20,6 +20,13 @@ function Operacional()
         este.abrirFechar();
     }
 
+    this.btnIrParaGaragem = new BotaoRetangular(this.x + 10, this.y + 10, 40, 40, 5, 40, 40,
+                                                "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
+    this.btnIrParaGaragem.onclick = function(e) {
+        este.abrirFechar();
+        getJanelaConstrucao("Garagem").abrirFechar();
+    }
+
     this.abrirFechar = function() 
     {
         this.aberto = !this.aberto;
@@ -29,6 +36,7 @@ function Operacional()
             for (var i = 0; i < produtos.length; i++)
                 este.txtsProducao[i].ativarInteracao();
             this.btnFechar.ativarInteracao();
+            this.btnIrParaGaragem.ativarInteracao();
             this.btnUpgrade.ativarInteracao();
         }
         else
@@ -36,6 +44,7 @@ function Operacional()
             for (var i = 0; i < este.txtsProducao.length; i++)
                 este.txtsProducao[i].desativarInteracao();
             this.btnFechar.desativarInteracao();
+            this.btnIrParaGaragem.desativarInteracao();
             this.btnUpgrade.desativarInteracao();
             ativarBotoes();
         }
@@ -72,6 +81,7 @@ function Operacional()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Operacional", este.x + este.width/2, este.y + 10, este.width - 5);
 
+        este.btnIrParaGaragem.desenhar();
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);

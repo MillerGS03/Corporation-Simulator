@@ -396,8 +396,14 @@ function passarDia()
 
 function getJanelaConstrucao(nome)
 {
+	function tratar(nom)
+	{
+		return nom.toUpperCase().trim();
+	}
+	nome = tratar(nome);
+
 	for (var i = 0; i < itensConstruidos.length; i++)
-		if (itensConstruidos[i].nome == nome)
+		if (tratar(itensConstruidos[i].nome) == nome)
 			return itensConstruidos[i].menu.janela;
 
 	return false;
@@ -620,6 +626,12 @@ function carregarDados()
 					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima;
 				if (infoJogo.CapacidadeProducao != null)
 					garagem.capacidadeProducao = infoJogo.CapacidadeProducao;
+				if (infoJogo.Reformada != null)
+				{
+					garagem.reformada = infoJogo.Reformada==1;
+					if (garagem.reformada)
+						garagem.reformar();
+				}
 				$.ajax({
 					url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo
 				}).done(function(produtos){
@@ -779,6 +791,7 @@ function salvar()
 	{
 		atualizar.QtdeMateriaPrima = garagem.qtdeMateriaPrima;
 		atualizar.CapacidadeProducao = garagem.capacidadeProducao;
+		atualizar.Reformada = garagem.reformada?1:0;
 		for (var i = 0; i < garagem.produtosRemovidos.length; i++)
 			$.ajax({
 				url: 'http://' + local + ':3000/produto/' + jogo.CodJogo + "/" + garagem.produtosRemovidos[i].nome,

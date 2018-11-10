@@ -16,6 +16,13 @@ function Marketing()
         este.abrirFechar();
     }
 
+    this.btnIrParaGaragem = new BotaoRetangular(this.x + 10, this.y + 10, 40, 40, 5, 40, 40,
+                                                "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
+    this.btnIrParaGaragem.onclick = function(e) {
+        este.abrirFechar();
+        getJanelaConstrucao("Garagem").abrirFechar();
+    }
+
     /*
       0 - Nenhuma
       1 a 5 - baixa a excelente
@@ -58,6 +65,7 @@ function Marketing()
                 if (i < garagem.produtos.length && garagem.produtos[i].fatorMarketing == 0)
                     this.botoesPromover[i].ativarInteracao();
             this.btnFechar.ativarInteracao();
+            this.btnIrParaGaragem.ativarInteracao();
             if (this.promocaoEmpresa == 0)
                 this.btnPromoverEmpresa.ativarInteracao();
         }
@@ -73,6 +81,7 @@ function Marketing()
         this.btnPromover.desativarInteracao();
         this.btnFecharPromocao.desativarInteracao();
         this.btnFechar.desativarInteracao();
+        this.btnIrParaGaragem.desativarInteracao();
         this.btnPromoverEmpresa.desativarInteracao();
     }
     this.desenhar = function()
@@ -111,6 +120,7 @@ function Marketing()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Marketing", este.x + este.width/2, este.y + 10, este.width - 5);
 
+        este.btnIrParaGaragem.desenhar();
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);

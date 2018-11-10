@@ -12,7 +12,14 @@ function Armazem()
                                          "#232323", "#535353", null, null, "bold 18pt Century Gothic",
                                          "red", "X", false, false, false);
     this.btnFechar.onclick = function(e) {
-        este.abrirFechar();
+        este.desativar();
+    }
+
+    this.btnIrParaGaragem = new BotaoRetangular(this.x + 10, this.y + 10, 40, 40, 5, 40, 40,
+                                                "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
+    this.btnIrParaGaragem.onclick = function(e) {
+        este.desativar();
+        getJanelaConstrucao("Garagem").ativar();
     }
 
     this.btnUpgrade = new BotaoRetangular(this.x + 3 * this.width/4 - 140, this.y + this.height - 80, 280, 40, 5, 280, 40,
@@ -40,17 +47,25 @@ function Armazem()
     {
         this.aberto = !this.aberto;
         if (this.aberto)
-        {
-            desativarBotoes();
-            this.btnFechar.ativarInteracao();
-            this.btnUpgrade.ativarInteracao();
-        }
+            this.ativar();
         else
-        {
-            this.btnFechar.desativarInteracao();
-            this.btnUpgrade.desativarInteracao();
-            ativarBotoes();
-        }
+            this.desativar();
+    }
+    this.ativar = function()
+    {
+        this.aberto = true;
+        desativarBotoes();
+        this.btnFechar.ativarInteracao();
+        this.btnIrParaGaragem.ativarInteracao();
+        this.btnUpgrade.ativarInteracao();
+    }
+    this.desativar = function()
+    {
+        this.aberto = false;
+        this.btnFechar.desativarInteracao();
+        this.btnIrParaGaragem.desativarInteracao();
+        this.btnUpgrade.desativarInteracao();
+        ativarBotoes();
     }
     this.desenhar = function() 
     {
@@ -85,6 +100,7 @@ function Armazem()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Armazém", este.x + este.width/2, este.y + 10, este.width - 5);
 
+        este.btnIrParaGaragem.desenhar();
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);

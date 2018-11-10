@@ -17,6 +17,13 @@ function Financeiro()
         este.abrirFechar();
     }
 
+    this.btnIrParaGaragem = new BotaoRetangular(this.x + 10, this.y + 10, 40, 40, 5, 40, 40,
+                                                "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
+    this.btnIrParaGaragem.onclick = function(e) {
+        este.abrirFechar();
+        getJanelaConstrucao("Garagem").abrirFechar();
+    }
+
     this.abrirFechar = function() 
     {
         this.aberto = !this.aberto;
@@ -27,6 +34,7 @@ function Financeiro()
             desativarBotoes();
             this.btnIrParaBanco.ativarInteracao();
             this.btnFechar.ativarInteracao();
+            this.btnIrParaGaragem.ativarInteracao();
             for (var i = 0; i < garagem.contas.length; i++)
             {
                 this.switchers[i].ativarInteracao();
@@ -38,6 +46,7 @@ function Financeiro()
         {
             this.btnIrParaBanco.desativarInteracao();
             this.btnFechar.desativarInteracao();
+            this.btnIrParaBanco.desativarInteracao();
             for (var i = 0; i < this.switchers.length; i++)
                 this.switchers[i].desativarInteracao();
             ativarBotoes();
@@ -74,6 +83,7 @@ function Financeiro()
         ctx.font = "bold 24pt Century Gothic";
         ctx.fillText("Financeiro", este.x + este.width/2, este.y + 10, este.width - 5);
 
+        este.btnIrParaGaragem.desenhar();
         este.btnFechar.desenhar();
 
         roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20 }, true, true);

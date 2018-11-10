@@ -5,6 +5,8 @@ function Garagem()
     this.x = (canvas.width - this.width)/2;
     this.y = (canvas.height - this.height - 60)/2 + 60;
 
+    this.reformada = false;
+
     this.qtdeFuncionarios = 0;
 
     this.produtos = new Array();
@@ -53,6 +55,8 @@ function Garagem()
     var operacional = null;
     this.ativar = function()
     {
+        this.aberto = true;
+
         desativarBotoes();
 
         this.btnFechar.ativarInteracao();
@@ -66,6 +70,22 @@ function Garagem()
         financeiro = getJanelaConstrucao("Financeiro");
         marketing = getJanelaConstrucao("Marketing");
         operacional = getJanelaConstrucao("Operacional");
+
+        if (!this.reformada && armazem && financeiro && marketing && operacional)
+        {
+            this.btnReformar.ativarInteracao();
+            this.btnReformar.backgroundColor = "#c3c3c3";
+            this.btnReformar.backgroundHoverColor = "#dadada";
+            this.btnReformar.textStyle = "black";
+        }
+        else if (this.reformada)
+        {
+            this.btnMercadorias.y = this.y + 200;
+            this.btnEstoque.y = this.y + 245;
+            this.btnGerenciarProducao.y = this.y + 290;
+            this.btnGerenciarDinheiro.y = this.y + 335;
+            this.btnVendas.y = this.y + 380;
+        }
 
         switch (opcaoAberta)
         {
@@ -127,16 +147,20 @@ function Garagem()
     }
     this.desativar = function()
     {
+        this.aberto = false;
+
         this.btnFechar.desativarInteracao();
         this.btnEstoque.desativarInteracao();
         this.btnMercadorias.desativarInteracao();
         this.btnGerenciarProducao.desativarInteracao();
         this.btnGerenciarDinheiro.desativarInteracao();
         this.btnVendas.desativarInteracao();
+        this.btnReformar.desativarInteracao();
         this.btnCriarCancelar.desativarInteracao();
         this.btnAprimorarCancelar.desativarInteracao();
         this.btnLancarAlterar.desativarInteracao();
         this.btnIrParaBanco.desativarInteracao();
+        this.btnIrParaConstrucao.desativarInteracao();
 
         for (var i = 0; i < 8; i++)
         {
@@ -289,7 +313,7 @@ function Garagem()
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
         ctx.font = "bold 24pt Century Gothic";
-        ctx.fillText("Garagem", este.x + este.width/2, este.y + 10, este.width - 5);
+        ctx.fillText(este.reformada?"Escritório":"Garagem", este.x + este.width/2, este.y + 10, este.width - 5);
 
         este.btnFechar.desenhar();
 
@@ -315,6 +339,34 @@ function Garagem()
         este.btnGerenciarProducao.desenhar();
         este.btnGerenciarDinheiro.desenhar();
         este.btnVendas.desenhar();
+
+        if (!este.reformada)
+        {
+            este.btnReformar.desenhar();
+            desenharRequerimentosReforma();
+        }
+
+        ctx.restore();
+    }
+    function desenharRequerimentosReforma()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "black";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.font = "bold 14.5pt Century Gothic"
+        
+        var requerimentos = [{titulo: "Armazém construído", valor: armazem!=false}, 
+                             {titulo: "Financeiro construído", valor: financeiro!=false},
+                             {titulo: "Operacional construído", valor: operacional!=false},
+                             {titulo: "Marketing construído", valor: marketing!=false}];
+
+        for (var i = 0; i < requerimentos.length; i++)
+        {
+            ctx.drawImage(requerimentos[i].valor?imgFeito:imgNaoFeito, este.x + 5, este.y + 443 + i * 30)
+            ctx.fillText(`${requerimentos[i].titulo}`, este.x + 34, este.y + 455 + i * 30, 280);
+        }
 
         ctx.restore();
     }
@@ -1124,21 +1176,30 @@ function Garagem()
         este.btnIrParaConstrucao.text = "Ir para " + onde;
         este.btnIrParaConstrucao.desenhar();
     }
+    this.reformar = function()
+    {
+        for (var i = 0; i < itensConstruidos.length; i++)
+            if (itensConstruidos[i].nome == "Garagem")
+            {
+                itensConstruidos[i].botao.text = "Escritório";
+                break;
+            }
+    }
     function configurar()
     {
-        este.btnMercadorias = new BotaoRetangular(este.x, este.y + 200, 280, 45, 0, 280, 45,
+        este.btnMercadorias = new BotaoRetangular(este.x, este.y + 140, 280, 45, 0, 280, 45,
                                                   "#e5e5e5", "#ececec", null, null, "bold 18pt Century Gothic",
                                                   "black", "Mercadorias", false, false, false);
-        este.btnEstoque = new BotaoRetangular(este.x, este.y + 245, 280, 45, 0, 280, 45,
+        este.btnEstoque = new BotaoRetangular(este.x, este.y + 185, 280, 45, 0, 280, 45,
                                               "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                               "black", "Estoque", false, false, false);
-        este.btnGerenciarProducao = new BotaoRetangular(este.x, este.y + 290, 280, 45, 0, 280, 45,
+        este.btnGerenciarProducao = new BotaoRetangular(este.x, este.y + 230, 280, 45, 0, 280, 45,
                                                         "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                         "black", "Gerenciar Produção", false, false, false);
-        este.btnGerenciarDinheiro = new BotaoRetangular(este.x, este.y + 335, 280, 45, 0, 280, 45,
+        este.btnGerenciarDinheiro = new BotaoRetangular(este.x, este.y + 275, 280, 45, 0, 280, 45,
                                                         "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                                         "black", "Gerenciar Dinheiro", false, false, false);
-        este.btnVendas = new BotaoRetangular(este.x, este.y + 380, 280, 45, 0, 280, 45,
+        este.btnVendas = new BotaoRetangular(este.x, este.y + 320, 280, 45, 0, 280, 45,
                                              "#c3c3c3", "#dadada", null, null, "bold 18pt Century Gothic",
                                              "black", "Vendas", false, false, false);
 
@@ -1400,7 +1461,20 @@ function Garagem()
                                                        290, 50, 8, 290, 50, "#c3c3c3", "#ececec", null, null, "bold 20.5pt Century Gothic",
                                                        "black", "Ir para (...)", false, false, false);
         este.btnIrParaConstrucao.onclick = function() {
-            este.abrirFechar();
+            este.desativar();
+            getJanelaConstrucao(este.btnIrParaConstrucao.text.substr(8)).abrirFechar();
+        }
+
+        este.btnReformar = new BotaoRetangular(este.x + 10, este.y + 390, 260, 45, 10, 260, 45,
+                                               "#737373", "#9a9a9a", null, null, "bold 17pt Century Gothic",
+                                               "#555555", "Reformar Garagem", false, false, false);
+        este.btnReformar.onclick = function() {
+            fazerCompra("Reforma da garagem", 90000, true, true, 5, function() {
+                este.reformada = true;
+                este.reformar();
+                este.desativar();
+                este.ativar();
+            })
         }
     }
     configurar();

@@ -153,8 +153,10 @@ imgFinanceiro.src = "imagens/construcoes/financeiro.png";
 // Armazem.js
 var imgMercadoria = new Image();
 var imgFundoArmazem = new Image();
+var imgIrParaGaragem = new Image();
 imgMercadoria.src = "imagens/construcoes/mercadorias.png";
 imgFundoArmazem.src = "imagens/construcoes/fundoArmazem.png";
+imgIrParaGaragem.src = "imagens/construcoes/irParaGaragem.png";
 //--------------------------------------------------------------------------
 // Garagem.js
 var imgFundoGaragem = new Image();
@@ -164,15 +166,23 @@ imgFundoGaragem.src = "imagens/construcoes/fundoGaragem.png";
 imgDinheiroGaragem.src = "imagens/construcoes/dinheiroGrg.png";
 imgCartaoGaragem.src = "imagens/construcoes/cartaoDeCreditoGrg.png";
 //--------------------------------------------------------------------------
+// Operacional.js
+var imgFundoOperacional = new Image();
+imgFundoOperacional.src = "imagens/construcoes/fundoOperacional.jpg";
+//--------------------------------------------------------------------------
 // RecursosHumanos.js
 var imgContratar = new Image();
 var imgContratarHover = new Image();
 var imgDemitir = new Image();
 var imgDemitirHover = new Image();
+var imgFeito = new Image();
+var imgNaoFeito = new Image();
 imgContratar.src = 'imagens/botoes/btnContratar.png';
-imgContratarHover.src = 'imagens/botoes/btnContratarHover.png'
-imgDemitir.src = 'imagens/botoes/btnDemitir.png'
-imgDemitirHover.src = 'imagens/botoes/btnDemitirHover.png'
+imgContratarHover.src = 'imagens/botoes/btnContratarHover.png';
+imgDemitir.src = 'imagens/botoes/btnDemitir.png';
+imgDemitirHover.src = 'imagens/botoes/btnDemitirHover.png';
+imgFeito.src = "imagens/botoes/feito.png";
+imgNaoFeito.src = "imagens/botoes/naoFeito.png";
 //--------------------------------------------------------------------------
 // Marketing.js
 var imgFundoMarketing = new Image();
@@ -185,3 +195,9 @@ var imgFinanceiroCartao = new Image();
 imgFundoFinanceiro.src = "imagens/construcoes/fundoFinanceiro.jpg";
 imgFinanceiroDinheiro.src = "imagens/construcoes/dinheiro.png";
 imgFinanceiroCartao.src = "imagens/construcoes/cartaoDeCredito.png";
+//--------------------------------------------------------------------------
+// CheckBox.js
+var imgChecked = new Image();
+var imgUnchecked = new Image();
+//imgChecked.src = "imagens/botoes/checked.png";
+//imgUnchecked.src = "imagens/botoes/unchecked.png";

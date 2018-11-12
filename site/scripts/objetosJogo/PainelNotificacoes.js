@@ -39,10 +39,15 @@ function PainelNotificacoes()
         {
             qtasNotificacoesNovas = 0;
             btnNotificacoes.atualizarNotificacoes(0);
+            desativarBotoes();
+            btnNotificacoes.ativarInteracao();
             abrir();
         }
         else
+        {
+            ativarBotoes();
             fechar();
+        }
     }
     function abrir()
     {

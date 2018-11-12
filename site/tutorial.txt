@@ -1,0 +1,33 @@
+- Propósito do jogo
+
+Primeiros passos:
+
+- Barra superior
+- Calendário
+- Construção da garagem
+- Criação de produtos
+- Fornecedores
+- Estoque
+- Produção
+- Vendas
+- Finanças
+
+Setorização:
+
+- Armazém (Construção e aumento do estoque)
+- Operacional (Construção e aumento da produção)
+- Recursos Humanos (Construção e contratação)
+ * Explicar o motivo da contratação em cada área
+ * Explicar provisão de funcionários
+- Financeiro
+ * Explicar empréstimos
+- Marketing
+
+Explosão de vendas:
+- Estatísticas (Principalmente economia)
+- Escritório
+- Qualidade e contratação no desenvolvimento
+
+Terceirização:
+- Compra de franquias
+- Compra de indústrias

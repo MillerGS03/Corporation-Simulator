@@ -385,7 +385,7 @@ function Marketing()
     }
     function calcularPreco()
     {
-        return parseInt(este.txtTempo.text) * 1000 * Math.pow(2, dadosJanelaPromocao.indiceQualidade);
+        return parseInt(este.txtTempo.text) * 300 * Math.pow(2, dadosJanelaPromocao.indiceQualidade);
     }
 
     function configurar()

@@ -22,6 +22,7 @@ function Garagem()
 
     this.adicionarMateriaPrima = function(materiaPrima)
     {
+        buscarConstrucoes();
         if (armazem)
             return armazem.entregar(materiaPrima);
         else
@@ -1554,7 +1555,6 @@ function Produto(nome, preco)
     this.calcularQualidade = function()
     {
         var rh = getJanelaConstrucao("R. Humanos");
-        console.log(rh);
         var qtosFuncionarios = rh?rh.getRH().FuncionariosDesenvolvimento + 1:1;
 
         if (this.status == 0)

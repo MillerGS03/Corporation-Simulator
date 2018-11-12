@@ -1,36 +1,27 @@
-Planejamento
+Jogo:
+- Empréstimos: F
+- Tela de nível avançado: F
+- Tutorial: G
+- Conquistas: G
+- Delimitação do terreno da empresa: F
 
-19/10 - 26/10:
-X Atualizar o BD
-X Registro e login 
-X Criação de simulações
-X Criação de jogos
-- Início do jogo (mesclado com manual)
-- Texto de contabilidade
-- Pensar nos eventos de acordo com data
+Simulação: F
+- Parte semanal
+- Melhorar design
 
-26/10 - 02/11:
-Simulações (F)
-- Conectar ao BD
-- Remoção, modificação e organização de contas
-- Gráficos
-- Tabelas
-- Previsões
-Jogo (G)
-- Armazém
-- Garagem e administração
-- RH
-- Operacional
-- Financeiro
+Resto:
+- Manual: F e G
+- Consertar texto de contabilidade: F
 
-02/11 - 09/11:
-- Ranking
-- Eventos de acordo com data
-- Balanço e plano de contas no jogo
-- Manual
-- Galeria
+12/11 - 19/11
+- Simulação
+- Tela de nível avançado
+- Começo dos empréstimos <- Opcional
+- Indústrias
+- Franquias
+- Tutorial
+- Começo das conquistas <- Opcional
 
-09/11 - 13/11:
-- Bugs
-- Testes
-- Possíveis atrasos
+19/11 - 26/11
+- Terminar empréstimos F e G
+- Terminar conquistas <- Opcional

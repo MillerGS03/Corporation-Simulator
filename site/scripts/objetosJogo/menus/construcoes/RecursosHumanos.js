@@ -70,8 +70,8 @@ function RecursosHumanos()
     this.btnFechar.onclick = function(e) {
         este.abrirFechar();
     }
-    this.btnContratarDesenv.onclick = function() {getJanelaConstrucao('Garagem').reformada?contratar('fDesenv'):alerta('Você precisa reformar a garagem para contratar funcionários no desenvolvimento!')}
-    this.btnDemitirDesenv.onclick = function() {getJanelaConstrucao('Garagem').reformada?demitir('fDesenv'):alerta('Você precisa reformar a garagem para ter funcionários no desenvolvimento!')}
+    this.btnContratarDesenv.onclick = function() {getJanelaConstrucao('Garagem') && (fDesenv<2 || getJanelaConstrucao("Garagem").reformada)?contratar('fDesenv'):alerta('Você precisa reformar a garagem para contratar mais funcionários no desenvolvimento!')}
+    this.btnDemitirDesenv.onclick = function() {getJanelaConstrucao('Garagem')?demitir('fDesenv'):alerta('Você precisa da garagem para ter funcionários no desenvolvimento!')}
 
     this.btnContratarProd.onclick = function() {getJanelaConstrucao('Operacional')?contratar('fProd'):alerta('Você não possui setor Operacional.')}
     this.btnDemitirProd.onclick = function() {getJanelaConstrucao('Operacional')?demitir('fProd'):alerta('Você não possui setor Operacional.')}

@@ -620,6 +620,10 @@ function carregarDados()
 			mapa.fornecedores.materiaPrimaAcumulada = infoJogo.MateriaPrimaAcumulada;
 
 			var armazem = getJanelaConstrucao("Armazém");
+
+			/**
+			 * @type {Garagem}
+			 */
 			var garagem = getJanelaConstrucao("Garagem");
 			var operacional = getJanelaConstrucao("Operacional");
 			var rh = getJanelaConstrucao('R. Humanos');
@@ -663,6 +667,13 @@ function carregarDados()
 
 						garagem.produtos.push(produto);
 						garagem.txtsProducao[i].text = produto.producao + "";
+
+						if (produto.status != 1)
+						{
+							garagem.txtNome.text = produto.nome;
+							garagem.txtPreco.text = produto.preco + "";
+						}
+
 						if (operacional)
 							operacional.txtsProducao[i].text = produto.producao + "";
 					}

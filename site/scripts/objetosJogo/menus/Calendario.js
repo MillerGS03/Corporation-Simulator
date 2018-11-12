@@ -183,8 +183,12 @@ function Calendario()
 
     this.fatorEconomia = function () { return f;};
     this.setFator = function(estatisticas) {
-        var stats = JSON.parse(estatisticas);
-        f = stats.Economia[stats.Economia.length - 1].y;
+        try
+        {
+            var stats = JSON.parse(estatisticas);
+            f = stats.Economia[stats.Economia.length - 1].y;
+        }
+        catch {}
     };
 
     /**

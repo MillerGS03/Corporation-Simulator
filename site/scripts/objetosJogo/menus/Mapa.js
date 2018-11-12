@@ -139,9 +139,17 @@ function Mapa()
     }
 
     var economia = 4;
+
+    /**
+     * @type {Fornecedores}
+     */
     this.fornecedores = new Fornecedores(this);
+
+    /**
+     * @type {Banco}
+     */
     this.banco = new Banco(this.x, this.y);
-    this.comercio = new Comercio(this, economia, this.fornecedores.produzido(), this.fornecedores.custo());
+    this.comercio = new Comercio(this, economia, this.fornecedores.produzido(), this.fornecedores.getCustoUnitario());
     this.industria = new Industria(this);
     function desenharBanco()
     {
@@ -192,12 +200,12 @@ function Mapa()
                                                 imgBanco, imgBanco, fonte, "black", "Banco", true, false, true);
         btnBanco.onclick = function() {desativarMapa(); lugarAberto = 0; abrirLugar();};
 
-        // Na área comercial, será possível abrir franquias
+        // Na área comercial, será possível abrir franquias - FEITO
         var btnComercio      = new BotaoRetangular(este.x + 90, este.y + 275, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgComercio, imgComercio, fonte, "black", "Comércio", true, false, true);
         btnComercio.onclick = function() {desativarMapa(); lugarAberto = 1; abrirLugar();};
 
-        // Na fábrica, será possível aumentar a produção
+        // Na fábrica, será possível aumentar a produção - ADAPTADO
         var btnFabrica       = new BotaoRetangular(este.x + 555, este.y + 90, 130, 130, null, 130, 130, corTransparente, corTransparente,
                                                 imgFabrica, imgFabrica, fonte, "black", "Fábrica", true, false, true);
         btnFabrica.onclick = function() {desativarMapa(); lugarAberto = 2; abrirLugar();};
@@ -263,13 +271,18 @@ function Mapa()
             lugares[i].desativarInteracao();
         este.btnVoltar.ativarInteracao();
     }
+    this.passarDia = function()
+    {
+        this.setFator(calendario.fatorEconomia());
+        this.fornecedores.passarDia();
+        barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
+    }
     this.setFator = function(f) {fator = f;}
 
     this.custoTotal = function() {
         este.fornecedores.setEconomia(fator);
         este.comercio.setEconomia(fator);
-        este.fornecedores.custo();
-        var custoTotal = este.comercio.custoTotal() + este.fornecedores.custoTotal() + este.industria.custoTotal();
+        var custoTotal = este.comercio.custoTotal() + este.industria.custoTotal();
         return custoTotal;
     };
     this.ganhoTotal = function() {

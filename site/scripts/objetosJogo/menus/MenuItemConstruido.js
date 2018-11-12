@@ -1,6 +1,6 @@
 MenuItemConstruido.armazem            = {item: "Armazém",
                                         construtor: Armazem,
-                                        opcoes: ["Conferir estoque", "Reposicionar"]}  
+                                        opcoes: ["Conferir estoque", "Reposicionar"]}
 MenuItemConstruido.garagem            = {item: "Garagem",
                                         construtor: Garagem,
                                         opcoes: ["Abrir garagem", "Reposicionar"]}

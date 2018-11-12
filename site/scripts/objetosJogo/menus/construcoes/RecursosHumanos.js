@@ -79,8 +79,8 @@ function RecursosHumanos()
     this.btnContratarFin.onclick = function() {getJanelaConstrucao('Financeiro')?contratar('fFin'):alerta('Você não possui o setor Financeiro.')}
     this.btnDemitirFin.onclick = function() {getJanelaConstrucao('Financeiro')?demitir('fFin'):alerta('Você não possui o setor Financeiro.')}
 
-    this.btnContratarMark.onclick = function() {getJanelaConstrucao()?contratar('fMark'):alerta('Você não possui o setor de Marketing.')}
-    this.btnDemitirMark.onclick = function() {getJanelaConstrucao()?demitir('fMark'):alerta('Você não possui o setor de Marketing.')}
+    this.btnContratarMark.onclick = function() {getJanelaConstrucao('Marketing')?contratar('fMark'):alerta('Você não possui o setor de Marketing.')}
+    this.btnDemitirMark.onclick = function() {getJanelaConstrucao('Marketing')?demitir('fMark'):alerta('Você não possui o setor de Marketing.')}
 
     this.btnContratarRh.onclick = function() {contratar('fRh')}
     this.btnDemitirRh.onclick = function() {demitir('fRh')}
@@ -337,7 +337,7 @@ function RecursosHumanos()
                 alerta('Os funcionários já estão com o treinamento máximo.');
         }
         else
-            alerta('Você não têm funcionários para treinar!');
+            alerta('Você não tem funcionários para treinar!');
     }
     this.setRH = function(obj)
     {

@@ -20,6 +20,32 @@ function Garagem()
 
     this.contas = new Array();
 
+    this.adicionarMateriaPrima = function(materiaPrima)
+    {
+        if (armazem)
+            return armazem.entregar(materiaPrima);
+        else
+            return entregar(materiaPrima);
+    }
+    var entregar = function(materiaPrima)
+    {
+        if (materiaPrima > this.getEspacoLivre())
+        {
+            this.qtdeMateriaPrima += materiaPrima;
+            return {sucesso: true, faltandoAEntregar: 0}
+        }
+        else
+        {
+            var faltando = materiaPrima - this.getEspacoLivre();
+            this.qtdeMateriaPrima += this.getEspacoLivre();
+            return {sucesso: false, faltandoAEntregar: faltando};
+        }
+    }
+
+    this.getEspacoLivre = function()
+    {
+        return this.capacidade - (this.getQtdeTotalDeProdutos() + this.qtdeMateriaPrima);
+    }
     this.getQtdeTotalDeProdutos = function() {
         var total = 10;
         for (var i = 0; i < this.produtos.length; i++)
@@ -1163,7 +1189,7 @@ function Garagem()
         este.txtNome.text = alterando?produtoSendoAlterado.nome + "":"";
         este.txtPreco.text = alterando?produtoSendoAlterado.preco + "":"";
         este.txtPreco.setFocused(alterando);
-        este.btnLancarAlterar.text = alterando?"Alterar":"Lançar";
+        este.btnLancarAlterar.text = alterando?"Alterar":"Lançar!";
         este.btnAprimorarCancelar.text = alterando?"Cancelar":"Aprimorar";
         este.btnAprimorarCancelar.backgroundColor = alterando?"#ba0000":"#4c98a5";
         este.btnAprimorarCancelar.backgroundHoverColor = alterando?"#e00000":"#5eb9c9";
@@ -1203,6 +1229,8 @@ function Garagem()
                 itensConstruidos[i].botao.text = "Escritório";
                 itensConstruidos[i].botao.backgroundImage = imgEscritorio;
                 itensConstruidos[i].botao.backgroundHoverImage = imgEscritorio;
+                itensConstruidos[i].menu.nome = "Escritório";
+                itensConstruidos[i].menu.botoesOpcoes[0].text = "Abrir escritório";
                 break;
             }
     }
@@ -1525,7 +1553,9 @@ function Produto(nome, preco)
 
     this.calcularQualidade = function()
     {
-        var qtosFuncionarios = getJanelaConstrucao("R. Humanos")?getJanelaConstrucao("R. Humanos").fDesenv + 1:1;
+        var rh = getJanelaConstrucao("R. Humanos");
+        console.log(rh);
+        var qtosFuncionarios = rh?rh.getRH().FuncionariosDesenvolvimento + 1:1;
 
         if (this.status == 0)
             this.qualidade = (Math.random() * 2 + 1) * Math.log2(qtosFuncionarios + 1);

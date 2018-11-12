@@ -118,6 +118,7 @@ function Calendario()
         this.dia++;
         if (this.dia > this.qtosDiasTemOMes[this.mes - 1])
         {
+            // Determina um novo fator de economia
             var numero = Math.floor(Math.random() * (2 - (-2) + 1)) - 2;
             if (f + numero >= 0 && f + numero <= 10)
                 f += numero;
@@ -128,9 +129,13 @@ function Calendario()
                 else
                     f += numero - 1;
             }
+
+            // Paga os salários
+            pagarSalarios();
+
+            // Redefine o dia, o mês e possivelmente o ano
             this.dia = 1;
             this.mes++;
-            pagarSalarios();
             if (this.mes > 12)
             {
                 this.mes = 1;
@@ -143,6 +148,15 @@ function Calendario()
             anoExibido = this.ano;
             comecoDoMes = diaComecoDoMes(this.mes, this.ano);
         }
+    }
+
+    /**
+     * Retorna o dia da semana de hoje em formato "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta" ou "Sábado"
+     */
+    this.getDiaDaSemana = function() {
+        var indiceDiaDaSemanaComecoDoMes = diaComecoDoMes(this.mes, this.ano);
+        var indiceDiaDaSemanaAtual = (this.dia - 1 + indiceDiaDaSemanaComecoDoMes) % 7;
+        return diasDaSemana[indiceDiaDaSemanaAtual];
     }
 
     this.adicionarEvento = function(dia, mes, ano, tipo)
@@ -168,9 +182,9 @@ function Calendario()
     }
 
     this.fatorEconomia = function () { return f;};
-    this.setFator = function(fator) {
-        //var obj = JSON.parse(fator);
-        //f = obj.Fator;
+    this.setFator = function(estatisticas) {
+        var stats = JSON.parse(estatisticas);
+        f = stats.Economia[stats.Economia.length - 1].y;
     };
 
     /**
@@ -304,7 +318,7 @@ function Calendario()
      */
     function desenharQuadradoDia(dia, semana, xMeioTexto, yMeioTexto)
     {   
-        var diaAtual = dia + semana * 7 - comecoDoMes + 1;
+        var diaAtual = dia + semana * 7 - comecoDoMes + 1; // Dia do mês
         var xQuadrado = xInicial + dia * tamanhoDias;
         var yQuadrado = yInicial + alturaHeader + semana * tamanhoDias;
 

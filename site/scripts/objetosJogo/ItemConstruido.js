@@ -28,7 +28,7 @@ function ItemConstruido(informacoes, isPrimeiro)
                                      this.imagem, this.imagem, "bold 14pt Century Gothic", "Black", this.nome, true, false, false);
     this.botao.onclick = function() { abrirMenu(); };
 
-    this.menu = new MenuItemConstruido(xMenu, yMenu, this,informacoes.infoMenu);
+    this.menu = new MenuItemConstruido(xMenu, yMenu, this, informacoes.infoMenu);
 
     function abrirMenu()
     {

@@ -1,11 +1,12 @@
 function Fornecedores(mapa)
 {
-	this. x = mapa.x;
+	this.x = mapa.x;
 	this.y = mapa.y;
 	this.fornecedores = 0;
 	var aqueleF = mapa;
 	var esteF = this;
 	var produzido = 0;
+	this.materiaPrimaAcumulada = 0;
 	var f = 5;
 	var custo = 2;
 	var telaAtual = -1;
@@ -13,30 +14,38 @@ function Fornecedores(mapa)
 	var qtdDeFornecedoresCompra = 1;
 	var qtdDeFornecedoresDemissao = 1;
 
-	this.btnVoltar = new BotaoRetangular(aqueleF.x + 120, aqueleF.y + 130, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
+	this.btnVoltar = new BotaoRetangular(aqueleF.x + 120, aqueleF.y + 130, 100, 25, 5, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);
-	this.btnAddFornecedores = new BotaoRetangular(this.x + 250, this.y + 225, 300, 75, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 300, 75, "#c1c1c1", "gray", null, null,
-		"bold 16pt Century Gothic", "black", "Contratar mais fornecedores", false, false, false);
-	this.btnDemitirFornecedores = new BotaoRetangular(this.x + 250, this.y + 325, 300, 75, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 300, 75, "#c1c1c1", "gray", null, null,
-		"bold 18pt Century Gothic", "black", "Demitir fornecedores", false, false, false);
+	this.btnAddFornecedores = new BotaoRetangular(this.x + 228, this.y + 180, 344, 45, 5, 344, 45, "#c1c1c1", "gray", null, null,
+		"bold 17pt Century Gothic", "black", "Contratar mais fornecedores", false, false, false);
+	this.btnDemitirFornecedores = new BotaoRetangular(this.x + 228, this.y + 230, 344, 45, 5, 344, 45, "#c1c1c1", "gray", null, null,
+		"bold 17pt Century Gothic", "black", "Demitir fornecedores", false, false, false);
+	this.osFrequenciaEntrega = new OptionSelector({
+		x: this.x + (mapa.width - 300)/2,
+		y: this.y + 330,
+		width: 300,
+		height: 50,
+		opcoes: ["Semanais", "Quinzenais", "Mensais"],
+		indiceOpcaoAtual: 2
+	})
 
-	this.btnMaisFornecedores = new BotaoRetangular(590, aqueleF.y + 225, 35, 35, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 35, 35, "#c1c1c1", "gray", null, null, 
+	this.btnMaisFornecedores = new BotaoRetangular(590, aqueleF.y + 225, 35, 35, 5, 35, 35, "#c1c1c1", "gray", null, null, 
 		"bold 25pt Century Gothic", "black", "+", false, false, false);
-	this.btnMenosFornecedores = new BotaoRetangular(375, aqueleF.y + 225, 35, 35, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 35, 35, "#c1c1c1", "gray", null, null, 
+	this.btnMenosFornecedores = new BotaoRetangular(375, aqueleF.y + 225, 35, 35, 5, 35, 35, "#c1c1c1", "gray", null, null, 
 		"bold 25pt Century Gothic", "black", "-", false, false, false);
-	this.btnContratarFornecedores = new BotaoRetangular(350, 550, 300, 50, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 300, 50, "#c1c1c1", "gray", null, null,
+	this.btnContratarFornecedores = new BotaoRetangular(350, 550, 300, 50, 5, 300, 50, "#c1c1c1", "gray", null, null,
 		"bold 20pt Century Gothic", "black", "Contratar", false, false, true);
 
-	this.btnMaisFornecedoresD = new BotaoRetangular(590, aqueleF.y + 225, 35, 35, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 35, 35, "#c1c1c1", "gray", null, null, 
+	this.btnMaisFornecedoresD = new BotaoRetangular(590, aqueleF.y + 225, 35, 35, 5, 35, 35, "#c1c1c1", "gray", null, null, 
 		"bold 25pt Century Gothic", "black", "+", false, false, false);
-	this.btnMenosFornecedoresD = new BotaoRetangular(375, aqueleF.y + 225, 35, 35, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 35, 35, "#c1c1c1", "gray", null, null, 
+	this.btnMenosFornecedoresD = new BotaoRetangular(375, aqueleF.y + 225, 35, 35, 5, 35, 35, "#c1c1c1", "gray", null, null, 
 		"bold 25pt Century Gothic", "black", "-", false, false, false);
-	this.btnRemoveFornecedores = new BotaoRetangular(350, 550, 300, 50, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 300, 50, "#c1c1c1", "gray", null, null,
+	this.btnRemoveFornecedores = new BotaoRetangular(350, 550, 300, 50, 5, 300, 50, "#c1c1c1", "gray", null, null,
 		"bold 20pt Century Gothic", "black", "Demitir", false, false, true);
 
-	this.btnSim = new BotaoRetangular(550, 400, 150, 50, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 150, 50, "#c1c1c1", "gray", null,
+	this.btnSim = new BotaoRetangular(550, 400, 150, 50, 5, 150, 50, "#c1c1c1", "gray", null,
 			null, "bold 17pt Century Gothic", "black", "Sim!", false, false, false);
-	this.btnNao = new BotaoRetangular(325, 400, 150, 50, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 150, 50, "#c1c1c1", "gray", null,
+	this.btnNao = new BotaoRetangular(325, 400, 150, 50, 5, 150, 50, "#c1c1c1", "gray", null,
 			null, "bold 15pt Century Gothic", "black", "Agora não", false, false, false);
 
 
@@ -68,9 +77,10 @@ function Fornecedores(mapa)
 			qtdDeFornecedoresCompra--;
 	};
 	this.btnContratarFornecedores.onclick = function() {
-		fazerCompra("Fornecedores", calcularGastoDiario(), true, true, 2, function() {
-			produzido += (150 * qtdDeFornecedoresCompra);
+		var es = qtdDeFornecedoresCompra > 1?"es":"";
+		confirma(`Deseja realmente contratar ${qtdDeFornecedoresCompra} fornecedor${es}?`, function() {
 			esteF.fornecedores += qtdDeFornecedoresCompra;
+			produzido = producaoPorFornecedor * esteF.fornecedores;
 			qtdDeFornecedoresCompra = 1;
 			esteF.desativar();
 			telaAtual = 0;
@@ -92,8 +102,9 @@ function Fornecedores(mapa)
 		{
 			esteF.fornecedores -= qtdDeFornecedoresDemissao;
 			qtdDeFornecedoresDemissao = 1;
+			produzido = producaoPorFornecedor * esteF.fornecedores;
 			esteF.desativar();
-			telaAtual = 0;
+			telaAtual = esteF.fornecedores!=0?0:3;
 			esteF.ativar();
 		}
 	};
@@ -120,7 +131,7 @@ function Fornecedores(mapa)
 		switch(telaAtual)
 		{
 			case -1:
-				telaAtual = (primeiraVez==true?3:0);
+				telaAtual = (this.fornecedores==0?3:0);
 			break;
 			case 0:
 				desenharTelaInicial();
@@ -139,12 +150,13 @@ function Fornecedores(mapa)
 	};
 	this.ativar = function() {
 		if (telaAtual == -1)
-			telaAtual = (primeiraVez?3:0);
+			telaAtual = (this.fornecedores==0?3:0);
 		switch(telaAtual)
 		{
 			case 0:
 				esteF.btnAddFornecedores.ativarInteracao();
 				esteF.btnDemitirFornecedores.ativarInteracao();
+				esteF.osFrequenciaEntrega.ativarInteracao();
 			break;
 			case 1:
 				esteF.btnContratarFornecedores.ativarInteracao();
@@ -165,42 +177,72 @@ function Fornecedores(mapa)
 		}
 	};
 	this.desativar = function() {
-		switch(telaAtual)
-		{
-			case -1:
-			break;
-			case 0:
-				esteF.btnAddFornecedores.desativarInteracao();
-				esteF.btnDemitirFornecedores.desativarInteracao();
-			break;
-			case 1:
-				esteF.btnContratarFornecedores.desativarInteracao();
-				esteF.btnMenosFornecedores.desativarInteracao();
-				esteF.btnMaisFornecedores.desativarInteracao();
-				esteF.btnVoltar.desativarInteracao();
-			break;
-			case 2:
-				esteF.btnMenosFornecedoresD.desativarInteracao();
-				esteF.btnMenosFornecedoresD.desativarInteracao();
-				esteF.btnRemoveFornecedores.desativarInteracao();
-				esteF.btnVoltar.desativarInteracao();
-			break;
-			case 3:
-				esteF.btnNao.desativarInteracao();
-				esteF.btnSim.desativarInteracao();
-			break;
-		}
+		esteF.btnAddFornecedores.desativarInteracao();
+		esteF.btnDemitirFornecedores.desativarInteracao();
+		esteF.osFrequenciaEntrega.desativarInteracao();
+		esteF.btnContratarFornecedores.desativarInteracao();
+		esteF.btnMenosFornecedores.desativarInteracao();
+		esteF.btnMaisFornecedores.desativarInteracao();
+		esteF.btnVoltar.desativarInteracao();
+		esteF.btnMenosFornecedoresD.desativarInteracao();
+		esteF.btnMenosFornecedoresD.desativarInteracao();
+		esteF.btnRemoveFornecedores.desativarInteracao();
+		esteF.btnVoltar.desativarInteracao();
+		esteF.btnNao.desativarInteracao();
+		esteF.btnSim.desativarInteracao();
 	};
 	this.produzido = function() {
 		return produzido;
 	};
-	this.custo = function() {
+
+	var anunciouFaltando = false;
+	this.passarDia = function() {
+
+		produzido = producaoPorFornecedor * esteF.fornecedores;
+		if (produzido > 0)
+		{
+			this.materiaPrimaAcumulada += produzido;
+
+			if (this.osFrequenciaEntrega.indiceOpcaoAtual == 0 && calendario.getDiaDaSemana() == "segunda" ||
+				this.osFrequenciaEntrega.indiceOpcaoAtual == 1 && (calendario.dia == 1 || calendario.dia == 15) ||
+				this.osFrequenciaEntrega.indiceOpcaoAtual == 2 && calendario.dia == 1)
+			{
+				var resultado = getJanelaConstrucao("Garagem").adicionarMateriaPrima(this.materiaPrimaAcumulada);
+				if (!resultado.sucesso && !anunciouFaltando)
+				{
+					anunciouFaltando = true;
+					painelNotificacoes.adicionarNotificacao("Espaço de armazenamento insuficiente!", "Consiga mais espaço!",
+															calendario.dia, calendario.mes, calendario.ano);
+				}
+				else if (!resultado.sucesso)
+					anunciouFaltando = false;
+				
+				if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
+				{
+					descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+					this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
+					painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",
+															calendario.dia, calendario.mes, calendario.ano);
+				}
+			}
+		}
+	}
+	this.getCustoUnitario = function() {
 		var aux = (f!=0?f:1);
 		custo = Math.round(10/aux);
 		return custo;
 	};
+	this.getCustoTotal = function(faltandoAEntregar) {
+		return this.getCustoUnitario() * faltandoAEntregar?faltandoAEntregar:this.materiaPrimaAcumulada;
+	}
+	this.getTaxaDeEntrega = function(faltandoAEntregar) {
+		return 500 + this.getCustoTotal(faltandoAEntregar)/10;
+	};
+	this.getPrecoTotal = function(faltandoAEntregar)
+	{
+		return this.getCustoTotal(faltandoAEntregar) + this.getTaxaDeEntrega(faltandoAEntregar);
+	}
 	this.setEconomia = function(fat) {f = fat;}
-	this.custoTotal = function() { return Math.floor(150 * esteF.fornecedores * custo);};
 
 	function desenharTelaComeco()
 	{
@@ -233,28 +275,36 @@ function Fornecedores(mapa)
 		ctx.font = "bold 22pt Century Gothic";
 		ctx.fillStyle = "darkred";
 		ctx.textAlign = "left";
-		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoDiario()) + "/dia", aqueleF.x + 200, aqueleF.y + 300);
+		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoFuturoDiario()) + "/dia", aqueleF.x + 200, aqueleF.y + 300);
 		ctx.fillStyle = "green";
-		ctx.fillText("Matéria-prima: " + calcularMPDiaria() +  "/dia", aqueleF.x + 200, aqueleF.y + 350);
+		ctx.fillText("Matéria-prima: " + calcularMateriaPrimaFuturaDiaria() +  "u/dia", aqueleF.x + 200, aqueleF.y + 350);
 	}
 	function desenharTelaInicial()
 	{
 		esteF.btnAddFornecedores.desenhar();
 		esteF.btnDemitirFornecedores.desenhar();
+		esteF.osFrequenciaEntrega.desenhar();
+
 		ctx.font = "bold 22pt Century Gothic";
 		ctx.textAlign = "left";
 		ctx.fillStyle = "black";
-		ctx.fillText("Número de fornecedores: " + esteF.fornecedores, aqueleF.x + 150, aqueleF.y + 175);
-		ctx.fillStyle = "black";
-		ctx.fillText("Custo: " + formatarDinheiro(custo) + "/produto", aqueleF.x + 125, aqueleF.y + 450);
+		ctx.fillText("Número de fornecedores: " + esteF.fornecedores, aqueleF.x + 150, aqueleF.y + 145);
+
+		ctx.font = "bold 19pt Century Gothic";
+		ctx.textAlign = "center";
+		ctx.fillText("Frequência das entregas", esteF.x + mapa.width/2, esteF.y + 305)
+
+		ctx.font = "bold 16pt Century Gothic";
+		ctx.textAlign = "left";
+
 		ctx.fillStyle = "green";
-		ctx.font = "bold 24pt Century Gothic";
-		ctx.fillText("Matéria-prima produzida: " + produzido + "/dia", aqueleF.x + 125, aqueleF.y + 500);
-		if (calcularGastoTotal() == 0)
-			ctx.fillStyle = "green";
-		else
-			ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoTotal()) + "/dia", aqueleF.x + 125, aqueleF.y + 550);
+		ctx.fillText("Produção: " + produzido + "u/dia", aqueleF.x + 115, aqueleF.y + 433);
+		ctx.fillText("Matéria-prima acumulada: " + esteF.materiaPrimaAcumulada + "u", aqueleF.x + 115, aqueleF.y + 461);
+
+		ctx.fillStyle = "black";
+		ctx.fillText("Frete: " + formatarDinheiro(500) + " + 10% da carga = " + formatarDinheiro(esteF.getTaxaDeEntrega()), aqueleF.x + 115, aqueleF.y + 489);
+		ctx.fillText("Custo de produção: " + formatarDinheiro(esteF.getCustoUnitario()) + "/u", aqueleF.x + 115, aqueleF.y + 517);
+		ctx.fillText("Preço total: " + formatarDinheiro(esteF.getPrecoTotal()), aqueleF.x + 115, aqueleF.y + 545);
 	}
 	function desenharDemissaoDeFornecedores()
 	{
@@ -271,27 +321,24 @@ function Fornecedores(mapa)
 		ctx.font = "bold 16pt Century Gothic";
 		ctx.textAlign = "left";
 		ctx.fillText(qtdDeFornecedoresDemissao, aqueleF.x + 335, aqueleF.y + 242);
-		ctx.font = "bold 24pt Century Gothic";
+		ctx.textAlign = "center";
+		ctx.font = "bold 22pt Century Gothic";
 		ctx.fillStyle = "green";
-		ctx.fillText("Economia: " + formatarDinheiro(Math.floor(150 * custo * qtdDeFornecedoresDemissao)), aqueleF.x + 200, aqueleF.y + 325);
+		ctx.fillText("Economia: " + formatarDinheiro(Math.floor(producaoPorFornecedor * custo * qtdDeFornecedoresDemissao)), aqueleF.x + aqueleF.width/2, aqueleF.y + 325);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Matéria-prima a menos: " + (150 * qtdDeFornecedoresDemissao), aqueleF.x + 200, aqueleF.y + 375);
+		ctx.fillText("Matéria-prima a menos: " + (producaoPorFornecedor * qtdDeFornecedoresDemissao) + "u/dia", aqueleF.x + aqueleF.width/2, aqueleF.y + 375);
+	}
+	var producaoPorFornecedor = 20;
+	function calcularMateriaPrimaFuturaDiaria()
+	{
+		return producaoPorFornecedor * (esteF.fornecedores + qtdDeFornecedoresCompra);
+	}
+	function calcularGastoFuturoDiario()
+	{
+		return calcularMateriaPrimaFuturaDiaria() * esteF.getCustoUnitario();
 	}
 	function voltarAoMapa()
 	{
 		mapa.btnVoltar.onclick();
-	}
-
-	function calcularGastoDiario()
-	{
-		return Math.floor(150 * qtdDeFornecedoresCompra * custo);
-	}
-	function calcularMPDiaria()
-	{
-		return Math.floor(150 * qtdDeFornecedoresCompra);
-	}
-	function calcularGastoTotal()
-	{
-		return Math.floor(150 * esteF.fornecedores * custo);
 	}
 }

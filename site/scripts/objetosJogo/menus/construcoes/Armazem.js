@@ -300,7 +300,7 @@ function Armazem()
         ctx.textAlign = "right";
         ctx.fillText(`${Math.round(100* qtdeMateriaPrima / este.capacidade)}%`, este.x + este.width - 25, este.y + 370);
         ctx.fillText(`${Math.round(100* este.getQtdeTotalDeProdutos() / este.capacidade)}%`, este.x + este.width - 25, este.y + 400);
-        ctx.fillText(`${Math.round(100* (este.capacidade - qtdeMateriaPrima - este.getQtdeTotalDeProdutos()) / este.capacidade)}%`, este.x + este.width - 25, este.y + 430);
+        ctx.fillText(`${Math.round(100* (este.getEspacoLivre()) / este.capacidade)}%`, este.x + este.width - 25, este.y + 430);
         ctx.fillText(`100%`, este.x + este.width - 25, este.y + 460);
 
         // Observação
@@ -321,4 +321,23 @@ function Armazem()
         var garagem = getJanelaConstrucao("Garagem");
         return garagem?garagem.qtdeMateriaPrima:0;
     }
+    this.getEspacoLivre = function()
+    {
+        return this.capacidade - (this.getQtdeMateriaPrima() + this.getQtdeTotalDeProdutos());
+    }
+    this.entregar = function(materiaPrima)
+    {
+        var garagem = getJanelaConstrucao("Garagem");
+        if (materiaPrima <= this.getEspacoLivre())
+        {
+            garagem.qtdeMateriaPrima += materiaPrima;
+            return {sucesso: true, faltandoAEntregar: 0}
+        }
+        else
+        {
+            var faltando = materiaPrima - this.getEspacoLivre();
+            garagem.qtdeMateriaPrima += this.getEspacoLivre();
+            return {sucesso: false, faltandoAEntregar: faltando};
+        }
+    }  
 }

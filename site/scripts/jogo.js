@@ -386,8 +386,7 @@ function passarDia()
 	var l = mapa.ganhoTotal() - mapa.custoTotal();
 	l = (l<0?(l*(-1)):l)
 	estatisticas.setLucroPrejuizo(l);
-	mapa.setFator(calendario.fatorEconomia());
-	barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
+	mapa.passarDia();
 
 	var garagem = getJanelaConstrucao("Garagem");
 	if (garagem)
@@ -423,7 +422,19 @@ function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaxim
 	efetuacao = new EfetuacaoDeCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso);
 	efetuacao.ativar();
 }
-
+/**
+ * Desconta o valor pedido do meio de pagamento especificado
+ * @param {number} valor 
+ * @param {number} meioDePagamento 0 -> Caixa; 1 -> Débito
+ */
+function descontar(valor, meioDePagamento)
+{
+	if (meioDePagamento == 0)
+		barra.dinheiro -= valor;
+	else if (meioDePagamento == 1)
+		mapa.banco.saldo -= valor;
+		
+}
 /**
  * Recebe um valor inteiro e retorna uma string no formato $xxxx,xx.
  * @param {number} valor Valor inteiro.
@@ -604,6 +615,9 @@ function carregarDados()
 			url: 'http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo
 		}).done(function(dados){
 			var infoJogo = dados[0];
+
+			mapa.fornecedores.osFrequenciaEntrega.indiceOpcaoAtual = infoJogo.FreqFornecedores;
+			mapa.fornecedores.materiaPrimaAcumulada = infoJogo.MateriaPrimaAcumulada;
 
 			var armazem = getJanelaConstrucao("Armazém");
 			var garagem = getJanelaConstrucao("Garagem");
@@ -792,6 +806,8 @@ function salvar()
 		atualizar.QtdeMateriaPrima = garagem.qtdeMateriaPrima;
 		atualizar.CapacidadeProducao = garagem.capacidadeProducao;
 		atualizar.Reformada = garagem.reformada?1:0;
+		atualizar.FreqFornecedores = mapa.fornecedores.osFrequenciaEntrega.indiceOpcaoAtual;
+		atualizar.MateriaPrimaAcumulada = mapa.fornecedores.materiaPrimaAcumulada;
 		for (var i = 0; i < garagem.produtosRemovidos.length; i++)
 			$.ajax({
 				url: 'http://' + local + ':3000/produto/' + jogo.CodJogo + "/" + garagem.produtosRemovidos[i].nome,

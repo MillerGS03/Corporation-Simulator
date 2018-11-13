@@ -7,10 +7,12 @@ function Industria(aquele)
 	var qtdDeIndustriasDemolicao = 1;
 	this.x = aquele.x;
 	this.y = aquele.y;
+
 	this.industrias = 0;
-	this.mp = 0;
-	this.custo = 10/(fat==0?1:fat);
-	var primeiraVez = (this.industrias>0?false:true);
+	this.materiaPrimaAcumulada = 0;
+	var produzido = 0;
+	var custo = 10/(fat==0?1:fat);
+	var primeiraVez = this.industrias == 0;
 
 	this.btnVoltar = new BotaoRetangular(esteI.x + 120, esteI.y + 130, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);
@@ -47,6 +49,7 @@ function Industria(aquele)
 	this.btnConstruir.onclick = function() {
 		fazerCompra("Industria", calcularPreco(), true, true, 2, function(){
 			esteI.industrias += qtdDeIndustriasConstrucao;
+			produzido = producaoPorIndustria * esteI.industrias;
 			qtdDeIndustriasConstrucao = 1;
 			primeiraVez = false;
 			esteI.desativar();
@@ -60,6 +63,7 @@ function Industria(aquele)
 	this.btnDemolirIndustriaD.onclick = function() {
 		fazerCompra("Industria", calcularPrecoDemolir(), true, true, 2, function() {
 			esteI.industrias -= qtdDeIndustriasDemolicao;
+			produzido = producaoPorIndustria * esteI.industrias;
 			qtdDeIndustriasDemolicao = 1;
 			esteI.desativar();
 			telaAtualI = 0;
@@ -87,14 +91,22 @@ function Industria(aquele)
 	{
 		esteI.btnAddIndustria.desenhar();
 		esteI.btnDemolirIndustria.desenhar();
+
+		ctx.textAlign = "left";
 		ctx.fillStyle = "black";
-		ctx.font = "bold 24pt Century Gothic";
-		ctx.fillText("Número de industrias: " + esteI.industrias, 400, 235);
 		ctx.font = "bold 22pt Century Gothic";
+		ctx.fillText("Número de industrias: " + esteI.industrias, esteI.x + 150, esteI.y + 145);
+
+		ctx.font = "bold 16pt Century Gothic";
+		ctx.textAlign = "left";
 		ctx.fillStyle = "green";
-		ctx.fillText("Matéria-prima: " + calcularMPTotal() + "/dia", 400, 525, 4000);
+		ctx.fillText("Produção: " + produzido + "u/dia", esteI.x + 115, esteI.y + 433);
+		ctx.fillText("Matéria-prima acumulada: " + esteI.materiaPrimaAcumulada + "u", esteI.x + 115, esteI.y + 461);
+
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoTotal()) + "/dia", 370, 575, 4000);
+		ctx.fillText("Custo de produção: " + formatarDinheiro(esteI.getCustoUnitario()) + "/u", esteI.x + 115, esteI.y + 489);
+		ctx.fillText("Despesas: " + formatarDinheiro(esteI.getDespesas()) + "/dia", esteI.x + 115, esteI.y + 517)
+		ctx.fillText("Preço total: " + formatarDinheiro(esteI.getPrecoTotal()), esteI.x + 115, esteI.y + 545);
 	}
 	function desenharConstruir()
 	{
@@ -103,7 +115,7 @@ function Industria(aquele)
 		esteI.btnConstruir.desenhar();
 		ctx.fillStyle = "black";
 		ctx.font = "bold 24pt Century Gothic";
-		ctx.fillText("Construir industrias", esteI.x + 400, esteI.y + 140);
+		ctx.fillText("Construir indústrias", esteI.x + 400, esteI.y + 140);
 		ctx.fillStyle = "lightgrey";
 		roundRect(esteI.x + 325, esteI.y + 185, 150, 35, 5, true, true);
 		ctx.fillStyle = "black";
@@ -113,9 +125,9 @@ function Industria(aquele)
 		ctx.font = "bold 20pt Century Gothic";
 		ctx.fillText("Preço: " + formatarDinheiro(calcularPreco()), 350, 350);
 		ctx.fillStyle = "green";
-		ctx.fillText("Matéria-prima: " + calcularMPDiaria() + "/dia", 350, 400);
+		ctx.fillText("Matéria-prima: " + calcularMateriaPrimaFuturaDiaria() + "u/dia", 350, 400);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoDiario()) + "/dia", 350, 450);
+		ctx.fillText("Gasto: " + formatarDinheiro(calcularGastoFuturoDiario()) + "/dia", 350, 450);
 	}
 	function desenharDemolir()
 	{
@@ -134,9 +146,9 @@ function Industria(aquele)
 		ctx.font = "bold 20pt Century Gothic";
 		ctx.fillText("Preço: " + formatarDinheiro(calcularPrecoDemolir()), 350, 350);
 		ctx.fillStyle = "green";
-		ctx.fillText("Economia: " + formatarDinheiro(500 * qtdDeIndustriasDemolicao) + "/dia", 350, 400);
+		ctx.fillText("Economia: " + formatarDinheiro(Math.floor((producaoPorIndustria * custo + (1000 + producaoPorIndustria/ Math.sqrt(fat + 1))) * qtdDeIndustriasDemolicao)) + "/dia", 350, 400);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Matéria-prima a menos: " + (450 * qtdDeIndustriasDemolicao) + "/dia", 350, 450);
+		ctx.fillText("Matéria-prima a menos: " + (producaoPorIndustria + qtdDeIndustriasDemolicao) + "u/dia", 350, 450);
 	}
 
 	this.desenhar = function() {
@@ -218,29 +230,62 @@ function Industria(aquele)
 			break;
 		}
 	};
-	this.custoTotal = function() {return calcularGastoTotal();};
-	this.produzido = function() {return calcularMPTotal();};
+	this.produzido = function() {return produzido;};
 	esteI.ativar();
 
+	var anunciouFaltando = false;
+	this.passarDia = function()
+	{
+		produzido = producaoPorIndustria * esteI.industrias;
+		if (produzido > 0)
+		{
+			this.materiaPrimaAcumulada += produzido;
+			var resultado = getJanelaConstrucao("Garagem").adicionarMateriaPrima(this.materiaPrimaAcumulada);
+			if (!resultado.sucesso && !anunciouFaltando)
+			{
+				anunciouFaltando = true;
+				painelNotificacoes.adicionarNotificacao("Espaço de armazenamento insuficiente!", "Consiga mais espaço!",
+														calendario.dia, calendario.mes, calendario.ano);
+			}
+			else if (resultado.sucesso)
+				anunciouFaltando = false;
+			
+			descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+			if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
+			{
+				this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
+				painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",
+														calendario.dia, calendario.mes, calendario.ano);
+			}
+		}
+	}
+	this.getCustoUnitario = function() {
+		var aux = (fat!=0?fat:1);
+		custo = Math.round(10/aux);
+		return custo;
+	};
+	this.getCustoTotal = function(faltandoAEntregar) {
+		return this.getCustoUnitario() * faltandoAEntregar?faltandoAEntregar:this.materiaPrimaAcumulada;
+	}
+	this.getDespesas = function(faltandoAEntregar) {
+		return (1000 + producaoPorIndustria/ Math.sqrt(fat + 1)) * esteI.industrias;
+	};
+	this.getPrecoTotal = function(faltandoAEntregar)
+	{
+		return this.getCustoTotal(faltandoAEntregar) + this.getDespesas(faltandoAEntregar);
+	}
+	var producaoPorIndustria = 200;
 	function calcularPreco()
 	{
 		return qtdDeIndustriasConstrucao * Math.pow(1.1, esteI.industrias) * 250000;
 	}
-	function calcularGastoDiario()
+	function calcularMateriaPrimaFuturaDiaria()
 	{
-		return 750 * qtdDeIndustriasConstrucao;
+		return producaoPorIndustria * (esteI.industrias + qtdDeIndustriasConstrucao);
 	}
-	function calcularMPDiaria()
+	function calcularGastoFuturoDiario()
 	{
-		return 500 * qtdDeIndustriasConstrucao;
-	}
-	function calcularGastoTotal()
-	{
-		return 750 * esteI.industrias;
-	}
-	function calcularMPTotal()
-	{
-		return 500 * esteI.industrias;
+		return calcularMateriaPrimaFuturaDiaria() * esteI.getCustoUnitario() + (1000 + producaoPorIndustria/ Math.sqrt(fat + 1)) * (esteI.industrias + qtdDeIndustriasConstrucao);
 	}
 	function calcularPrecoDemolir()
 	{

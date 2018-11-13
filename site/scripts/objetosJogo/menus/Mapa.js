@@ -210,7 +210,7 @@ function Mapa()
                                                 imgFabrica, imgFabrica, fonte, "black", "Fábrica", true, false, true);
         btnFabrica.onclick = function() {desativarMapa(); lugarAberto = 2; abrirLugar();};
         
-        // Nos fornecedores, será possível regular a entregar de matéria prima
+        // Nos fornecedores, será possível regular a entregar de matéria prima - FEITO
         var btnFornecedores  = new BotaoRetangular(este.x + 600, este.y + 438, 140, 140, null, 140, 140, corTransparente, corTransparente,
                                                 imgFornecedores, imgFornecedores, fonte, "black", "Fornecedores", true, false, true);
         btnFornecedores.onclick = function() {desativarMapa(); lugarAberto = 3; abrirLugar();};               
@@ -275,18 +275,22 @@ function Mapa()
     {
         this.setFator(calendario.fatorEconomia());
         this.fornecedores.passarDia();
+        this.industria.passarDia();
         barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
     }
-    this.setFator = function(f) {fator = f;}
+    this.setFator = function(f) 
+    {
+        fator = f;
+        this.fornecedores.setEconomia(fator);
+        this.industria.setEconomia(fator);
+        this.comercio.setEconomia(fator);
+    }
 
     this.custoTotal = function() {
-        este.fornecedores.setEconomia(fator);
-        este.comercio.setEconomia(fator);
-        var custoTotal = este.comercio.custoTotal() + este.industria.custoTotal();
+        var custoTotal = este.comercio.custoTotal();
         return custoTotal;
     };
     this.ganhoTotal = function() {
-        este.comercio.setEconomia(fator);
         var ganhoComercio = este.comercio.ganhoTotal();
         return ganhoComercio;
     };

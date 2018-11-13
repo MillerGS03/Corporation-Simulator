@@ -10,7 +10,7 @@ function Fornecedores(mapa)
 	var f = 5;
 	var custo = 2;
 	var telaAtual = -1;
-	var primeiraVez = (this.fornecedores>0?false:true);
+	var primeiraVez = this.fornecedores == 0 && this.materiaPrimaAcumulada == 0;
 	var qtdDeFornecedoresCompra = 1;
 	var qtdDeFornecedoresDemissao = 1;
 
@@ -131,7 +131,7 @@ function Fornecedores(mapa)
 		switch(telaAtual)
 		{
 			case -1:
-				telaAtual = (this.fornecedores==0?3:0);
+				telaAtual = (primeiraVez?3:0);
 			break;
 			case 0:
 				desenharTelaInicial();
@@ -149,8 +149,9 @@ function Fornecedores(mapa)
 		ctx.restore();
 	};
 	this.ativar = function() {
+		primeiraVez = this.fornecedores == 0 && this.materiaPrimaAcumulada == 0;
 		if (telaAtual == -1)
-			telaAtual = (this.fornecedores==0?3:0);
+			telaAtual = (primeiraVez?3:0);
 		switch(telaAtual)
 		{
 			case 0:
@@ -196,8 +197,8 @@ function Fornecedores(mapa)
 	};
 
 	var anunciouFaltando = false;
-	this.passarDia = function() {
-
+	this.passarDia = function() 
+	{
 		produzido = producaoPorFornecedor * esteF.fornecedores;
 		if (produzido > 0)
 		{
@@ -214,7 +215,7 @@ function Fornecedores(mapa)
 					painelNotificacoes.adicionarNotificacao("Espaço de armazenamento insuficiente!", "Consiga mais espaço!",
 															calendario.dia, calendario.mes, calendario.ano);
 				}
-				else if (!resultado.sucesso)
+				else if (resultado.sucesso)
 					anunciouFaltando = false;
 				
 				if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
@@ -301,7 +302,7 @@ function Fornecedores(mapa)
 		ctx.fillText("Produção: " + produzido + "u/dia", aqueleF.x + 115, aqueleF.y + 433);
 		ctx.fillText("Matéria-prima acumulada: " + esteF.materiaPrimaAcumulada + "u", aqueleF.x + 115, aqueleF.y + 461);
 
-		ctx.fillStyle = "black";
+		ctx.fillStyle = "darkred";
 		ctx.fillText("Frete: " + formatarDinheiro(500) + " + 10% da carga = " + formatarDinheiro(esteF.getTaxaDeEntrega()), aqueleF.x + 115, aqueleF.y + 489);
 		ctx.fillText("Custo de produção: " + formatarDinheiro(esteF.getCustoUnitario()) + "/u", aqueleF.x + 115, aqueleF.y + 517);
 		ctx.fillText("Preço total: " + formatarDinheiro(esteF.getPrecoTotal()), aqueleF.x + 115, aqueleF.y + 545);

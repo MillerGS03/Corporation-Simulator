@@ -77,7 +77,7 @@ function atualizarGrafs()
         $("#rankUsuario").text("Rank atual: #" + rank)
         $("#userAtual").text('Username: ' + user.Username)
         $("#xpTotal").text('XP total: ' + user.SomaXP)
-        if (!passouDia() || primeiraVezGraf)
+        if ((!passouDia() || primeiraVezGraf) && valRank.length > 0)
         {
             valRank[valRank.length - 1].y = rank;
             valRank[valRank.length - 1].label = diaAtual.getDate() + '/' + diaAtual.getMonth() + '/' + diaAtual.getFullYear();

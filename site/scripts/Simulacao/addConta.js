@@ -1,5 +1,15 @@
-$("#painelConta").css('height', '70vh')
 var erro;
+var domingo = true;
+var segunda = true;
+var terca = true;
+var quarta = true;
+var quinta = true;
+var sexta = true;
+var sabado = true;
+for (var i = 0; i < 7; i++)
+	mudarDia(document.getElementsByTagName('img')[i].id)
+$("img").on('click', function(){mudarDia(this.id)})
+$("#painelConta").css('height', '70vh')
 $("#sairModal").on('click', function(){
 	$("#modal").css('display', 'none');
 })
@@ -34,7 +44,18 @@ $('#removeClass').on('click', function(){
 		type: 'DELETE'
 	}).done(addOptions());
 });
-
+tiposIntervalo = setInterval(function(){
+	if (document.getElementById('var').checked)
+	{
+		document.getElementById('intervaloTempo').style.display = 'none';
+		document.getElementById('freq').style.display = 'block';
+	}
+	else if (document.getElementById('abs').checked)
+	{
+		document.getElementById('freq').style.display = 'none';
+		document.getElementById('intervaloTempo').style.display = 'block';
+	}
+}, 1)
 addOptions();
 
 function addOptions()
@@ -68,6 +89,7 @@ function validarFormulario()
 	testarValor();
 	testarTempo();
 	testarClassificacao();
+	testarSemana();
 	if (erro)
 		return false;
 	else
@@ -88,27 +110,65 @@ function adicionar()
 	if (document.getElementById('perda').checked)
 		valor = -valor;
 	conta.Valor = valor;
-	var intervalo;												//em segundos
-	var tipoTempo = $("#tTempo option:selected").text();
-	var hoje = new Date();
-	if (tipoTempo == 'Dia(s)')
+	if (document.getElementById('abs').checked)
 	{
-		hoje.setDate(hoje.getDate() + parseInt($("#nTempo").val()));
-		intervalo = $("#nTempo").val() + 'D';
-	}
-	else if (tipoTempo == 'Mes(es)')
-	{
-		hoje.setMonth(hoje.getMonth() + parseInt($("#nTempo").val()));
-		intervalo = $("#nTempo").val() + 'M';
+		var intervalo;												//em segundos
+		var tipoTempo = $("#tTempo option:selected").text();
+		var hoje = new Date();
+		if (tipoTempo == 'Dia(s)')
+		{
+			hoje.setDate(hoje.getDate() + parseInt($("#nTempo").val()));
+			intervalo = $("#nTempo").val() + 'D';
+		}
+		else if (tipoTempo == 'Mes(es)')
+		{
+			hoje.setMonth(hoje.getMonth() + parseInt($("#nTempo").val()));
+			intervalo = $("#nTempo").val() + 'M';
+		}
+		else
+		{
+			hoje.setFullYear(hoje.getFullYear() + parseInt($("#nTempo").val()));
+			intervalo = $("#nTempo").val() + 'A';
+		}
+		conta.Intervalo = intervalo;
+		conta.DiaPerdaGanho = hoje;
 	}
 	else
 	{
-		hoje.setFullYear(hoje.getFullYear() + parseInt($("#nTempo").val()));
-		intervalo = $("#nTempo").val() + 'A';
+		conta.Marcado = 2;
+		var hoje = new Date();
+		var diasTotais = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+		var dias = new Array();
+		for (var i = 0; i < 7; i++)
+		{
+			var diaAtual = eval(diasTotais[i]);
+			if (diaAtual)
+				dias.push(diasTotais[i])
+		}
+		var diffs = [];
+		var hojeAux = new Date();
+		for (var j = 0; j < dias.length; j++)
+		{
+			var diff = (diasTotais.indexOf(dias[j])+(7-hojeAux.getDay())) % 7;
+			diffs.push(diff);
+		}
+		var dataMaisProxima = 10;
+		for (var j = 0; j < diffs.length; j++)
+		{
+			if (diffs[j] < dataMaisProxima)
+				dataMaisProxima = diffs[j];
+		}
+		hojeAux.setDate(hojeAux.getDate() + dataMaisProxima);
+		var auxData = hojeAux.toUTCString();
+		hojeAux = new Date(auxData)
+		hojeAux.setHours(0, 0, 0)
+		conta.DiaPerdaGanho = hojeAux;
+		var str = '';
+		for (var x = 0; x < dias.length; x++)
+			str += dias[x] + ','
+		str = str.substring(0, str.length-1);
+		conta.Intervalo = str;
 	}
-	conta.Intervalo = intervalo;
-	conta.DiaPerdaGanho = hoje;
-	conta.Marcado = 0;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;
 	for (var i = 0; i < classificacoes.length; i++)
@@ -166,30 +226,33 @@ function testarValor()
 }
 function testarTempo()
 {
-	var tempo = parseInt($('#nTempo').val());
-	var t = document.getElementById('nTempo');
-	if (isNaN(tempo) || tempo <= 0){
-		t.parentElement.style.color = "darkred";
-		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
-		erro = true;
-	}
-	if ($("#tTempo").val() == 'D' && tempo > 31)
+	if (document.getElementById('abs').checked)
 	{
-		erro = true;
-		t.parentElement.style.color = "darkred";
-		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
-	}
-	if ($("#tTempo").val() == 'M' && tempo > 12)
-	{
-		erro = true;
-		t.parentElement.style.color = "darkred";
-		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
-	}
-	if ($("#tTempo").val() == 'M' && tempo > 100)
-	{
-		erro = true;
-		t.parentElement.style.color = "darkred";
-		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+		var tempo = parseInt($('#nTempo').val());
+		var t = document.getElementById('nTempo');
+		if (isNaN(tempo) || tempo <= 0){
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+			erro = true;
+		}
+		if ($("#tTempo").val() == 'D' && tempo > 31)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+		}
+		if ($("#tTempo").val() == 'M' && tempo > 12)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+		}
+		if ($("#tTempo").val() == 'M' && tempo > 100)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
+		}
 	}
 }
 function testarClassificacao()
@@ -200,4 +263,29 @@ function testarClassificacao()
 		c.parentElement.firstElementChild.textContent = "Classificação - Selecione pelo menos uma classificação:";
 		erro = true;
 	}
+}
+function testarSemana()
+{
+	if (document.getElementById('var').checked)
+	{
+		var dias = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+		for (var i = 0; i < 7; i++)
+		{
+			var diaAtual = eval(dias[i]);
+			if (diaAtual)
+				return true;
+		}
+		return false;
+	}
+}
+
+function mudarDia(dia)
+{
+	dia = dia.substring(0,dia.length - 1)
+	eval(dia + "=!" + dia)
+	var diaAtual = eval(dia);
+	if (diaAtual)
+		$("#" + dia + "T").removeClass('hidden');
+	else
+		$("#" + dia + "T").toggleClass('hidden');
 }

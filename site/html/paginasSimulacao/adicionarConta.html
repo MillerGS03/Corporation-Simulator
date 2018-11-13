@@ -9,14 +9,36 @@
 			<span>Nome da Conta:</span><br>
 			<input type="text" id="nomeConta" maxlength="30">
 		</label>
-		<label id="tipo"> 											<!-- ganho ou perda -->
+		<div id="tipo">
 			<span>Tipo:</span><br>
-			<input type="radio" name="tipoConta" id="ganho">Ganho     <input type="radio" name="tipoConta" id="perda">Perda
-		</label>
+			<label id="g"><input type="radio" name="tipoConta" id="ganho">Ganho</label>     <label id="p"><input type="radio" name="tipoConta" id="perda">Perda</label>
+		</div>
 		<label id="valor">
 			<span>Valor:</span><br>
 			<input type="text" id="valorConta">
 		</label>
+		<div id="tipoIntervalo">
+			<span>Tipo do intervalo de tempo:</span><br>
+			<label id="varTxt"><input type="radio" name="inte" id="var">Variável</label>       <label id="absTxt"><input type="radio" name="inte" id="abs">Absoluto</label>
+		</div>
+		<div id="freq">
+			<span>Frequência:</span>
+			<img id="domingoF" src="imagens/dias/domingoF.png">
+			<img id="segundaF" src="imagens/dias/segundaF.png">
+			<img id="tercaF" src="imagens/dias/tercaF.png">
+			<img id="quartaF" src="imagens/dias/quartaF.png">
+			<img id="quintaF" src="imagens/dias/quintaF.png">
+			<img id="sextaF" src="imagens/dias/sextaF.png">
+			<img id="sabadoF" src="imagens/dias/sabadoF.png">
+
+			<img id="domingoT" src="imagens/dias/domingoT.png">
+			<img id="segundaT" src="imagens/dias/segundaT.png">
+			<img id="tercaT" src="imagens/dias/tercaT.png">
+			<img id="quartaT" src="imagens/dias/quartaT.png">
+			<img id="quintaT" src="imagens/dias/quintaT.png">
+			<img id="sextaT" src="imagens/dias/sextaT.png">
+			<img id="sabadoT" src="imagens/dias/sabadoT.png">
+		</div>
 		<label id="intervaloTempo">
 			<span>Intervalo de tempo:</span><br>
 			<input type="text" id="nTempo"><select id="tTempo"><option value='D'>Dia(s)</option><option value='M'>Mes(es)</option><option value='A'>Ano(s)</option></select>
@@ -24,7 +46,7 @@
 		<label id="class">
 			<span>Classificacao:</span><br>
 			<select id="classificacoes">
-				<option selected disabled>Classificacoes disponiveis</option>
+				<option selected disabled>Classificações disponíveis</option>
 			</select>
 			<input type="button" id="addClass" value="Adicionar uma Classificação">
 			<input type="button" id="removeClass" value="Remover Classificação">

@@ -26,39 +26,40 @@ function verificarDataPrevisao()
 
 function fazerPrevisao()
 {
+    pontosPrevisao = pontosPrevisao.concat(pontosSaldo);
     if (chartPrevisao != null)
         chartPrevisao.destroy();
-    pontosPrevisao = pontosPrevisao.concat(pontosSaldo);
-    hoje = new Date();
+    hojeAux = new Date();
     var diff = Math.round((data.getTime() - new Date().getTime())/86400000)
     var y = simulacao.Saldo;
     for (var i = 0; i <= diff; i++)
     {
         var aux = new Object();
-        var dataAtual = new Date();
-        dataAtual.setDate(hoje.getDate() + i);
-        aux.x = dataAtual;
+        hojeAux = new Date();
+        hojeAux.setDate(new Date().getDate() + i);
+        aux.x = hojeAux;
         aux.lineDashType = "dash";
-        var perdaGanho = verificarPerdaGanho(dataAtual);
+        var perdaGanho = verificarPerdaGanho(hojeAux);
         y += perdaGanho;
-        console.log(perdaGanho)
         aux.y = y;
-        aux.xValueFormatString = "DD/MM"
+        aux.xValueFormatString = "DD/MM";
         pontosPrevisao.push(aux);
     }
-    hoje = new Date();
+    pontosPrevisao.shift();
+    hojeAux = new Date();
+    console.log(pontosPrevisao)
     criarGraficoPrevisao();
     $("#estimado").css('display', 'block')
     $("#estimado").text('Saldo estimado: $' + y)
 }
 function criarGraficoPrevisao()
 {
+    chartPrevisao = null;
 	chartPrevisao = new CanvasJS.Chart("previsaoContas", {
 		animationEnabled: true,
         theme: tema + '1',
         culture: 'es',
 		zoomEnabled: true,
-		axisX: {title: "Dias", valueFormatString: "DD/MM/YY"},
 		axisY: {title: "Saldo", prefix: '$'},
 		title: {text: "Saldo: " + simulacao.Saldo},
 		data:
@@ -67,6 +68,6 @@ function criarGraficoPrevisao()
 			color: $("#conteudoInfo").css("background-color"),
 			dataPoints: pontosPrevisao
 		}]
-	});
+    });
 	chartPrevisao.render();
 }

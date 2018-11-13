@@ -55,8 +55,7 @@ rota.post('/autenticar', (requisicao, resposta) => {
   });
 })
 rota.delete('/usuario/:id', (requisicao, resposta) =>{
-	execSQL('DELETE from usuario WHERE CodUsuario=' + parseInt(requisicao.params.id), resposta);
-  resposta.end(resposta.json({ mensagem: 'Deletado!'}));
+	execSQL(`RemoverUsuario_sp ${requisicao.params.id}`, resposta);
 })
 rota.post('/usuario', (requisicao, resposta) =>{
     const Username = requisicao.body.Username.substring(0, 30);
@@ -149,9 +148,6 @@ rota.patch('/updateTotalXp/:cod/:xpFinal', (requisicao, resposta) => {
 })
 rota.get('/getRanking', (requisicao, resposta) => {
   execSQL(`select * from Usuario u order by u.SomaXP desc`, resposta)
-})
-rota.delete('/deleteUsuario/:cod', (requisicao, resposta) => {
-  execSQL(`RemoverUsuario_sp ${requisicao.params.cod}`, resposta);
 })
 rota.get('/rankUsuario/:cod', (requisicao, resposta) => {
   execSQL(`select * from UsuarioRank where CodUsuario = ${requisicao.params.cod}`, resposta)

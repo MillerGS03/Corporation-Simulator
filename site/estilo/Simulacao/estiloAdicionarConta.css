@@ -5,12 +5,13 @@
 	left: calc(50% - 18vh);
 	font-family: "Century Gothic";
 }
-.frm label
+.frm label, .frm div
 {
 	position: absolute;
-	width: 63vh;
+	width: auto;
 	font-size: 3vh;
 	text-align: justify;
+	z-index: 3;
 }
 .frm input[type="text"]
 {
@@ -22,9 +23,13 @@
 .frm input[type="radio"]
 {
 	margin: 0.3vh 0.3vh 0vh 0.5vh;
-	border: 0px;
-	width: 2vh;
+	border: 0;
 	height: 2vh;
+	z-index: 4;
+}
+.frm img
+{
+	transition: background 0.5s;
 }
 #painelConta h1
 {
@@ -41,26 +46,121 @@
 	position: absolute;
 	top: 8vh;
 }
+#tipoIntervalo
+{
+	position: absolute;
+	top: 0vh;
+	left: 30vh;
+	width: 100vh;
+}
 #nome
 {
 	position: absolute;
 	top: 0vh;
+	left: -30vh;
 }
 #tipo
 {
 	position: absolute;
 	top: 8.2vh;
+	left: -30vh;
 }
 #valor
 {
 	position: absolute;
 	top: 16.4vh;
+	left: -30vh;
 }
 #intervaloTempo
 {
 	position: absolute;
-	top: 24.6vh;
+	top: 20vh;
+	left: 30vh;
 	width: 90vh;
+	display: none;
+}
+#freq
+{
+	position: absolute;
+	top: 20vh;
+	left: 40vh;
+	height: 50vh;
+	display: none;
+}
+.hidden {opacity: 0;}
+#freq img
+{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 4vh;
+	transition:opacity 0.25s linear;
+	border-radius: 50%;
+}
+#freq img:hover {cursor: pointer;}
+#domingoF
+{
+	left: -12vh;
+}
+#segundaF
+{
+	left: -6vh;
+}
+#tercaF
+{
+	left: 0;
+}
+#quartaF
+{
+	left: 6vh;
+}
+#quintaF
+{
+	left: 12vh;
+	z-index: 6;
+}
+#sextaF
+{
+	left: 18vh;
+}
+#sabadoF
+{
+	left: 24vh;
+}
+#domingoT
+{
+	left: -12vh;
+	z-index: 6;
+}
+#segundaT
+{
+	left: -6vh;
+	z-index: 6;
+}
+#tercaT
+{
+	left: 0;
+	z-index: 6;
+}
+#quartaT
+{
+	left: 6vh;
+	z-index: 6;
+}
+#quintaT
+{
+	left: 12vh;
+	z-index: 6;
+}
+#sextaT
+{
+	left: 18vh;
+	z-index: 6;
+}
+#sabadoT
+{
+	left: 24vh;
+	z-index: 6;
 }
 #tTempo
 {
@@ -187,4 +287,42 @@
 	background-color: lightgray;
 	transition: background-color 0.5s;
 	cursor: pointer;
+}
+#perda
+{
+	position: absolute;
+	left: -3vh;
+	top: 0.8vh;
+}
+#ganho
+{
+	position: absolute;
+	left: -3vh;
+	top: 0.8vh;
+}
+#p
+{
+	position: absolute;
+	left: 22vh;
+	margin: 0.3vh 0.3vh 0vh 0.5vh;
+	border: 0;
+	height: 2vh;
+	top: 3vh;
+}
+#g {left: 3vh;}
+#abs
+{
+	position: absolute;
+	left: -3vh;
+	top: 0.8vh;
+}
+#absTxt
+{
+	position: absolute;
+	left: 22vh;
+	margin: 0.3vh 0.3vh 0vh 0.5vh;
+	border: 0;
+	height: 2vh;
+	top: 3.5vh;
+	z-index: 5;
 }

@@ -4,6 +4,7 @@ criarSlideGenerico(document.getElementById('contas'));
 criarSlideGenerico(document.getElementById('classif'));
 mostrarSlide(slideIndex)
 var tema = 'light';
+var tiposIntervalo;
 $("#tema").on('click', function(){
 	if (tema == 'light')
 		tema = 'dark';
@@ -32,17 +33,22 @@ var hoje = new Date();
 var chartConta;
 var chartSaldo;
 var chartClass;
-var pontosSaldo = new Array();
+var pontosSaldo = [];
 var pontosConta = new Array();
 var pontosClass = new Array();
 function primeiroSaldo()
 {
-	var x = simulacao.DataCriacao + '';
-	var atual = new Date(x.substring(0, x.length-1));
-	var aux = new Object();
-	aux.x = atual;
-	aux.y = 0;
-	pontosSaldo.push(aux)
+	var h = new Date();
+	var a = new Date(simulacao.DataCriacao);
+	if (h.getFullYear() == a.getFullYear() && h.getMonth() == a.getMonth() && h.getDate() == a.getDate())
+	{
+		var x = simulacao.DataCriacao + '';
+		var atual = new Date(x.substring(0, x.length-1));
+		var aux = new Object();
+		aux.x = atual;
+		aux.y = 0;
+		pontosSaldo.push(aux)
+	}
 }
 primeiroSaldo();
 
@@ -76,7 +82,7 @@ function atualizarPontosSaldo()
 			aux.y = y;
 			pontosSaldo.push(aux)
 		}
-		simulacao.Saldo = pontosSaldo[pontosSaldo.length-2].y;
+		simulacao.Saldo = pontosSaldo[pontosSaldo.length-1].y;
 	}
 	else
 		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
@@ -143,6 +149,8 @@ $('#previsao').on('click', function(){
 
 function abrirS(l)
 {
+	if (tiposIntervalo != null)
+		clearInterval(tiposIntervalo);
 	$("#modal-content").empty();
 	$("#modal-content").load("html/paginasSimulacao/" + l);
 	$("#modal").css('display', 'block');
@@ -235,21 +243,48 @@ function verificarPerdaGanho(dia)
 		d.getFullYear() == dia.getFullYear())
 		{
 			var novo = new Date(dS);
-			if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'D')
-				novo.setDate(novo.getDate() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
-			else if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'M')
-				novo.setMonth(novo.getMonth() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
-			else
-				novo.setFullYear(novo.getFullYear() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
-			
-			total += contas[i].Valor;
-
 			if (contas[i].Marcado == 0)
+			{
+				if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'D')
+					novo.setDate(novo.getDate() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+				else if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'M')
+					novo.setMonth(novo.getMonth() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+				else
+					novo.setFullYear(novo.getFullYear() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
+				total += contas[i].Valor;
 				contas[i].DiaPerdaGanho = novo;
-			else
+			}	
+			else if (contas[i].Marcado == 1)
 				$.ajax({
 				url: 'http://' + local + ':3000/excluirConta/' + contas[i].CodPatrimonio,
 				type: 'delete'})
+			else
+			{
+				var dias = contas[i].IntervaloDeTempo.split(',')
+				var diasTotais = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+				var diffs = [];
+				var hojeAux = new Date(dia);
+				for (var j = 0; j < dias.length; j++)
+				{
+					var diff = (diasTotais.indexOf(dias[j])+(7-hojeAux.getDay())) % 7;
+					diffs.push(diff);
+				}
+				var dataMaisProxima = 7;
+				for (var j = 0; j < diffs.length; j++)
+					if (diffs[j] == 0)
+						diffs[j] = 6;
+				for (var j = 0; j < diffs.length; j++)
+				{
+					if (diffs[j] < dataMaisProxima)
+						dataMaisProxima = diffs[j];
+				}
+				hojeAux.setDate(hojeAux.getDate() + dataMaisProxima);
+				var auxData = hojeAux.toUTCString();
+				hojeAux = new Date(auxData)
+				hojeAux.setHours(0, 0, 0)
+				contas[i].DiaPerdaGanho = hojeAux;
+				total += contas[i].Valor;
+			}
 		}
 	}
 	return total;
@@ -275,4 +310,14 @@ function carregar()
 	$.ajax({
 		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
 	}).done(function(dados) {classificacoes = dados});
+}
+/**
+ * 
+ * @param {Date} date Data atual
+ * @param {Number} dayOfWeek Dia da semana (0-6)
+ */
+function getNextDayOfWeek(date, dayOfWeek)
+{ 
+    date.setDate(date.getDate() + (dayOfWeek+(7-date.getDay())) % 7);
+    return date;
 }

@@ -13,7 +13,7 @@ function RecursosHumanos()
     var fFin = 0;
     var fMark = 0;
     var fRh = 0;
-    var capacitacao = 0;
+    var capacitacao = 1;
     var custo = 0;
 
     this.aberto = false;

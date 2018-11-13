@@ -67,12 +67,25 @@ $("#search").on('click', function(){
     if (!achou)
         alert('Usuário não encontrado.')
 })
+$("#txtPesquisa").on('keyup', function(e){
+    var lis = $("li");
+    var u = $("#txtPesquisa").val()
+    var achou = false;
+    $("li").attr('style', '')
+    for (var i = 4; i < lis.length; i++)
+        if (lis[i].innerHTML.toUpperCase().includes(u.toUpperCase()))
+        {
+            var pag = Math.floor(i/40)+1;
+            mudarSlide(pag);
+            selecionarElemento(lis[i])
+            achou = true;
+        }
+    if (!achou && e.which != 8)
+        setTimeout(function(){alert('Usuário não encontrado.')}, 5) 
+})
 $("#txtPesquisa").on('keypress', function(e){
     if (e.which == 13)
-    {
-        $('#search').trigger('click')
-        return false;
-    }
+    {$('#search').trigger('click'); return false;}
 })
 function selecionarElemento(e)
 {

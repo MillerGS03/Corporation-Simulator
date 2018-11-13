@@ -184,7 +184,6 @@ function Operacional()
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
 
-
         ctx.fillStyle = "silver";
         ctx.fillRect(xTabelaProducao, yTabelaProducao, widthTabela, heightTabela);
         ctx.strokeRect(xTabelaProducao, yTabelaProducao, widthTabela, heightTabela);

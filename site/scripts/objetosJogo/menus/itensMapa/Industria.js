@@ -12,7 +12,7 @@ function Industria(aquele)
 	this.materiaPrimaAcumulada = 0;
 	var produzido = 0;
 	var custo = 10/(fat==0?1:fat);
-	var primeiraVez = this.industrias == 0;
+	var primeiraVez = this.industrias == 0 && this.materiaPrimaAcumulada == 0;
 
 	this.btnVoltar = new BotaoRetangular(esteI.x + 120, esteI.y + 130, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);
@@ -152,6 +152,7 @@ function Industria(aquele)
 	}
 
 	this.desenhar = function() {
+		primeiraVez = this.industrias == 0 && this.materiaPrimaAcumulada == 0;
 		if (telaAtualI != -1 && telaAtualI != 3)
 		{
 			ctx.fillStyle = "lightgrey"
@@ -179,6 +180,7 @@ function Industria(aquele)
 	};
 	this.setEconomia = function(f) {fat = f;};
 	this.ativar = function() {
+		primeiraVez = this.industrias == 0 && this.materiaPrimaAcumulada == 0;
 		if (telaAtualI == -1)
 			telaAtualI = (primeiraVez?3:0);
 		switch(telaAtualI)
@@ -251,6 +253,8 @@ function Industria(aquele)
 				anunciouFaltando = false;
 			
 			descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+			mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
+			
 			if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
 			{
 				this.materiaPrimaAcumulada = resultado.faltandoAEntregar;

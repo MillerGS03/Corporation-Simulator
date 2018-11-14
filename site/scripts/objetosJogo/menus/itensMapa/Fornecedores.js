@@ -221,6 +221,7 @@ function Fornecedores(mapa)
 				if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
 				{
 					descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+					mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
 					this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
 					painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",
 															calendario.dia, calendario.mes, calendario.ano);

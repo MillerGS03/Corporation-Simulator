@@ -196,15 +196,14 @@ function Comercio(aquele)
 			esteC.btnVoltar.desenhar();
 		ativarTela();
 		precoFranquia = calcularPrecoDeFranquia();
-		gasto = calcularGastoPorDia();
-		ganho = calcularGanhoPorDia();
+
 		ctx.textAlign = "left";
 		ctx.font = "bold 20pt Century Gothic";
 		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 375, 400, 4000);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(gasto) + "/dia", 375, 450, 4000);
+		ctx.fillText("Gasto: " + formatarDinheiro(calcularDespesasFuturas()) + ` + ${esteC.franquias + numeroDeFranquiasASeremAdicionadas}X despesas da matriz/dia`, 375, 450, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Ganho: " + formatarDinheiro(ganho) + "/dia", 375, 500, 4000);
+		ctx.fillText("Ganho: " + (esteC.franquias + numeroDeFranquiasASeremAdicionadas) + "X ganhos da matriz/dia", 375, 500, 4000);
 		esteC.btnComprarFranquias.desenhar();
 	}
 	function desativarTela()
@@ -288,6 +287,15 @@ function Comercio(aquele)
 			esteC.btnMaisFranquiasV.ativarInteracao();
 		}
 	}
+
+	this.getTotalDespesas = function()
+	{
+		return 300 * this.franquias;
+	}
+	function calcularDespesasFuturas()
+	{
+		return 300 * (esteC.franquias + numeroDeFranquiasASeremAdicionadas);
+	}
 	function calcularPrecoDeFranquia()
 	{
 		var x = 250000;
@@ -296,14 +304,6 @@ function Comercio(aquele)
 			x = Math.floor(x * 1.25);
 		}
 		return x;
-	}
-	function calcularGastoPorDia()
-	{
-		return Math.floor((numeroDeFranquiasASeremAdicionadas * 1200) + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremAdicionadas));
-	}
-	function calcularGanhoPorDia()
-	{
-		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * numeroDeFranquiasASeremAdicionadas));
 	}
 	function desenharTelaInicial()
 	{
@@ -326,14 +326,6 @@ function Comercio(aquele)
 			ctx.fillText("Lucro diário: " + formatarDinheiro(total), 350, esteC.y + 500, 3000);
 		}
 		ativarTela();
-	}
-	function ganhoTotalDiario()
-	{
-		return Math.floor((esteC.preco * esteC.f * vendaPorFranquia * esteC.franquias));
-	}
-	function gastoTotalDiario()
-	{
-		return Math.floor((esteC.franquias * 1200) + (vendaPorFranquia * esteC.custo * esteC.franquias));
 	}
 	function vendaDeFranquia()
 	{
@@ -365,8 +357,15 @@ function Comercio(aquele)
 	}
 	function calcularEconomia()
 	{
-		return Math.floor(35000 * numeroDeFranquiasASeremExcluidas + (vendaPorFranquia * esteC.custo * numeroDeFranquiasASeremExcluidas)/esteC.f);
+		return Math.floor(formatarDinheiro(300 * numeroDeFranquiasASeremExcluidas) + "/dia");
 	}
-	this.custoTotal = function() {var custoT = gastoTotalDiario(); return custoT;};
-	this.ganhoTotal = function() {var ganhoT = ganhoTotalDiario(); return ganhoT;};
+	this.gastosDoDiaMatriz = 0;
+	this.ganhosDoDiaMatriz = 0;
+	this.passarDia = function()
+	{
+		receber(this.franquias * this.ganhosDoDiaMatriz, 0);
+		descontar(this.franquias * this.gastosDoDiaMatriz, 0);
+		this.ganhosDoDiaMatriz = 0;
+		this.gastosDoDiaMatriz = 0;
+	}
 }

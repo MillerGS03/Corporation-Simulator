@@ -422,6 +422,19 @@ function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaxim
 	efetuacao = new EfetuacaoDeCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso);
 	efetuacao.ativar();
 }
+
+/**
+ * Adiciona o valor pedido do meio de pagamento especificado
+ * @param {number} valor 
+ * @param {number} destino 0 -> Caixa; 1 -> Débito
+ */
+function receber(valor, destino)
+{
+	if (destino == 0)
+		barra.dinheiro += valor;
+	else if (destino == 1)
+		mapa.banco.saldo += valor;
+}
 /**
  * Desconta o valor pedido do meio de pagamento especificado
  * @param {number} valor 

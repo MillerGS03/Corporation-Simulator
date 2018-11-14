@@ -160,21 +160,16 @@ function Mapa()
     {
         desenharBaseLugar("Comércio", imgIconeComercio);
         este.comercio.desenhar();
-        este.comercio.setEconomia(fator);
-        este.comercio.setCusto(este.fornecedores.custo());
-        este.comercio.setProduzido(este.fornecedores.produzido() + este.industria.produzido());
     }
     function desenharFabrica()
     {
         desenharBaseLugar("Fábrica", imgIconeFabrica);
         este.industria.desenhar();
-        este.industria.setEconomia(fator);
     }
     function desenharFornecedores()
     {
         desenharBaseLugar("Fornecedores", imgIconeFornecedores);
         este.fornecedores.desenhar();
-        este.fornecedores.setEconomia(fator);
     }
     function desenharBaseLugar(nome, imagem)
     {
@@ -276,7 +271,7 @@ function Mapa()
         this.setFator(calendario.fatorEconomia());
         this.fornecedores.passarDia();
         this.industria.passarDia();
-        barra.dinheiro += (mapa.ganhoTotal() - mapa.custoTotal());
+        this.comercio.passarDia();
     }
     this.setFator = function(f) 
     {
@@ -287,12 +282,10 @@ function Mapa()
     }
 
     this.custoTotal = function() {
-        var custoTotal = este.comercio.custoTotal();
-        return custoTotal;
+        return 0;
     };
     this.ganhoTotal = function() {
-        var ganhoComercio = este.comercio.ganhoTotal();
-        return ganhoComercio;
+        return 0;
     };
     this.numeroFranquias = function() {
         return este.comercio.franquias;

@@ -5,11 +5,11 @@ $("#sairModal").on('click', function(){
 $("#selectContas").change(function(){
     if (document.getElementById('selectContas').selectedIndex > 0)
     {
-        $("#valor").text('Valor: ').append('$' + contas[document.getElementById('selectContas').selectedIndex - 1].Valor);
-        $("#valor").css('display', 'inline-block');
+        $("#valorE").text('Valor: ').append('$' + contas[document.getElementById('selectContas').selectedIndex - 1].Valor);
+        $("#valorE").css('display', 'inline-block');
     }
     else
-        $("#valor").css('display', 'none');
+        $("#valorE").css('display', 'none');
 });
 $("#btnExcluirConta").on('click', function(){
     if (document.getElementById('selectContas').selectedIndex > 0)
@@ -23,7 +23,7 @@ $("#btnExcluirConta").on('click', function(){
                     contas = dados;
                     atualizarPontosConta();
                     atualizarPontosClass();
-                    $("#valor").css('display', 'none');
+                    $("#valorE").css('display', 'none');
                     document.getElementById('selectContas').options[0].selected = 'selected';
                     setTimeout(function() {
                         addOptions();
@@ -41,7 +41,7 @@ function addOptions()
     s.add(p)
     for (var i = 0; i < contas.length; i++)
     {
-        if (contas[i].Marcado == 0)
+        if (contas[i].Marcado != 1)
         {
             var o = document.createElement('option');
             o.text = contas[i].Nome;

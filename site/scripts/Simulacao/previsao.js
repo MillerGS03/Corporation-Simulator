@@ -26,31 +26,48 @@ function verificarDataPrevisao()
 
 function fazerPrevisao()
 {
-    pontosPrevisao = pontosPrevisao.concat(pontosSaldo);
+    pontosPrevisao = [];
     if (chartPrevisao != null)
         chartPrevisao.destroy();
-    hojeAux = new Date();
-    var diff = Math.round((data.getTime() - new Date().getTime())/86400000)
+    var diff = Math.round((data.getTime() - new Date().getTime())/86400000)+1
     var y = simulacao.Saldo;
-    for (var i = 0; i <= diff; i++)
-    {
-        var aux = new Object();
+    setTimeout(function(){
+        for (var i = 0; i < pontosSaldo.length; i++)
+        {
+            if (i == pontosSaldo.length-1)
+            {
+                var aux = new Object();
+                aux.x = pontosSaldo[i].x;
+                aux.y = pontosSaldo[i].y;
+                aux.lineDashType = 'dash'
+                aux.xValueFormatString = "DD/MM";
+                pontosPrevisao.push(aux);
+            }
+            else
+                pontosPrevisao.push(pontosSaldo[i])
+        }
         hojeAux = new Date();
-        hojeAux.setDate(new Date().getDate() + i);
-        aux.x = hojeAux;
-        aux.lineDashType = "dash";
-        var perdaGanho = verificarPerdaGanho(hojeAux);
-        y += perdaGanho;
-        aux.y = y;
-        aux.xValueFormatString = "DD/MM";
-        pontosPrevisao.push(aux);
-    }
-    pontosPrevisao.shift();
-    hojeAux = new Date();
-    console.log(pontosPrevisao)
-    criarGraficoPrevisao();
-    $("#estimado").css('display', 'block')
-    $("#estimado").text('Saldo estimado: $' + y)
+        //setTimeout(function(){
+            for (var i = 1; i <= diff; i++)
+            {
+                var aux = new Object();
+                var xd = hojeAux.toUTCString();
+                xd = xd.substring(0, xd.length-5)
+                aux.x = new Date(xd);
+                aux.lineDashType = "dash";
+                var perdaGanho = verificarPerdaGanho(hojeAux);
+                y += perdaGanho;
+                aux.y = y;
+                aux.xValueFormatString = "DD/MM";
+                pontosPrevisao.push(aux);
+                hojeAux = new Date();
+                hojeAux.setDate(hojeAux.getDate() + i);
+            }
+            criarGraficoPrevisao();
+            $("#estimado").css('display', 'block')
+            $("#estimado").text('Saldo estimado: $' + y)
+        //}, 100)
+    }, 100)
 }
 function criarGraficoPrevisao()
 {

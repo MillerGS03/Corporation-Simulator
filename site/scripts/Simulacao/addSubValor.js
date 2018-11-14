@@ -1,3 +1,5 @@
+var classifA = 1;
+$.get('http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao).done(function(dados){classifA = dados[0].CodClassificacao})
 $("#sairModal").on('click', function(){
     $("#modal").css('display', 'none');
     $.get('http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + simulacao.Nome, function(dados) {
@@ -46,6 +48,17 @@ $("#fim").on('click', function(){
         var saldo = parseInt($("#txtValor").val());
         if ($("#sub").is(':checked'))
             saldo = -saldo;
+        var aux = new Object();
+        aux.Intervalo = '';
+        aux.Nome = '';
+        aux.Classificacao = classifA;
+        aux.Marcado = 1;
+        aux.Valor = saldo;
+        aux.DiaPerdaGanho = new Date();
+        aux.CodSimulacao = simulacao.CodSimulacao;
+        $.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, aux).done(function(){
+            $.get('http://' + local + ':3000/getContas/' + simulacao.CodSimulacao).done(function(dados){contas = dados; console.log(contas)})
+        })
         saldo = saldo + simulacao.Saldo;
         $.ajax({
             url: 'http://' + local + ':3000/simulacao/' + simulacao.CodSimulacao + '/saldo/' + saldo,
@@ -80,21 +93,25 @@ $("#OkAddSub").on('click', function(){
         if ($("#sub").is(':checked'))
             saldo = -saldo;
         var data = new Date($("#marcarData").val());
-        data.setHours(24);
+        var aux = data.toUTCString();
+        aux = aux.substring(0, aux.length-5);
+        var dataVerdadeira = new Date(aux)
         var hoje = new Date();
         if (data > hoje)
         {
             var aux = new Object();
             aux.Intervalo = '';
             aux.Nome = '';
-            aux.Valor = saldo;
-            aux.DiaPerdaGanho = data;
+            aux.Classificacao = classifA;
             aux.Marcado = 1;
-            aux.Classificacao = 10;
+            aux.Valor = saldo;
+            aux.DiaPerdaGanho = dataVerdadeira;
+            aux.CodSimulacao = simulacao.CodSimulacao;
+            console.log(aux)
             $.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, aux);
             $.ajax({
                 url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-            }).done(function(dados){contas = dados;})
+            }).done(function(dados){contas = contas.concat(dados);})
             $("#sairModal").trigger('click');
             return false;
         }

@@ -39,7 +39,9 @@ var pontosClass = new Array();
 function primeiroSaldo()
 {
 	var h = new Date();
-	var a = new Date(simulacao.DataCriacao);
+	var a = simulacao.DataCriacao + '';
+	a = a.substring(0,a.length-1)
+	a = new Date(a)
 	if (h.getFullYear() == a.getFullYear() && h.getMonth() == a.getMonth() && h.getDate() == a.getDate())
 	{
 		var x = simulacao.DataCriacao + '';
@@ -83,19 +85,19 @@ function atualizarPontosSaldo()
 			pontosSaldo.push(aux)
 		}
 		simulacao.Saldo = pontosSaldo[pontosSaldo.length-1].y;
+		if (chartSaldo != null)
+			chartSaldo.render();
 	}
 	else
 		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
-	if (chartSaldo != null)
-		chartSaldo.render();
 }
 function atualizarPontosConta()
 {
 	var total = 0;
 	for (var i = 0; i < contas.length; i++)
-		if (contas[i].Marcado == 0)
+		if (contas[i].Marcado != 1)
 			total += Math.abs(contas[i].Valor);
-	for (var i = 0; i < contas.length && contas[i].Marcado == 0; i++)
+	for (var i = 0; i < contas.length && contas[i].Marcado != 1; i++)
 	{
 		aux = new Object();
 		aux.label = contas[i].Nome;
@@ -251,14 +253,9 @@ function verificarPerdaGanho(dia)
 					novo.setMonth(novo.getMonth() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
 				else
 					novo.setFullYear(novo.getFullYear() + parseInt(contas[i].IntervaloDeTempo.substring(0, contas[i].IntervaloDeTempo.length-1)))
-				total += contas[i].Valor;
 				contas[i].DiaPerdaGanho = novo;
-			}	
-			else if (contas[i].Marcado == 1)
-				$.ajax({
-				url: 'http://' + local + ':3000/excluirConta/' + contas[i].CodPatrimonio,
-				type: 'delete'})
-			else
+			}
+			else if (contas[i].Marcado == 2)
 			{
 				var dias = contas[i].IntervaloDeTempo.split(',')
 				var diasTotais = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
@@ -283,8 +280,8 @@ function verificarPerdaGanho(dia)
 				hojeAux = new Date(auxData)
 				hojeAux.setHours(0, 0, 0)
 				contas[i].DiaPerdaGanho = hojeAux;
-				total += contas[i].Valor;
 			}
+			total += contas[i].Valor;
 		}
 	}
 	return total;
@@ -292,6 +289,7 @@ function verificarPerdaGanho(dia)
 function finalizarSimulacao()
 {
 	clearInterval(iSaldo);
+	clearInterval(tiposIntervalo);
 	$('#conteinerSlidesGenerico').remove();
 	$('#esquerda').remove();
 	$('#direita').remove();

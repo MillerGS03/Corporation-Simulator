@@ -1,15 +1,15 @@
-h1
+#painelConta h1
 {
     position: relative;
-    bottom: 2vh;
+    top: 2vh;
     font-size: 6vh;
     font-family: "Century Gothic";
 }
 .select
 {
     position: relative;
-    top: -2vh;
-    left: 5vh;
+    top: 2vh;
+    left: 7vh;
     width: 75vh;
     height: 5vh;
     font-size: 4vh;
@@ -40,10 +40,10 @@ h1
     transition-timing-function: ease;
     transition-delay: 0s;
 }
-#valor
+#valorE
 {
     position: absolute;
-    top: 30vh;
+    top: 20vh;
     left: 35vh;
     width: 300vh;
     height: 5vh;
@@ -52,27 +52,4 @@ h1
     font-family: "Century Gothic";
     font-size: 7vh;
     font-weight: bold;
-}
-.modal
-{
- 	display:none;
- 	position: fixed;
-  	z-index:1;
-  	left: 0;
-  	top:0;
-  	height: 100%;
-  	width:100%;
-  	background-color: rgba(0,0,0,0.5);
-}
-#modal-content
-{
-  	background-color:#f4f4f4;
-  	margin: 20% auto;
-  	width:70%;
-  	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
-  	animation-name:modalopen;
-  	animation-duration:1s;
-  	position: absolute;
-  	left: 20%;
-  	top: -20vh;
 }

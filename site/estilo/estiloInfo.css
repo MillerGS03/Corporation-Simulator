@@ -124,7 +124,7 @@ section#conteudoInfo
 #btnSim
 {
 	position: relative;
-	bottom: 4.25vh;
+	bottom: 0.3vh;
 	left: -5vh;
 	width: 20vh;
 	height: 5vh;
@@ -148,7 +148,7 @@ section#conteudoInfo
 #btnCancelar
 {
 	position: relative;
-	bottom: 4.25vh;
+	bottom: 0.3vh;
 	left: 5vh;
 	width: 20vh;
 	height: 5vh;

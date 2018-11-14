@@ -58,18 +58,24 @@
 	position: absolute;
 	top: 0vh;
 	left: -30vh;
+	width: 80vh;
+	height: 10vh;
 }
 #tipo
 {
 	position: absolute;
-	top: 8.2vh;
+	top: 12vh;
 	left: -30vh;
+	width: 80vh;
+	height: 10vh;
 }
 #valor
 {
 	position: absolute;
-	top: 16.4vh;
-	left: -30vh;
+	top: 10vh;
+	left: 30vh;
+	width: 80vh;
+	height: 10vh;
 }
 #intervaloTempo
 {
@@ -78,11 +84,12 @@
 	left: 30vh;
 	width: 90vh;
 	display: none;
+	height: 10vh;
 }
 #freq
 {
 	position: absolute;
-	top: 20vh;
+	top: 22vh;
 	left: 40vh;
 	height: 50vh;
 	display: none;
@@ -290,39 +297,17 @@
 }
 #perda
 {
-	position: absolute;
-	left: -3vh;
-	top: 0.8vh;
-}
-#ganho
-{
-	position: absolute;
-	left: -3vh;
-	top: 0.8vh;
+	left: 20vh;
 }
 #p
 {
-	position: absolute;
 	left: 22vh;
-	margin: 0.3vh 0.3vh 0vh 0.5vh;
-	border: 0;
-	height: 2vh;
-	top: 3vh;
 }
-#g {left: 3vh;}
 #abs
 {
-	position: absolute;
-	left: -3vh;
-	top: 0.8vh;
+	left: 20vh;
 }
 #absTxt
 {
-	position: absolute;
 	left: 22vh;
-	margin: 0.3vh 0.3vh 0vh 0.5vh;
-	border: 0;
-	height: 2vh;
-	top: 3.5vh;
-	z-index: 5;
 }

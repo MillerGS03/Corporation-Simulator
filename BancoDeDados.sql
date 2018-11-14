@@ -94,6 +94,8 @@ select * from Usuario
 select * from UsuarioFoto
 select * from InfoEmpresa
 update InfoEmpresa set Capacitacao = 1
+alter table Patrimonio
+alter column CodClassificacao int
 
 
 delete from Notificacao

@@ -226,7 +226,6 @@ function testarValor()
 	var val = $('#valorConta').val();
 	var v = document.getElementById('valorConta');
 	if (isNaN(val) || val <= 0){
-		console.log(val)
 		v.parentElement.style.color = "darkred";
 		v.parentElement.firstElementChild.innerHTML = "Valor</span><br><span>Insira um número positivo válido:";
 		erro = true;

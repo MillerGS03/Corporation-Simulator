@@ -1,3 +1,9 @@
+#painelConta
+{
+    height: 76vh;
+    max-height: 76vh;
+    min-height: 76vh;
+}
 #painelConta h1
 {
 	background: inherit;
@@ -34,17 +40,20 @@
 }
 .par
 {
-    background: #fffddd;
+    background: #c2c2c2;
 }
 .impar
 {
-    background: #ededed;
+    background: #d1d1d1;
 }
 .tabelaContas
 {
-    position: relative;
-    left: 30vh;
-    width: 100%;
+    position: absolute;
+    left: 10vh;
+    height: auto;
+    max-height: 25vh;
+    overflow-y: scroll;
+    width: auto;
 }
 .tabela
 {
@@ -55,9 +64,20 @@
     border: 0.2vh solid black;
     border-collapse: collapse;
 }
+
+.inicio td
+{
+    margin: 2vh;
+    font-weight: 500;
+    font-size: 3.5vh;
+    color: white;
+    background: rgb(0, 0, 187);
+
+}
 .tabela td
 {
     border: 0.1vh solid black;
+    padding: 0.3vh;
 }
 #forma
 {

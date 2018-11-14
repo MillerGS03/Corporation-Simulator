@@ -41,6 +41,8 @@
     background: inherit;
     width: 95%;
     height: 35vh;
+    max-width: 100%;
+    min-width: 95%;
 }
 #estimado
 {

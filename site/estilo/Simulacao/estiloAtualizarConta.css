@@ -45,7 +45,7 @@
 	width: 100%;
 	height: 60%;
 }
-.frm label
+.frm label, .frm div
 {
 	position: absolute;
 	width: 63vh;
@@ -68,7 +68,7 @@
 #nome
 {
 	position: absolute;
-    top: 0;
+    top: -2.5vh;
     left: 5vh;
 }
 #tipo
@@ -80,15 +80,107 @@
 #valor
 {
 	position: absolute;
-    top: 10vh;
-    left: 5vh;
+    top: 0;
+    left: 70vh;
+}
+#tipoIntervalo
+{
+	position: absolute;
+	top: 10vh;
+	left: 5vh;
+	width: 100vh;
 }
 #intervaloTempo
 {
 	position: absolute;
-    top: 0;
-    left: 70vh;
+	top: 22vh;
+	left: 10vh;
 	width: 90vh;
+	display: none;
+	height: 10vh;
+}
+#freq
+{
+	position: absolute;
+	top: 22vh;
+	left: 20vh;
+	height: 50vh;
+	display: none;
+}
+.hidden {opacity: 0;}
+#freq img
+{
+	position: absolute;
+	width: 5vh;
+	height: 5vh;
+	top: 4vh;
+	transition:opacity 0.25s linear;
+	border-radius: 50%;
+}
+#freq img:hover {cursor: pointer;}
+#domingoF
+{
+	left: -12vh;
+}
+#segundaF
+{
+	left: -6vh;
+}
+#tercaF
+{
+	left: 0;
+}
+#quartaF
+{
+	left: 6vh;
+}
+#quintaF
+{
+	left: 12vh;
+	z-index: 6;
+}
+#sextaF
+{
+	left: 18vh;
+}
+#sabadoF
+{
+	left: 24vh;
+}
+#domingoT
+{
+	left: -12vh;
+	z-index: 6;
+}
+#segundaT
+{
+	left: -6vh;
+	z-index: 6;
+}
+#tercaT
+{
+	left: 0;
+	z-index: 6;
+}
+#quartaT
+{
+	left: 6vh;
+	z-index: 6;
+}
+#quintaT
+{
+	left: 12vh;
+	z-index: 6;
+}
+#sextaT
+{
+	left: 18vh;
+	z-index: 6;
+}
+#sabadoT
+{
+	left: 24vh;
+	z-index: 6;
 }
 #tTempo
 {
@@ -219,4 +311,20 @@
 	background-color: lightgrey;
 	transition: background-color 0.5s;
 	cursor: pointer;
+}
+#perda
+{
+	left: 20vh;
+}
+#p
+{
+	left: 22vh;
+}
+#abs
+{
+	left: 20vh;
+}
+#absTxt
+{
+	left: 22vh;
 }

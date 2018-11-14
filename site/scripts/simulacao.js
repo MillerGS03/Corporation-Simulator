@@ -269,7 +269,7 @@ function verificarPerdaGanho(dia)
 				var dataMaisProxima = 7;
 				for (var j = 0; j < diffs.length; j++)
 					if (diffs[j] == 0)
-						diffs[j] = 6;
+						diffs[j] = 7;
 				for (var j = 0; j < diffs.length; j++)
 				{
 					if (diffs[j] < dataMaisProxima)

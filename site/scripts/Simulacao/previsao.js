@@ -31,6 +31,10 @@ function fazerPrevisao()
         chartPrevisao.destroy();
     var diff = Math.round((data.getTime() - new Date().getTime())/86400000)+1
     var y = simulacao.Saldo;
+    var s = new Date(simulacao.DataCriacao);
+    var x = s.toUTCString();
+    x = x.substring(0, x.length-5)
+    s = new Date(x)
     setTimeout(function(){
         for (var i = 0; i < pontosSaldo.length; i++)
         {
@@ -47,7 +51,6 @@ function fazerPrevisao()
                 pontosPrevisao.push(pontosSaldo[i])
         }
         hojeAux = new Date();
-        //setTimeout(function(){
             for (var i = 1; i <= diff; i++)
             {
                 var aux = new Object();
@@ -55,7 +58,9 @@ function fazerPrevisao()
                 xd = xd.substring(0, xd.length-5)
                 aux.x = new Date(xd);
                 aux.lineDashType = "dash";
-                var perdaGanho = verificarPerdaGanho(hojeAux);
+                var perdaGanho = 0;
+                if (!(hojeAux.getFullYear() == s.getFullYear() && hojeAux.getMonth() == s.getMonth() && hojeAux.getDate() == s.getDate()))
+                    perdaGanho = verificarPerdaGanho(hojeAux)
                 y += perdaGanho;
                 aux.y = y;
                 aux.xValueFormatString = "DD/MM";
@@ -63,10 +68,12 @@ function fazerPrevisao()
                 hojeAux = new Date();
                 hojeAux.setDate(hojeAux.getDate() + i);
             }
+            var hojeAux = new Date();
+            if (hojeAux.getFullYear() == s.getFullYear() && hojeAux.getMonth() == s.getMonth() && hojeAux.getDate() == s.getDate())
+                pontosPrevisao.shift();
             criarGraficoPrevisao();
             $("#estimado").css('display', 'block')
             $("#estimado").text('Saldo estimado: $' + y)
-        //}, 100)
     }, 100)
 }
 function criarGraficoPrevisao()

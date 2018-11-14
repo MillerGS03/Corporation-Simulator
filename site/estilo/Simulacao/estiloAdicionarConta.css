@@ -98,8 +98,8 @@
 #freq img
 {
 	position: absolute;
-	width: 40px;
-	height: 40px;
+	width: 5vh;
+	height: 5vh;
 	top: 4vh;
 	transition:opacity 0.25s linear;
 	border-radius: 50%;

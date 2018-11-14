@@ -1,11 +1,39 @@
+var domingo = true;
+var segunda = true;
+var terca = true;
+var quarta = true;
+var quinta = true;
+var sexta = true;
+var sabado = true;
+for (var i = 0; i < 7; i++)
+	mudarDia(document.getElementsByTagName('img')[i].id)
+$("img").on('click', function(){mudarDia(this.id)})
+$("input[type=radio]").on('change', function(){
+	if (document.getElementById('var').checked)
+	{
+		document.getElementById('intervaloTempo').style.display = 'none';
+		document.getElementById('freq').style.display = 'block';
+	}
+	else if (document.getElementById('abs').checked)
+	{
+		document.getElementById('freq').style.display = 'none';
+		document.getElementById('intervaloTempo').style.display = 'block';
+	}
+})
 $("#painelConta").css('height', '70vh')
 var conta;
 $("#sairModal").on('click', function() {
     $("#modal").css('display', 'none');
 });
+var dias;
 $("#s").on('change', function(){
 	if (document.getElementById('s').selectedIndex > 0)
 	{
+		for (var i = 0; dias!= null && i < dias.length; i++)
+		{
+			dia = dias[i];
+			$("#" + dia + "F").trigger('click');
+		}
 		var nomeConta = document.getElementById('s').options[document.getElementById('s').selectedIndex].value;
 		$.ajax({
 			url: 'http://' + local + ':3000/contas/' + simulacao.CodSimulacao + '/' + nomeConta
@@ -17,22 +45,46 @@ $("#s").on('change', function(){
 			else
 				$("#ganho").prop("checked", true)
 			$("#valorConta").val(Math.abs(conta.Valor));
-			var intervalo = conta.IntervaloDeTempo.charAt(conta.IntervaloDeTempo.length - 1)
-			switch (intervalo)
+			if (conta.Marcado == 0)
 			{
-				case 'D':
-					$("#tTempo").prop('selectedIndex', 0);
-				break;
-	
-				case 'M':
-					$("#tTempo").prop('selectedIndex', 1);
-				break;
-	
-				case 'A':
-					$("#tTempo").prop('selectedIndex', 2);
-				break;
+				document.getElementById('abs').checked = true;
+				var intervalo = conta.IntervaloDeTempo.charAt(conta.IntervaloDeTempo.length - 1)
+				switch (intervalo)
+				{
+					case 'D':
+						$("#tTempo").prop('selectedIndex', 0);
+					break;
+		
+					case 'M':
+						$("#tTempo").prop('selectedIndex', 1);
+					break;
+		
+					case 'A':
+						$("#tTempo").prop('selectedIndex', 2);
+					break;
+				}
+				$("#nTempo").val(conta.IntervaloDeTempo.substring(0, conta.IntervaloDeTempo.length - 1))
 			}
-			$("#nTempo").val(conta.IntervaloDeTempo.substring(0, conta.IntervaloDeTempo.length - 1))
+			else if (conta.Marcado == 2)
+			{
+				document.getElementById('var').checked = true;
+				dias = conta.IntervaloDeTempo.split(',')
+				for (var i = 0; i < dias.length; i++)
+				{
+					dia = dias[i];
+					$("#" + dia + "F").trigger('click');
+				}
+			}
+			if (document.getElementById('var').checked)
+			{
+				document.getElementById('intervaloTempo').style.display = 'none';
+				document.getElementById('freq').style.display = 'block';
+			}
+			else if (document.getElementById('abs').checked)
+			{
+				document.getElementById('freq').style.display = 'none';
+				document.getElementById('intervaloTempo').style.display = 'block';
+			}
 			$.ajax({
 				url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
 			}).done(function(dados){
@@ -93,7 +145,7 @@ function addOptions()
     s.add(p)
     for (var i = 0; i < contas.length; i++)
     {
-		if (contas[i].Marcado == 0)
+		if (contas[i].Marcado != 1)
 		{
 			var o = document.createElement('option');
 			o.text = contas[i].Nome;
@@ -135,6 +187,8 @@ function validarFormulario()
 	testarValor();
 	testarTempo();
 	testarClassificacao();
+	testarIntervalo();
+	testarSemana();
 	if (erro)
 		return false;
 	else
@@ -150,25 +204,64 @@ function atualizarConta()
 	if (document.getElementById('perda').checked)
 		valor = -valor;
 	contaA.Valor = valor;
-	var intervalo;												//em segundos
-	var tipoTempo = $("#tTempo option:selected").text();
-	if (tipoTempo == 'Dia(s)')
+	if (document.getElementById('abs').checked)
 	{
-		intervalo = $("#nTempo").val() + 'D';
-		hoje.setDate(hoje.getDate() + parseInt($('#nTempo').val()));
+		var intervalo;												//em segundos
+		var tipoTempo = $("#tTempo option:selected").text();
+		if (tipoTempo == 'Dia(s)')
+		{
+			intervalo = $("#nTempo").val() + 'D';
+			hoje.setDate(hoje.getDate() + parseInt($('#nTempo').val()));
+		}
+		else if (tipoTempo == 'Mes(es)')
+		{
+			intervalo = $("#nTempo").val() + 'M';
+			hoje.setMonth(hoje.getMonth() + parseInt($('#nTempo').val()));
+		}
+		else
+		{
+			intervalo = $("#nTempo").val() + 'A';
+			hoje.setFullYear(hoje.getFullYear() + parseInt($('#nTempo').val()));
+		}
+		contaA.DiaPerdaGanho = hoje.getDate() + '/' + (hoje.getMonth()+1) + '/' + hoje.getFullYear();
+		contaA.Intervalo = intervalo;
 	}
-	else if (tipoTempo == 'Mes(es)')
+	else if (document.getElementById('var').checked)
 	{
-		intervalo = $("#nTempo").val() + 'M';
-		hoje.setMonth(hoje.getMonth() + parseInt($('#nTempo').val()));
+		var hoje = new Date();
+		var diasTotais = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+		var dias = new Array();
+		for (var i = 0; i < 7; i++)
+		{
+			var diaAtual = eval(diasTotais[i]);
+			if (diaAtual)
+				dias.push(diasTotais[i])
+		}
+		var diffs = [];
+		var hojeAux = new Date();
+		for (var j = 0; j < dias.length; j++)
+		{
+			var diff = (diasTotais.indexOf(dias[j])+(7-hojeAux.getDay())) % 7;
+			diffs.push(diff);
+		}
+		var dataMaisProxima = 10;
+		for (var j = 0; j < diffs.length; j++)
+		{
+			if (diffs[j] < dataMaisProxima)
+				dataMaisProxima = diffs[j];
+		}
+		hojeAux.setDate(hojeAux.getDate() + dataMaisProxima);
+		var auxData = hojeAux.toUTCString();
+		auxData = auxData.substring(0, auxData.length-5)
+		hojeAux = new Date(auxData)
+		hojeAux.setHours(0, 0, 0)
+		contaA.DiaPerdaGanho = hojeAux.getDate() + '/' + (hojeAux.getMonth()+1) + '/' + hojeAux.getFullYear();
+		var str = '';
+		for (var x = 0; x < dias.length; x++)
+			str += dias[x] + ','
+		str = str.substring(0, str.length-1);
+		contaA.Intervalo = str;
 	}
-	else
-	{
-		intervalo = $("#nTempo").val() + 'A';
-		hoje.setFullYear(hoje.getFullYear() + parseInt($('#nTempo').val()));
-	}
-	contaA.DiaPerdaGanho = hoje.getDate() + '/' + hoje.getMonth() + '/' + hoje.getFullYear();
-	contaA.Intervalo = intervalo;
 	var classificacao = $("#classificacoes option:selected").text();
 	var cod;
 	for (var i = 0; i < classificacoes.length; i++)
@@ -204,45 +297,109 @@ function testarNome()
 	var nome = document.getElementById('nomeConta');
 	if (nome.value.length <= 3){
 		nome.parentElement.style.color = "darkred";
-		nome.parentElement.firstElementChild.textContent = "Nome da Conta - Mínimo de 4 caracteres:";
+		nome.parentElement.firstElementChild.innerHTML = "Nome da Conta</span><br><span>Mínimo de 4 caracteres:";
 		erro = true;
 	}
+	for (var i = 0; i < contas.length; i++)
+		if (contas[i].Nome == nome)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			nome.parentElement.firstElementChild.innerHTML = "Nome da Conta</span><br><span>Nome já existe:";
+		}
 }
 function testarTipo()
 {
 	var tipo = document.getElementById('ganho');
 	if (!(tipo.checked || document.getElementById('perda').checked)){
-		tipo.parentElement.style.color = "darkred";
-		tipo.parentElement.firstElementChild.textContent = "Tipo - Selecione um tipo:";
+		var t = document.getElementById('tipoConta');
+		t.style.color = "darkred";
+		t.innerHTML = "Tipo</span><br><span>Selecione um tipo:";
 		erro = true;
 	}
 }
 function testarValor()
 {
-	var val = parseInt($('#valorConta').val());
+	var val = $('#valorConta').val();
 	var v = document.getElementById('valorConta');
 	if (isNaN(val) || val <= 0){
 		v.parentElement.style.color = "darkred";
-		v.parentElement.firstElementChild.textContent = "Valor - Insira um número positivo válido:";
+		v.parentElement.firstElementChild.innerHTML = "Valor</span><br><span>Insira um número positivo válido:";
 		erro = true;
 	}
 }
 function testarTempo()
 {
-	var tempo = parseInt($('#nTempo').val());
-	var t = document.getElementById('nTempo');
-	if (isNaN(tempo) || tempo <= 0){
-		t.parentElement.style.color = "darkred";
-		t.parentElement.firstElementChild.textContent = "Intervalo de Tempo - Insira um número positivo válido:";
-		erro = true;
+	if (document.getElementById('abs').checked)
+	{
+		var tempo = parseInt($('#nTempo').val());
+		var t = document.getElementById('nTempo');
+		if (isNaN(tempo) || tempo <= 0){
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.innerHTML = "Intervalo de Tempo</span><br><span>Insira um número positivo válido:";
+			erro = true;
+		}
+		if ($("#tTempo").val() == 'D' && tempo > 31)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.innerHTML = "Intervalo de Tempo</span><br><span>Insira um número positivo válido:";
+		}
+		if ($("#tTempo").val() == 'M' && tempo > 12)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.innerHTML = "Intervalo de Tempo</span><br><span>Insira um número positivo válido:";
+		}
+		if ($("#tTempo").val() == 'M' && tempo > 100)
+		{
+			erro = true;
+			t.parentElement.style.color = "darkred";
+			t.parentElement.firstElementChild.innerHTML = "Intervalo de Tempo</span><br><span>Insira um número positivo válido:";
+		}
 	}
+}
+function testarIntervalo()
+{
+	if (!document.getElementById('abs').checked)
+		if(!document.getElementById('var').checked)
+		{
+			erro = true;
+			var t = document.getElementById('tIntervalo');
+			t.style.color = "darkred";
+			t.innerHTML = 'Tipo do intervalo de tempo</span><br><span>selecione uma opção';
+		}
 }
 function testarClassificacao()
 {
 	var c = document.getElementById('classificacoes');
 	if (c.selectedIndex <= 0){
 		c.parentElement.style.color = "darkred";
-		c.parentElement.firstElementChild.textContent = "Classificação - Selecione pelo menos uma classificação:";
+		c.parentElement.firstElementChild.innerHTML = "Classificação</span><br><span>Selecione pelo menos uma classificação:";
 		erro = true;
 	}
+}
+function testarSemana()
+{
+	if (document.getElementById('var').checked)
+	{
+		var dias = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+		for (var i = 0; i < 7; i++)
+		{
+			var diaAtual = eval(dias[i]);
+			if (diaAtual)
+				return true;
+		}
+		return false;
+	}
+}
+function mudarDia(dia)
+{
+	dia = dia.substring(0,dia.length - 1)
+	eval(dia + "=!" + dia)
+	var diaAtual = eval(dia);
+	if (diaAtual)
+		$("#" + dia + "T").removeClass('hidden');
+	else
+		$("#" + dia + "T").toggleClass('hidden');
 }

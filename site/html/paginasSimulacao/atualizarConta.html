@@ -21,10 +21,34 @@
 			<span>Valor:</span><br>
 			<input type="text" id="valorConta">
 		</label>
+
+		<div id="tipoIntervalo">
+			<span id="tIntervalo">Tipo do intervalo de tempo:</span><br>
+			<label id="varTxt"><input type="radio" name="inte" id="var">Variável</label>       <label id="absTxt"><input type="radio" name="inte" id="abs">Absoluto</label>
+		</div>
+		<div id="freq">
+			<span>Frequência:</span>
+			<img id="domingoF" src="imagens/dias/domingoF.png">
+			<img id="segundaF" src="imagens/dias/segundaF.png">
+			<img id="tercaF" src="imagens/dias/tercaF.png">
+			<img id="quartaF" src="imagens/dias/quartaF.png">
+			<img id="quintaF" src="imagens/dias/quintaF.png">
+			<img id="sextaF" src="imagens/dias/sextaF.png">
+			<img id="sabadoF" src="imagens/dias/sabadoF.png">
+
+			<img id="domingoT" src="imagens/dias/domingoT.png">
+			<img id="segundaT" src="imagens/dias/segundaT.png">
+			<img id="tercaT" src="imagens/dias/tercaT.png">
+			<img id="quartaT" src="imagens/dias/quartaT.png">
+			<img id="quintaT" src="imagens/dias/quintaT.png">
+			<img id="sextaT" src="imagens/dias/sextaT.png">
+			<img id="sabadoT" src="imagens/dias/sabadoT.png">
+		</div>
 		<label id="intervaloTempo">
 			<span>Intervalo de tempo:</span><br>
-			<input type="text" id="nTempo"><select id="tTempo"><option>Dia(s)</option><option>Mes(es)</option><option>Ano(s)</option></select>
+			<input type="text" id="nTempo"><select id="tTempo"><option value='D'>Dia(s)</option><option value='M'>Mes(es)</option><option value='A'>Ano(s)</option></select>
 		</label>
+		
 		<label id="class">
 			<span>Classificação:</span><br>
 			<select id="classificacoes">

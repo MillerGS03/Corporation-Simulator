@@ -10,7 +10,6 @@ function Tutorial()
 
     this.aberto = false;
 
-    configurarBotoes();
     this.abrirFechar = function() 
     {
         this.aberto = !this.aberto;
@@ -88,9 +87,10 @@ function Tutorial()
         new Pagina("Índice", function() {
             ctx.textAlign = "center";
             ctx.font = "bold 32pt Century Gothic";
-            ctx.fillText("Índice", este.x + este.width/2, este.y + 110);
+            ctx.fillText("Índice", este.x + este.width/2, este.y + 170);
 
             ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
             ctx.font = "bold 18pt Consolas";
             var pontos = "........................................................................................";
             var pad = "                                                              ";
@@ -100,12 +100,36 @@ function Tutorial()
                 {
                     var pagina = ((pad + (i + 1)));
                     pagina = pagina.substr(pagina.length - 4);
-                    var nome = (paginas[i].nome + pontos).substr(0, 40);
-                    ctx.fillText(pagina + " - " + nome, este.x + 20, este.y + 170 + paginasComNome * 30, este.width - 40);
+                    var nome = (paginas[i].nome + pontos).substr(0, 37);
+                    ctx.fillText(pagina + " - " + nome, este.x + 40, este.y + 210 + paginasComNome * 38, este.width - 40);
+                    este.botoesIrPara[paginasComNome].desenhar();
+                    este.botoesIrPara[paginasComNome].pagina = i + 1;
                     paginasComNome++;
                 }
 
-        }, function() {}, function() {}),
+        }, function() {
+            for (var i = 0; i < paginas.length; i++)
+            {
+                este.botoesIrPara[i].ativarInteracao();
+                BotaoRetangular.exceto.push(este.botoesIrPara[i]);
+            }
+        }, function() {
+            for (var i = 0; i < paginas.length; i++)
+                este.botoesIrPara[i].desativarInteracao();
+        }, function() {
+            este.botoesIrPara = new Array();
+            for (var i = 0; i < paginas.length; i++)
+            {
+                este.botoesIrPara.push(new BotaoRetangular(este.x + 625, este.y + 193 + i * 38, 85, 34, 5, 85, 34,
+                                                           "#c3c3c3", "#dedede", null, null, "bold 20pt Century Gothic", "white",
+                                                           "Ir", false));
+                este.botoesIrPara[i].onclick = function(botao) {
+                    paginaTutorial = botao.pagina;
+                    este.desativar();
+                    este.ativar();
+                }
+            }
+        }),
         new Pagina("Primeiros passos", function() {
             ctx.fillStyle = "white";
             ctx.textBaseline = "alphabetic";
@@ -234,6 +258,30 @@ function Tutorial()
         }, function() {
             este.btnConstrucaoAnterior.desativarInteracao();
             este.btnConstrucaoPosterior.desativarInteracao();
+        }, function() {
+            este.btnConstrucaoAnterior = new BotaoCircular(este.x + este.width/2 - 215, este.y + 195, 25, 25,
+                "#c3c3c3", "#dadada", imgAnterior, imgAnterior,
+                "", "", "", false, false, false);
+            este.btnConstrucaoAnterior.onclick = function() {
+                if (paginaConstrucao > 1)
+                    paginaConstrucao--;
+                else
+                    paginaConstrucao = qtasConstrucoes;
+                este.desativar();
+                este.ativar();
+            }
+    
+            este.btnConstrucaoPosterior = new BotaoCircular(este.x + este.width/2 + 215, este.y + 195, 25, 25,
+                "#c3c3c3", "#dadada", imgPosterior, imgPosterior,
+                "", "", "", false, false, false);
+            este.btnConstrucaoPosterior.onclick = function() {
+                if (paginaConstrucao < qtasConstrucoes)
+                    paginaConstrucao++;
+                else
+                    paginaConstrucao = 1;
+                este.desativar();
+                este.ativar();
+            }
         }),
         new Pagina("Setorização", function() {}, function() {}, function() {}),
         new Pagina("Explosão de vendas", function() {}, function() {}, function() {}),
@@ -378,32 +426,12 @@ function Tutorial()
             este.desativar();
             este.ativar();
         }
-        
-        este.btnConstrucaoAnterior = new BotaoCircular(este.x + este.width/2 - 215, este.y + 195, 25, 25,
-            "#c3c3c3", "#dadada", imgAnterior, imgAnterior,
-            "", "", "", false, false, false);
-        este.btnConstrucaoAnterior.onclick = function() {
-            if (paginaConstrucao > 1)
-                paginaConstrucao--;
-            else
-                paginaConstrucao = qtasConstrucoes;
-            este.desativar();
-            este.ativar();
-        }
 
-        este.btnConstrucaoPosterior = new BotaoCircular(este.x + este.width/2 + 215, este.y + 195, 25, 25,
-            "#c3c3c3", "#dadada", imgPosterior, imgPosterior,
-            "", "", "", false, false, false);
-        este.btnConstrucaoPosterior.onclick = function() {
-            if (paginaConstrucao < qtasConstrucoes)
-                paginaConstrucao++;
-            else
-                paginaConstrucao = 1;
-            este.desativar();
-            este.ativar();
-        }
+        for (var i = 0; i < paginas.length; i++)
+            paginas[i].configurar();
 
     }
+    configurarBotoes();
 
     /**
      * Objeto que contém as informações de uma página
@@ -411,12 +439,14 @@ function Tutorial()
      * @param {function} funcDesenhar Função de desenho da página, que pode ser acessada através de Pagina.desenhar().
      * @param {function} funcAtivar Função de ativação da página, que pode ser acessada através de Pagina.ativar(). Deixar em branco se não tiver.
      * @param {function} funcDesativar Função de desativação da página, que pode ser acessada através de Pagina.desativar(). Deixar em branco se não tiver.
+     * @param {function} funcConfigurar Função de configuração da página, que pode ser acessada através de Pagina.configurar(). Deixar em branco se não tiver.
      */
-    function Pagina(nome, funcDesenhar, funcAtivar, funcDesativar)
+    function Pagina(nome, funcDesenhar, funcAtivar, funcDesativar, funcConfigurar)
     {
         this.nome = nome?nome:null;
         this.desenhar = funcDesenhar?funcDesenhar: function() {};
         this.ativar = funcAtivar?funcAtivar: function() {};
         this.desativar = funcDesativar?funcDesativar: function() {};
+        this.configurar = funcConfigurar?funcConfigurar: function() {};
     }
 }

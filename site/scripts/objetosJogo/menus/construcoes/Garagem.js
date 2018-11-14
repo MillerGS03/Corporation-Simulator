@@ -1571,13 +1571,17 @@ function Produto(nome, preco)
         var objDataAtual = new Date(calendario.ano, calendario.mes, calendario.dia);
         var diferencaDeDias = (objDataAtual.getTime() - objDataCriacao.getTime()) / (1000 * 60 * 60 * 24);
         var pesoDiferencaDeDias = Math.log(diferencaDeDias + 4) / Math.log(3);
-        var pesoPreco = Math.pow(this.preco, 2 - (calendario.fatorEconomia() / 8 ));
+        var pesoCustoBeneficio = Math.pow(this.qualidade / this.preco, Math.sqrt(2 - (calendario.fatorEconomia() / 8)));
         var pesoMarketingProduto = this.fatorMarketing/2 + 1;
         var pesoMarketingEmpresa = 1;
         var marketing = getJanelaConstrucao("Marketing");
-        if (marketing && marketing.promocaoEmpresa)
-            pesoMarketingEmpresa = marketing.promocaoEmpresa/4 + 1;
-        this.vendasDiarias = Math.floor(500 * this.qualidade * pesoMarketingEmpresa * pesoMarketingProduto * Math.sqrt(barra.nivel) / (pesoDiferencaDeDias * pesoPreco));
+        if (marketing)
+        {
+            pesoMarketingEmpresa = Math.sqrt(getJanelaConstrucao("R. Humanos").getRH().FuncionariosMarketing);
+            pesoMarketingEmpresa *= marketing.promocaoEmpresa?marketing.promocaoEmpresa + 1:1;
+        }
+
+        this.vendasDiarias = Math.floor(200 * pesoCustoBeneficio * pesoMarketingEmpresa * pesoMarketingProduto * Math.sqrt(barra.nivel) / pesoDiferencaDeDias);
         if (this.vendasDiarias > this.qtdeEmEstoque)
             this.vendasDiarias = this.qtdeEmEstoque;
 

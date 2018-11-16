@@ -9,7 +9,7 @@ Calendario.anoProximoMes = function(mesAtual, anoAtual)
 
 function Calendario()
 {
-    var f = 5;
+    this.f = 5;
     this.width = 900;
     this.height = 620;
     this.x = (canvas.width - this.width)/2;
@@ -120,14 +120,14 @@ function Calendario()
         {
             // Determina um novo fator de economia
             var numero = Math.floor(Math.random() * (2 - (-2) + 1)) - 2;
-            if (f + numero >= 0 && f + numero <= 10)
-                f += numero;
-            else if ((f + numero - 1 >= 0 && f + numero - 1 <= 10) || (f + numero + 1 >= 0 && f + numero + 1 <= 10))
+            if (this.f + numero >= 0 && this.f + numero <= 10)
+                this.f += numero;
+            else if ((this.f + numero - 1 >= 0 && this.f + numero - 1 <= 10) || (this.f + numero + 1 >= 0 && this.f + numero + 1 <= 10))
             {
                 if (numero < 0)
-                    f += numero + 1;
+                    this.f += numero + 1;
                 else
-                    f += numero - 1;
+                    this.f += numero - 1;
             }
 
             // Paga os salários
@@ -140,7 +140,8 @@ function Calendario()
             {
                 this.mes = 1;
                 this.ano++;
-            } 
+            }
+            Emprestimo.atualizarValor();
         }
         if (seguirPassagemDosMeses)
         {
@@ -181,12 +182,12 @@ function Calendario()
         }
     }
 
-    this.fatorEconomia = function () { return f;};
+    this.fatorEconomia = function () { return this.f;};
     this.setFator = function(estatisticas) {
         try
         {
             var stats = JSON.parse(estatisticas);
-            f = stats.Economia[stats.Economia.length - 1].y;
+            this.f = stats.Economia[stats.Economia.length - 1].y;
         }
         catch {}
     };

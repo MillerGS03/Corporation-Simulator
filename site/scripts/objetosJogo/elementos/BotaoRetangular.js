@@ -27,6 +27,28 @@ BotaoRetangular.reativar = function()
 	BotaoRetangular.exceto = new Array();
 	BotaoRetangular.inativos = false;
 }
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} w width
+ * @param {number} h height
+ * @param {*} r radius
+ * @param {number} wHover width on hover
+ * @param {number} hHover height on hover
+ * @param {*} bgColor background color
+ * @param {*} bgHoverColor background color on hover
+ * @param {*} bgImage background image
+ * @param {*} bgHoverImage background image on hover
+ * @param {string} f font
+ * @param {*} txtStyle text color
+ * @param {string} txt text
+ * @param {boolean} txtOnlyOnHover text on hover
+ * @param {boolean} autoUpdate 
+ * @param {boolean} changeCursor 
+ * @param {string} caminhoSom path to click sound
+ * @param {string} imageAlign align of image
+ */
 function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign)
 {
 	this.x = x;

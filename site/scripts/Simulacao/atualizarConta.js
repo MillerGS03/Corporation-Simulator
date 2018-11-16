@@ -223,7 +223,7 @@ function atualizarConta()
 			intervalo = $("#nTempo").val() + 'A';
 			hoje.setFullYear(hoje.getFullYear() + parseInt($('#nTempo').val()));
 		}
-		contaA.DiaPerdaGanho = hoje.getDate() + '/' + (hoje.getMonth()+1) + '/' + hoje.getFullYear();
+		contaA.DiaPerdaGanho = (hoje.getMonth()+1) + '/' + hoje.getDate() + '/' + hoje.getFullYear();
 		contaA.Intervalo = intervalo;
 	}
 	else if (document.getElementById('var').checked)
@@ -255,7 +255,7 @@ function atualizarConta()
 		auxData = auxData.substring(0, auxData.length-5)
 		hojeAux = new Date(auxData)
 		hojeAux.setHours(0, 0, 0)
-		contaA.DiaPerdaGanho = hojeAux.getDate() + '/' + (hojeAux.getMonth()+1) + '/' + hojeAux.getFullYear();
+		contaA.DiaPerdaGanho = (hojeAux.getMonth()+1) + '/' + hojeAux.getDate() + '/' + hojeAux.getFullYear();
 		var str = '';
 		for (var x = 0; x < dias.length; x++)
 			str += dias[x] + ','

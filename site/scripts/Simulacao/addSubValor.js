@@ -1,5 +1,5 @@
 var classifA = 1;
-$.get('http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao).done(function(dados){classifA = dados[0].CodClassificacao})
+$.get('http://' + local + ':3000/getClassificacoes').done(function(dados){classifA = dados[0].CodClassificacao})
 $("#sairModal").on('click', function(){
     $("#modal").css('display', 'none');
     $.get('http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + simulacao.Nome, function(dados) {
@@ -42,7 +42,7 @@ $("input[name='type']").on('change', function(){
     else
         $("#fim").text('Subtrair agora')
 })
-$("#fim").on('click', function(){
+document.getElementById('fim').onclick = function(){
     if (!isNaN($("#txtValor").val()) && $("#txtValor").val() >= 0)
     {
         var saldo = parseInt($("#txtValor").val());
@@ -56,29 +56,27 @@ $("#fim").on('click', function(){
         aux.Valor = saldo;
         aux.DiaPerdaGanho = new Date();
         aux.CodSimulacao = simulacao.CodSimulacao;
-        $.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, aux).done(function(){
-            $.get('http://' + local + ':3000/getContas/' + simulacao.CodSimulacao).done(function(dados){contas = dados; console.log(contas)})
-        })
-        saldo = saldo + simulacao.Saldo;
-        $.ajax({
-            url: 'http://' + local + ':3000/simulacao/' + simulacao.CodSimulacao + '/saldo/' + saldo,
-            type: 'patch'
-        })      
+        $.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, aux)
+        setTimeout(function(){$.get('http://' + local + ':3000/getContas/' + simulacao.CodSimulacao).done(function(dados){contas = dados;})}, 50)
+        simulacao.Saldo += saldo;
         $("#sairModal").trigger('click');
-        $.get('http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + simulacao.Nome, function(dados) {
-            simulacao = dados[0];
-            atualizarPontosSaldo();
-            chartSaldo.destroy();
-            criarGraficoSaldo();
+        $.ajax({
+            url: 'http://' + local + ':3000/UpdateSimulacao',
+            type: 'patch',
+            data: simulacao
         })
+        setTimeout(function(){
+            $.ajax({url:'http://' + local + ':3000/simulacoes/' + user.CodUsuario + '/' + simulacao.Nome}).done(function(dados){
+                simulacao = dados[0];
+                criarGraficoSaldo()
+            })}, 15)
     }
     else
     {
         $("#insere").css('color', 'darkred')
         $("#insere").text('Insira um número positivo válido')
     }
-    return false;
-})
+}
 $("#marcar").on('click', function(){
     $("#marcarData").css('display', 'block')
     return false;
@@ -107,7 +105,6 @@ $("#OkAddSub").on('click', function(){
             aux.Valor = saldo;
             aux.DiaPerdaGanho = dataVerdadeira;
             aux.CodSimulacao = simulacao.CodSimulacao;
-            console.log(aux)
             $.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, aux);
             $.ajax({
                 url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
@@ -124,4 +121,13 @@ $("#OkAddSub").on('click', function(){
         $("#insere").text('Insira um número positivo válido')
     }
     return false;
+})
+$("#txtValor").on('keydown', function(e){
+    if (e.which == 13)
+    {
+        setTimeout(function(){
+            $("#fim").trigger('click')
+        }, 15)
+        return false;
+    }
 })

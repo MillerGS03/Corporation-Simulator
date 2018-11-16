@@ -138,6 +138,7 @@ function adicionar()
 		}
 		conta.Intervalo = intervalo;
 		conta.DiaPerdaGanho = hoje;
+		conta.Marcado = 0;
 	}
 	else
 	{

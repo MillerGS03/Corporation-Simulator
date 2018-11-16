@@ -76,3 +76,33 @@ delete from Usuario where CodUsuario = @CodUsuario
 select * from Usuario
 
 insert into Usuario values('hola', 'aa', 'aa', 'F', '', '', '', '', 5, 1, 0)
+
+create table Emprestimo(
+CodEmprestimo int identity(1,1) primary key,
+CodJogo int not null,
+constraint fkEmprestimoJogo foreign key(CodJogo) references Jogo(CodJogo),
+Valor int not null,
+Indice int not null,
+DataCriacao varchar(10)
+)
+alter table Emprestimo
+add Parcelas int not null
+
+alter proc AdicionarEmprestimo_sp
+@CodJogo int,
+@Valor int,
+@Indice int,
+@d varchar(10),
+@j float,
+@p int
+as
+declare @atual int
+select @atual = count(*) from Emprestimo where CodJogo = @CodJogo and Indice = @Indice
+if (@atual = 0)
+	insert into Emprestimo values(@CodJogo, @Valor, @Indice, @d, @j, @p)
+else
+	update Emprestimo set Valor = @Valor where CodJogo = @CodJogo and Indice = @Indice
+
+
+
+delete from Emprestimo

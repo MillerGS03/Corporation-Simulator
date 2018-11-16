@@ -73,6 +73,7 @@ var statusConstruindo = 0;
 var nomeItemEmConstrucao = null;
 
 var fatorEscala = 1;
+var emprestimos = [];
 
 // Sons:
 var musicas = ["musicas/airtone_-_backwaters.ogg", "musicas/rewob_-_A_White_Dream.ogg"];
@@ -422,19 +423,6 @@ function fazerCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaxim
 	efetuacao = new EfetuacaoDeCompra(nome, preco, aceitaCredito, aceitaDebito, qtasParcelasMaximo, funcaoSucesso);
 	efetuacao.ativar();
 }
-
-/**
- * Adiciona o valor pedido do meio de pagamento especificado
- * @param {number} valor 
- * @param {number} destino 0 -> Caixa; 1 -> Débito
- */
-function receber(valor, destino)
-{
-	if (destino == 0)
-		barra.dinheiro += valor;
-	else if (destino == 1)
-		mapa.banco.saldo += valor;
-}
 /**
  * Desconta o valor pedido do meio de pagamento especificado
  * @param {number} valor 
@@ -751,6 +739,28 @@ function carregarDados()
 			timerDias = setInterval(intervaloDias, 50);
 	}
 	mapa.desativar();
+	$.get('http://' + local + ':3000/getEmprestimos/' + jogo.CodJogo).done(function(dados)
+	{
+		emprestimos = [];
+		for (var i = 0; i < dados.length; i++)
+		{
+			emprestimos[i] = new Object();
+			emprestimos[i].valorInicial = dados[i].Valor;
+			emprestimos[i].indice = dados[i].Indice;
+			emprestimos[i].dataCriacao = dados[i].DataCriacao;
+			emprestimos[i].j = dados[i].Juros;
+			emprestimos[i].p = dados[i].Parcelas;
+			var diff;
+			diff = parseInt(emprestimos[i].dataCriacao.substring(emprestimos[i].dataCriacao.lastIndexOf('/')+1));
+			diff = (calendario.ano - diff)*12
+			diff -= parseInt(emprestimos[i].dataCriacao.substring(emprestimos[i].dataCriacao.indexOf('/')+1, emprestimos[i].dataCriacao.lastIndexOf('/')));
+			diff += calendario.mes;
+			diff = diff <= 0 ? 0 : diff;
+			valor = (emprestimos[i].j/(1 - (1/(Math.pow(1 + emprestimos[i].j, emprestimos[i].p)))))
+			valor = valor * emprestimos[i].valorInicial * (emprestimos[i].p - diff);
+			emprestimos[i].valor = valor;
+		}
+	})
 }
 function salvar()
 {
@@ -888,6 +898,14 @@ function salvar()
 		url: 'http://' + local + ':3000/updateTotalXp/' + user.CodUsuario + '/' + xpFinal,
 		type: 'patch'
 	})
+	aux = new Object();
+	for (var i = 0; i < emprestimos.length; i++)
+	{
+		aux = emprestimos[i];
+		setTimeout(function(){
+			$.post('http://' + local + ':3000/emprestimos/' + jogo.CodJogo, aux)
+		}, 15)
+	}
 }
 function finalizarJogo()
 {

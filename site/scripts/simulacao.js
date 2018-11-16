@@ -57,7 +57,7 @@ primeiroSaldo();
 function atualizarData()
 {
 	hoje = new Date();
-	if (hoje > diaAtual)
+	if (hoje.getFullYear() > diaAtual.getFullYear() || hoje.getMonth() > diaAtual.getMonth() || hoje.getDate() > diaAtual.getDate())
 	{
 		var diff = Math.abs(Math.round((diaAtual.getTime() - new Date().getTime())/86400000))
 		diaAtual = hoje;
@@ -68,6 +68,7 @@ function atualizarData()
 }
 function atualizarPontosSaldo()
 {
+	//console.log(simulacao.Saldo)
 	var diff = atualizarData();
 	if (diff > 0)
 	{
@@ -89,7 +90,9 @@ function atualizarPontosSaldo()
 			chartSaldo.render();
 	}
 	else
+	{
 		pontosSaldo[pontosSaldo.length-1].y = simulacao.Saldo;
+	}
 }
 function atualizarPontosConta()
 {

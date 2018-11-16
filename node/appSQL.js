@@ -280,6 +280,14 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
                                   MateriaPrimaAcumulada = ${MateriaPrimaAcumulada}
                                   where CodJogo=${codJogo}`, resposta);
 })
+rota.post('/emprestimos/:cod', (requisicao, resposta) => {
+  const e = requisicao.body;
+  const cod = requisicao.params.cod;
+  execSQL(`AdicionarEmprestimo_sp ${cod}, ${e.valorInicial}, ${e.indice}, '${e.dataCriacao}', ${e.j}, ${e.p}`, resposta)
+})
+rota.get('/getEmprestimos/:cod', (requisicao, resposta) => {
+  execSQL(`select * from Emprestimo where CodJogo = ${requisicao.params.cod}`, resposta)
+})
 
 //rotas das simulacoes
 //devolve simulacao a partir do codigo do usuario
@@ -330,8 +338,11 @@ rota.post('/addConta/:codSimulacao', (requisicao, resposta) => {
   today = mm + '/' + dd + '/' + yyyy;
   execSQL(`insert into Patrimonio values(${cod}, '${Intervalo}', '${Nome}', ${Valor}, ${Class}, '${today}', ${Marcado})`, resposta);
 })
-rota.get('/getClassificacoes/:codSimulacao', (requisicao, resposta) => {
-  execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
+rota.get('/getClassificacoes/:codSimulacao?', (requisicao, resposta) => {
+  if (requisicao.params.codSimulacao)
+    execSQL(`select * from Classificacao where CodSimulacao = ${requisicao.params.codSimulacao}`, resposta);
+  else
+    execSQL(`select * from Classificacao`, resposta);
 })
 rota.get('/getContas/:codSimulacao', (requisicao, resposta) => {
   const cod = requisicao.params.codSimulacao;

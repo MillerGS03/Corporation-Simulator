@@ -17,6 +17,8 @@ function Banco(x, y)
     var xInfoConta = xTela + 30;
     var yInfoConta = yTela + 30;
 
+    var emprestimoAtual;
+
     function sacar (quantia)
     {
         if (sucessoResultado = quantia <= esteB.saldo)
@@ -45,6 +47,7 @@ function Banco(x, y)
      * 0 -> Nenhuma. Ele está na entrada do banco.
      * 1 -> Conta corrente.
      * 2 -> Cartão de crédito.
+     * 3 -> Emprestimos.
      */
     var abertoModalidade = 0;
 
@@ -72,6 +75,9 @@ function Banco(x, y)
             case 2:
                 //desenharCartaoCredito();
                 break;
+            case 3:
+                desenharEmprestimos();
+                break;
         }
 
         ctx.restore();
@@ -84,6 +90,8 @@ function Banco(x, y)
         //esteB.btnCartaoCredito.desenhar();
         if (!esteB.jaAbriuConta)
             desenharRequisitosContaCorrente();
+        else
+            esteB.btnEmprestimos.desenhar();
         //if (!esteB.jaTemCartaoDeCredito)
         //    desenharRequisitosCartaoCredito();
 
@@ -274,6 +282,164 @@ function Banco(x, y)
             esteB.extrato.desenhar();
         ctx.restore();
     }
+    function desenharEmprestimos()
+    {
+        ctx.save();
+
+        ctx.fillStyle = "#a1a1a1";
+        ctx.strokeStyle = "black";
+        var heightEmprestimo = 100 + 54*(emprestimos.length+1);
+        roundRect(xTela, yTela, widthTela, heightEmprestimo, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
+        esteB.btnTelaInicial.desenhar();
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'black';
+        esteB.btnRealizarEmprestimo.y = (yTela + 150) + 54*(emprestimos.length+1);
+        esteB.btnPagarEmprestimo.y = (yTela + 150) + 54*(emprestimos.length+1);
+
+        if (emprestimos.length > 0)
+        {
+            ctx.fillText('Empréstimos', 500, 225)
+            ctx.strokeStyle = 'black';
+            ctx.beginPath();
+            for (var i = 0; i < 4; i++)
+            {
+                ctx.moveTo((xTela + 50) + i*175, yTela + 75);
+                ctx.lineTo((xTela + 50) + i*175, (yTela + 75) + 54*(emprestimos.length+1));
+                ctx.stroke();
+            }
+            ctx.closePath();
+            ctx.font = 'bold 18pt Century Gothic';
+            ctx.beginPath();
+            for (var i = 0; i < emprestimos.length + 2; i++)
+            {
+                ctx.font = 'bold 18pt Century Gothic';
+                var Y = (yTela+75) + i*54;
+                ctx.moveTo(xTela + 50,  Y);
+                ctx.lineTo(xTela + 575, Y);
+                if (i < emprestimos.length)
+                {
+                    Y = (yTela+75) + ((i+2)*54) - 30;
+                    ctx.fillText('Empréstimo ' + (i+1), xTela + 130, Y)
+                    ctx.fillText(emprestimos[i].dataCriacao, xTela + 300, Y)
+                    ctx.font = 'bold 14pt Century Gothic';
+                    ctx.fillText(formatarDinheiro(emprestimos[i].valor), xTela + 475, Y)
+                }
+                ctx.stroke();
+            }
+            ctx.font = 'bold 16pt Century Gothic';
+            ctx.fillText('Empréstimo', xTela + 137.5, yTela + 102);
+            ctx.fillText('Data de criação', xTela + 312.5, yTela + 102);
+            ctx.fillText('Devendo', xTela + 487.5, yTela + 102);
+            ctx.font = '16pt Century Gothic';
+            ctx.textAlign = 'left';
+        }
+        else
+            ctx.fillText('Nenhum empréstimo feito', 500, 275)
+        if (emprestimos.length < 5)
+            esteB.btnRealizarEmprestimo.desenhar();
+        if(emprestimos.length > 0)
+        {
+            esteB.btnPagarEmprestimo.desenhar();
+            esteB.btnRealizarEmprestimo.x = widthTela - 75;
+        }
+        else
+            esteB.btnRealizarEmprestimo.x = canvas.width/2 - 125;
+
+        if (emprestimoAtual != null)
+            emprestimoAtual.desenhar();
+
+        ctx.restore();
+    }
+    function PagamentoEmprestimo(b)
+    {
+        var aberto = false;
+        this.btnPagar = new BotaoRetangular(canvas.width/6 + 100, 500, 200, 50,
+            {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+            200, 50, 'green', '#329B24', null, null, 'bold 14pt Century Gothic',
+            'white', 'Pagar empréstimo', false, false, false);
+        this.btnCancelar = new BotaoRetangular(canvas.width/6 + 350, 500, 200, 50,
+              {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+              200, 50, 'darkred', '#AA2918', null, null, 'bold 14pt Century Gothic',
+              'white', 'Cancelar', false, false, false);
+        var nomesItens = [];
+        for (var i = 0; i < emprestimos.length; i++)
+            nomesItens[i] = 'Empréstimo ' + (emprestimos[i].indice+1) + ' (' + formatarDinheiro(emprestimos[i].valor) + ')'
+        this.itensEmprestimo = new OptionSelector({
+            x: canvas.width/2 - 125,
+            y: 300,
+            width: 250,
+            height: 75,
+            textAlign: 'left',
+            font: 'bold 15pt Century Gothic',
+            opcoes: nomesItens,
+        })
+        var estePE = this;
+        this.btnPagar.onclick = function() {Emprestimo.excluirEmprestimo(estePE.itensEmprestimo.indiceOpcaoAtual, estePE, b)}
+        this.btnCancelar.onclick = function() {estePE.abrirFechar()}
+
+        this.abrirFechar = function()
+        {
+            aberto = !aberto;
+            if (aberto)
+            {
+                estePE.btnPagar.ativarInteracao();
+                estePE.btnCancelar.ativarInteracao();
+                estePE.itensEmprestimo.ativarInteracao();
+                b.desativar();
+            }
+            else
+            {
+                estePE.btnPagar.desativarInteracao();
+                estePE.btnCancelar.desativarInteracao();
+                estePE.itensEmprestimo.desativarInteracao();
+                b.ativar();
+            }
+        }
+        this.desenhar = function()
+        {
+            if (aberto)
+            {
+                ctx.save();
+                ctx.fillStyle = 'lightgray';
+                ctx.strokeStyle = 'black';
+                roundRect((canvas.width)/4, canvas.height/4, canvas.width/2, 400, {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight:10}, true, true);
+                ctx.fillStyle = '#333333';
+                roundRect((canvas.width)/4, canvas.height/4, canvas.width/2, 60, {upperLeft: 10, upperRight: 10, lowerLeft: 0, lowerRight:0}, true, false);
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.font = 'bold 20pt Century Gothic'
+                ctx.fillText('Pagar empréstimo', canvas.width/2, canvas.height/4 + 30)
+                estePE.btnPagar.desenhar();
+                estePE.btnCancelar.desenhar();
+                estePE.itensEmprestimo.desenhar();
+                ctx.restore();
+            }
+        }
+    }
+    this.btnRealizarEmprestimo = new BotaoRetangular(widthTela - 75, (yTela + 150) + 54*(emprestimos.length+1), 250, 50,
+                                                    {upperLeft: 10, upperRight:10, lowerLeft: 10,
+                                                    lowerRight: 10}, 250, 50, '#0066FF', '#4B7FFF',
+                                                    null, null, 'bold 14pt Century Gothic', 'black',
+                                                    'Realizar Empréstimo', false, false, false)
+    this.btnRealizarEmprestimo.onclick = function(){
+        emprestimoAtual = new Emprestimo(esteB);
+        emprestimoAtual.abrirFechar();
+    }
+    this.btnPagarEmprestimo = new BotaoRetangular(xTela + 25, (yTela + 150) + 54*(emprestimos.length+1), 250, 50,
+                                                {upperLeft: 10, upperRight:10, lowerLeft: 10,
+                                                lowerRight: 10}, 250, 50, 'gold', '#FFF338',
+                                                null, null, 'bold 14pt Century Gothic', 'black',
+                                                'Pagar Empréstimo', false, false, false)
+    this.btnPagarEmprestimo.onclick = function(){
+        emprestimoAtual = new PagamentoEmprestimo(esteB);
+        emprestimoAtual.abrirFechar();
+    }
+    function ativarEmprestimos()
+    {
+        esteB.btnTelaInicial.ativarInteracao();
+        esteB.btnRealizarEmprestimo.ativarInteracao();
+        esteB.btnPagarEmprestimo.ativarInteracao();
+    }
 
     var widthTeclado = 250;
     var heightTeclado = 180;
@@ -406,7 +572,7 @@ function Banco(x, y)
             abertoModalidade = 1;
             esteB.ativar();
         }
-        esteB.btnContaCorrente = new BotaoRetangular(esteB.x + 95, esteB.y + 310, 270, 50,
+        esteB.btnContaCorrente = new BotaoRetangular(esteB.x + 95, esteB.y + 290, 270, 50,
                                                     {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
                                                     270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     (esteB.jaAbriuConta)?"Conta corrente":"Abrir conta corrente", false, false, false);
@@ -415,6 +581,14 @@ function Banco(x, y)
                 funcMostrarCCorrente();
             else
                 funcCriarCCorrente();
+        }
+        esteB.btnEmprestimos = new BotaoRetangular(esteB.x + 265, esteB.y + 375, 270, 50,
+                                                  {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+                                                  270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
+                                                  "Visualizar empréstimos", false, false, false);
+        esteB.btnEmprestimos.onclick = function(){
+            abertoModalidade = 3;
+            esteB.ativar();
         }
         esteB.btnTelaInicial = new BotaoRetangular(xTela + 10, yTela + 10, 90, 40, 
                                                   {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
@@ -431,6 +605,8 @@ function Banco(x, y)
                     abertoContaCorrente = 0;
             }
             else if (abertoModalidade == 2)
+                abertoModalidade = 0;
+            else if (abertoModalidade == 3)
                 abertoModalidade = 0;
             esteB.ativar();
         };
@@ -466,6 +642,7 @@ function Banco(x, y)
         {
             case 0:
                 this.btnContaCorrente.ativarInteracao();
+                this.btnEmprestimos.ativarInteracao();
                 break;
             case 1:
                 ativarTeclado();
@@ -473,6 +650,9 @@ function Banco(x, y)
                 break;
             case 2:
                 //ativarCartaoCredito();
+                break;
+            case 3:
+                ativarEmprestimos();
                 break;
         }
     }
@@ -532,6 +712,8 @@ function Banco(x, y)
         esteB.btnInfoConta.desativarInteracao();
         esteB.extrato.desativar();
         visor.desativar();
+        esteB.btnRealizarEmprestimo.desativarInteracao();
+        esteB.btnPagarEmprestimo.desativarInteracao();
         desativarBotoesQuantia();
     }
     function desativarBotoesQuantia()

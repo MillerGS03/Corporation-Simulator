@@ -1,10 +1,8 @@
-- Propósito do jogo
-
 Primeiros passos:
 
-- Barra superior
-- Calendário
-- Construção da garagem
+X Barra superior
+X Calendário
+X Construção da garagem
 - Criação de produtos
 - Fornecedores
 - Estoque

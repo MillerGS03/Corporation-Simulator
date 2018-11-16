@@ -20,7 +20,7 @@ function Marketing()
                                                 "#232323", "#535353", imgIrParaGaragem, imgIrParaGaragem, "", "", "", false, false, false);
     this.btnIrParaGaragem.onclick = function(e) {
         este.abrirFechar();
-        getJanelaConstrucao("Garagem").abrirFechar();
+        garagem.abrirFechar();
     }
 
     /*
@@ -317,6 +317,20 @@ function Marketing()
         ctx.fillText(qualidades[este.promocaoEmpresa - 1], este.x + este.width/2 - 20, este.y + 210);
         ctx.fillStyle = "green";
         ctx.fillText(`+${100 * este.promocaoEmpresa/4}%`, este.x + este.width/2 - 20, este.y + 240);
+
+
+        ctx.fillStyle = "#8e8e8e";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        var width = 420;
+        var height = 40;
+        roundRect(este.x + (este.width - width)/2, este.y + 265, width, height, {upperRight: height/2, lowerRight: height/2}, true, true);
+        ctx.fillStyle = "green";
+        roundRect(este.x + (este.width - width)/2, este.y + 265, este.diasRestantesPromocaoEmpresa/este.diasTotaisPromocaoEmpresa * width, height,
+                  {upperRight: height/2, lowerRight: height/2}, true, true);
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(este.x + (este.width - width)/2 - 10, este.y + 263, 10, height + 4);
 
         ctx.restore();
     }

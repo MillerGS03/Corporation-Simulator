@@ -1,15 +1,15 @@
 ItemAVender.armazem     = {nome: "Armazém", descricao: ["Utilizado para armazenar", "matéria-prima e produtos."],
-                            preco: 15000, img: imgItemArmazem, nivelMinimo: 1};
+                            preco: 15000, img: imgItemArmazem, nivelMinimo: 2};
 ItemAVender.garagem     = {nome: "Garagem", descricao: ["Reza a lenda que grandes", "empresas surgem a partir", "de simples garagens..."],
                            preco: 10000, img: imgItemGaragem, nivelMinimo: 1};
 ItemAVender.operacional = {nome: "Operacional", descricao: "Especialize a produção!",
-                           preco: 20000, img: imgItemOperacional, nivelMinimo: 2};
+                           preco: 20000, img: imgItemOperacional, nivelMinimo: 3};
 ItemAVender.recursosHumanos = {nome: "RH", descricao: ["Recursos Humanos:", "São os responsáveis por", "gerenciar os funcionários." ],
-                           preco: 25000, img: imgItemRecursosHumanos, nivelMinimo: 3};
+                           preco: 25000, img: imgItemRecursosHumanos, nivelMinimo: 4};
 ItemAVender.marketing   = {nome: "Marketing", descricao: ["Promova sua empresa e", "aumente a clientela!"],
-                           preco: 30000, img: imgItemMarketing, nivelMinimo: 4};
+                           preco: 30000, img: imgItemMarketing, nivelMinimo: 5};
 ItemAVender.financeiro  = {nome: "Financeiro", descricao: ["Controle o fluxo de", "caixa!"],
-                           preco: 35000, img: imgItemFinanceiro, nivelMinimo: 5};
+                           preco: 35000, img: imgItemFinanceiro, nivelMinimo: 6};
 
 function ItemAVender(x, y, informacoes, indice) 
 {

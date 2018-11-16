@@ -2,20 +2,16 @@ function Comercio(aquele)
 {
 	this.f = 5;
 	this.n = 150;
-	var vendaPorFranquia = this.f * 50;
-	this.maxFranquia = Math.floor(this.n/vendaPorFranquia);
 	this.custo = 5;
 	this.preco = this.custo * 1.2;
 	this.x = aquele.x;
 	this.y = aquele.y;
 	this.franquias = 0;
 	this.setEconomia = function (fator){this.f = fator; vendaPorFranquia = fator * 50;}
-	this.setCusto = function(c) {this.custo = c; this.preco = this.custo * 1.2;};
-	this.setProduzido = function(p) {this.n = p; this.maxFranquia = Math.floor(this.n/vendaPorFranquia);};
 
 	var esteC = this;
 	var aqueleC = aquele;
-	var telaAtual = this.franquias<1?3:0;
+	var telaAtual = -1;
 	var numeroDeFranquiasASeremAdicionadas = 1;
 	var numeroDeFranquiasASeremExcluidas = 1;
 	var precoFranquia = 0;
@@ -24,7 +20,7 @@ function Comercio(aquele)
 	var pagamento = 0;
 	var economia = 0;
 	var total = 0;
-	var primeiraVez = (this.franquias>0?false:true);
+	var primeiraVez = this.franquias==0;
 
 	this.btnVoltar = new BotaoRetangular(this.x + 125, this.y + 125, 100, 25, {upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5}, 100, 25, "#c1c1c1", "gray", null, null,
 		"14pt Century Gothic", "black", "Voltar", false, false, false);
@@ -95,20 +91,13 @@ function Comercio(aquele)
 	this.btnComprarFranquias.onclick = function() {
 		if (numeroDeFranquiasASeremAdicionadas > 0)
 		{
-			if (numeroDeFranquiasASeremAdicionadas + esteC.franquias <= esteC.maxFranquia)
-			{
-				fazerCompra("Franquia", precoFranquia, true, true, 4, function(){
-						barra.dinheiro -= precoFranquia;
-						esteC.franquias += numeroDeFranquiasASeremAdicionadas;
-						numeroDeFranquiasASeremAdicionadas = 1;
-						primeiraVez = false;
-						desativarTela();
-						telaAtual = 0;
-				})
-			}
-			else
-				alerta('Não há fornecedores suficientes');	
-
+			fazerCompra("Franquia", precoFranquia, true, true, 4, function(){
+					esteC.franquias += numeroDeFranquiasASeremAdicionadas;
+					numeroDeFranquiasASeremAdicionadas = 1;
+					primeiraVez = false;
+					desativarTela();
+					telaAtual = 0;
+			})
 		}
 		else
 			alerta('Selecione ao menos 1 franquia para comprar');
@@ -137,6 +126,8 @@ function Comercio(aquele)
 	};
 
 	this.desenhar = function() {
+		console.log("oi");
+		primeiraVez = this.franquias==0;
 		ctx.save();
 		if (telaAtual != 3)
 		{
@@ -160,7 +151,7 @@ function Comercio(aquele)
 				desenharComeco();
 			break;
 			case -1:
-				telaAtual = primeiraVez==true?3:0;
+				telaAtual = primeiraVez?3:0;
 			break;
 		}
 		ctx.restore();
@@ -198,12 +189,12 @@ function Comercio(aquele)
 		precoFranquia = calcularPrecoDeFranquia();
 
 		ctx.textAlign = "left";
-		ctx.font = "bold 20pt Century Gothic";
-		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 375, 400, 4000);
+		ctx.font = "bold 18.5pt Century Gothic";
+		ctx.fillText("Preço: " + formatarDinheiro(precoFranquia), 215, 420, 4000);
 		ctx.fillStyle = "darkred";
-		ctx.fillText("Gasto: " + formatarDinheiro(calcularDespesasFuturas()) + ` + ${esteC.franquias + numeroDeFranquiasASeremAdicionadas}X despesas da matriz/dia`, 375, 450, 4000);
+		ctx.fillText("Gasto: " + formatarDinheiro(calcularDespesasFuturas()) + ` + ${esteC.franquias + numeroDeFranquiasASeremAdicionadas}X despesas da matriz/dia`, 215, 460, 4000);
 		ctx.fillStyle = "green";
-		ctx.fillText("Ganho: " + (esteC.franquias + numeroDeFranquiasASeremAdicionadas) + "X ganhos da matriz/dia", 375, 500, 4000);
+		ctx.fillText("Ganho: " + (esteC.franquias + numeroDeFranquiasASeremAdicionadas) + "X ganhos da matriz/dia", 215, 500, 4000);
 		esteC.btnComprarFranquias.desenhar();
 	}
 	function desativarTela()
@@ -252,8 +243,9 @@ function Comercio(aquele)
 	}
 	this.ativar = function()
 	{
+		primeiraVez = this.franquias==0;
 		if (telaAtual == -1)
-			telaAtual = (primeiraVez==true?3:0);
+			telaAtual = (primeiraVez?3:0);
 		ativarTela();
 	}
 	function voltarAoMapa()
@@ -305,6 +297,7 @@ function Comercio(aquele)
 		}
 		return x;
 	}
+
 	function desenharTelaInicial()
 	{
 		ctx.fillStyle = "black";
@@ -312,8 +305,7 @@ function Comercio(aquele)
 		ctx.fillText("Número de franquias: " + esteC.franquias, esteC.x + 300, esteC.y + 175);
 		esteC.btnAddFranquias.desenhar();
 		esteC.btnVenderFranquias.desenhar();
-		total = ganhoTotalDiario() - gastoTotalDiario();
-		total = Math.floor(total);
+		total = (ultimoGanho - ultimoGasto) * esteC.franquias;
 		ctx.textAlign = "left";
 		if (total < 0)
 		{
@@ -359,12 +351,17 @@ function Comercio(aquele)
 	{
 		return Math.floor(formatarDinheiro(300 * numeroDeFranquiasASeremExcluidas) + "/dia");
 	}
+
 	this.gastosDoDiaMatriz = 0;
 	this.ganhosDoDiaMatriz = 0;
+	var ultimoGanho = 0;
+	var ultimoGasto = 0;
 	this.passarDia = function()
 	{
 		receber(this.franquias * this.ganhosDoDiaMatriz, 0);
 		descontar(this.franquias * this.gastosDoDiaMatriz, 0);
+		ultimoGanho = this.ganhosDoDiaMatriz;
+		ultimoGasto = this.gastosDoDiaMatriz;
 		this.ganhosDoDiaMatriz = 0;
 		this.gastosDoDiaMatriz = 0;
 	}

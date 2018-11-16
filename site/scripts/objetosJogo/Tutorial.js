@@ -132,40 +132,62 @@ function Tutorial()
         }),
         new Pagina("Primeiros passos", function() {
             ctx.fillText("Parabéns, você criou uma empresa! Agora você precisa entender", este.x + 40, este.y + 130);
-            ctx.fillText("algumas coisas para começar a vender produtos e fazer sucesso.", este.x + 15, este.y + 160);
+            ctx.fillText("algumas coisas para começar a vender produtos e fazer sucesso.", este.x + 15, este.y + 158);
 
-            ctx.fillText("No topo da tela há uma barra que mostra algumas informações", este.x + 40, este.y + 190);
-            ctx.fillText("úteis sobre a empresa e o jogo.", este.x + 15, este.y + 220);
-        }, function() {
-            este.btnConstrucaoAnterior.ativarInteracao();
-            este.btnConstrucaoPosterior.ativarInteracao();
-        }, function() {
-            este.btnConstrucaoAnterior.desativarInteracao();
-            este.btnConstrucaoPosterior.desativarInteracao();
-        }, function() {
-            este.btnConstrucaoAnterior = new BotaoCircular(este.x + este.width/2 - 215, este.y + 195, 25, 25,
-                "#c3c3c3", "#dadada", imgAnterior, imgAnterior,
-                "", "", "", false, false, false);
-            este.btnConstrucaoAnterior.onclick = function() {
-                if (paginaConstrucao > 1)
-                    paginaConstrucao--;
-                else
-                    paginaConstrucao = qtasConstrucoes;
-                este.desativar();
-                este.ativar();
-            }
-    
-            este.btnConstrucaoPosterior = new BotaoCircular(este.x + este.width/2 + 215, este.y + 195, 25, 25,
-                "#c3c3c3", "#dadada", imgPosterior, imgPosterior,
-                "", "", "", false, false, false);
-            este.btnConstrucaoPosterior.onclick = function() {
-                if (paginaConstrucao < qtasConstrucoes)
-                    paginaConstrucao++;
-                else
-                    paginaConstrucao = 1;
-                este.desativar();
-                este.ativar();
-            }
+            ctx.fillText("No topo da tela há uma barra que mostra algumas informações", este.x + 40, este.y + 202);
+            ctx.fillText("úteis sobre a empresa e o jogo:", este.x + 15, este.y + 230);
+
+            ctx.drawImage(imgTutBarraSuperior, este.x + (este.width - 720)/2, este.y + 250);
+
+            ctx.textAlign = "right";
+            ctx.font = "bold 19pt Arial";
+            ctx.fillText("Nível e XP: ", este.x + 200, este.y + 340);
+            ctx.fillText("Caixa: ", este.x + 200, este.y + 410);
+            ctx.fillText("Dia do mês: ", este.x + 200, este.y + 450);
+
+            ctx.textAlign = "left";
+            ctx.font = "16pt Arial";
+            ctx.fillText("Indicam sua experiência no jogo. Tendo mais experiência,", este.x + 200, este.y + 340);
+            ctx.fillText("você poderá expandir mais sua empresa e criar produtos melhores.", este.x + 15, este.y + 370);
+            ctx.fillText("Dinheiro físico que a empresa tem disponível.", este.x + 200, este.y + 410);
+            ctx.fillText("É útil para saber quanto tempo vai demorar para algumas", este.x + 200, este.y + 450);
+            ctx.fillText("coisas acontecerem, como pagamento de despesas mensais, entrega de", este.x + 15, este.y + 480);
+            ctx.fillText("matéria-prima e mudanças na economia.", este.x + 15, este.y + 510);
+
+        }),
+        new Pagina("", function() {
+            ctx.fillText("Se quiser ainda mais informações sobre a passagem do tempo,", este.x + 40, este.y + 100);
+            ctx.fillText("você pode abrir o calendário no botão indicado à esquerda.", este.x + 15, este.y + 128);
+
+            desenharSetaParaOBotao(btnCalendario);
+
+            ctx.drawImage(imgTutCalendario, este.x + (este.width - 519)/2, este.y + 165);
+        }),
+        new Pagina("", function() {
+            ctx.fillText("É hora de começar a construir. Afinal, você só tem um terreno", este.x + 40, este.y + 100);
+            ctx.fillText("baldio por enquanto. Vê aquele botão com tijolos? Clicando nele,", este.x + 15, este.y + 128);
+            ctx.fillText("a seguinte tela irá abrir:", este.x + 15, este.y + 156);
+
+            desenharSetaParaOBotao(btnConstrucao);
+
+            ctx.drawImage(imgTutConstrucoes, (este.x + (este.width - 519)/2), este.y + 180);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Por agora, você só pode construir uma garagem. É lá que você vai", este.x + 40, este.y + 100);
+            ctx.fillText("começar sua jornada empresarial. Clique no preço para começar", este.x + 15, este.y + 128);
+            ctx.fillText("a posicionar onde quiser (junto à rua, pois é uma garagem).", este.x + 15, este.y + 156);
+
+            ctx.drawImage(imgTutPosicionandoGaragem, este.x + (este.width - 575)/2, este.y + 180);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Mova o mouse até posicionar e clique com o botão esquerdo para", este.x + 40, este.y + 100);
+            ctx.fillText("soltar. Uma tela de confirmação de compra irá aparecer. É só confirmar", este.x + 15, este.y + 128);
+            ctx.fillText("que você terá a garagem construída.", este.x + 15, este.y + 156);
+
+            ctx.drawImage(imgTutConfirmarPagamento, este.x + 80, este.y + 220);
+            ctx.drawImage(imgTutGaragemConstruida, este.x + este.width - 380, este.y + 210);
         }),
         new Pagina("Setorização", function() {}, function() {}, function() {}),
         new Pagina("Explosão de vendas", function() {}, function() {}, function() {}),
@@ -175,6 +197,10 @@ function Tutorial()
     function desenharTutorial()
     {
         ctx.save();
+
+        ctx.lineWidth = 2;
+        ctx.fillStyle = "#444444";
+        roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20}, true);
 
         ctx.fillStyle = "White";
         ctx.textAlign = "center";
@@ -205,6 +231,20 @@ function Tutorial()
         ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
         ctx.font = "bold 18pt Arial";
+    }
+    function desenharSetaParaOBotao(botao)
+    {
+        ctx.fillStyle = "darkred";
+        ctx.strokeStyle = "darkred";
+        ctx.lineWidth = 4;
+
+        ctx.beginPath();
+        ctx.moveTo(botao.x - 20, botao.y + botao.radius + 40);
+        ctx.lineTo(botao.x, botao.y + botao.radius + 10);
+        ctx.lineTo(botao.x + 20, botao.y + botao.radius + 40);
+        ctx.stroke();
+
+        roundRect(botao.x - 2, botao.y + botao.radius + 10, 4, 130, 2, true, false);
     }
 
     /**
@@ -269,9 +309,6 @@ function Tutorial()
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         roundRect(este.x, este.y, este.width, este.height, 20, true, true);
-
-        ctx.fillStyle = "#444444";
-        roundRect(este.x, este.y + 60, este.width, este.height - 60, {lowerLeft: 20, lowerRight: 20}, true);
 
         ctx.restore();
     }

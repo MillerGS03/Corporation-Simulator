@@ -233,7 +233,6 @@ function Industria(aquele)
 		}
 	};
 	this.produzido = function() {return produzido;};
-	esteI.ativar();
 
 	var anunciouFaltando = false;
 	this.passarDia = function()
@@ -256,11 +255,7 @@ function Industria(aquele)
 			mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
 			
 			if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
-			{
 				this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
-				painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",
-														calendario.dia, calendario.mes, calendario.ano);
-			}
 		}
 	}
 	this.getCustoUnitario = function() {

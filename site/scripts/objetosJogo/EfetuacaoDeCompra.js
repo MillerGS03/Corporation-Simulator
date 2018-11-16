@@ -79,14 +79,14 @@ function EfetuacaoDeCompra(nome, valor, aceitaCredito, aceitaDebito, qtasParcela
 			{
 				case "Dinheiro": 
 					if (sucesso = barra.dinheiro >= este.valor)
-						barra.dinheiro -= este.valor;
+						descontar(este.valor, 0);
 					else
 						alerta("Dinheiro em caixa insuficiente!");
 					break;
 				case "Débito": 
 					if (sucesso = mapa.banco.saldo >= este.valor)
 					{
-						mapa.banco.saldo -= este.valor;
+						descontar(este.valor, 1);
 						mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, este.nome, -este.valor);
 					}
 					else

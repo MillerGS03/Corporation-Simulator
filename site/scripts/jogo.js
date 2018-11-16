@@ -44,6 +44,10 @@ var calendario;
  * @type {Construcao}
  */
 var construcao;
+/**
+ * Estatísticas da empresa
+ * @type {Estatisticas}
+ */
 var estatisticas;
 var rua;
 
@@ -445,8 +449,7 @@ function descontar(valor, meioDePagamento)
 	if (meioDePagamento == 0)
 		barra.dinheiro -= valor;
 	else if (meioDePagamento == 1)
-		mapa.banco.saldo -= valor;
-		
+		mapa.banco.saldo -= valor;	
 }
 /**
  * Recebe um valor inteiro e retorna uma string no formato $xxxx,xx.

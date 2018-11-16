@@ -230,6 +230,8 @@ function Garagem()
             }
         }
 
+        var marketing = getJanelaConstrucao("Marketing");
+
         for (var i = 0; i < este.produtos.length; i++)
         {
             var produtoAtual = este.produtos[i];
@@ -248,18 +250,22 @@ function Garagem()
                                                             calendario.dia, calendario.mes, calendario.ano);
                 }
             }
+            var recebimento = 0;
             if (produtoAtual.qtdeEmEstoque > produtoAtual.calcularVendasDiarias())
             {
                 produtoAtual.totalDeVendas += produtoAtual.vendasDiarias;
                 produtoAtual.qtdeEmEstoque -= produtoAtual.vendasDiarias;
-                barra.dinheiro += produtoAtual.vendasDiarias * produtoAtual.preco;
+                recebimento = produtoAtual.vendasDiarias * produtoAtual.preco
             }
             else if (produtoAtual.qtdeEmEstoque > 0)
             {
                 produtoAtual.totalDeVendas += produtoAtual.qtdeEmEstoque;
-                barra.dinheiro += produtoAtual.qtdeEmEstoque;
+                recebimento = produtoAtual.qtdeEmEstoque * produtoAtual.preco;
                 produtoAtual.qtdeEmEstoque = 0;
             }
+            receber(recebimento, 0);
+            mapa.comercio.ganhosDoDiaMatriz += recebimento;
+
             if (produtoAtual.fatorMarketing > 0 )
             {
                 produtoAtual.diasRestantes--;
@@ -267,13 +273,16 @@ function Garagem()
                 {
                     produtoAtual.fatorMarketing = 0;
                     painelNotificacoes.adicionarNotificacao("Publicidade expirada", `O marketing de "${produtoAtual.nome}" diminuiu`,
-                                                            calendario.dia, calendario.mes, calendario.ano)
+                                                            calendario.dia, calendario.mes, calendario.ano);
+                    if (marketing && marketing.aberto)
+                    {
+                        marketing.desativar();
+                        marketing.ativar();
+                    }
                 }
             }
 
         }
-
-        var marketing = getJanelaConstrucao("Marketing");
         if (marketing && marketing.promocaoEmpresa > 0)
         {
             marketing.diasRestantesPromocaoEmpresa--;
@@ -1291,7 +1300,7 @@ function Garagem()
                     if (este.produtos.length < 8)
                     {
                         var nome = este.txtNome.text;
-                        var preco = parseFloat(este.txtPreco.text);
+                        var preco = parseFloat(este.txtPreco.text.replace(",", "."));
 
                         if (nome.length < 2)
                             throw new DOMException("Insira um nome com pelo menos 2 caracteres!", "Erro");
@@ -1351,7 +1360,7 @@ function Garagem()
             {
                 try
                 {
-                    var preco = parseFloat(este.txtPreco.text);
+                    var preco = parseFloat(este.txtPreco.text.replace(",", "."));
 
                     if (!preco || preco == 0)
                         throw new DOMException("Insira um preço não nulo!", "Erro");
@@ -1429,12 +1438,13 @@ function Garagem()
                         este.produtosRemovidos.push(este.produtos[botao.numeroRegistro]);
                         este.produtos.splice(botao.numeroRegistro, 1);
 
-                        for (var i = 0; i < este.produtos.length; i++)
+                        for (var i = 0; i < este.txtsProducao.length; i++)
                         {
-                            este.txtsProducao[i].text = este.produtos[i].producao + "";
+                            var producao = i < este.produtos.length?este.produtos[i].producao + "":"0";
+                            este.txtsProducao[i].text = producao;
                             var operacional = getJanelaConstrucao("Operacional");
                             if (operacional)
-                                operacional.txtsProducao[i].text = este.produtos[i].producao + "";
+                                operacional.txtsProducao[i].text = producao;
                         }
 
                         este.ativar();

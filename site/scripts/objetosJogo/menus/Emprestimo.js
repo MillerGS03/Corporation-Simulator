@@ -120,20 +120,30 @@ function Emprestimo(b)
         aberto = !aberto;
         if (aberto)
         {
-            este.btnCancelar.ativarInteracao();
-            este.btnTentar.ativarInteracao();
-            este.txtValor.ativarInteracao();
-            este.parcelas.ativarInteracao();
             b.desativar();
+            this.ativar();
         }
         else
         {
-            este.btnCancelar.desativarInteracao();
-            este.btnTentar.desativarInteracao();
-            este.txtValor.desativarInteracao();
-            este.parcelas.ativarInteracao();
+            this.desativar();
             b.ativar();
         }
+    }
+    this.ativar = function()
+    {
+        este.btnCancelar.ativarInteracao();
+        este.btnTentar.ativarInteracao();
+        este.txtValor.ativarInteracao();
+        este.parcelas.ativarInteracao();
+        aberto = true;
+    }
+    this.desativar = function()
+    {
+        este.btnCancelar.desativarInteracao();
+        este.btnTentar.desativarInteracao();
+        este.txtValor.desativarInteracao();
+        este.parcelas.desativarInteracao();
+        aberto = false;
     }
     function desenharTelaAdicionarEmprestimo()
     {

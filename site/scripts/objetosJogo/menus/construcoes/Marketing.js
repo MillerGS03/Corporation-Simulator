@@ -330,7 +330,7 @@ function Marketing()
                   {upperRight: height/2, lowerRight: height/2}, true, true);
 
         ctx.fillStyle = "white";
-        ctx.fillRect(este.x + (este.width - width)/2 - 10, este.y + 263, 10, height + 4);
+        ctx.fillRect(este.x + (este.width - width)/2 - 30, este.y + 262, 30, height + 6);
 
         ctx.restore();
     }

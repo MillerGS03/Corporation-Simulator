@@ -714,6 +714,10 @@ function Banco(x, y)
         visor.desativar();
         esteB.btnRealizarEmprestimo.desativarInteracao();
         esteB.btnPagarEmprestimo.desativarInteracao();
+        esteB.btnEmprestimos.desativarInteracao();
+        if (emprestimoAtual != null)
+            emprestimoAtual.desativar();
+
         desativarBotoesQuantia();
     }
     function desativarBotoesQuantia()

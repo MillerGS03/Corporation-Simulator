@@ -8,6 +8,12 @@ function Operacional()
     var este = this;
 
     var garagem = getJanelaConstrucao("Garagem");
+
+    /**
+     * @type {RecursosHumanos}
+     */
+    var rh = getJanelaConstrucao("R. Humanos");
+
     var produtos = garagem.produtos;
 
     this.precoUpgrade = 4000;
@@ -32,6 +38,8 @@ function Operacional()
         this.aberto = !this.aberto;
         if (this.aberto)
         {
+            rh = getJanelaConstrucao("R. Humanos");
+            
             desativarBotoes();
             for (var i = 0; i < produtos.length; i++)
                 este.txtsProducao[i].ativarInteracao();
@@ -103,7 +111,7 @@ function Operacional()
         
         ctx.textAlign = "left";
         ctx.font = "22pt Century Gothic";
-        ctx.fillText(`${garagem.capacidadeProducao}u/dia`, este.x + 570, este.y + 105);
+        ctx.fillText(`${garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1}u/dia`, este.x + 570, este.y + 105);
 
         ctx.textBaseline = "top";
         ctx.textAlign = "center";
@@ -144,6 +152,24 @@ function Operacional()
 
     var coresProducao = ["#00e52a", "#ba0000", "#e87b06", "#efff3f", "#8e0047", "#aa00ff", "#0003c4", "#00c3e5", "gray"];
 
+    this.atualizarFuncionarios = function() {
+        var producaoDisponivel = calcularProducaoDisponivel();
+
+        for (var i = produtos.length - 1; i >= 0 && producaoDisponivel < 0; i--)
+        {
+            if (produtos[i].producao > -producaoDisponivel)
+            {
+                produtos[i].producao += producaoDisponivel;
+                producaoDisponivel = 0;
+            }
+            else
+            {
+                producaoDisponivel += produtos[i].producao;
+                produtos[i].producao = 0;
+            }
+        }
+    }
+
     function desenharGrafico()
     {
         ctx.save();
@@ -157,7 +183,7 @@ function Operacional()
         for (var i = 0; i < produtos.length; i++)
             valores.push(produtos[i].producao);
         
-        var total = garagem.capacidadeProducao;
+        var total = garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1;
 
         desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresProducao, corBase);
         
@@ -166,7 +192,7 @@ function Operacional()
 
     function calcularProducaoDisponivel()
     {
-        var producaoDisponivel = garagem.capacidadeProducao;
+        var producaoDisponivel = garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1;
         for (var i = 0; i < produtos.length; i++)
             producaoDisponivel -= parseInt(este.txtsProducao[i].text);
         return producaoDisponivel;

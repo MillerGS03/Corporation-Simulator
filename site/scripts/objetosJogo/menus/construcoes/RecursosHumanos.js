@@ -74,7 +74,10 @@ function RecursosHumanos()
     this.btnDemitirDesenv.onclick = function() {getJanelaConstrucao('Garagem')?demitir('fDesenv'):alerta('Você precisa da garagem para ter funcionários no desenvolvimento!')}
 
     this.btnContratarProd.onclick = function() {getJanelaConstrucao('Operacional')?contratar('fProd'):alerta('Você não possui setor Operacional.')}
-    this.btnDemitirProd.onclick = function() {getJanelaConstrucao('Operacional')?demitir('fProd'):alerta('Você não possui setor Operacional.')}
+    this.btnDemitirProd.onclick = function() {getJanelaConstrucao('Operacional')?(function() {
+        demitir('fProd');
+        getJanelaConstrucao("Operacional").atualizarFuncionarios();
+    })():alerta('Você não possui setor Operacional.')}
 
     this.btnContratarFin.onclick = function() {getJanelaConstrucao('Financeiro')?contratar('fFin'):alerta('Você não possui o setor Financeiro.')}
     this.btnDemitirFin.onclick = function() {getJanelaConstrucao('Financeiro')?demitir('fFin'):alerta('Você não possui o setor Financeiro.')}

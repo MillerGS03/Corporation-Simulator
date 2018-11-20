@@ -3,11 +3,11 @@ Primeiros passos:
 X Barra superior
 X Calendário
 X Construção da garagem
-- Criação de produtos
-- Fornecedores
-- Estoque
-- Produção
-- Vendas
+X Criação de produtos
+X Fornecedores
+X Estoque
+X Produção
+X Vendas
 - Finanças
 
 Setorização:

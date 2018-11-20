@@ -47,6 +47,18 @@ var imgTutConstrucoes = new Image();
 var imgTutPosicionandoGaragem = new Image();
 var imgTutConfirmarPagamento = new Image();
 var imgTutGaragemConstruida = new Image();
+var imgTutMenuItemGaragem = new Image();
+var imgTutGaragemAberta = new Image();
+var imgTutEscolhendoNomeProduto = new Image();
+var imgTutDesenvolvendoProduto = new Image();
+var imgTutProdutoDesenvolvido = new Image();
+var imgTutEstoqueVazio = new Image();
+var imgTutMapa = new Image();
+var imgTutTelaInicialFornecedores = new Image();
+var imgTutTelaContratarFornecedores = new Image();
+var imgTutTelaFornecedores = new Image();
+var imgTutProducao = new Image();
+var imgTutVendas = new Image();
 
 imgPaginaAnterior.src = "imagens/funcionalidades/setaEsquerdaMenor.png";
 imgPaginaAnteriorHover.src = "imagens/funcionalidades/setaEsquerda.png";
@@ -59,6 +71,18 @@ imgTutConstrucoes.src = "imagens/tutorial/construcoes.png";
 imgTutPosicionandoGaragem.src = "imagens/tutorial/posicionandoGaragem.png";
 imgTutConfirmarPagamento.src = "imagens/tutorial/confirmarPagamento.png";
 imgTutGaragemConstruida.src = "imagens/tutorial/garagemConstruida.png";
+imgTutMenuItemGaragem.src = "imagens/tutorial/menuItemGaragem.png";
+imgTutGaragemAberta.src = "imagens/tutorial/garagemAberta.png";
+imgTutEscolhendoNomeProduto.src = "imagens/tutorial/escolhendoNomeProduto.png";
+imgTutDesenvolvendoProduto.src = "imagens/tutorial/desenvolvendoProduto.png";
+imgTutProdutoDesenvolvido.src = "imagens/tutorial/produtoDesenvolvido.png";
+imgTutEstoqueVazio.src = "imagens/tutorial/estoqueVazio.png";
+imgTutMapa.src = "imagens/tutorial/mapa.png";
+imgTutTelaInicialFornecedores.src = "imagens/tutorial/telaInicialFornecedores.png";
+imgTutTelaContratarFornecedores.src = "imagens/tutorial/telaContratacaoFornecedores.png";
+imgTutTelaFornecedores.src = "imagens/tutorial/telaFornecedores.png";
+imgTutProducao.src = "imagens/tutorial/producao.png";
+imgTutVendas.src = "imagens/tutorial/vendas.png";
 
 //--------------------------------------------------------------------------
 // BarraSuperior.js

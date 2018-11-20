@@ -11,7 +11,7 @@ function Garagem()
 
     this.produtos = new Array();
     this.produtosRemovidos = new Array();
-    this.qtdeMateriaPrima = 150;
+    this.qtdeMateriaPrima = 0;
     this.capacidade = 300;
 
     this.capacidadeProducao = 100;
@@ -30,15 +30,15 @@ function Garagem()
     }
     var entregar = function(materiaPrima)
     {
-        if (materiaPrima > this.getEspacoLivre())
+        if (materiaPrima <= este.getEspacoLivre())
         {
-            this.qtdeMateriaPrima += materiaPrima;
+            este.qtdeMateriaPrima += materiaPrima;
             return {sucesso: true, faltandoAEntregar: 0}
         }
         else
         {
-            var faltando = materiaPrima - this.getEspacoLivre();
-            this.qtdeMateriaPrima += this.getEspacoLivre();
+            var faltando = materiaPrima - este.getEspacoLivre();
+            este.qtdeMateriaPrima += este.getEspacoLivre();
             return {sucesso: false, faltandoAEntregar: faltando};
         }
     }
@@ -48,7 +48,7 @@ function Garagem()
         return this.capacidade - (this.getQtdeTotalDeProdutos() + this.qtdeMateriaPrima);
     }
     this.getQtdeTotalDeProdutos = function() {
-        var total = 10;
+        var total = 0;
         for (var i = 0; i < this.produtos.length; i++)
             total += this.produtos[i].qtdeEmEstoque;
         return total;
@@ -1591,7 +1591,7 @@ function Produto(nome, preco)
             pesoMarketingEmpresa *= marketing.promocaoEmpresa?marketing.promocaoEmpresa + 1:1;
         }
 
-        this.vendasDiarias = Math.floor(200 * pesoCustoBeneficio * pesoMarketingEmpresa * pesoMarketingProduto * Math.sqrt(barra.nivel) / pesoDiferencaDeDias);
+        this.vendasDiarias = Math.floor(150 * pesoCustoBeneficio * pesoMarketingEmpresa * pesoMarketingProduto * barra.nivel / pesoDiferencaDeDias);
         if (this.vendasDiarias > this.qtdeEmEstoque)
             this.vendasDiarias = this.qtdeEmEstoque;
 

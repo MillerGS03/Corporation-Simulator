@@ -189,6 +189,94 @@ function Tutorial()
             ctx.drawImage(imgTutConfirmarPagamento, este.x + 80, este.y + 220);
             ctx.drawImage(imgTutGaragemConstruida, este.x + este.width - 380, este.y + 210);
         }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Com a garagem você já pode fazer muita coisa. Pra isso, clique com", este.x + 40, este.y + 100);
+            ctx.fillText("o botão esquerdo na construção e abra a garagem.", este.x + 15, este.y + 128);
+
+            ctx.drawImage(imgTutMenuItemGaragem, este.x + 10, este.y + 250);
+            ctx.drawImage(imgTutGaragemAberta, este.x + este.width - 499, este.y + 190);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Que tal desenvolver seu primeiro produto? É só dar um nome, um", este.x + 40, este.y + 100);
+            ctx.fillText("preço e apertar em \"criar\".", este.x + 15, este.y + 128);
+            ctx.drawImage(imgTutEscolhendoNomeProduto, este.x + (este.width - 316)/2, este.y + 145);
+
+            ctx.fillText("Espere o tempo de desenvolvimento. Quando estiver terminado, você", este.x + 40, este.y + 305);
+            ctx.fillText("pode lançar ao mercado ou continuar desenvolvendo para melhorar a", este.x + 15, este.y + 333);
+            ctx.fillText("qualidade.", este.x + 15, este.y + 361);
+            ctx.drawImage(imgTutDesenvolvendoProduto, este.x + 70, este.y + 380);
+            ctx.drawImage(imgTutProdutoDesenvolvido, este.x + este.width - 386, este.y + 380);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Mas pra que você aumentaria a qualidade? A resposta é simples:", este.x + 40, este.y + 100);
+            ctx.fillText("Se seu produto tiver mais qualidade, as vendas aumentam.", este.x + 15, este.y + 128);
+            ctx.fillText("Outros fatores influenciam nas vendas e serão detalhados mais tarde.", este.x + 15, este.y + 156);
+            ctx.fillText("Por exemplo: ", este.x + 15, este.y + 194);
+            ctx.fillText(" - Quanto tempo faz que o produto foi criado;", este.x + 15, este.y + 227);
+            ctx.fillText(" - Se a economia está em alta ou não;", este.x + 15, este.y + 255);
+            ctx.fillText(" - Publicidade da empresa;", este.x + 15, este.y + 283);
+            ctx.fillText(" - Nível de experiência da empresa;", este.x + 15, este.y + 311);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Você acabou de desenvolver seu primeiro produto, mas você não", este.x + 40, este.y + 100);
+            ctx.fillText("está vendendo porque ainda não produziu nada. Pode checar isso no", este.x + 15, este.y + 128);
+            ctx.fillText("estoque se quiser.", este.x + 15, este.y + 156);
+
+            ctx.drawImage(imgTutEstoqueVazio, este.x + 100, este.y + 171);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("E como conseguir matéria-prima para começar a produzir? Isso é", este.x + 40, este.y + 100);
+            ctx.fillText("trabalho dos fornecedores. É Hora de olhar para os arredores da sua", este.x + 15, este.y + 128);
+            ctx.fillText("empresa para encontrar alguns! Clique no botão com um mapa e vá até", este.x + 15, este.y + 156);
+            ctx.fillText("os fornecedores, representados por uma caixa de materiais.", este.x + 15, este.y + 184);
+
+            ctx.drawImage(imgTutMapa, este.x + 200, este.y + 204);
+
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.ellipse(este.x + 535, este.y + 459, 38, 38, 0, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.stroke();
+
+            desenharSetaParaOBotao(btnMapa);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Contrate seus primeiros fornecedores.", este.x + 40, este.y + 110);
+            ctx.drawImage(imgTutTelaInicialFornecedores, este.x + 33, este.y + 175);
+            ctx.drawImage(imgTutTelaContratarFornecedores, este.x + este.width - 383, este.y + 175);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("A partir de agora você está recebendo matéria-prima na sua garagem.", este.x + 40, este.y + 100);
+            ctx.fillText("Você pode controlar a frequência de entregas, determinando se serão", este.x + 15, este.y + 128);
+            ctx.fillText("mensais, quinzenais ou semanais. Lembre-se que há um custo fixo por", este.x + 15, este.y + 156);
+            ctx.fillText("entrega.", este.x + 15, este.y + 184);
+
+            ctx.drawImage(imgTutTelaFornecedores, este.x + (este.width - 520)/2, este.y + 194);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Comece a transformar essa matéria-prima em mercadorias para poder", este.x + 40, este.y + 100);
+            ctx.fillText("lucrar. É só ir até a aba de produção e aumentar quanto quiser dentro", este.x + 15, este.y + 128);
+            ctx.fillText("de sua capacidade de produção por dia.", este.x + 15, este.y + 156);
+
+            ctx.drawImage(imgTutProducao, este.x + (este.width - 600)/2, este.y + 171);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Com um produto criado, fornecimento de matéria-prima e produção, ", este.x + 40, este.y + 100);
+            ctx.fillText("você já começou a vender! Isso se manterá enquanto você tiver estoque", este.x + 15, este.y + 128);
+            ctx.fillText("do produto e não colocar os preços nas alturas.", este.x + 15, este.y + 156);
+            
+            ctx.drawImage(imgTutVendas, este.x + (este.width - 600)/2, este.y + 171);
+        }),
         new Pagina("Setorização", function() {}, function() {}, function() {}),
         new Pagina("Explosão de vendas", function() {}, function() {}, function() {}),
         new Pagina("Expansão", function() {}, function() {}, function() {})

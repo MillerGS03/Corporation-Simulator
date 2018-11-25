@@ -279,7 +279,6 @@ function atualizar()
 	if (carregado)
 	{
 		desenharFundo();
-		barra.desenhar();
 		for (var i = 0; i < botoes.length; i++)
 			if (botoes != null && botoes[i] != null)
 				botoes[i].desenhar();
@@ -304,6 +303,7 @@ function atualizar()
 			efetuacao.desenhar();
 		menuJogo.desenhar();
 		desenharBordasCanvas();
+		barra.desenhar();
 	}
 	else
 		desenharCarregando();
@@ -366,6 +366,9 @@ function desenharBordasCanvas()
 
 	ctx.restore();
 }
+var areaFundo = new BotaoRetangular(125, 100, canvas.width-405, canvas.height-150,
+	{upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0},canvas.width-405,
+	canvas.height-150, '', '', imgAreaEmpresa, imgAreaEmpresa, '', '', '', false, false, false, null, 'center', false);
 function desenharFundo()
 {
 	var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -376,6 +379,9 @@ function desenharFundo()
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	rua.desenhar();
+
+	if (itensConstruidos.length == 0 || (itensConstruidos.length == 1 && statusConstruindo))
+		areaFundo.desenhar();
 
 	for (var i = 0; i < itensConstruidos.length; i++)
 		itensConstruidos[i].desenhar();

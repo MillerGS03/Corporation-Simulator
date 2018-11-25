@@ -36,53 +36,22 @@ imgBtnSomMudo.src = "imagens/menusBotoes/somMudo.png";
 imgBtnSomAtivo.src = "imagens/menusBotoes/somAtivo.png";
 //--------------------------------------------------------------------------
 // Tutorial.js
+var imgTutCalendario = new Image();
+var imgTutConstrucao = new Image();
+var imgTutEstatisticas = new Image();
+var imgTutMapa = new Image();
 var imgPaginaAnterior = new Image();
 var imgPaginaAnteriorHover = new Image();
 var imgPaginaPosterior = new Image();
 var imgPaginaPosteriorHover = new Image();
-
-var imgTutBarraSuperior = new Image();
-var imgTutCalendario = new Image();
-var imgTutConstrucoes = new Image();
-var imgTutPosicionandoGaragem = new Image();
-var imgTutConfirmarPagamento = new Image();
-var imgTutGaragemConstruida = new Image();
-var imgTutMenuItemGaragem = new Image();
-var imgTutGaragemAberta = new Image();
-var imgTutEscolhendoNomeProduto = new Image();
-var imgTutDesenvolvendoProduto = new Image();
-var imgTutProdutoDesenvolvido = new Image();
-var imgTutEstoqueVazio = new Image();
-var imgTutMapa = new Image();
-var imgTutTelaInicialFornecedores = new Image();
-var imgTutTelaContratarFornecedores = new Image();
-var imgTutTelaFornecedores = new Image();
-var imgTutProducao = new Image();
-var imgTutVendas = new Image();
-
+imgTutCalendario.src = "imagens/tutorial/calendario.png";
+imgTutConstrucao.src = "imagens/tutorial/construcao.png";
+imgTutEstatisticas.src = "imagens/tutorial/estatisticas.png";
+imgTutMapa.src = "imagens/tutorial/mapa.png";
 imgPaginaAnterior.src = "imagens/funcionalidades/setaEsquerdaMenor.png";
 imgPaginaAnteriorHover.src = "imagens/funcionalidades/setaEsquerda.png";
 imgPaginaPosterior.src = "imagens/funcionalidades/setaDireitaMenor.png";
 imgPaginaPosteriorHover.src = "imagens/funcionalidades/setaDireita.png";
-
-imgTutBarraSuperior.src = "imagens/tutorial/barraSuperior.png";
-imgTutCalendario.src = "imagens/tutorial/calendario.png";
-imgTutConstrucoes.src = "imagens/tutorial/construcoes.png";
-imgTutPosicionandoGaragem.src = "imagens/tutorial/posicionandoGaragem.png";
-imgTutConfirmarPagamento.src = "imagens/tutorial/confirmarPagamento.png";
-imgTutGaragemConstruida.src = "imagens/tutorial/garagemConstruida.png";
-imgTutMenuItemGaragem.src = "imagens/tutorial/menuItemGaragem.png";
-imgTutGaragemAberta.src = "imagens/tutorial/garagemAberta.png";
-imgTutEscolhendoNomeProduto.src = "imagens/tutorial/escolhendoNomeProduto.png";
-imgTutDesenvolvendoProduto.src = "imagens/tutorial/desenvolvendoProduto.png";
-imgTutProdutoDesenvolvido.src = "imagens/tutorial/produtoDesenvolvido.png";
-imgTutEstoqueVazio.src = "imagens/tutorial/estoqueVazio.png";
-imgTutMapa.src = "imagens/tutorial/mapa.png";
-imgTutTelaInicialFornecedores.src = "imagens/tutorial/telaInicialFornecedores.png";
-imgTutTelaContratarFornecedores.src = "imagens/tutorial/telaContratacaoFornecedores.png";
-imgTutTelaFornecedores.src = "imagens/tutorial/telaFornecedores.png";
-imgTutProducao.src = "imagens/tutorial/producao.png";
-imgTutVendas.src = "imagens/tutorial/vendas.png";
 
 //--------------------------------------------------------------------------
 // BarraSuperior.js
@@ -237,4 +206,7 @@ imgFinanceiroCartao.src = "imagens/construcoes/cartaoDeCredito.png";
 var imgChecked = new Image();
 var imgUnchecked = new Image();
 //imgChecked.src = "imagens/botoes/checked.png";
-//imgUnchecked.src = "imagens/botoes/unchecked.png";
+//imgUnchecked.src = "imagens/botoes/unchecked.png";//--------------------------------------------------------------------------
+// Area da empresa
+var imgAreaEmpresa = new Image();
+imgAreaEmpresa.src = 'imagens/areaFundo.png'

@@ -50,6 +50,7 @@ BotaoRetangular.reativar = function()
  * @param {string} imageAlign align of image
  */
 function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign)
+function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign, stroke)
 {
 	this.x = x;
 	this.y = y;
@@ -72,7 +73,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 	this.som = caminhoSom;
 	this.imgAlign = imageAlign==null?'center':imageAlign;
 
-	this.stroke = true;
+	this.stroke = stroke;
 
 	this.ativo = false;
 
@@ -128,7 +129,7 @@ function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, b
 				                                this.y + this.width / 2 - this.backgroundImage.height/2);
 			else if (this.backgroundHoverImage != null && this.hovering)
 				ctx.drawImage(this.backgroundHoverImage, this.x + this.width / 2 - this.backgroundHoverImage.width/2,
-				                                this.y + this.width / 2 - this.backgroundHoverImage.height/2);
+												this.y + this.width / 2 - this.backgroundHoverImage.height/2);
 		}
 		else if (this.imgAlign == 'topLeft')
 		{

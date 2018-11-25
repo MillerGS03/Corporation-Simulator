@@ -258,3 +258,8 @@ var imgChecked = new Image();
 var imgUnchecked = new Image();
 //imgChecked.src = "imagens/botoes/checked.png";
 //imgUnchecked.src = "imagens/botoes/unchecked.png";
+
+//--------------------------------------------------------------------------
+// Area da empresa
+var imgAreaEmpresa = new Image();
+imgAreaEmpresa.src = 'imagens/areaFundo.png'

@@ -5,7 +5,6 @@ function BarraSuperior() {
 	this.dinheiro = 5000;
 	this.dia = 1;
 	var xpTotal = 0;
-	var lvl = new LevelUp(0);
 
 	var este = this;
 
@@ -41,11 +40,6 @@ function BarraSuperior() {
 			base = 1.15;
 
 		este.maxXP = Math.round(este.maxXP * base);
-		if (carregado)
-		{
-			lvl = new LevelUp(este.nivel);
-			lvl.abrirFechar();
-		}
 	}
 
 	this.desenhar = function() {
@@ -99,10 +93,6 @@ function BarraSuperior() {
 		ctx.drawImage(imgCalendario, 690, 11);
 		ctx.fillStyle = "White";
 		ctx.fillText(this.dia + "° dia", 733, 30);
-
-		//Se aberta, desenha a tela de level up
-		if (carregado)
-			lvl.desenhar();
 		
 		ctx.restore();
 	}

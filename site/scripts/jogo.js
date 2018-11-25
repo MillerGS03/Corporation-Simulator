@@ -44,6 +44,10 @@ var calendario;
  * @type {Construcao}
  */
 var construcao;
+/**
+ * Estatísticas da empresa
+ * @type {Estatisticas}
+ */
 var estatisticas;
 var rua;
 
@@ -73,6 +77,7 @@ var statusConstruindo = 0;
 var nomeItemEmConstrucao = null;
 
 var fatorEscala = 1;
+var emprestimos = [];
 
 // Sons:
 var musicas = ["musicas/airtone_-_backwaters.ogg", "musicas/rewob_-_A_White_Dream.ogg"];
@@ -274,6 +279,7 @@ function atualizar()
 	if (carregado)
 	{
 		desenharFundo();
+		barra.desenhar();
 		for (var i = 0; i < botoes.length; i++)
 			if (botoes != null && botoes[i] != null)
 				botoes[i].desenhar();
@@ -298,7 +304,6 @@ function atualizar()
 			efetuacao.desenhar();
 		menuJogo.desenhar();
 		desenharBordasCanvas();
-		barra.desenhar();
 	}
 	else
 		desenharCarregando();
@@ -323,6 +328,7 @@ function desenharStatusConstrucao()
 	if (statusConstruindo != 0)
 	{
 		ctx.save();
+
 		ctx.textAlign = "center";
 		ctx.textBaseline = "top";
 		ctx.fillStyle = "black";
@@ -360,9 +366,6 @@ function desenharBordasCanvas()
 
 	ctx.restore();
 }
-var areaFundo = new BotaoRetangular(125, 100, canvas.width-405, canvas.height-150,
-	{upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0},canvas.width-405,
-	canvas.height-150, '', '', imgAreaEmpresa, imgAreaEmpresa, '', '', '', false, false, false, null, 'center', false);
 function desenharFundo()
 {
 	var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -373,9 +376,6 @@ function desenharFundo()
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	rua.desenhar();
-
-	if (itensConstruidos.length == 0 || (itensConstruidos.length == 1 && statusConstruindo))
-		areaFundo.desenhar();
 
 	for (var i = 0; i < itensConstruidos.length; i++)
 		itensConstruidos[i].desenhar();
@@ -450,8 +450,7 @@ function descontar(valor, meioDePagamento)
 	if (meioDePagamento == 0)
 		barra.dinheiro -= valor;
 	else if (meioDePagamento == 1)
-		mapa.banco.saldo -= valor;
-		
+		mapa.banco.saldo -= valor;	
 }
 /**
  * Recebe um valor inteiro e retorna uma string no formato $xxxx,xx.
@@ -756,6 +755,28 @@ function carregarDados()
 			timerDias = setInterval(intervaloDias, 50);
 	}
 	mapa.desativar();
+	$.get('http://' + local + ':3000/getEmprestimos/' + jogo.CodJogo).done(function(dados)
+	{
+		emprestimos = [];
+		for (var i = 0; i < dados.length; i++)
+		{
+			emprestimos[i] = new Object();
+			emprestimos[i].valorInicial = dados[i].Valor;
+			emprestimos[i].indice = dados[i].Indice;
+			emprestimos[i].dataCriacao = dados[i].DataCriacao;
+			emprestimos[i].j = dados[i].Juros;
+			emprestimos[i].p = dados[i].Parcelas;
+			var diff;
+			diff = parseInt(emprestimos[i].dataCriacao.substring(emprestimos[i].dataCriacao.lastIndexOf('/')+1));
+			diff = (calendario.ano - diff)*12
+			diff -= parseInt(emprestimos[i].dataCriacao.substring(emprestimos[i].dataCriacao.indexOf('/')+1, emprestimos[i].dataCriacao.lastIndexOf('/')));
+			diff += calendario.mes;
+			diff = diff <= 0 ? 0 : diff;
+			valor = (emprestimos[i].j/(1 - (1/(Math.pow(1 + emprestimos[i].j, emprestimos[i].p)))))
+			valor = valor * emprestimos[i].valorInicial * (emprestimos[i].p - diff);
+			emprestimos[i].valor = valor;
+		}
+	})
 }
 function salvar()
 {
@@ -893,6 +914,14 @@ function salvar()
 		url: 'http://' + local + ':3000/updateTotalXp/' + user.CodUsuario + '/' + xpFinal,
 		type: 'patch'
 	})
+	aux = new Object();
+	for (var i = 0; i < emprestimos.length; i++)
+	{
+		aux = emprestimos[i];
+		setTimeout(function(){
+			$.post('http://' + local + ':3000/emprestimos/' + jogo.CodJogo, aux)
+		}, 15)
+	}
 }
 function finalizarJogo()
 {

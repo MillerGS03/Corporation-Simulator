@@ -1505,7 +1505,13 @@ function Garagem()
             }));
             este.switchers[i].numeroRegistro = i;
             este.switchers[i].onswitch = function(switcher) {
-                este.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
+                if (mapa.banco.jaAbriuConta)
+                    este.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
+                else
+                {
+                    alerta("Você não tem conta corrente. Vá até o banco no mapa e abra uma!");
+                    return false;
+                }
             }
         }
         este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabelaFinancas - 210, este.y + (yTabelaFinancas - este.y + heightTabelaFinancas + este.height)/2 - 22,
@@ -1587,7 +1593,7 @@ function Produto(nome, preco)
         var marketing = getJanelaConstrucao("Marketing");
         if (marketing)
         {
-            pesoMarketingEmpresa = Math.sqrt(getJanelaConstrucao("R. Humanos").getRH().FuncionariosMarketing);
+            pesoMarketingEmpresa = Math.sqrt(getJanelaConstrucao("R. Humanos").getRH().FuncionariosMarketing) + 1;
             pesoMarketingEmpresa *= marketing.promocaoEmpresa?marketing.promocaoEmpresa + 1:1;
         }
 

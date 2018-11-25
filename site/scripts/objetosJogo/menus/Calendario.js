@@ -130,7 +130,7 @@ function Calendario()
                     this.f += numero - 1;
             }
 
-            // Paga os salários
+            pagarDespesasComAguaEEnergia();
             pagarSalarios();
 
             // Redefine o dia, o mês e possivelmente o ano
@@ -142,6 +142,14 @@ function Calendario()
                 this.ano++;
             }
             Emprestimo.atualizarValor();
+
+            estatisticas.setEconomia(calendario.fatorEconomia());
+            estatisticas.setGanhos(ganhosTotaisDoMes);
+            estatisticas.setCustos(custosTotaisDoMes);
+            estatisticas.setLucroPrejuizo(ganhosTotaisDoMes - custosTotaisDoMes);
+
+            ganhosTotaisDoMes = 0;
+            custosTotaisDoMes = 0;
         }
         if (seguirPassagemDosMeses)
         {
@@ -149,6 +157,16 @@ function Calendario()
             anoExibido = this.ano;
             comecoDoMes = diaComecoDoMes(this.mes, this.ano);
         }
+    }
+    function pagarDespesasComAguaEEnergia()
+    {
+        console.log ("pagando");
+        var garagem = getJanelaConstrucao("garagem");
+        var boostProducao = garagem? Math.log2(garagem.capacidadeProducao/100)/2:0;
+        var boostArmazem = garagem? Math.log2(garagem.capacidade/300)/2 + 0:0;
+
+        var despesasComAguaEEnergia = (itensConstruidos.length + boostProducao + boostArmazem) * 500;
+        descontar(despesasComAguaEEnergia, getMeioDePagamento("Despesas com água e energia"));
     }
 
     /**

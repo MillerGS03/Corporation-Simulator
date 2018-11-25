@@ -270,6 +270,7 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
   const Reformada = a.Reformada != null?a.Reformada:"null";
   const FreqFornecedores = a.FreqFornecedores != null?a.FreqFornecedores:2;
   const MateriaPrimaAcumulada = a.MateriaPrimaAcumulada != null?a.MateriaPrimaAcumulada:0;
+  const JaTemContaNoBanco = a.JaTemContaNoBanco != null?a.JaTemContaNoBanco:0;
 
   execSQL(`update InfoEmpresa set CapacidadeArmazem = ${CapacidadeArmazem}, PrecoUpgradeArmazem = ${PrecoUpgradeArmazem},
                                   QtdeMateriaPrima = ${QtdeMateriaPrima}, PrecoUpgradeOperacional = ${PrecoUpgradeOperacional},
@@ -277,7 +278,7 @@ rota.post('/infoEmpresa/:cod', (requisicao, resposta) => {
                                   FuncionariosProducao = ${fProd}, FuncionariosFinanceiro = ${fFin}, FuncionariosMarketing = ${fMark}, FuncionariosRH = ${fRh},
                                   PromocaoEmpresa = ${PromocaoEmpresa}, DiasRestantesPromocaoEmpresa = ${DiasRestantesPromocaoEmpresa}, 
                                   DiasTotaisPromocaoEmpresa = ${DiasTotaisPromocaoEmpresa}, Reformada = ${Reformada}, FreqFornecedores = ${FreqFornecedores},
-                                  MateriaPrimaAcumulada = ${MateriaPrimaAcumulada}
+                                  MateriaPrimaAcumulada = ${MateriaPrimaAcumulada}, JaTemContaNoBanco = ${JaTemContaNoBanco}
                                   where CodJogo=${codJogo}`, resposta);
 })
 rota.post('/emprestimos/:cod', (requisicao, resposta) => {

@@ -223,7 +223,13 @@ function Financeiro()
             }));
             este.switchers[i].numeroRegistro = i;
             este.switchers[i].onswitch = function(switcher) {
-                garagem.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
+                if (mapa.banco.jaAbriuConta)
+                    garagem.contas[switcher.numeroRegistro].efetuarNoDebito = switcher.side=="right";
+                else
+                {
+                    alerta("Você não tem conta corrente. Vá até o banco no mapa e abra uma!");
+                    return false;
+                }
             }
         }
         este.btnIrParaBanco = new BotaoRetangular(xTabelaFinancas + widthTabela - 280, este.y + (yTabelaFinancas - este.y + heightTabela + este.height)/2 - 22,

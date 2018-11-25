@@ -12,11 +12,11 @@ X Vendas
 
 Setorização:
 
-- Armazém (Construção e aumento do estoque)
-- Operacional (Construção e aumento da produção)
-- Recursos Humanos (Construção e contratação)
- * Explicar o motivo da contratação em cada área
- * Explicar provisão de funcionários
+X Armazém (Construção e aumento do estoque)
+X Operacional (Construção e aumento da produção)
+X Recursos Humanos (Construção e contratação)
+ X Explicar o motivo da contratação em cada área
+ X Explicar provisão de funcionários
 - Financeiro
  * Explicar empréstimos
 - Marketing

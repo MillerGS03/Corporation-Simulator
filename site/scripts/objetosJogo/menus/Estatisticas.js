@@ -148,28 +148,55 @@ function Estatisticas()
             else
             {
                 este.btnVoltar.desenhar();
+
+                var display = menuJogo.aberto?'none':'block';
             	switch(telaAtualE)
             	{
                     case 1:
-                        $("#15").css('display', 'block')
+                        $("#15").css('display', display);
                         chart15.render();
             		break;
                     case 2:
-                        $("#total").css('display', 'block')
+                        $("#total").css('display', display);
                         chartTotal.render();
             		break;
                     case 3:
-                        $("#economia").css('display', 'block')
+                        $("#economia").css('display', display);
                         chartEconomia.render();
             		break;
                     case 4:
-                        $("#perdaGanho").css('display', 'block')
+                        $("#perdaGanho").css('display', display);
                         chartLucroPrejuizo.render();
+                        desenharLegendasCustosGanhos();
             		break;
             	}
             }
             ctx.restore();
         }
+    }
+    function desenharLegendasCustosGanhos()
+    {
+        ctx.save();
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "black";
+        var cores = ["#41e835", "#ff2b2b", "#ffeb3a"];
+        var nomes = ["Ganhos", "Custos", "Lucros/prejuízos"];
+
+        ctx.font = "bold 16pt Century Gothic";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        for (var i = 0; i < nomes.length; i++)
+        {
+            ctx.fillStyle = cores[i];
+            ctx.fillRect(este.x + 20 + i * 155, este.y + 75, 45, 18);
+            ctx.strokeRect(este.x + 20 + i * 155, este.y + 75, 45, 18);
+
+            ctx.fillStyle = "black";
+            ctx.fillText(nomes[i], este.x + 70 + i * 155, este.y + 84);
+        }
+
+        ctx.restore();
     }
     this.abrirFechar = function() {
         this.aberto = !this.aberto;

@@ -26,37 +26,33 @@ function ItemAVender(x, y, informacoes, indice)
 
     var habilitado = false;
     var bloqueado = this.nivelMinimo > 1;
+    var garagemBloqueia = !((getJanelaConstrucao("Garagem")?true:false) || this.nome == "Garagem");
 
     this.setNivel = function(nivel)
     {
         
         var desbloqueou = bloqueado;
         bloqueado = this.nivelMinimo > nivel;
-        desbloqueou = desbloqueou != bloqueado;
-        
-        if (desbloqueou)
-        {
-            this.botaoComprar.backgroundColor = "#aaaaaa"
-            if (habilitado)
-                this.botaoComprar.ativarInteracao();
-        }
     }
 
     this.habilitar = function() 
     {
+        garagemBloqueia = !((getJanelaConstrucao("Garagem")?true:false) || this.nome == "Garagem");
+
         habilitado = true;
         this.botaoDica.ativarInteracao();
 
-        if (!bloqueado) 
+        if (!bloqueado && !garagemBloqueia) 
+        {
+            this.botaoComprar.backgroundColor = "#aaaaaa"
             this.botaoComprar.ativarInteracao();
+        }
     }
     this.desabilitar = function() 
     {
         habilitado = false;
         this.botaoDica.desativarInteracao();
-
-        if (!bloqueado)
-            this.botaoComprar.desativarInteracao();
+        this.botaoComprar.desativarInteracao();
     }
 
     var corBotaoComprar = "#aaaaaa";
@@ -127,7 +123,7 @@ function ItemAVender(x, y, informacoes, indice)
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
 
-        if (bloqueado)
+        if (bloqueado || garagemBloqueia)
         {
             ctx.globalAlpha = 0.4;
             ctx.fillRect(this.x + 25, this.y + 45, this.width - 50, 150);
@@ -137,11 +133,22 @@ function ItemAVender(x, y, informacoes, indice)
 
             ctx.font = "bold 20pt Century Gothic";
             ctx.fillStyle = "#2dd1ed";
-            ctx.fillText("Nível mínimo:", this.x + this.width/2, this.y + 60, this.width - 5);
-            ctx.strokeText("Nível mínimo:", this.x + this.width/2, this.y + 60, this.width - 5);
-            ctx.font = "bold 34pt Century Gothic";
-            ctx.fillText(this.nivelMinimo, this.x + this.width/2, this.y + 90, this.width - 5);
-            ctx.strokeText(this.nivelMinimo, this.x + this.width/2, this.y + 90, this.width - 5);
+            if (bloqueado)
+            {
+                ctx.fillText("Nível mínimo:", this.x + this.width/2, this.y + 60, this.width - 5);
+                ctx.strokeText("Nível mínimo:", this.x + this.width/2, this.y + 60, this.width - 5);
+                ctx.font = "bold 34pt Century Gothic";
+                ctx.fillText(this.nivelMinimo, this.x + this.width/2, this.y + 90, this.width - 5);
+                ctx.strokeText(this.nivelMinimo, this.x + this.width/2, this.y + 90, this.width - 5);
+            }
+            else
+            {
+                ctx.fillText("Construa a", this.x + this.width/2, this.y + 60, this.width - 5);
+                ctx.strokeText("Construa a", this.x + this.width/2, this.y + 60, this.width - 5);
+                ctx.font = "bold 29pt Century Gothic";
+                ctx.fillText("Garagem!", this.x + this.width/2, this.y + 90, this.width - 5);
+                ctx.strokeText("Garagem!", this.x + this.width/2, this.y + 90, this.width - 5);
+            }
             ctx.fillStyle = "black";
         }
         

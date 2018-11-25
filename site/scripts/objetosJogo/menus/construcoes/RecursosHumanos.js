@@ -260,7 +260,7 @@ function RecursosHumanos()
 
         preco = 2000 * capacitacao
         este.btnContratarRh.text = fRh>=10?'--':formatarDinheiro(preco)
-        este.btnDemitirRh.text = fRh>0?formatarDinheiro(ppreco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--'
+        este.btnDemitirRh.text = fRh>0?formatarDinheiro(preco * ((calendario.dia)/calendario.qtosDiasTemOMes[calendario.mes-1] + 1)):'--'
     }
     function colocarDados()
     {
@@ -308,7 +308,9 @@ function RecursosHumanos()
     {
         var atual = eval(txt);
         if (atual >= 10)
-            alerta('Número máximo de funcionários atingido.')
+            alerta('Número máximo de funcionários atingido na área.');
+        else if (funcionarios >= 5 * fRh && txt != 'fRh')
+            alerta('Você precisa de mais funcionários do RH para contratar em outras áreas!');
         else
             fazerCompra('Contratação', 2000 * capacitacao, false, true, 0, function(){eval(txt + "=" + ++atual)})
     }
@@ -369,6 +371,6 @@ function pagarSalarios()
     if (rh)
     {
         var salario = rh.calcularSalario() * 1.314;
-        barra.dinheiro -= salario;
+        descontar(salario, 0);
     }
 }

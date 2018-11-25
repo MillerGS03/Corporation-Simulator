@@ -39,8 +39,11 @@ function Switcher(informacoes)
                                      "#959595", "#adadad", null, null, "", "", "", false, false, false);
     this.botao.onclick = function() {
         este.side = este.side=="left"?"right":"left";
-        este.onswitch(este);
-        atualizarDeslocamento();
+        var permitirSwitch = este.onswitch(este) == null?true:este.onswitch(este);
+        if (permitirSwitch)
+            atualizarDeslocamento();
+        else
+            este.side = este.side=="left"?"right":"left";
     }
 
     function atualizarDeslocamento()

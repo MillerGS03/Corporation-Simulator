@@ -564,7 +564,7 @@ function Banco(x, y)
                     esteB.jaAbriuConta = true;
                     esteB.ativar();
                     esteB.btnContaCorrente.text = "Conta corrente";
-                    esteB.btnContaCorrente.x = esteB.x + (800 - esteB.btnContaCorrente.width)/2
+                    esteB.btnContaCorrente.x = esteB.x + (800 - esteB.btnContaCorrente.width)/2;
                 })
             }
         }
@@ -572,8 +572,7 @@ function Banco(x, y)
             abertoModalidade = 1;
             esteB.ativar();
         }
-        esteB.btnContaCorrente = new BotaoRetangular(esteB.x + 95, esteB.y + 290, 270, 50,
-                                                    {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+        esteB.btnContaCorrente = new BotaoRetangular(esteB.x + 95, esteB.y + 290, 270, 50, 10,
                                                     270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                     (esteB.jaAbriuConta)?"Conta corrente":"Abrir conta corrente", false, false, false);
         esteB.btnContaCorrente.onclick = function() {
@@ -582,8 +581,7 @@ function Banco(x, y)
             else
                 funcCriarCCorrente();
         }
-        esteB.btnEmprestimos = new BotaoRetangular(esteB.x + 265, esteB.y + 375, 270, 50,
-                                                  {upperLeft: 10, upperRight: 10, lowerLeft: 10, lowerRight: 10},
+        esteB.btnEmprestimos = new BotaoRetangular(esteB.x + 265, esteB.y + 375, 270, 50, 10,
                                                   270, 50, "gray", "#a3a3a3", null, null, "16pt Century Gothic", "white",
                                                   "Visualizar empréstimos", false, false, false);
         esteB.btnEmprestimos.onclick = function(){
@@ -641,8 +639,13 @@ function Banco(x, y)
         switch (abertoModalidade)
         {
             case 0:
+                if (this.jaAbriuConta)
+                {
+                    this.btnContaCorrente.text = "Conta corrente";
+                    this.btnContaCorrente.x = esteB.x + (800 - esteB.btnContaCorrente.width)/2;
+                    this.btnEmprestimos.ativarInteracao();
+                }
                 this.btnContaCorrente.ativarInteracao();
-                this.btnEmprestimos.ativarInteracao();
                 break;
             case 1:
                 ativarTeclado();

@@ -196,6 +196,8 @@ function ItemConstruido(informacoes, isPrimeiro)
                     if (tinhaTodos != testarSeTemTodosNecessariosParaUpgrade())
                         painelNotificacoes.adicionarNotificacao("Reforma disponível!", "Transforme sua garagem em algo a mais!",
                                                                 calendario.dia, calendario.mes, calendario.ano);
+                    if (getMeioDePagamento("Despesas com água e energia") == null)
+                        getJanelaConstrucao("Garagem").contas.push(new Conta("Despesas com água e energia", "Gastos mensais"));
                 }
             })
         }
@@ -236,7 +238,7 @@ function ItemConstruido(informacoes, isPrimeiro)
                 if (itens[i] != este)
                 {
                     var distX = distanciaX(itens[i]);
-                    if (distX <= coordenadaMaisProxima.distancia && distX > 0)
+                    if (distX <= coordenadaMaisProxima.distancia && distX > 0 && distX < este.width + 150)
                     {
                         novoSustentador = itens[i].nome;
                         coordenadaMaisProxima.distancia = distX;
@@ -247,7 +249,7 @@ function ItemConstruido(informacoes, isPrimeiro)
                         coordenadaMaisProxima.y = -1;
                     }
                     var distY = distanciaY(itens[i]);
-                    if (distY < coordenadaMaisProxima.distancia && distY > 0)
+                    if (distY < coordenadaMaisProxima.distancia && distY > 0 && distY < este.height + 150)
                     {
                         novoSustentador = itens[i].nome;
                         coordenadaMaisProxima.distancia = distY;

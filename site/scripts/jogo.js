@@ -79,7 +79,6 @@ var nomeItemEmConstrucao = null;
 var fatorEscala = 1;
 var emprestimos = [];
 
-// Sons:
 var musicas = ["musicas/airtone_-_backwaters.ogg", "musicas/rewob_-_A_White_Dream.ogg"];
 var musica = document.createElement("audio");
 var timeoutMusica;
@@ -142,27 +141,6 @@ function iniciar()
 	}
 	redimensionarCanvas();
 	window.addEventListener("resize", redimensionarCanvas);
-
-	barra = new BarraSuperior();
-	barra.onNivelMudou = function() {
-		construcao.setNivel(barra.nivel);
-	}
-	painelNotificacoes = new PainelNotificacoes();
-
-	mapa = new Mapa();
-	calendario = new Calendario();
-	estatisticas = new Estatisticas();
-	construcao = new Construcao();
-
-	tutorial = new Tutorial();
-	menuJogo = new MenuJogo();
-	$(document).on("keydown", function(e) {
-		if (e.keyCode == 27)
-			menuJogo.abrirFechar();
-	})
-
-	rua = new Rua();
-	rua.iniciarMovimentacao(true);
 
 	carregarDados();
 
@@ -385,14 +363,7 @@ function passarDia()
 	calendario.passarDia();
 	barra.atualizarDia(calendario.dia);
 	estatisticas.adicionarValor(barra.dinheiro);
-	estatisticas.setEconomia(calendario.fatorEconomia());
-	estatisticas.setCustos(mapa.custoTotal());
-	estatisticas.setGanhos(mapa.ganhoTotal());
-	var l = mapa.ganhoTotal() - mapa.custoTotal();
-	l = (l<0?(l*(-1)):l)
-	estatisticas.setLucroPrejuizo(l);
 	mapa.passarDia();
-
 	var garagem = getJanelaConstrucao("Garagem");
 	if (garagem)
 		garagem.passarDia();
@@ -411,6 +382,26 @@ function getJanelaConstrucao(nome)
 			return itensConstruidos[i].menu.janela;
 
 	return false;
+}
+
+/**
+ * Retorna o meio de pagamento de uma conta.
+ * @param {string} conta Nome da conta cujo meio de pagamento será retornado.
+ * @return 0 -> Débito, 1 -> Caixa, null -> Conta não encontrada.
+ */
+function getMeioDePagamento(conta)
+{
+	var garagem = getJanelaConstrucao("Garagem");
+	
+	if (garagem)
+	{
+		for (var i = 0; i < garagem.contas.length; i++)
+			if (garagem.contas[i].nome == conta)
+				return garagem.contas[i].efetuarNoDebito?1:0;
+		return null;
+	}
+	else
+		return null;
 }
 
 /**
@@ -439,7 +430,14 @@ function receber(valor, destino)
 		barra.dinheiro += valor;
 	else if (destino == 1)
 		mapa.banco.saldo += valor;
+
+	ganhosTotaisDoMes += valor;
 }
+
+
+var custosTotaisDoMes = 0;
+var ganhosTotaisDoMes = 0;
+
 /**
  * Desconta o valor pedido do meio de pagamento especificado
  * @param {number} valor 
@@ -451,6 +449,8 @@ function descontar(valor, meioDePagamento)
 		barra.dinheiro -= valor;
 	else if (meioDePagamento == 1)
 		mapa.banco.saldo -= valor;	
+
+	custosTotaisDoMes += valor;
 }
 /**
  * Recebe um valor inteiro e retorna uma string no formato $xxxx,xx.
@@ -572,6 +572,28 @@ function carregarDados()
 {
 	itensConstruidos = new Array();
 	botoes = new Array();
+
+	barra = new BarraSuperior();
+	barra.onNivelMudou = function() {
+		construcao.setNivel(barra.nivel);
+	}
+	painelNotificacoes = new PainelNotificacoes();
+
+	mapa = new Mapa();
+	calendario = new Calendario();
+	estatisticas = new Estatisticas();
+	construcao = new Construcao();
+
+	tutorial = new Tutorial();
+	menuJogo = new MenuJogo();
+	$(document).on("keydown", function(e) {
+		if (e.keyCode == 27)
+			menuJogo.abrirFechar();
+	})
+
+	rua = new Rua();
+	rua.iniciarMovimentacao(true);
+
 	var aux = jogo.Data;
 	var ano = parseInt(aux.substring(6));
 	var mes = parseInt(aux.substring(3, 5));
@@ -633,111 +655,117 @@ function carregarDados()
 		}).done(function(dados){
 			var infoJogo = dados[0];
 
-			mapa.fornecedores.osFrequenciaEntrega.indiceOpcaoAtual = infoJogo.FreqFornecedores;
-			mapa.fornecedores.materiaPrimaAcumulada = infoJogo.MateriaPrimaAcumulada;
-
-			var armazem = getJanelaConstrucao("Armazém");
-
-			/**
-			 * @type {Garagem}
-			 */
-			var garagem = getJanelaConstrucao("Garagem");
-			var operacional = getJanelaConstrucao("Operacional");
-			var rh = getJanelaConstrucao('R. Humanos');
-			var marketing = getJanelaConstrucao("Marketing");
-
-			if (armazem)
+			if (infoJogo)
 			{
-				if (infoJogo.CapacidadeArmazem != null)
-					armazem.capacidade = infoJogo.CapacidadeArmazem;
-				if (infoJogo.PrecoUpgradeArmazem != null)
-					armazem.precoUpgrade = infoJogo.PrecoUpgradeArmazem;
-			}
-			if (garagem)
-			{
-				var produtosCarregados = false;
-				var contasCarregadas = false;
-				if (infoJogo.QtdeMateriaPrima != null)
-					garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima;
-				if (infoJogo.CapacidadeProducao != null)
-					garagem.capacidadeProducao = infoJogo.CapacidadeProducao;
-				if (infoJogo.Reformada != null)
+				mapa.banco.jaAbriuConta = infoJogo.JaTemContaNoBanco == 1?true:false;
+				mapa.fornecedores.osFrequenciaEntrega.indiceOpcaoAtual = infoJogo.FreqFornecedores;
+				mapa.fornecedores.materiaPrimaAcumulada = infoJogo.MateriaPrimaAcumulada;
+
+				var armazem = getJanelaConstrucao("Armazém");
+
+				/**
+				 * @type {Garagem}
+				 */
+				var garagem = getJanelaConstrucao("Garagem");
+				var operacional = getJanelaConstrucao("Operacional");
+				var rh = getJanelaConstrucao('R. Humanos');
+				var marketing = getJanelaConstrucao("Marketing");
+
+				if (armazem)
 				{
-					garagem.reformada = infoJogo.Reformada==1;
-					if (garagem.reformada)
-						garagem.reformar();
+					if (infoJogo.CapacidadeArmazem != null)
+						armazem.capacidade = infoJogo.CapacidadeArmazem;
+					if (infoJogo.PrecoUpgradeArmazem != null)
+						armazem.precoUpgrade = infoJogo.PrecoUpgradeArmazem;
 				}
-				$.ajax({
-					url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo
-				}).done(function(produtos){
-					for (var i = 0; i < produtos.length; i++)
+				if (garagem)
+				{
+					var produtosCarregados = false;
+					var contasCarregadas = false;
+					if (infoJogo.QtdeMateriaPrima != null)
+						garagem.qtdeMateriaPrima = infoJogo.QtdeMateriaPrima;
+					if (infoJogo.CapacidadeProducao != null)
+						garagem.capacidadeProducao = infoJogo.CapacidadeProducao;
+					if (infoJogo.Reformada != null)
 					{
-						var produto = new Produto(produtos[i].Nome, produtos[i].Preco);
-						produto.qtdeEmEstoque = produtos[i].QuantidadeEmEstoque;
-						produto.diasRestantes = produtos[i].DiasRestantes;
-						produto.dataDeCriacao = produtos[i].DataDeCriacao;
-						produto.status = produtos[i].Status;
-						produto.qualidade = produtos[i].Qualidade;
-						produto.producao = produtos[i].Producao;
-						produto.totalDeVendas = produtos[i].TotalDeVendas;
-						produto.fatorMarketing = produtos[i].fatorMarketing;
-
-						garagem.produtos.push(produto);
-						garagem.txtsProducao[i].text = produto.producao + "";
-
-						if (produto.status != 1)
+						garagem.reformada = infoJogo.Reformada==1;
+						if (garagem.reformada)
+							garagem.reformar();
+					}
+					$.ajax({
+						url: 'http://' + local + ':3000/produtos/' + jogo.CodJogo
+					}).done(function(produtos){
+						for (var i = 0; i < produtos.length; i++)
 						{
-							garagem.txtNome.text = produto.nome;
-							garagem.txtPreco.text = produto.preco + "";
+							var produto = new Produto(produtos[i].Nome, produtos[i].Preco);
+							produto.qtdeEmEstoque = produtos[i].QuantidadeEmEstoque;
+							produto.diasRestantes = produtos[i].DiasRestantes;
+							produto.dataDeCriacao = produtos[i].DataDeCriacao;
+							produto.status = produtos[i].Status;
+							produto.qualidade = produtos[i].Qualidade;
+							produto.producao = produtos[i].Producao;
+							produto.totalDeVendas = produtos[i].TotalDeVendas;
+							produto.fatorMarketing = produtos[i].fatorMarketing;
+
+							garagem.produtos.push(produto);
+							garagem.txtsProducao[i].text = produto.producao + "";
+
+							if (produto.status != 1)
+							{
+								garagem.txtNome.text = produto.nome;
+								garagem.txtPreco.text = produto.preco + "";
+							}
+
+							if (operacional)
+								operacional.txtsProducao[i].text = produto.producao + "";
+						}
+						if (operacional && infoJogo.PrecoUpgradeOperacional != null)
+							operacional.precoUpgrade = infoJogo.PrecoUpgradeOperacional;
+
+						if (marketing)
+						{
+							marketing.promocaoEmpresa = infoJogo.PromocaoEmpresa;
+							marketing.diasRestantesPromocaoEmpresa = infoJogo.DiasRestantesPromocaoEmpresa;
+							marketing.diasTotaisPromocaoEmpresa = infoJogo.DiasTotaisPromocaoEmpresa;
 						}
 
-						if (operacional)
-							operacional.txtsProducao[i].text = produto.producao + "";
-					}
-					if (operacional && infoJogo.PrecoUpgradeOperacional != null)
-						operacional.precoUpgrade = infoJogo.PrecoUpgradeOperacional;
+						produtosCarregados = true;
+						if (contasCarregadas)
+						{
+							carregado = true;
+							ativarBotoes();
+						}
+					})
+					$.ajax({
+						url: 'http://' + local + ':3000/contasJogo/' + jogo.CodJogo
+					}).done(function(contas){
+						for (var i = 0; i < contas.length; i++)
+						{
+							var conta = new Conta(contas[i].Nome, contas[i].Classificacao);
+							conta.efetuarNoDebito = contas[i].EfetuarNoDebito==1;
+							garagem.contas.push(conta);
+							garagem.switchers[i].side = conta.efetuarNoDebito?"right":"left";
+							garagem.switchers[i].deslocamento = conta.efetuarNoDebito?100:0;
+						}
 
-					if (marketing)
-					{
-						marketing.promocaoEmpresa = infoJogo.PromocaoEmpresa;
-						marketing.diasRestantesPromocaoEmpresa = infoJogo.DiasRestantesPromocaoEmpresa;
-						marketing.diasTotaisPromocaoEmpresa = infoJogo.DiasTotaisPromocaoEmpresa;
-					}
-
-					produtosCarregados = true;
-					if (contasCarregadas)
-					{
-						carregado = true;
-						ativarBotoes();
-					}
-				})
-				$.ajax({
-					url: 'http://' + local + ':3000/contasJogo/' + jogo.CodJogo
-				}).done(function(contas){
-					for (var i = 0; i < contas.length; i++)
-					{
-						var conta = new Conta(contas[i].Nome, contas[i].Classificacao);
-						conta.efetuarNoDebito = contas[i].EfetuarNoDebito==1;
-						garagem.contas.push(conta);
-						garagem.switchers[i].side = conta.efetuarNoDebito?"right":"left";
-						garagem.switchers[i].deslocamento = conta.efetuarNoDebito?100:0;
-					}
-
-					contasCarregadas = true;
-					if (produtosCarregados)
-					{
-						carregado = true;
-						ativarBotoes();
-					}
-				})
+						contasCarregadas = true;
+						if (produtosCarregados)
+						{
+							carregado = true;
+							ativarBotoes();
+						}
+					})
+				}
+				else
+				{
+					carregado = true;
+					ativarBotoes();
+				}
+				if (rh)
+					rh.setRH(infoJogo)
 			}
 			else
-			{
 				carregado = true;
-				ativarBotoes();
-			}
-			if (rh)
-				rh.setRH(infoJogo)
 		})
 		xpInicial = jogo.XP;
 	})
@@ -745,7 +773,7 @@ function carregarDados()
 
 	if (jogo.Caixa == -1)
 	{
-		barra.dinheiro = 80000;
+		barra.dinheiro = 25000;
 		tutorial.abrirFechar();
 	}
 	else
@@ -905,6 +933,7 @@ function salvar()
 	}
 	if (rh)
 		jQuery.extend(atualizar, rh.getRH())
+	atualizar.JaTemContaNoBanco = mapa.banco.jaAbriuConta?1:0;
 
 	$.post('http://' + local + ':3000/infoEmpresa/' + jogo.CodJogo, atualizar);
 

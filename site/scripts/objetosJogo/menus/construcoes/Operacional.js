@@ -111,7 +111,7 @@ function Operacional()
         
         ctx.textAlign = "left";
         ctx.font = "22pt Century Gothic";
-        ctx.fillText(`${garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1}u/dia`, este.x + 570, este.y + 105);
+        ctx.fillText(`${garagem.capacidadeProducao * (rh?rh.getRH().FuncionariosProducao + 1:1)}u/dia`, este.x + 570, este.y + 105);
 
         ctx.textBaseline = "top";
         ctx.textAlign = "center";
@@ -183,7 +183,7 @@ function Operacional()
         for (var i = 0; i < produtos.length; i++)
             valores.push(produtos[i].producao);
         
-        var total = garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1;
+        var total = garagem.capacidadeProducao * (rh?rh.getRH().FuncionariosProducao + 1:1);
 
         desenharGraficoPizza(raio, xCentro, yCentro, valores, total, coresProducao, corBase);
         
@@ -192,7 +192,7 @@ function Operacional()
 
     function calcularProducaoDisponivel()
     {
-        var producaoDisponivel = garagem.capacidadeProducao * rh?rh.getRH().FuncionariosProducao:1;
+        var producaoDisponivel = garagem.capacidadeProducao * (rh?rh.getRH().FuncionariosProducao + 1:1);
         for (var i = 0; i < produtos.length; i++)
             producaoDisponivel -= parseInt(este.txtsProducao[i].text);
         return producaoDisponivel;

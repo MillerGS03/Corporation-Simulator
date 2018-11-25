@@ -59,7 +59,7 @@ function Tutorial()
 
         ctx.textAlign = "left";
         ctx.font = "bold 18pt Century Gothic";
-        ctx.fillText(`Você acaba de abrir uma empresa com um capital de ${formatarDinheiro(barra.dinheiro)}.`, este.x + 50, este.y + 220, este.width - 50);
+        ctx.fillText(`Você acaba de abrir uma empresa com o capital de ${formatarDinheiro(barra.dinheiro)}.`, este.x + 50, este.y + 220, este.width - 50);
         if (user.Nome.length + jogo.Nome.length > 35)
         {
             ctx.fillText(`Agora, ${user.Nome}, você é o CEO da empresa`, este.x + 20, este.y + 250, este.width - 20);
@@ -131,6 +131,12 @@ function Tutorial()
             }
         }),
         new Pagina("Primeiros passos", function() {
+            ctx.textAlign = "center";
+            ctx.font = "bold 22pt Arial";
+            ctx.fillText("Primeiros Passos", este.x + este.width/2, este.y + 95);
+
+            ctx.textAlign = "left";
+            ctx.font = "bold 17pt Arial";
             ctx.fillText("Parabéns, você criou uma empresa! Agora você precisa entender", este.x + 40, este.y + 130);
             ctx.fillText("algumas coisas para começar a vender produtos e fazer sucesso.", este.x + 15, este.y + 158);
 
@@ -277,7 +283,168 @@ function Tutorial()
             
             ctx.drawImage(imgTutVendas, este.x + (este.width - 600)/2, este.y + 171);
         }),
-        new Pagina("Setorização", function() {}, function() {}, function() {}),
+        new Pagina("Setorização", function() {
+            ctx.textAlign = "center";
+            ctx.font = "bold 22pt Arial";
+            ctx.fillText("Setorização", este.x + este.width/2, este.y + 95);
+            
+            ctx.textAlign = "left";
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Até agora você já fez várias coisas na garagem, mas dá pra fazer bem", este.x + 40, este.y + 135);
+            ctx.fillText("mais se você construir áreas especializadas na empresa, aumentando o", este.x + 15, este.y + 163);
+            ctx.fillText("espaço e a eficiência. Por exemplo, a garagem é muito pequena, não", este.x + 15, este.y + 191);
+            ctx.fillText("permite estocar muito. Para isso você pode construir um armazém.", este.x + 15, este.y + 219);
+
+            ctx.drawImage(imgTutConstrucoesArmazem, este.x + 100, este.y + 262);
+            ctx.drawImage(imgTutArmazemConstruido, este.x + este.width - 327 - 100, este.y + 234);
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(este.x + este.width - 327 - 100, este.y + 234, 327, 298);
+        }, function() {}, function() {}),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Com o armazém você pode gerenciar melhor seu estoque, tendo uma", este.x + 40, este.y + 100);
+            ctx.fillText("melhor visualização de problemas como espaço insuficiente, produtos", este.x + 15, este.y + 128);
+            ctx.fillText("acumulando ou muita matéria-prima para pouca produção. Além disso,", este.x + 15, este.y + 156);
+            ctx.fillText("é possível aumentar a capacidade de estocagem.", este.x + 15, este.y + 184);
+
+            ctx.drawImage(imgTutArmazemAberto, este.x + (este.width - 420)/2, este.y + 199);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Conforme você avança no jogo, cria produtos melhores, contrata", este.x + 40, este.y + 100);
+            ctx.fillText("mais fornecedores e consegue maior capacidade de estocagem, você", este.x + 15, este.y + 128);
+            ctx.fillText("pode acabar se deparando com a seguinte barreira: a matéria-prima não", este.x + 15, este.y + 156);
+            ctx.fillText("está sendo convertida em produtos tão rápido quanto gostaria. Para", este.x + 15, este.y + 184);
+            ctx.fillText("contornar isso, você pode comprar o setor operacional.", este.x + 15, este.y + 212);
+
+            var padding = 80;
+
+            ctx.drawImage(imgTutConstrucoesOperacional, este.x + padding, este.y + 255);
+            ctx.drawImage(imgTutOperacionalConstruido, este.x + este.width - 418 - padding, este.y + 227)
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(este.x + este.width - 418 - padding, este.y + 227, 418, 298);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Assim como no armazém, aqui você também pode fazer upgrades se", este.x + 40, este.y + 100);
+            ctx.fillText("quiser maior capacidade de produção.", este.x + 15, este.y + 128);
+
+            ctx.drawImage(imgTutOperacionalAberto, este.x + (este.width - 580)/2, este.y + 143);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Você tem administrado uma empresa sozinho. Não é assim que você", este.x + 40, este.y + 100);
+            ctx.fillText("vai crescer. Por que não constrói o setor dos recursos humanos?", este.x + 15, este.y + 128);
+
+            var padding = 80;
+
+            ctx.drawImage(imgTutConstrucoesRH, este.x + padding, este.y + 191);
+            ctx.drawImage(imgTutRHConstruido, este.x + este.width - 418 - padding, este.y + 163);
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(este.x + este.width - 418 - padding, este.y + 163, 418, 298);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            ctx.fillText("Aqui você pode contratar funcionários em diversas áreas de sua", este.x + 40, este.y + 100);
+            ctx.fillText("empresa. Você também pode treiná-los para melhorar suas habilidades", este.x + 15, este.y + 128);
+            ctx.fillText("e consequentemente a qualidade de seus trabalhos.", este.x + 15, este.y + 156);
+
+            ctx.drawImage(imgTutRHAberto, este.x + (este.width - 580)/2, este.y + 171);
+        }),
+        new Pagina("", function () {
+            ctx.textAlign = "center";
+            ctx.font = "bold 20pt Arial";
+            ctx.fillText("Limites de contratação", este.x + este.width/2, este.y + 94);
+
+            ctx.textAlign = "left";
+            ctx.font = "bold 17pt Arial";
+            var texto = ["Há algumas coisas para entender sobre o RH. Primeiro, você deve ter",
+                         "gente trabalhando lá para conseguir contratar e gerenciar funcionários",
+                         "de outras áreas. Por isso, as primeiras contratações a serem feitas são",
+                         "para os recursos humanos. Para ser mais técnico, pelo menos 1/5 dos",
+                         "seus funcionários devem trabalhar lá."];
+
+            var yFinal = escreverPadrao(texto, este.y + 130, 28);
+
+            texto = ["Outro limite é a quantidade de funcionários por área. Não tem como",
+                     "colocar mais de 10 funcionários em salas pequenas como as suas."]
+            
+            yFinal = escreverPadrao(texto, yFinal + 30, 28);
+
+            ctx.textAlign = "center";
+            ctx.font = "bold 20pt Arial";
+            ctx.fillText("Atuação dos funcionários", este.x + este.width/2, yFinal + 36);
+
+            ctx.textAlign = "left";
+            ctx.font = "bold 17pt Arial";
+
+            texto = ["Desenvolvimento: trabalham na criação de produtos. Contratando-os",
+                     "você pode aumentar a qualidade de um produto e, assim, as vendas. No",
+                     "entanto, só é possível tê-los quando a garagem estiver toda desocupada",
+                     "e reformada."];
+            yFinal = escreverPadrao(texto, yFinal + 72, 28);
+
+            texto = ["Produção: aumentam a sua capacidade de transformar matéria-prima",
+                     "em produtos."];
+            escreverPadrao(texto, yFinal + 28, 28);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+
+            var texto = ["Finanças: aumentam sua chance de conseguir empréstimos no banco.",
+                         "Esses empréstimos serão detalhados mais para frente, mas o fato é que",
+                         "nunca se sabe quando a economia vai quebrar e as vendas vão para o",
+                         "buraco. Por isso é sempre bom ter alguns com você."];
+            var yFinal = escreverPadrao(texto, este.y + 100, 28);
+
+            texto = ["Marketing: com eles suas vendas aumentam e suas campanhas publicitárias,",
+                     "que serão explicadas ainda neste capítulo, podem ter maior qualidade."];
+            yFinal = escreverPadrao(texto, yFinal + 28, 28);
+
+            texto = ["Recursos Humanos: permitem que você contrate funcionários nas outras",
+                     "áreas."];
+            yFinal = escreverPadrao(texto, yFinal + 28, 28);
+
+            ctx.textAlign = "center";
+            ctx.font = "bold 20pt Arial";
+            ctx.fillText("Provisão de funcionários", este.x + este.width/2, yFinal + 36);
+
+            ctx.textAlign = "left";
+            ctx.font = "bold 17pt Arial";
+            texto = ["O salário não é a única despesa que uma empresa tem com funcionários.",
+                     "Esses gastos não são sempre feitos todo mês, mas muitas empresas têm a",
+                     "prática de sempre separá-los, pois uma hora ou outra serão necessários.",
+                     "Por isso, todo mês há um desconto dos salários mais cerca de 31,4% sobre",
+                     "eles. Esse percentual é calculado da maneira descrita na página seguinte."];
+            yFinal = escreverPadrao(texto, yFinal + 72, 28);
+
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+
+            var texto = ["Mensalmente:",
+                         " - Férias: 1/12 do salário",
+                         " - 1/3 sobre Férias: 1/36 do salário",
+                         " - 13° Salário: 1/12 do salário",
+                         " - FGTS: 8% (2/25) do salário",
+                         " - Multa do FGTS: 4% (1/25) do salário"];
+            var yFinal = escreverPadrao(texto, este.y + 210, 28);
+
+            ctx.font = "bold 19pt Arial";
+            ctx.fillText("Total: ~31,4% do salário", este.x + 15, yFinal + 28);
+
+            ctx.drawImage(imgTutInformacoesRH, este.x + este.width - 350 - 15, este.y + 100);
+            
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "black";
+            ctx.strokeRect(este.x + este.width - 350 - 15, este.y + 100, 350, 372);
+        }),
         new Pagina("Explosão de vendas", function() {}, function() {}, function() {}),
         new Pagina("Expansão", function() {}, function() {}, function() {})
     ];
@@ -319,6 +486,20 @@ function Tutorial()
         ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
         ctx.font = "bold 18pt Arial";
+    }
+
+    /**
+     * Escreve um parágrafo.
+     * @param {Array<string>} linhas
+     * @param {number} yInicial
+     * @param {number} espacamento
+     * @return Coordenada y da última linha escrita.
+     */
+    function escreverPadrao(linhas, yInicial, espacamento)
+    {
+        for (var i = 0; i < linhas.length; i++)
+            ctx.fillText(linhas[i], este.x + (i==0?40:15), yInicial + espacamento * i, este.width - (i==0?45:20));
+        return yInicial + (linhas.length - 1) * espacamento;
     }
     function desenharSetaParaOBotao(botao)
     {

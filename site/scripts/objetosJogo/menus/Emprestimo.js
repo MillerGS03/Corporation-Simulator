@@ -19,7 +19,7 @@ Emprestimo.atualizarValor = function()
     {
         valor = Emprestimo.calcularMensal(emprestimos[i])
         emprestimos[i].valor -= valor;
-        barra.dinheiro -= valor;
+        descontar(valor, 0);
         if (emprestimos[i].valor <= 0)
             Emprestimo.excluirEmprestimo(i)
     }
@@ -83,7 +83,6 @@ function Emprestimo(b)
     function tentarEmprestimo()
     {
         var ret = chance();
-        console.log(ret)
         if (ret >= 30)
         {
             var aux = new Object();
@@ -93,7 +92,7 @@ function Emprestimo(b)
             aux.p = nParcelas[este.parcelas.indiceOpcaoAtual];
             aux.valor = Emprestimo.calcularMensal(aux) * aux.p;
             aux.indice = emprestimos.length;
-            barra.dinheiro += aux.valorInicial;
+            receber(aux.valorInicial, 0);
             emprestimos.push(aux);
             if (emprestimos.length < 5 && b != null)
             {
@@ -136,6 +135,8 @@ function Emprestimo(b)
         este.txtValor.ativarInteracao();
         este.parcelas.ativarInteracao();
         aberto = true;
+
+        este.txtValor.maxvalue = Math.abs(barra.dinheiro * 2);
     }
     this.desativar = function()
     {
@@ -160,7 +161,7 @@ function Emprestimo(b)
         ctx.textAlign = 'center';
         ctx.font = '15pt Century Gothic';
         ctx.fillStyle = 'green'
-        ctx.fillText('Valor máximo: ' + formatarDinheiro(barra.dinheiro*2), canvas.width/2, 325)
+        ctx.fillText('Valor máximo: ' + formatarDinheiro(Math.abs(barra.dinheiro*2)), canvas.width/2, 325)
         ctx.fillStyle = 'darkred';
         var aux = {
             j: calcularJuros(),
@@ -192,8 +193,8 @@ function Emprestimo(b)
     {
         var v = 0;
         var valorDoEmprestimo = isNaN(parseInt(este.txtValor.text))?0:parseInt(este.txtValor.text);
-        var nFinanceiro = getJanelaConstrucao('R. Humanos')?getJanelaConstrucao('R. Humanos').fFin:1;
-        v = Math.sqrt(calendario.f) * Math.pow(barra.nivel, 3) * Math.pow(nFinanceiro, 2) * Math.pow(valorDoEmprestimo, -1/3)
+        var nFinanceiro = getJanelaConstrucao('R. Humanos')?getJanelaConstrucao('R. Humanos').fFin + 1:1;
+        v = Math.sqrt(calendario.f + 1) * Math.pow(barra.nivel, 3) * Math.pow(nFinanceiro, 2) * Math.pow(valorDoEmprestimo, -1/3)
         return v;
     }
 }

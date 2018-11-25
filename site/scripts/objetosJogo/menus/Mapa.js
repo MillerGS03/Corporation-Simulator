@@ -280,13 +280,6 @@ function Mapa()
         this.industria.setEconomia(fator);
         this.comercio.setEconomia(fator);
     }
-
-    this.custoTotal = function() {
-        return 0;
-    };
-    this.ganhoTotal = function() {
-        return 0;
-    };
     this.numeroFranquias = function() {
         return este.comercio.franquias;
     }

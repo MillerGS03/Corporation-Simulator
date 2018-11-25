@@ -59,6 +59,16 @@ var imgTutTelaContratarFornecedores = new Image();
 var imgTutTelaFornecedores = new Image();
 var imgTutProducao = new Image();
 var imgTutVendas = new Image();
+var imgTutConstrucoesArmazem = new Image();
+var imgTutArmazemConstruido = new Image();
+var imgTutArmazemAberto = new Image();
+var imgTutConstrucoesOperacional = new Image();
+var imgTutOperacionalConstruido = new Image();
+var imgTutOperacionalAberto = new Image();
+var imgTutConstrucoesRH = new Image();
+var imgTutRHConstruido = new Image();
+var imgTutRHAberto = new Image();
+var imgTutInformacoesRH = new Image();
 
 imgPaginaAnterior.src = "imagens/funcionalidades/setaEsquerdaMenor.png";
 imgPaginaAnteriorHover.src = "imagens/funcionalidades/setaEsquerda.png";
@@ -83,6 +93,16 @@ imgTutTelaContratarFornecedores.src = "imagens/tutorial/telaContratacaoFornecedo
 imgTutTelaFornecedores.src = "imagens/tutorial/telaFornecedores.png";
 imgTutProducao.src = "imagens/tutorial/producao.png";
 imgTutVendas.src = "imagens/tutorial/vendas.png";
+imgTutConstrucoesArmazem.src = "imagens/tutorial/construcoesArmazem.png";
+imgTutArmazemConstruido.src = "imagens/tutorial/armazemConstruido.png";
+imgTutArmazemAberto.src = "imagens/tutorial/armazemAberto.png";
+imgTutConstrucoesOperacional.src = "imagens/tutorial/construcoesOperacional.png";
+imgTutOperacionalConstruido.src = "imagens/tutorial/operacionalConstruido.png";
+imgTutOperacionalAberto.src = "imagens/tutorial/operacionalAberto.png";
+imgTutConstrucoesRH.src = "imagens/tutorial/construcoesRH.png";
+imgTutRHConstruido.src = "imagens/tutorial/rhConstruido.png";
+imgTutRHAberto.src = "imagens/tutorial/rhAberto.png";
+imgTutInformacoesRH.src = "imagens/tutorial/informacoesRH.png";
 
 //--------------------------------------------------------------------------
 // BarraSuperior.js

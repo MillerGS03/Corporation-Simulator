@@ -86,6 +86,9 @@ function Fornecedores(mapa)
 			telaAtual = 0;
 			esteF.ativar();
 			primeiraVez = false;
+
+			if (getMeioDePagamento("Fornecedores") == null)
+				getJanelaConstrucao("Garagem").contas.push(new Conta("Fornecedores", "Produção"));
 		})
 	};
 
@@ -220,7 +223,7 @@ function Fornecedores(mapa)
 				
 				if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
 				{
-					descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+					descontar(this.getPrecoTotal(resultado.faltandoAEntregar), getMeioDePagamento("Fornecedores"));
 					mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
 					this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
 					painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",

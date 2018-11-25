@@ -114,7 +114,7 @@ function Comercio(aquele)
 	this.btnVenderFranquiasV.onclick = function() {
 		if (esteC.franquias - numeroDeFranquiasASeremExcluidas >= 0)
 		{
-			barra.dinheiro += pagamento;
+			receber(pagamento, 0);
 			esteC.franquias -= numeroDeFranquiasASeremExcluidas;
 			gasto -= economia;
 			numeroDeFranquiasASeremExcluidas = 1;
@@ -126,7 +126,6 @@ function Comercio(aquele)
 	};
 
 	this.desenhar = function() {
-		console.log("oi");
 		primeiraVez = this.franquias==0;
 		ctx.save();
 		if (telaAtual != 3)

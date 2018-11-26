@@ -43,8 +43,10 @@ function verificarCampos()
 				usuario.CorBanner = '';
 				usuario.CorFundo = '';
 				var h = new Date();
-				var x = h + '';
-				usuario.hoje = new Date(x.substring(0, x.length-1));
+				h = h.toUTCString();
+				h = h.substring(0, h.length-5)
+				usuario.hoje = new Date(h);
+				console.log(usuario.hoje)
 				$.post('http://' + local + ':3000/usuario', usuario)
 				setTimeout(function(){
 					$.post('http://' + local + ':3000/usuario/aux', usuario)

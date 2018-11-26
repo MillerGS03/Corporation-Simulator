@@ -93,7 +93,7 @@ select * from Jogo
 select * from Usuario
 select * from UsuarioFoto
 select * from InfoEmpresa
-update Patrimonio set Nome='Semanada', Valor = 100, CodClassificacao = 32, IntervaloDeTempo = 'quarta', DiaPerdaGanho = '14/10/2018' where CodPatrimonio = 97
+select * from UsuarioRank
 
 delete from Notificacao
 delete from Classificacao

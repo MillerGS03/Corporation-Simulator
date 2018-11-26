@@ -21,8 +21,7 @@ function colocarDados()
     $.get('http://' + local + ':3000/rankUsuario/' + user.CodUsuario).done(function(dados){
         var obj = dados[0];
         valRank = [];
-        var from = obj.DiaAtual.split("/")
-        diaAtual = new Date(from[2], from[1], from[0])
+        diaAtual = new Date(obj.DiaAtual)
         valRank = JSON.parse(obj.GraficoRank);
         valRank = valRank.Grafico;
         criarGraficoRank();
@@ -113,8 +112,7 @@ function salvarGrafico()
     var aux = new Object();
     aux.Grafico = valRank;
     obj.GraficoRank = JSON.stringify(aux);
-    console.log(valRank)
-    obj.DiaAtual = diaAtual.getDate() + '/' + diaAtual.getMonth() + '/' + diaAtual.getFullYear();
+    obj.DiaAtual = diaAtual;
     $.ajax({
         url: 'http://' + local + ':3000/updateUsuarioRank/' + user.CodUsuario,
         type: 'patch',

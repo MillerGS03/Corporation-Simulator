@@ -357,8 +357,29 @@ function Comercio(aquele)
 	var ultimoGasto = 0;
 	this.passarDia = function()
 	{
-		receber(this.franquias * this.ganhosDoDiaMatriz, 0);
-		descontar(this.franquias * this.gastosDoDiaMatriz, 0);
+		if (this.franquias > 0)
+		{
+			var contas = getJanelaConstrucao("Garagem").contas;
+
+			var meioRecebimento = getMeioDePagamento("Vendas da(s) franquia(s)");
+			if (meioRecebimento == null)
+			{
+				meioRecebimento = 0;
+				contas.push(new Conta("Vendas da(s) franquia(s)", "Ganhos diários"));
+			}
+			receber(this.franquias * this.ganhosDoDiaMatriz, meioRecebimento);
+			if (meioRecebimento == 1)
+				mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, "Vendas da(s) franquia(s)", this.franquias * this.ganhosDoDiaMatriz);
+			
+			var meioDesconto = getMeioDePagamento("Gastos da(s) franquia(s)");
+			if (meioDesconto == null)
+			{
+				meioDesconto = 0;
+				contas.push(new Conta("Gastos da(s) franquia(s)", "Despesas diárias"));
+			}
+			descontar(this.franquias * this.gastosDoDiaMatriz, meioDesconto);
+		}
+		
 		ultimoGanho = this.ganhosDoDiaMatriz;
 		ultimoGasto = this.gastosDoDiaMatriz;
 		this.ganhosDoDiaMatriz = 0;

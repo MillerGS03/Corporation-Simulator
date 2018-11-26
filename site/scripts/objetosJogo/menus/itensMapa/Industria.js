@@ -251,7 +251,17 @@ function Industria(aquele)
 			else if (resultado.sucesso)
 				anunciouFaltando = false;
 			
-			descontar(this.getPrecoTotal(resultado.faltandoAEntregar), 0);
+			var meio = getMeioDePagamento("Despesas com indústrias");
+			if (meio == null)
+			{
+				meio = 0;
+				getJanelaConstrucao("Garagem").contas.push(new Conta("Despesas com indústrias", "Produção"));
+			}
+			var preco = this.getPrecoTotal(resultado.faltandoAEntregar);
+			descontar(preco, 0);
+			if (meio == 1)
+				mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, "Despesas com indústrias", -preco);
+
 			mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
 			
 			if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)

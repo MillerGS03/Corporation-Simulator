@@ -27,10 +27,12 @@ function MenuJogo()
             this.desativar();
             this.btnDespausar.hovering = false;
 
-            if (!tutorial.aberto && statusConstruindo == 0)
+            if (!tutorial.aberto && statusConstruindo == 0 && !barra.lvl.aberto)
                 despausar();
             else if (tutorial.aberto)
                 tutorial.ativar();
+            else if (barra.lvl.aberto)
+                barra.lvl.ativar();
         }
     }
 

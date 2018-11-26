@@ -268,6 +268,9 @@ function atualizar()
 				break;
 			}
 		}
+
+		barra.desenhar();
+
 		painelNotificacoes.desenhar();
 		mapa.desenhar();
 		calendario.desenhar();
@@ -276,12 +279,15 @@ function atualizar()
 
 		desenharStatusConstrucao();
 
+		if (carregado)
+			barra.lvl.desenhar();
+
 		tutorial.desenhar();
 		if (efetuacao != null && efetuacao.ativo)
 			efetuacao.desenhar();
+		
 		menuJogo.desenhar();
 		desenharBordasCanvas();
-		barra.desenhar();
 	}
 	else
 		desenharCarregando();
@@ -345,8 +351,8 @@ function desenharBordasCanvas()
 	ctx.restore();
 }
 var areaFundo = new BotaoRetangular(125, 100, canvas.width-405, canvas.height-150,
-	{upperLeft: 0, upperRight: 0, lowerLeft: 0, lowerRight: 0},canvas.width-405,
-	canvas.height-150, '', '', imgAreaEmpresa, imgAreaEmpresa, '', '', '', false, false, false, null, 'center', false);
+	null,canvas.width-405, canvas.height-150, '', '', imgAreaEmpresa,
+	imgAreaEmpresa, '', '', '', false, false, false, null, 'center', false);
 function desenharFundo()
 {
 	var grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -358,7 +364,7 @@ function desenharFundo()
 
 	rua.desenhar();
 
-	if (itensConstruidos.length == 0 || (itensConstruidos.length == 1 && statusConstruindo))
+	if (itensConstruidos.length == 0 ||statusConstruindo)
 		areaFundo.desenhar();
 
 	for (var i = 0; i < itensConstruidos.length; i++)

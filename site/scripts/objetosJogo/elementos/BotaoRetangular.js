@@ -49,7 +49,6 @@ BotaoRetangular.reativar = function()
  * @param {string} caminhoSom path to click sound
  * @param {string} imageAlign align of image
  */
-function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign)
 function BotaoRetangular(x, y, w, h, r, wHover, hHover, bgColor, bgHoverColor, bgImage, bgHoverImage, f, txtStyle, txt, txtOnlyOnHover, autoUpdate, changeCursor, caminhoSom, imageAlign, stroke)
 {
 	this.x = x;

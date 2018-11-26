@@ -24,16 +24,17 @@ function Construcao()
     this.testarPosicionamento = function(itemAtual)
     {
         itemAtual.posicaoValida = false;
-        if (itemAtual.x + itemAtual.width < rua.x - 1 && itemAtual.x > 1 && itemAtual.y > 62 && itemAtual.y + itemAtual.height < canvas.height - 1)
+        if (itemAtual.x + itemAtual.width < rua.x - 1 && itemAtual.x > 126 && itemAtual.y > 131 && itemAtual.y + itemAtual.height < canvas.height - 31)
         {
             var colidiu = false;
-            for (var i = itensConstruidos.length - 2; i >= 0; i--)
-                if (itemAtual.x + itemAtual.width >= itensConstruidos[i].x && itemAtual.x <= itensConstruidos[i].x + itensConstruidos[i].width &&
+            for (var i = itensConstruidos.length - 1; i >= 0; i--)
+                if (itemAtual != itensConstruidos[i] && itemAtual.x + itemAtual.width >= itensConstruidos[i].x && itemAtual.x <= itensConstruidos[i].x + itensConstruidos[i].width &&
                     itemAtual.y + itemAtual.height >= itensConstruidos[i].y && itemAtual.y <= itensConstruidos[i].y + itensConstruidos[i].height)
                     {
                         colidiu = true;
                         break;
                     }
+            console.log("oi");
             itemAtual.posicaoValida = !colidiu;
         }
     }

@@ -220,9 +220,17 @@ function ItemConstruido(informacoes, isPrimeiro)
     {
         if (isPrimeiro)
         {
-            este.setX(rua.x - este.width - 2);
+            if (Math.abs(xMouse + este.width - rua.x) < 150)
+            {
+                este.setX(rua.x - este.width - 2);
+                tocando = true;
+            }
+            else
+            {
+                este.setX(xMouse);
+                tocando = false;
+            }
             este.setY(yMouse);
-            tocando = true;
             novoSustentador = null;
         }
         else

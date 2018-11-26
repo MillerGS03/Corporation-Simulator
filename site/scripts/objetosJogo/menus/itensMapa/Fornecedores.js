@@ -223,7 +223,11 @@ function Fornecedores(mapa)
 				
 				if (resultado.faltandoAEntregar != this.materiaPrimaAcumulada)
 				{
-					descontar(this.getPrecoTotal(resultado.faltandoAEntregar), getMeioDePagamento("Fornecedores"));
+					var meio = getMeioDePagamento("Fornecedores");
+					var preco = this.getPrecoTotal(resultado.faltandoAEntregar)
+					descontar(preco, meio);
+					if (meio == 1)
+						mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, "Fornecedores", -preco);
 					mapa.comercio.gastosDoDiaMatriz += this.getPrecoTotal(resultado.faltandoAEntregar);
 					this.materiaPrimaAcumulada = resultado.faltandoAEntregar;
 					painelNotificacoes.adicionarNotificacao("Matéria-prima entregue!", "Seu estoque aumentou. Produza!",

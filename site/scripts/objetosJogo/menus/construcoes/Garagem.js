@@ -235,6 +235,7 @@ function Garagem()
         for (var i = 0; i < este.produtos.length; i++)
         {
             var produtoAtual = este.produtos[i];
+            console.log("Agora");
             if (este.qtdeMateriaPrima > 0)
             {
                 if (este.qtdeMateriaPrima > produtoAtual.producao)
@@ -263,7 +264,16 @@ function Garagem()
                 recebimento = produtoAtual.qtdeEmEstoque * produtoAtual.preco;
                 produtoAtual.qtdeEmEstoque = 0;
             }
-            receber(recebimento, 0);
+            var vendasMatriz = getMeioDePagamento("Vendas da matriz");
+            if (vendasMatriz == null)
+            {
+                este.contas.push(new Conta("Vendas da matriz", "Ganho diário"));
+                vendasMatriz = 0;
+            }
+            if (vendasMatriz == 1)
+                mapa.banco.extrato.lancar(calendario.dia, calendario.mes, calendario.ano, "Vendas da matriz", recebimento);
+
+            receber(recebimento, vendasMatriz, "Vendas da matriz");
             mapa.comercio.ganhosDoDiaMatriz += recebimento;
 
             if (produtoAtual.fatorMarketing > 0 )

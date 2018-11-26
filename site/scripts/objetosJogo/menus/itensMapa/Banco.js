@@ -556,7 +556,7 @@ function Banco(x, y)
             botoesQuantia.push(criarBotaoQuantia(i));
 
         var funcCriarCCorrente = function() {
-            if (barra.nivel < 1)
+            if (barra.nivel < 3)
                 alerta("Você ainda não atingiu o nível mínimo.");
             else
             {
@@ -752,7 +752,7 @@ function Banco(x, y)
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
             ctx.font = "bold 18pt Century Gothic";
-            ctx.fillText(formatarDinheiro(this.quantia), this.x + 10, this.y + this.height/2, this.width - 20);
+            ctx.fillText(formatarDinheiro(parseInt(this.quantia)), this.x + 10, this.y + this.height/2, this.width - 20);
 
             ctx.restore();
         }
@@ -766,7 +766,7 @@ function Banco(x, y)
                 if (this.quantia == "0")
                     this.quantia = digito + "";
                 else
-                    this.quantia += digito;
+                    this.quantia += digito + "";
             }
         }
         this.apertouCancela = function()

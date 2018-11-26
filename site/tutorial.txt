@@ -1,4 +1,4 @@
-Primeiros passos:
+X Primeiros passos:
 
 X Barra superior
 X Calendário
@@ -8,7 +8,7 @@ X Fornecedores
 X Estoque
 X Produção
 X Vendas
-- Finanças
+X Finanças
 
 Setorização:
 

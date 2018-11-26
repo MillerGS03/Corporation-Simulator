@@ -1,7 +1,7 @@
 function LevelUp(n)
 {
     this.nivel = n;
-    var aberto = false;
+    this.aberto = false;
 
     this.btnFechar = new BotaoRetangular(canvas.width/4 + 400, canvas.height/3 + 10, 40, 40,
                                         { upperLeft: 5, upperRight: 5, lowerLeft: 5, lowerRight: 5 }, 40, 40,
@@ -17,27 +17,42 @@ function LevelUp(n)
 
     this.abrirFechar = function()
     {
-        aberto = !aberto;
-        if (aberto)
+        this.aberto = !this.aberto;
+        if (this.aberto)
         {
-            pausar();
-            este.btnFechar.ativarInteracao();
-            este.btnOK.ativarInteracao();
-            tocarSom('sons/levelUp.ogg')
+            tocarSom('sons/levelUp.ogg');
+            this.ativar();
         }
         else
-        {
-            despausar();
-            este.btnFechar.desativarInteracao();
-            este.btnOK.desativarInteracao();
-        }
+            this.desativar();
+    }
+    this.ativar = function() {
+        pausar();
+        este.btnFechar.ativarInteracao();
+        este.btnOK.ativarInteracao();
+
+        BotaoCircular.desativarTodos();
+        BotaoRetangular.desativarTodos([este.btnFechar, este.btnOK]);
+    }
+    this.desativar = function() {
+        BotaoCircular.reativar();
+        BotaoRetangular.reativar();
+
+        despausar();
+        este.btnFechar.desativarInteracao();
+        este.btnOK.desativarInteracao();
     }
 
     this.desenhar = function()
     {
-        if (aberto)
+        if (this.aberto)
         {
             ctx.save();
+
+            ctx.globalAlpha = 0.2;
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1;
 
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";

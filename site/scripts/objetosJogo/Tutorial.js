@@ -277,6 +277,39 @@ function Tutorial()
         }),
         new Pagina("", function() {
             ctx.font = "bold 17pt Arial";
+            var texto = ["Tome cuidado com seu dinheiro. Você já tem algumas despesas para se",
+                         "preocupar, como os gastos com energia, água e fornecedores. Você pode",
+                         "vê-los, assim como os ganhos, na aba de gerenciar seu dinheiro. Lá também",
+                         "é possível mudar a origem ou o destino de algumas movimentações. Porém,",
+                         "para pagar com cartão de débito é preciso abrir uma conta no banco."];
+            var yFinal = escreverPadrao(texto, este.y + 100, 28);
+
+            ctx.drawImage(imgTutDinheiro, este.x + (este.width - 450)/2, yFinal + 15);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            var texto = ["Para abrir a conta você pode apertar no botão de ir até o banco na",
+                         "aba de gerenciar dinheiro ou abrir o mapa e apertar no banco. Lá você",
+                         "deve apertar no botão de abrir conta a partir do nível três, pagar uma",
+                         "pequena taxa e estará feito."];
+            var yFinal = escreverPadrao(texto, este.y + 100, 28);
+
+            ctx.drawImage(imgTutBanco, este.x + (este.width - 520)/2, yFinal + 15);
+
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
+            var texto = ["Com a conta aberta você pode fazer saques, depósitos, manter total",
+                         "controle de cada compra ou recebimento que fizer com o cartão e até",
+                         "mesmo realizar empréstimos quando precisar. Eles serão explicados com",
+                         "detalhes mais a frente"];
+            var yFinal = escreverPadrao(texto, este.y + 100, 28);
+
+            ctx.drawImage(imgTutInicioEmprestimos, este.x + 30, yFinal + 45);
+            ctx.drawImage(imgTutExtrato, este.x + este.width - 270 - 30, yFinal - 15);
+        }),
+        new Pagina("", function() {
+            ctx.font = "bold 17pt Arial";
             ctx.fillText("Com um produto criado, fornecimento de matéria-prima e produção, ", este.x + 40, este.y + 100);
             ctx.fillText("você já começou a vender! Isso se manterá enquanto você tiver estoque", este.x + 15, este.y + 128);
             ctx.fillText("do produto e não colocar os preços nas alturas.", este.x + 15, este.y + 156);
@@ -554,8 +587,13 @@ function Tutorial()
     }
     this.desativar = function() 
     {
-        BotaoCircular.reativar();
-        BotaoRetangular.reativar();
+        if (!barra.lvl.aberto)
+        {
+            BotaoCircular.reativar();
+            BotaoRetangular.reativar();
+        }
+        else
+            barra.lvl.ativar();
 
         this.btnSimTutorial.desativarInteracao();
         this.btnNaoTutorial.desativarInteracao();

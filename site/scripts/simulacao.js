@@ -68,7 +68,6 @@ function atualizarData()
 }
 function atualizarPontosSaldo()
 {
-	//console.log(simulacao.Saldo)
 	var diff = atualizarData();
 	if (diff > 0)
 	{
@@ -240,14 +239,14 @@ function verificarPerdaGanho(dia)
 	var total = 0;
 	for (var i = 0; i < contas.length; i++)
 	{
-		var dS = contas[i].DiaPerdaGanho + '';
-		dS = dS.substring(0, dS.length-1);
-		var d = new Date(dS);
+		var d = contas[i].DiaPerdaGanho + '';
+		d = d.substring(0, d.length-1);
+		d = new Date(d);
 		if (d.getDate() == dia.getDate() &&
 		d.getMonth() == dia.getMonth() &&
 		d.getFullYear() == dia.getFullYear())
 		{
-			var novo = new Date(dS);
+			var novo = new Date(d);
 			if (contas[i].Marcado == 0)
 			{
 				if (contas[i].IntervaloDeTempo.substring(contas[i].IntervaloDeTempo.length-1) == 'D')
@@ -307,7 +306,7 @@ function carregar()
 {
 	$.ajax({
 		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-	}).done(function(dados){contas = dados;})
+	}).done(function(dados){contas = dados})
 	$.ajax({
 		url: 'http://' + local + ':3000/getClassificacoes/' + simulacao.CodSimulacao
 	}).done(function(dados) {classificacoes = dados});

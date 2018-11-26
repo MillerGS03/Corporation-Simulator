@@ -13,7 +13,7 @@ function verificarDataPrevisao()
         chartPrevisao.destroy();
     $.ajax({
         url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-    }).done(function(dados){contas = dados;})
+    }).done(function(dados){contas = dados})
     pontosPrevisao = [];
     data = new Date($('#data').val());
     hoje = new Date();
@@ -59,8 +59,7 @@ function fazerPrevisao()
                 aux.x = new Date(xd);
                 aux.lineDashType = "dash";
                 var perdaGanho = 0;
-                if (!(hojeAux.getFullYear() == s.getFullYear() && hojeAux.getMonth() == s.getMonth() && hojeAux.getDate() == s.getDate()))
-                    perdaGanho = verificarPerdaGanho(hojeAux)
+                perdaGanho = verificarPerdaGanho(hojeAux)
                 y += perdaGanho;
                 aux.y = y;
                 aux.xValueFormatString = "DD/MM";

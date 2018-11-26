@@ -29,7 +29,7 @@ function fazerPrevisao()
     pontosPrevisao = [];
     if (chartPrevisao != null)
         chartPrevisao.destroy();
-    var diff = Math.round((data.getTime() - new Date().getTime())/86400000)+1
+    var diff = Math.round((data.getTime() - new Date().getTime())/86400000)+1;
     var y = simulacao.Saldo;
     var s = new Date(simulacao.DataCriacao);
     var x = s.toUTCString();

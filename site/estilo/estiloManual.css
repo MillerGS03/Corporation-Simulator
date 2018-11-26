@@ -1,25 +1,64 @@
+@media screen and (min-width: 131.8vh)
+{
+	.painelManual
+	{
+		width: 90%;
+	}
+	#conteudo .painelManual h1
+	{
+		font-size: 2.4vw;
+	}
+	#conteudo .painelManual h2
+	{
+		font-size: 2vw;
+	}
+	#conteudo .painelManual p
+	{
+		font-size: 1.2vw;
+		max-width: 90%;
+	}
+}
+@media screen and (max-width: 131.8vh)
+{
+	.painelManual
+	{
+		width: 119.9vh;
+	}
+	#conteudo .painelManual h1
+	{
+		font-size: 3.5vh;
+	}
+	#conteudo .painelManual h2
+	{
+		font-size: 2.8vh;
+	}
+	#conteudo .painelManual p
+	{
+		font-size: 2.1vh;
+	}
+}
+
 .painelManual
 {
 	position: absolute;
-	top: 5%;
+	top: 2.5%;
 	left: 5%;
 	background-color: white;
 	font-family: "Century Gothic";
 	color: black;
-	width: 90%;
-	height: 90%;
+	height: 91vh;
 }
+
+
 #conteudo .painelManual h1
 {
 	text-align: center;
-	font-size: 5vh;
 }
 #conteudo .painelManual h2
 {
-	position: relative;
 	left: 5.2vh;
+	position: relative;
 	text-align: justify;
-	font-size: 4vh;
 	bottom: 3vh;
 }
 #conteudo .painelManual p
@@ -27,8 +66,9 @@
 	position: relative;
 	left: 3.25vh;
 	text-align: justify;
-	font-size: 2.5vh;
 	bottom: 3vh;
+	margin-bottom: 1vh;
+	margin-top: 1vh;
 }
 #conteudo .painelManual hr
 {
@@ -47,7 +87,7 @@
 {
 	position: absolute;
 	bottom: calc(5% + 2vh);
-	right: calc(5% + 2vh);
+	right: calc(10% + 2vh);
 	width: 8vh;
 	height: 8vh;
 	background: url('../imagens/funcionalidades/setaDireita.png') no-repeat;
@@ -65,13 +105,18 @@
 }
 .painelManual #razonete
 {
-	max-width: 15vh;
-	max-height: 15vh;
+	max-width: 14.5vh;
+	margin-bottom: 1vh;
+	margin-top: 1vh;
 }
 .painelManual #bp
 {
 	position: relative;
 	bottom: 5vh;
+	right: 1vh;
+	width: 38vh;
+	margin-bottom: 1vh;
+	margin-top: 1vh;
 }
 .painelManual #l
 {

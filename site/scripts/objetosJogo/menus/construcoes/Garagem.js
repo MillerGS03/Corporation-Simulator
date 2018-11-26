@@ -235,7 +235,6 @@ function Garagem()
         for (var i = 0; i < este.produtos.length; i++)
         {
             var produtoAtual = este.produtos[i];
-            console.log("Agora");
             if (este.qtdeMateriaPrima > 0)
             {
                 if (este.qtdeMateriaPrima > produtoAtual.producao)

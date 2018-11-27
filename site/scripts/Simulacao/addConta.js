@@ -190,10 +190,11 @@ function adicionar()
 	$.post('http://' + local + ':3000/addConta/' + simulacao.CodSimulacao, conta);
 	$.ajax({
 		url: 'http://' + local + ':3000/getContas/' + simulacao.CodSimulacao
-	}).done(function(dados){contas = dados;})
+	}).done(function(dados){contas = dados;
+		atualizarPontosConta();
+		atualizarPontosClass();
+	})
 	$("#sairModal").trigger('click');
-	atualizarPontosConta();
-	atualizarPontosClass();
 }
 
 function testarNome()

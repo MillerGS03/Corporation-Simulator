@@ -133,7 +133,7 @@ section#conteudo .botaoG
 }
 #conteinerSlidesGenerico
 {
-    width: 120vh;
+    width: calc(100% - 40vh);
     height: 50vh;
     position: absolute;
     top: 2vh;

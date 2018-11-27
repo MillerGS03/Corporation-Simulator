@@ -479,7 +479,20 @@ function Tutorial()
             ctx.strokeRect(este.x + este.width - 350 - 15, este.y + 100, 350, 372);
         }),
         new Pagina("Explosão de vendas", function() {}, function() {}, function() {}),
-        new Pagina("Expansão", function() {}, function() {}, function() {})
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("Expansão", function() {}, function() {}, function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {}),
+        new Pagina("", function() {})
     ];
 
     function desenharTutorial()
